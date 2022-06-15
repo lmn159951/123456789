@@ -12,4 +12,6 @@ class DonVi extends Model
 
     protected $primaryKey = 'ma_don_vi';
     protected $table = 'don_vi';
+    protected $fillable = ['ten_don_vi', 'dia_chi'];
+
 }
