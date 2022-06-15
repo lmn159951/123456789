@@ -13,9 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dang_ky_tours', function (Blueprint $table) {
-            $table->id();
+        Schema::create('dang_ky_tour', function (Blueprint $table) {
+            $table->bigIncrements('ma_dang_ky_tour');
+            $table->bigInteger('ma_nhan_vien_dang_ky_tour');
+            $table->bigInteger('ma_tour');
+            $table->dateTime('ngay_dang_ky');
+            $table->string('ho_ten');
+            $table->dateTime('ngay_sinh');
+            $table->string('gioi_tinh');
+            $table->string('quan_he')->nullable();
+            $table->string('so_dien_thoai')->nullable();
+            $table->string('CMND');
+            $table->integer('so_tien_thu');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dang_ky_tours');
+        Schema::dropIfExists('dang_ky_tour');
     }
 };

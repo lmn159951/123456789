@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('phong_bans', function (Blueprint $table) {
-            $table->id();
+        Schema::create('phong_ban', function (Blueprint $table) {
+            $table->id('ma_phong_ban');
+            $table->string('ten_phong_ban');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phong_bans');
+        Schema::dropIfExists('phong_ban');
     }
 };

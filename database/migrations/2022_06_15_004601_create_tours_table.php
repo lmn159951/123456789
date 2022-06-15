@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tours', function (Blueprint $table) {
+        Schema::create('tour', function (Blueprint $table) {
             $table->bigIncrements('ma_tour');
             $table->string('ten_tour');
             $table->string('hinh_anh');
@@ -24,6 +24,8 @@ return new class extends Migration
             $table->dateTime('ngay_ket_thuc_dang_ky');
             $table->integer('don_gia');
             $table->integer('so_nguoi_toi_da');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tours');
+        Schema::dropIfExists('tour');
     }
 };

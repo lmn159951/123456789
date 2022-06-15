@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('don_vi__tours', function (Blueprint $table) {
-            $table->id();
+        Schema::create('don_vi_tour', function (Blueprint $table) {
+            $table->bigIncrements('ma_don_vi_tour');
+            $table->bigInteger('ma_don_vi');
+            $table->bigInteger('ma_tour');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('don_vi__tours');
+        Schema::dropIfExists('don_vi_tour');
     }
 };

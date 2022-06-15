@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nhan_viens', function (Blueprint $table) {
+        Schema::create('nhan_vien', function (Blueprint $table) {
             $table->bigIncrements('ma_nhan_vien');
             $table->string('ten_nhan_vien')->nullable(false);
             $table->string('ten_tai_khoan')->nullable(false);
@@ -28,7 +28,6 @@ return new class extends Migration
             $table->dateTime('ngay_vao_lam')->nullable(false);
             $table->boolean('la_quan_tri')->nullable(false);
             $table->timestamps();
-
             $table->softDeletes();
         });
     }
@@ -40,10 +39,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('nhan_viens', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
-        Schema::dropIfExists('nhan_viens');
-        
+        Schema::dropIfExists('nhan_vien');
+
     }
 };
