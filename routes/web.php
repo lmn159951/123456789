@@ -25,7 +25,7 @@ Route::prefix('quantri')->name('quantri.')->group(function () {
         Route::get('/them', [DonViController::class, 'store'])->name('store');
         Route::post('/them', [DonViController::class, 'create'])->name('create');
         Route::get('/capnhat/{ma_don_vi}', [DonViController::class, 'edit'])->name('edit');
-        Route::post('/capnhat/{ma_don_vi}', [DonViController::class, 'update'])->name('update');
+        Route::post('/capnhat', [DonViController::class, 'update'])->name('update');
         Route::get('/xoa/{ma_don_vi}', [DonViController::class, 'delete'])->name('delete');
     });
 

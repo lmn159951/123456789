@@ -24,7 +24,6 @@ class DonViController extends Controller
         return view('admin.pages.donvi.store');
     }
 
-
     public function create(DonViRequest $request)
     {
         $validated = $request->validated();
@@ -36,7 +35,6 @@ class DonViController extends Controller
                 ->with('success', 'Tạo đơn vị thành công');
     }
 
-
     public function edit(int $ma_don_vi)
     {
         $parameters = [];
@@ -46,11 +44,13 @@ class DonViController extends Controller
     }
 
 
-    public function update(DonViRequest $request, int $ma_don_vi)
+    public function update(DonViRequest $request)
     {
         $validated = $request->validated();
 
-        DonVi::where('ma_don_vi', $ma_don_vi)->update([$ma_don_vi, ...$validated]);
+        DonVi::where('ma_don_vi', $request->safe()->only('ma_don_vi'))->update(
+            $request->safe()->except('ma_don_vi')
+        );
 
         return redirect()
                 ->route('quantri.donvi.list')
