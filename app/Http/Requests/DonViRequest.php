@@ -14,7 +14,7 @@ class DonViRequest extends FormRequest
 
     public function rules()
     {
-        return (empty($this->input('ma_don_vi')) ? $this->createRules() : $this->updateRules());
+        return (empty($this->route('donvi')) ? $this->createRules() : $this->updateRules());
     }
 
     public function createRules()
@@ -28,8 +28,7 @@ class DonViRequest extends FormRequest
     public function updateRules()
     {
         return [
-            'ma_don_vi' => ['required', Rule::unique('don_vi')->ignore( $this->ma_don_vi, 'ma_don_vi')],
-            'ten_don_vi' => ['required', Rule::unique('don_vi')->ignore( $this->ma_don_vi, 'ma_don_vi')],
+            'ten_don_vi' => ['required', Rule::unique('don_vi')->ignore($this->route('donvi'), 'ma_don_vi')],
             'dia_chi' => 'required'
         ];
     }

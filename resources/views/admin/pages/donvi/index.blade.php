@@ -33,13 +33,20 @@
                             <td>{{ $donVi->ten_don_vi }}</td>
                             <td>{{ $donVi->dia_chi }}</td>
                             <td>
-                                <a class="btn btn-warning" href="{{ route('quantri.donvi.edit', $donVi->ma_don_vi) }}">
-                                    Cập nhật
-                                </a>
-                                <a class="btn btn-danger" href="{{ route('quantri.donvi.delete', $donVi->ma_don_vi) }}"
-                                    onclick="return confirm('Bạn có chắc muốn xoá đơn vị này?')">
-                                    Xoá
-                                </a>
+                                <div class="d-flex">
+                                    <a class="btn btn-warning"
+                                        href="{{ route('quantri.donvi.edit', $donVi->ma_don_vi) }}">
+                                        Cập nhật
+                                    </a>
+                                    <form class="ml-3" method="post"
+                                        action="{{ route('quantri.donvi.destroy', $donVi->ma_don_vi) }}">
+                                        @method('DELETE') @csrf
+                                        <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Bạn có chắc muốn xoá đơn vị này?')">
+                                            Xoá
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

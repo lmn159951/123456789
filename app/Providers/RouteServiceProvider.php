@@ -28,6 +28,16 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
+        Route::resourceVerbs([
+            'index' => 'list',
+            'create' => 'them',
+            'store' => 'them',
+            'show' => 'them',
+            'edit' => 'capnhat',
+            'update' => 'capnhat',
+            'destroy' => 'xoa',
+        ]);
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

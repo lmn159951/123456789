@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\ChucVu;
+use App\Models\NhanVien;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ChucVuController extends Controller
+class NhanVienController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,10 +42,10 @@ class ChucVuController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ChucVu  $chucVu
+     * @param  \App\Models\NhanVien  $nhanVien
      * @return \Illuminate\Http\Response
      */
-    public function show(ChucVu $chucVu)
+    public function show(NhanVien $nhanVien)
     {
         //
     }
@@ -53,10 +53,10 @@ class ChucVuController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ChucVu  $chucVu
+     * @param  \App\Models\NhanVien  $nhanVien
      * @return \Illuminate\Http\Response
      */
-    public function edit(ChucVu $chucVu)
+    public function edit(NhanVien $nhanVien)
     {
         //
     }
@@ -65,10 +65,10 @@ class ChucVuController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ChucVu  $chucVu
+     * @param  \App\Models\NhanVien  $nhanVien
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ChucVu $chucVu)
+    public function update(Request $request, NhanVien $nhanVien)
     {
         //
     }
@@ -76,10 +76,10 @@ class ChucVuController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ChucVu  $chucVu
+     * @param  \App\Models\NhanVien  $nhanVien
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ChucVu $chucVu)
+    public function destroy(NhanVien $nhanVien)
     {
         //
     }

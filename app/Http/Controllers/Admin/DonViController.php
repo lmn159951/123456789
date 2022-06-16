@@ -2,38 +2,41 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\DonVi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DonViRequest;
-use App\Models\DonVi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class DonViController extends Controller
 {
-    public function list()
+    public function index()
     {
         $parameters = [];
         $parameters['danhSachDonVi'] = DonVi::all();
 
-        return view('admin.pages.donvi.list', $parameters);
+        return view('admin.pages.donvi.index', $parameters);
     }
 
-
-    public function store()
+    public function create()
     {
-        return view('admin.pages.donvi.store');
+        return view('admin.pages.donvi.create');
     }
 
-    public function create(DonViRequest $request)
+    public function store(DonViRequest $request)
     {
-        $validated = $request->validated();
+        $donVi = new DonVi;
+        $donVi->ten_don_vi = $request->ten_don_vi;
+        $donVi->dia_chi = $request->dia_chi;
+        $donVi->save();
 
-        DonVi::create($validated);
-
-        return redirect()
-                ->route('quantri.donvi.list')
-                ->with('success', 'Tạo đơn vị thành công');
+        return redirect()->route('quantri.donvi.index')->with('success', 'Tạo đơn vị thành công');
     }
+
+    public function show(int $ma_don_vi)
+    {
+        //
+    }
+
 
     public function edit(int $ma_don_vi)
     {
@@ -43,27 +46,23 @@ class DonViController extends Controller
         return view('admin.pages.donvi.edit', $parameters);
     }
 
-
-    public function update(DonViRequest $request)
+    public function update(DonViRequest $request, int $ma_don_vi)
     {
         $validated = $request->validated();
 
-        DonVi::where('ma_don_vi', $request->safe()->only('ma_don_vi'))->update(
-            $request->safe()->except('ma_don_vi')
-        );
+        DonVi::where('ma_don_vi', $ma_don_vi)->update($validated);
 
         return redirect()
-                ->route('quantri.donvi.list')
+                ->route('quantri.donvi.index')
                 ->with('success', 'Cập nhật đơn vị thành công');
     }
 
-
-    public function delete(int $ma_don_vi)
+    public function destroy(int $ma_don_vi)
     {
-        Donvi::destroy($ma_don_vi);
+        DonVi::destroy($ma_don_vi);
 
         return redirect()
-                ->route('quantri.donvi.list')
+                ->route('quantri.donvi.index')
                 ->with('success', 'Xoá đơn vị thành công');
     }
 }

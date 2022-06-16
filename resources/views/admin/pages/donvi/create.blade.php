@@ -5,8 +5,7 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Tạo đơn vị</h1>
 
-            <form class="container" style="max-width: 800px;" action="{{ route('quantri.donvi.create') }}"
-                method="POST">
+            <form class="container" style="max-width: 800px;" action="{{ route('quantri.donvi.store') }}" method="POST">
                 @csrf
 
                 <div class="mb-3">
@@ -23,7 +22,7 @@
 
                 <div class="mb-3">
                     <label for="diachi" class="form-label">Địa chỉ:</label>
-                    <input type="text" class="form-control @error('ten_don_vi') is-invalid @enderror"
+                    <input type="text" class="form-control @error('dia_chi') is-invalid @enderror"
                         value="{{ old('dia_chi') }}" name="dia_chi" id="diachi">
 
                     @error('dia_chi')
@@ -35,7 +34,7 @@
 
                 <div class="my-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary mr-3">Tạo</button>
-                    <a class="btn btn-secondary" href="{{ route('quantri.donvi.list') }}">
+                    <a class="btn btn-secondary" href="{{ route('quantri.donvi.index') }}">
                         Trở về
                     </a>
                 </div>
