@@ -4,83 +4,57 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\PhongBan;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\PhongBanRequest;
 
 class PhongBanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $parameters = [];
+        $parameters['danhSachPhongBan'] = PhongBan::all();
+
+        return view('admin.pages.phongban.index', $parameters);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.pages.phongban.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(PhongBanRequest $request)
     {
-        //
+        $phongBan = new PhongBan;
+        $phongBan->ten_phong_ban = $request->ten_phong_ban;
+        $phongBan->save();
+
+        return redirect()->route('quantri.phongban.index')->with('success', 'Tạo đơn vị thành công');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\PhongBan  $phongBan
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PhongBan $phongBan)
+    public function edit(int $ma_phong_ban)
     {
-        //
+        $parameters = [];
+        $parameters['phongBan'] = PhongBan::find($ma_phong_ban);
+
+        return view('admin.pages.phongban.edit', $parameters);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\PhongBan  $phongBan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PhongBan $phongBan)
+    public function update(PhongBanRequest $request, int $ma_phong_ban)
     {
-        //
+        $validated = $request->validated();
+
+        PhongBan::where('ma_phong_ban', $ma_phong_ban)->update($validated);
+
+        return redirect()
+                ->route('quantri.phongban.index')
+                ->with('success', 'Cập nhật đơn vị thành công');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\PhongBan  $phongBan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, PhongBan $phongBan)
+    public function destroy(int $ma_phong_ban)
     {
-        //
-    }
+        PhongBan::destroy($ma_phong_ban);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\PhongBan  $phongBan
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PhongBan $phongBan)
-    {
-        //
+        return redirect()
+                ->route('quantri.phongban.index')
+                ->with('success', 'Xoá đơn vị thành công');
     }
 }

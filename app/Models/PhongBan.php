@@ -12,4 +12,10 @@ class PhongBan extends Model
 
     protected $primaryKey = 'ma_phong_ban';
     protected $table = 'phong_ban';
+    protected $fillable = ['ten_phong_ban'];
+
+    public function nhanViens()
+    {
+        return $this->hasMany(NhanVien::class);
+    }
 }

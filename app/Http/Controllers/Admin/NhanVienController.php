@@ -4,83 +4,57 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\NhanVien;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\NhanVienRequest;
 
 class NhanVienController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $parameters = [];
+        $parameters['danhSachNhanVien'] = NhanVien::with(['phong_ban', 'chuc_vu'])->get();
+
+        return view('admin.pages.nhanvien.index', $parameters);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.pages.nhanvien.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(NhanVienRequest $request)
     {
-        //
+        $nhanVien = new NhanVien;
+        $nhanVien->ten_nhan_vien = $request->ten_nhan_vien;
+        $nhanVien->save();
+
+        return redirect()->route('quantri.nhanvien.index')->with('success', 'Tạo nhân viên thành công');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\NhanVien  $nhanVien
-     * @return \Illuminate\Http\Response
-     */
-    public function show(NhanVien $nhanVien)
+    public function edit(int $ma_nhan_vien)
     {
-        //
+        $parameters = [];
+        $parameters['nhanVien'] = NhanVien::find($ma_nhan_vien);
+
+        return view('admin.pages.nhanvien.edit', $parameters);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\NhanVien  $nhanVien
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(NhanVien $nhanVien)
+    public function update(NhanVienRequest $request, int $ma_nhan_vien)
     {
-        //
+        $validated = $request->validated();
+
+        NhanVien::where('ma_nhan_vien', $ma_nhan_vien)->update($validated);
+
+        return redirect()
+                ->route('quantri.nhanvien.index')
+                ->with('success', 'Cập nhật nhân viên thành công');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\NhanVien  $nhanVien
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, NhanVien $nhanVien)
+    public function destroy(int $ma_nhan_vien)
     {
-        //
-    }
+        NhanVien::destroy($ma_nhan_vien);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\NhanVien  $nhanVien
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(NhanVien $nhanVien)
-    {
-        //
+        return redirect()
+                ->route('quantri.nhanvien.index')
+                ->with('success', 'Xoá nhân viên thành công');
     }
 }

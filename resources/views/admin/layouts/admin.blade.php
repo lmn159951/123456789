@@ -44,7 +44,7 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('quantri.dashboard') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-home"></i>
                     <span>Trang quản trị</span></a>
             </li>
 
@@ -58,28 +58,28 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('quantri.donvi.index') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-fw fa-building"></i>
                     <span>Quản lý đơn vị</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('quantri.donvi.index') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                <a class="nav-link" href="{{ route('quantri.phongban.index') }}">
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Quản lý phòng ban</span>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('quantri.chucvu.index') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-fw fa-couch"></i>
                     <span>Quản lý chức vụ</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('quantri.donvi.index') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                <a class="nav-link" href="{{ route('quantri.nhanvien.index') }}">
+                    <i class="fas fa-fw fa-user"></i>
                     <span>Quản lý nhân viên</span>
                 </a>
             </li>
