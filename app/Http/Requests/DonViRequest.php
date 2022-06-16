@@ -28,7 +28,7 @@ class DonViRequest extends FormRequest
     public function updateRules()
     {
         return [
-            'ma_don_vi' => 'required',
+            'ma_don_vi' => ['required', Rule::unique('don_vi')->ignore( $this->ma_don_vi, 'ma_don_vi')],
             'ten_don_vi' => ['required', Rule::unique('don_vi')->ignore( $this->ma_don_vi, 'ma_don_vi')],
             'dia_chi' => 'required'
         ];
@@ -45,6 +45,7 @@ class DonViRequest extends FormRequest
     public function attributes()
     {
         return [
+            'ma_don_vi' => 'Mã đơn vị',
             'ten_don_vi' => 'Tên đơn vị',
             'dia_chi' => 'Địa chỉ',
         ];
