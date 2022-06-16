@@ -1,20 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+//Admin
 use App\Http\Controllers\Admin\QuanTriController;
 use App\Http\Controllers\Admin\ChucVuController;
 use App\Http\Controllers\Admin\DonViController;
 use App\Http\Controllers\Admin\NhanVienController;
 use App\Http\Controllers\Admin\PhongBanController;
 
-Route::get('dangnhap')->name('danganhap');
-Route::prefix('nguoidung')->name('nguoidung.')->group(function(){
-    Route::get('/')->name('trangchu');
-    Route::get('thongtincanhan')->name('xemthongtincanhan');
-    Route::post('thongtincanhan')->name('luuthongtincanhan');
-    Route::get('timkiem')->name('timkiem');
-    Route::get('dattour')->name('dattourGet');
-    Route::post('dattour')->name('dattourPost');
+//NhanVien
+use App\Http\Controllers\NhanVien\NVNhanVienController;
+use App\Http\Controllers\NhanVien\TimKiemController;
+use App\Http\Controllers\NhanVien\DatTourController;
+use App\Http\Controllers\NhanVien\LienHeController;
+use App\Http\Controllers\NhanVien\TrangChuController;
+
+Route::get('dangnhap')->name('dangnhap');
+Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
+Route::get('timkiem', [TimKiemController::class, 'index'])->name('timkiem');
+Route::get('lienhe', [LienHeController::class, 'index'])->name('timkiem');
+Route::prefix('nhanvien')->name('nhanvien.')->group(function(){
+    Route::resource('thongtincanhan', NVNhanVienController::class);
+    
+    Route::resource('dattour', DatTourController::class);
 });
 
 
