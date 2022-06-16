@@ -10,8 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 class NhanVien extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    
+    use HasFactory, SoftDeletes;
+
     protected $primaryKey = 'ma_nhan_vien';
     protected $fillable = [
         'ten_tai_khoan',

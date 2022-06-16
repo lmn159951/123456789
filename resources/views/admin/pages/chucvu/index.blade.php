@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h1 class="text-center">Quản lý đơn vị</h1>
+            <h1 class="text-center">Quản lý chức vụ</h1>
 
             @if (session('success'))
                 <div class="alert alert-success text-center">
@@ -12,7 +12,7 @@
             @endif
 
             <div class="my-3 d-flex justify-content-end">
-                <a class="btn btn-primary" href="{{ route('quantri.donvi.create') }}">
+                <a class="btn btn-primary" href="{{ route('quantri.chucvu.create') }}">
                     Thêm
                 </a>
             </div>
@@ -21,28 +21,26 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Tên đơn vị</th>
-                        <th scope="col">Địa chỉ</th>
+                        <th scope="col">Tên chức vụ</th>
                         <th scope="col">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($danhSachDonVi as $index => $donVi)
+                    @foreach ($danhSachChucVu as $index => $chucVu)
                         <tr>
                             <th scope="row">{{ $index + 1 }}</th>
-                            <td>{{ $donVi->ten_don_vi }}</td>
-                            <td style="max-width: 400px;">{{ $donVi->dia_chi }}</td>
+                            <td>{{ $chucVu->ten_chuc_vu }}</td>
                             <td>
                                 <div class="d-flex">
                                     <a class="btn btn-warning"
-                                        href="{{ route('quantri.donvi.edit', $donVi->ma_don_vi) }}">
+                                        href="{{ route('quantri.chucvu.edit', $chucVu->ma_chuc_vu) }}">
                                         Cập nhật
                                     </a>
                                     <form class="ml-3" method="post"
-                                        action="{{ route('quantri.donvi.destroy', $donVi->ma_don_vi) }}">
+                                        action="{{ route('quantri.chucvu.destroy', $chucVu->ma_chuc_vu) }}">
                                         @method('DELETE') @csrf
                                         <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Bạn có chắc muốn xoá đơn vị này?')">
+                                            onclick="return confirm('Bạn có chắc muốn xoá chức vụ này?')">
                                             Xoá
                                         </button>
                                     </form>

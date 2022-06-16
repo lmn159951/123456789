@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class DonViRequest extends FormRequest
+class NhanVienRequest extends FormRequest
 {
     public function authorize()
     {
@@ -13,31 +13,27 @@ class DonViRequest extends FormRequest
 
     public function rules()
     {
-        return (empty($this->route('donvi')) ? $this->createRules() : $this->updateRules());
+        return (empty($this->route('nhanvien')) ? $this->createRules() : $this->updateRules());
     }
 
     public function createRules()
     {
         return [
-            'ten_don_vi' => 'required|unique:don_vi',
-            'dia_chi' => 'required'
+            'ten_nhan_vien' => 'required|unique:nhan_vien'
         ];
     }
 
     public function updateRules()
     {
         return [
-            'ten_don_vi' => ['required', Rule::unique('don_vi')->ignore($this->route('donvi'), 'ma_don_vi')],
-            'dia_chi' => 'required'
+            'ten_nhan_vien' => ['required', Rule::unique('nhan_vien')->ignore($this->route('nhanvien'), 'ma_nhan_vien')],
         ];
     }
 
     public function attributes()
     {
         return [
-            'ma_don_vi' => 'Mã đơn vị',
-            'ten_don_vi' => 'Tên đơn vị',
-            'dia_chi' => 'Địa chỉ',
+            'ten_nhan_vien' => 'Tên chức vụ'
         ];
     }
 

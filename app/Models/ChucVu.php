@@ -12,4 +12,10 @@ class ChucVu extends Model
 
     protected $primaryKey = 'ma_chuc_vu';
     protected $table = 'chuc_vu';
+
+
+    public function nhanViens()
+    {
+        return $this->hasMany(NhanVien::class);
+    }
 }

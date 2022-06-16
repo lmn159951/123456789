@@ -4,83 +4,57 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\ChucVu;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\ChucVuRequest;
 
 class ChucVuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $parameters = [];
+        $parameters['danhSachChucVu'] = ChucVu::all();
+
+        return view('admin.pages.chucvu.index', $parameters);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.pages.chucvu.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ChucVuRequest $request)
     {
-        //
+        $chucVu = new ChucVu;
+        $chucVu->ten_chuc_vu = $request->ten_chuc_vu;
+        $chucVu->save();
+
+        return redirect()->route('quantri.chucvu.index')->with('success', 'Tạo chức vụ thành công');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ChucVu  $chucVu
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ChucVu $chucVu)
+    public function edit(int $ma_chuc_vu)
     {
-        //
+        $parameters = [];
+        $parameters['chucVu'] = ChucVu::find($ma_chuc_vu);
+
+        return view('admin.pages.chucvu.edit', $parameters);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ChucVu  $chucVu
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ChucVu $chucVu)
+    public function update(ChucVuRequest $request, int $ma_chuc_vu)
     {
-        //
+        $validated = $request->validated();
+
+        ChucVu::where('ma_chuc_vu', $ma_chuc_vu)->update($validated);
+
+        return redirect()
+                ->route('quantri.chucvu.index')
+                ->with('success', 'Cập nhật chức vụ thành công');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ChucVu  $chucVu
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ChucVu $chucVu)
+    public function destroy(int $ma_chuc_vu)
     {
-        //
-    }
+        ChucVu::destroy($ma_chuc_vu);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ChucVu  $chucVu
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ChucVu $chucVu)
-    {
-        //
+        return redirect()
+                ->route('quantri.chucvu.index')
+                ->with('success', 'Xoá chức vụ thành công');
     }
 }

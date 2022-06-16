@@ -14,7 +14,7 @@
                 <div class="mb-3">
                     <label for="tendonvi" class="form-label">Tên đơn vị:</label>
                     <input type="text" class="form-control @error('ten_don_vi') is-invalid @enderror"
-                        value="{{ old('ten_don_vi') }}" name="ten_don_vi" id="tendonvi">
+                        value="{{ old('ten_don_vi') ?? $donVi->ten_don_vi }}" name="ten_don_vi" id="tendonvi">
 
                     @error('ten_don_vi')
                         <div id="validationServer03Feedback" class="invalid-feedback">
@@ -24,9 +24,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="diachi" class="form-label">Địa chỉ:</label>
-                    <input type="text" class="form-control @error('ten_don_vi') is-invalid @enderror"
-                        value="{{ old('dia_chi') }}" name="dia_chi" id="diachi">
+                    <label for="dia_chi" class="form-label">Địa chỉ:</label>
+                    <input type="text" class="form-control @error('dia_chi') is-invalid @enderror"
+                        value="{{ old('dia_chi') ?? $donVi->dia_chi }}" name="dia_chi" id="dia_chi">
 
                     @error('dia_chi')
                         <div id="validationServer03Feedback" class="invalid-feedback">

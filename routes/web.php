@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 //Admin
 use App\Http\Controllers\Admin\QuanTriController;
-use App\Http\Controllers\Admin\ChucVuController;
 use App\Http\Controllers\Admin\DonViController;
-use App\Http\Controllers\Admin\NhanVienController;
 use App\Http\Controllers\Admin\PhongBanController;
+use App\Http\Controllers\Admin\ChucVuController;
+use App\Http\Controllers\Admin\NhanVienController;
 
 //NhanVien
 use App\Http\Controllers\NhanVien\NVNhanVienController;
@@ -44,3 +44,5 @@ Route::prefix('quantri')->name('quantri.')->group(function () {
 Route::fallback(function () {
     return "404";
 });
+
+
