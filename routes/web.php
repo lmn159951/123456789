@@ -17,6 +17,18 @@ use App\Http\Controllers\Admin\SiteController;
 |
 */
 
+
+Route::get('dangnhap')->name('danganhap');
+Route::prefix('nguoidung')->name('nguoidung.')->group(function(){
+    Route::get('/')->name('trangchu');
+    Route::get('thongtincanhan')->name('xemthongtincanhan');
+    Route::post('thongtincanhan')->name('luuthongtincanhan');
+    Route::get('timkiem')->name('timkiem');
+    Route::get('dattour')->name('dattourGet');
+    Route::post('dattour')->name('dattourPost');  
+});
+
+
 Route::prefix('quantri')->name('quantri.')->group(function () {
     Route::get('/', [SiteController::class, 'dashboard'])->name('dashboard');
 
