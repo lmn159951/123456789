@@ -29,6 +29,7 @@ return new class extends Migration
             $table->boolean('la_quan_tri')->nullable(false);
             $table->timestamps();
             $table->softDeletes();
+            $table->rememberToken();
         });
     }
 

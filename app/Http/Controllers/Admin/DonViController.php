@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\DonVi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DonViRequest;
-use Illuminate\Http\Request;
 
 class DonViController extends Controller
 {
@@ -31,12 +30,6 @@ class DonViController extends Controller
 
         return redirect()->route('quantri.donvi.index')->with('success', 'Tạo đơn vị thành công');
     }
-
-    public function show(int $ma_don_vi)
-    {
-        //
-    }
-
 
     public function edit(int $ma_don_vi)
     {

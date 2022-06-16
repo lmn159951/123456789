@@ -7,6 +7,17 @@ use App\Http\Controllers\Admin\DonViController;
 use App\Http\Controllers\Admin\NhanVienController;
 use App\Http\Controllers\Admin\PhongBanController;
 
+Route::get('dangnhap')->name('danganhap');
+Route::prefix('nguoidung')->name('nguoidung.')->group(function(){
+    Route::get('/')->name('trangchu');
+    Route::get('thongtincanhan')->name('xemthongtincanhan');
+    Route::post('thongtincanhan')->name('luuthongtincanhan');
+    Route::get('timkiem')->name('timkiem');
+    Route::get('dattour')->name('dattourGet');
+    Route::post('dattour')->name('dattourPost');
+});
+
+
 Route::prefix('quantri')->name('quantri.')->group(function () {
     Route::get('/', [QuanTriController::class, 'dashboard'])->name('dashboard');
     Route::get('/login', [QuanTriController::class, 'login'])->name('login');
