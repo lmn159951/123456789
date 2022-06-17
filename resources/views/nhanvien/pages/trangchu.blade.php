@@ -1,5 +1,58 @@
 @extends('nhanvien.layout.nhanvien')
 @section('content')
+<!-- Hero Section Begin -->
+<section class="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="hero__categories">
+                    <div class="hero__categories__all">
+                        <i class="fa fa-bars"></i>
+                        <span>Địa điểm du lịch</span>
+                    </div>
+                    <ul>
+                        <li><a href="#">Đông Bắc Bộ</a></li>
+                        <li><a href="#">Tây Bắc Bộ</a></li>
+                        <li><a href="#">Đồng bằng sông Hồng</a></li>
+                        <li><a href="#">Bắc Trung Bộ</a></li>
+                        <li><a href="#">Nam Trung Bộ</a></li>
+                        <li><a href="#">Tây Nguyên</a></li>
+                        <li><a href="#">Đông Nam Bộ</a></li>
+                        <li><a href="#">Tây Nam Bộ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                        <form action="#">
+                            <input type="text" placeholder="Bạn muốn tìm kiếm gì?">
+                            <button type="submit" class="site-btn">Tìm kiếm</button>
+                        </form>
+                    </div>
+                    <div class="hero__search__phone">
+                        <div class="hero__search__phone__icon">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <div class="hero__search__phone__text">
+                            <h5>+84.376.97.4917</h5>
+                            <span>Hỗ trợ 24/7</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero__item set-bg" data-setbg="img/hero/banner.jpg">
+                    <div class="hero__text">
+                        <span>TOUR DU LỊCH</span>
+                        <h2>Vui chơi <br />Giải Trí <br />Thư Giãn</h2>
+                        <h5>Hãy đến trải nghiệm và cảm nhận</h5>
+                        <a href="#" class="primary-btn">XEM TOUR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
     <!-- Featured Section Begin -->
     <section class="featured spad">
         <div class="container">

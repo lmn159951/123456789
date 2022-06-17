@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\NhanVien;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NhanVien\NVDangNhapRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,16 +12,17 @@ class DangNhapController extends Controller
     //
     public function index()
     {
-        return view('nhanvien.dangnhap');
+        return view('nhanvien.pages.dangnhap');
     }
 
-    public function dangnhap(Request $request)
+    public function dangnhap(NVDangNhapRequest $request)
     {
-        $MaNV = $request->post('username');
-        $Password = $request->post('password');
-        if(Auth::attempt(['ten_tai_khoan' => $MaNV, 'password' => $Password, 'la_quan_tri' => '0']))
+        $username = $request->post('username');
+        $password = $request->post('password');
+        if(Auth::attempt(['username' => $username, 'password' => $password, 'is_admin' => '0']))
         {
-            return redirect()->route('trangchu');
+            return redirect()->route('home');
         }
+        return view('nhanvien.pages.dangnhap')->with('message', 'Tên đăng nhập hoặc mật khẩu không đúng!');
     }
 }
