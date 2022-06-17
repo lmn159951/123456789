@@ -12,7 +12,7 @@
             @endif
 
             <div class="my-3 d-flex justify-content-end">
-                <a class="btn btn-primary" href="{{ route('quantri.phongban.create') }}">
+                <a class="btn btn-primary" href="{{ route('admin.departments.create') }}">
                     Thêm
                 </a>
             </div>
@@ -26,18 +26,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($danhSachPhongBan as $index => $phongBan)
+                    @foreach ($departments as $index => $department)
                         <tr>
                             <th scope="row">{{ $index + 1 }}</th>
-                            <td>{{ $phongBan->ten_phong_ban }}</td>
+                            <td>{{ $department->name }}</td>
                             <td>
                                 <div class="d-flex">
                                     <a class="btn btn-warning"
-                                        href="{{ route('quantri.phongban.edit', $phongBan->ma_phong_ban) }}">
+                                        href="{{ route('admin.departments.edit', $department->id) }}">
                                         Cập nhật
                                     </a>
                                     <form class="ml-3" method="post"
-                                        action="{{ route('quantri.phongban.destroy', $phongBan->ma_phong_ban) }}">
+                                        action="{{ route('admin.departments.destroy', $department->id) }}">
                                         @method('DELETE') @csrf
                                         <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Bạn có chắc muốn xoá phòng ban này?')">

@@ -1,10 +1,11 @@
 <?php
-namespace App\Http\Requests\Admin;
+
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class PositionRequest extends FormRequest
+class SendMailRequest extends FormRequest
 {
     public function authorize()
     {
@@ -13,28 +14,24 @@ class PositionRequest extends FormRequest
 
     public function rules()
     {
-        return (empty($this->route('position')) ? $this->createRules() : $this->updateRules());
+        return $this->createRules();
     }
 
     public function createRules()
     {
         return [
-            'name' => 'required|unique:positions',
-        ];
-    }
-
-    public function updateRules()
-    {
-        return [
-            'name' => ['required', Rule::unique('positions')->ignore($this->route('position'), 'id')],
+            'name' => 'required',
+            'email' => 'required|email',
+            'comment' => 'required'
         ];
     }
 
     public function attributes()
     {
         return [
-            'position_id' => 'Mã chức vụ',
-            'name' => 'Tên chức vụ',
+            'name' => 'Họ tên',
+            'email' => 'Email',
+            'comment' => 'Đóng góp ý kiến'
         ];
     }
 
@@ -43,6 +40,7 @@ class PositionRequest extends FormRequest
         return [
             'required' => ':attribute không được để trống.',
             'unique' => ':attribute đã tồn tại.',
+            'email' => ':attribute không đúng định dang email.'
         ];
     }
 }

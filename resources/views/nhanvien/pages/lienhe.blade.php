@@ -1,5 +1,5 @@
-@exten
-
+@extends('nhanvien.layout.nhanvien')
+@section('content')
     <!-- Contact Section Begin -->
     <section class="contact spad">
         <div class="container">
@@ -48,21 +48,26 @@
                     </div>
                 </div>
             </div>
-            <form action="#">
+            <form action="{{ route('sendmail') }}" method="POST">
+                @csrf
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Họ và tên">
+                        <input type="text" placeholder="Họ và tên" required name="name">
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Email">
+                        <input type="email" placeholder="Email" required name="email">
                     </div>
                     <div class="col-lg-12 text-center">
-                        <textarea placeholder="Ý kiến của bạn là..."></textarea>
+                        <textarea placeholder="Ý kiến của bạn là..." required name="comment"></textarea>
                         <button type="submit" class="site-btn">GỬI Ý KIẾN</button>
+                        @if(session('message') )
+                            <p style="color: #7fad39">{{ session('message')  }}</p>
+                        @endif
+                        
                     </div>
                 </div>
             </form>
         </div>
     </div>
     <!-- Contact Form End -->
-
+@endsection
