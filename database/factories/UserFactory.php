@@ -2,7 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Agency;
+use App\Models\Department;
+use App\Models\Position;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -17,12 +21,30 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $agencyId = Agency::inRandomOrder()->first()->id;
+        $departmentId = Department::inRandomOrder()->first()->id;
+        $fullname = $this->faker->name;
+
+        $username = '';
+        $username .= getFullName(convertName($fullname));
+        $username .= paddingNumberLeadingZeros($agencyId);
+        $username .= paddingNumberLeadingZeros($departmentId);
+
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'fullname' => $fullname,
+            'username' => $username,
+            'password' => Hash::make('1'),
             'remember_token' => Str::random(10),
+            'email' => $username."@gmail.com",
+            'email_verified_at' => now(),
+            'gender' => $this->faker->randomElement(['Nam', 'Nữ']),
+            'phone' => $this->faker->numerify('0#########'),
+            'citizen_card' => $this->faker->numerify('3########'),
+            'agency_id' => $agencyId,
+            'department_id' => $departmentId,
+            'position_id' => Position::inRandomOrder()->first()->id,
+            'start_date' => $this->faker->dateTimeBetween($startDate = '-20 years', $endDate = 'now', $timezone = 'Asia/Ho_Chi_Minh'),
+            'is_admin' => '0',
         ];
     }
 

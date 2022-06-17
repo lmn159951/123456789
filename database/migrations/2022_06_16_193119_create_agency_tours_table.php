@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('don_vi', function (Blueprint $table) {
-            $table->id('ma_don_vi');
-            $table->string('ten_don_vi');
-            $table->string('dia_chi');
+        Schema::create('agency_tours', function (Blueprint $table) {
+            $table->id();
+            $table->smallInteger('agency_id')->unsigned();
+            $table->bigInteger('tour_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('agency_id')->references('id')->on('agencies')->onDelete('cascade');
+            $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('don_vi');
+        Schema::dropIfExists('agency_tours');
     }
 };

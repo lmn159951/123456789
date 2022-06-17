@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('phong_ban', function (Blueprint $table) {
-            $table->id('ma_phong_ban');
-            $table->string('ten_phong_ban');
+        Schema::create('departments', function (Blueprint $table) {
+            $table->smallIncrements('id');
+            $table->string('name');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phong_ban');
+        Schema::dropIfExists('departments');
     }
 };

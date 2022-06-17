@@ -5,15 +5,15 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Tạo đơn vị</h1>
 
-            <form class="container" style="max-width: 800px;" action="{{ route('quantri.donvi.store') }}" method="POST">
+            <form class="container" style="max-width: 800px;" action="{{ route('admin.agencies.store') }}" method="POST">
                 @csrf
 
                 <div class="mb-3">
-                    <label for="tendonvi" class="form-label">Tên đơn vị:</label>
-                    <input type="text" class="form-control @error('ten_don_vi') is-invalid @enderror"
-                        value="{{ old('ten_don_vi') }}" name="ten_don_vi" id="tendonvi">
+                    <label for="name" class="form-label">Tên đơn vị:</label>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                        value="{{ old('name') }}" name="name" id="name">
 
-                    @error('ten_don_vi')
+                    @error('name')
                         <div id="validationServer03Feedback" class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -21,11 +21,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="diachi" class="form-label">Địa chỉ:</label>
-                    <input type="text" class="form-control @error('dia_chi') is-invalid @enderror"
-                        value="{{ old('dia_chi') }}" name="dia_chi" id="diachi">
+                    <label for="address" class="form-label">Địa chỉ:</label>
+                    <input type="text" class="form-control @error('address') is-invalid @enderror"
+                        value="{{ old('address') }}" name="address" id="address">
 
-                    @error('dia_chi')
+                    @error('address')
                         <div id="validationServer03Feedback" class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -34,7 +34,7 @@
 
                 <div class="my-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary mr-3">Tạo</button>
-                    <a class="btn btn-secondary" href="{{ route('quantri.donvi.index') }}">
+                    <a class="btn btn-secondary" href="{{ route('admin.agencies.index') }}">
                         Trở về
                     </a>
                 </div>

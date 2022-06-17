@@ -11,7 +11,11 @@ class NhanVienController extends Controller
     public function index()
     {
         $parameters = [];
-        $parameters['danhSachNhanVien'] = NhanVien::with(['phong_ban', 'chuc_vu'])->get();
+        $parameters['danhSachNhanVien'] = NhanVien::with('chuc_vu')->get();
+        // $parameters['danhSachNhanVien'] = NhanVien::with(['phong_ban', 'chuc_vu'])->get();
+
+        dd($parameters);
+        die;
 
         return view('admin.pages.nhanvien.index', $parameters);
     }

@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nhan_vien', function (Blueprint $table) {
-            
+        Schema::create('positions', function (Blueprint $table) {
+            $table->smallIncrements('id');
+            $table->string('name');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('positions');
     }
 };

@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ho_tro', function (Blueprint $table) {
-            $table->id('ma_ho_tro');
-            $table->integer('nam_bat_dau');
-            $table->integer('nam_ket_thuc');
-            $table->integer('dieu_kien_toi_thieu')->nullable();
-            $table->integer('dieu_kien_toi_da')->nullable();
-            $table->integer('so_tien');
+        Schema::create('regions', function (Blueprint $table) {
+            $table->smallIncrements('id');
+            $table->string('name');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ho_tro');
+        Schema::dropIfExists('regions');
     }
 };

@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('chuc_vu', function (Blueprint $table) {
-            $table->id('ma_chuc_vu');
-            $table->string('ten_chuc_vu');
+        Schema::create('supports', function (Blueprint $table) {
+            $table->increments('id');
+            $table->smallInteger('start_year')->nullable();
+            $table->smallInteger('end_year')->nullable();
+            $table->smallInteger('min_condition')->nullable();
+            $table->smallInteger('max_condition')->nullable();
+            $table->bigInteger('price')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chuc_vu');
+        Schema::dropIfExists('supports');
     }
 };

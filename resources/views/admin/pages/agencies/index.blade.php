@@ -12,7 +12,7 @@
             @endif
 
             <div class="my-3 d-flex justify-content-end">
-                <a class="btn btn-primary" href="{{ route('quantri.donvi.create') }}">
+                <a class="btn btn-primary" href="{{ route('admin.agencies.create') }}">
                     Thêm
                 </a>
             </div>
@@ -27,19 +27,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($danhSachDonVi as $index => $donVi)
+                    @foreach ($agencies as $index => $agency)
                         <tr>
                             <th scope="row">{{ $index + 1 }}</th>
-                            <td>{{ $donVi->ten_don_vi }}</td>
-                            <td style="max-width: 400px;">{{ $donVi->dia_chi }}</td>
+                            <td style="max-width: 400px;">{{ $agency->name }}</td>
+                            <td style="max-width: 400px;">{{ $agency->address }}</td>
                             <td>
                                 <div class="d-flex">
-                                    <a class="btn btn-warning"
-                                        href="{{ route('quantri.donvi.edit', $donVi->ma_don_vi) }}">
+                                    <a class="btn btn-warning" href="{{ route('admin.agencies.edit', $agency->id) }}">
                                         Cập nhật
                                     </a>
                                     <form class="ml-3" method="post"
-                                        action="{{ route('quantri.donvi.destroy', $donVi->ma_don_vi) }}">
+                                        action="{{ route('admin.agencies.destroy', $agency->id) }}">
                                         @method('DELETE') @csrf
                                         <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Bạn có chắc muốn xoá đơn vị này?')">

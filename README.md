@@ -64,7 +64,54 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 Một điều phối viên xử lý các công việc hậu cần khác nhau liên quan đến lập lịch trình, hoạt động và sự kiện. Các nhiệm vụ chung bao gồm hỗ trợ lập kế hoạch các sự kiện, tạo và tuân thủ ngân sách, làm việc với các nhà cung cấp, thanh toán cho các nhà cung cấp và giúp thúc đẩy nhận thức về thương hiệu.
+-----------------------Agency::
+Trụ sở chính
+Nhà Internet, Lô 2A, Làng Quốc Tế Thăng Long, Dịch Vọng, Cầu Giấy, Hà Nội
 
+Tổng công ty dịch vụ viễn thông (VNPT-VinaPhone)
+Tòa nhà VNPT, số 57 Phố Huỳnh Thúc Kháng, Phường Láng Hạ, Quận Đống Đa, Thành phố Hà Nội, Việt Nam'
+
+Tổng công ty hạ tầng mạng (VNPT-Net)
+Số 30, đường Phạm Hùng, phường Mỹ Đình 1, quận Nam Từ Liêm, thành phố Hà Nội'
+
+Chi nhánh Miền Nam
+Tầng 4, toà nhà VNPT, 42 Phạm Ngọc Thạch, phường 6, quận 3, thành phố Hồ Chí Minh'
+
+Chi nhánh Miền Trung
+Số 24 Lê Thánh Tôn, thành phố Đà Nẵng'
+
+Tổng công ty truyền thông (VNPT-Media)
+21 Hồ Văn Huê, Phường 9, Phú Nhuận, Thành phố Hồ Chí Minh'
+
+Công ty Công nghệ thông tin VNPT(VNPT-IT)
+57 Huỳnh Thúc Kháng, Đống Đa, Hà Nội'
+
+Công ty CP Công nghệ Công nghiệp Bưu chính Viễn thông (VNPT-Technology)
+Khu CNC1,Khu CNC Hòa Lạc, Nạ Bằng, Thạch Thất, Hà Nội'
+
+Trường Trung học Bưu chính Viễn thông và Công nghệ thông tin
+9C32+RHM, Tân Mỹ Chánh, Thành phố Mỹ Tho, Tiền Giang'
+
+['Trụ sở chính',
+'Nhà Internet, Lô 2A, Làng Quốc Tế Thăng Long, Dịch Vọng, Cầu Giấy, Hà Nội'],
+['Tổng công ty dịch vụ viễn thông (VNPT-VinaPhone)',
+'Tòa nhà VNPT, số 57 Phố Huỳnh Thúc Kháng, Phường Láng Hạ, Quận Đống Đa, Thành phố Hà Nội, Việt Nam'],
+['Tổng công ty hạ tầng mạng (VNPT-Net)',
+'Số 30, đường Phạm Hùng, phường Mỹ Đình 1, quận Nam Từ Liêm, thành phố Hà Nội'],
+['Chi nhánh Miền Nam',
+'Tầng 4, toà nhà VNPT, 42 Phạm Ngọc Thạch, phường 6, quận 3, thành phố Hồ Chí Minh'],
+['Chi nhánh Miền Trung',
+'Số 24 Lê Thánh Tôn, thành phố Đà Nẵng'],
+['Tổng công ty truyền thông (VNPT-Media)',
+'21 Hồ Văn Huê, Phường 9, Phú Nhuận, Thành phố Hồ Chí Minh'],
+['Công ty Công nghệ thông tin VNPT(VNPT-IT)',
+'57 Huỳnh Thúc Kháng, Đống Đa, Hà Nội'],
+['Công ty CP Công nghệ Công nghiệp Bưu chính Viễn thông (VNPT-Technology)',
+'Khu CNC1,Khu CNC Hòa Lạc, Nạ Bằng, Thạch Thất, Hà Nội'],
+['Trường Trung học Bưu chính Viễn thông và Công nghệ thông tin',
+'9C32+RHM, Tân Mỹ Chánh, Thành phố Mỹ Tho, Tiền Giang'],
+
+-----------------------Department::
 Phòng kế toán
 Phòng tài chín
 Phòng hành chính
@@ -74,6 +121,7 @@ Phòng mua sắm vật tư
 Phòng nghiên cứu và phát triển
 Phòng vận chuyển
 
+-----------------------Department::
 'Nhân viên phân tích dữ liệu',
 'Quản trị hệ thống',
 'Lập trình viên',
@@ -164,28 +212,63 @@ Phòng vận chuyển
 'nhân viên',
 'Phó phòng kinh doanh',
 
-Trụ sở chính:
-Nhà Internet, Lô 2A, Làng Quốc Tế Thăng Long, Dịch Vọng, Cầu Giấy, Hà Nội
-['ten_don_vi' => 'Tổng công ty dịch vụ viễn thông (VNPT-VinaPhone)',
-'dia_chi' => 'Tòa nhà VNPT, số 57 Phố Huỳnh Thúc Kháng, Phường Láng Hạ, Quận Đống Đa, Thành phố Hà Nội, Việt Nam'],
+-----------------------Regions::
+Tây Bắc Bộ
+Đông Bắc bộ
+Đồng bằng sông Hồng
+Bắc Trung Bộ
+Nam Trung Bộ
+Vùng Duyên hải Nam Trung Bộ
+Vùng Đông Nam Bộ
+Vùng đồng bằng sông Cửu Long
 
-['ten_don_vi' => 'Tổng công ty hạ tầng mạng (VNPT-Net)',
-'dia_chi' => 'Số 30, đường Phạm Hùng, phường Mỹ Đình 1, quận Nam Từ Liêm, thành phố Hà Nội'],
-
-['ten_don_vi' => 'Chi nhánh Miền Nam',
-'dia_chi' => 'Tầng 4, toà nhà VNPT, 42 Phạm Ngọc Thạch, phường 6, quận 3, thành phố Hồ Chí Minh'],
-
-['ten_don_vi' => 'Chi nhánh Miền Trung',
-'dia_chi' => 'Số 24 Lê Thánh Tôn, thành phố Đà Nẵng'],
-
-['ten_don_vi' => 'Tổng công ty truyền thông (VNPT-Media)',
-'dia_chi' => '21 Hồ Văn Huê, Phường 9, Phú Nhuận, Thành phố Hồ Chí Minh'],
-
-['ten_don_vi' => 'Công ty Công nghệ thông tin VNPT(VNPT-IT)',
-'dia_chi' => '57 Huỳnh Thúc Kháng, Đống Đa, Hà Nội'],
-
-['ten_don_vi' => 'Công ty CP Công nghệ Công nghiệp Bưu chính Viễn thông (VNPT-Technology)',
-'dia_chi' => 'Khu CNC1,Khu CNC Hòa Lạc, Nạ Bằng, Thạch Thất, Hà Nội'],
-
-['ten_don_vi' => 'Trường Trung học Bưu chính Viễn thông và Công nghệ thông tin',
-'dia_chi' => '9C32+RHM, Tân Mỹ Chánh, Thành phố Mỹ Tho, Tiền Giang'],
+-----------------------Users::
+------------------------------name::
+Thân Quốc Anh
+Hồ Trung Anh
+Chương Ngọc Cảnh
+Lâm Mạnh Ðình
+Bình Thanh Ðoàn
+Khổng Minh Ðức
+Mạch Thiện Ðức
+Cáp Huy Khánh
+Mạnh Gia Hùng
+Hàn Hữu Hùng
+Chriêng Tấn Phát
+Nghị Hữu Phước
+Đậu Thiện Sinh
+Dương Minh Tuấn
+Hầu Khánh Văn
+Hà Hồng Vinh
+Thang Bảo Quyên
+Khúc Diễm Khuê
+Từ Diên Vỹ
+Đái Duy Mỹ
+Nông Hà Liên
+Đoàn Hải Yến
+Lăng Hoàng Mai
+Sử Hồng Hạnh
+Thi Ngọc Trinh
+Bàn Nhật Mai
+Đoàn Phương Diễm
+Diêm Phương Thủy
+Ngân Thái Lan
+Mai Thanh Tuyền
+Khâu Thư Sương
+Tôn Thất Vân Chi
+Tào Ðức Chính
+Ngân Thành Ðạt
+Thành Việt Dũng
+Lều Thiên Hưng
+Lê Hồng Lĩnh
+Thập Duy Luận
+Nhâm Hải Nam
+Đoàn Hào Nghiệp
+Bình Xuân Phúc
+Dư Xuân Phúc
+Lường Dũng Trí
+Ngọc Quốc Trụ
+Duy Duy Thắng
+Nghiêm Chí Thanh
+Mầu Minh Thiện
+Ngân Thanh Vũ

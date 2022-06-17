@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('don_vi_tour', function (Blueprint $table) {
-            $table->bigIncrements('ma_don_vi_tour');
-            $table->bigInteger('ma_don_vi');
-            $table->bigInteger('ma_tour');
+        Schema::create('agencies', function (Blueprint $table) {
+            $table->smallIncrements('id');
+            $table->string('name');
+            $table->string('address');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('don_vi_tour');
+        Schema::dropIfExists('agencies');
     }
 };

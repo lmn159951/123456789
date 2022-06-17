@@ -41,9 +41,9 @@
                             <td>{{ $nhanVien->gioi_tinh }}</td>
                             <td>{{ $nhanVien->so_dien_thoai }}</td>
                             <td>{{ $nhanVien->email }}</td>
-                            <td>{{ $nhanVien->phongBan->ten_phong_ban }}</td>
+                            {{-- <td>{{ $nhanVien->phongBan->ten_phong_ban }}</td>
                             <td>{{ $nhanVien->chucVu->ten_chuc_vu }}</td>
-                            <td>{{ $nhanVien->donVi->ten_don_vi }}</td>
+                            <td>{{ $nhanVien->donVi->ten_don_vi }}</td> --}}
                             <td>
                                 <div class="d-flex">
                                     <a class="btn btn-warning"
