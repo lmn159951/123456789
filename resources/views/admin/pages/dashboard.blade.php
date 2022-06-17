@@ -4,7 +4,7 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-        {{ getFullName(convertName('Lê Ngọc Hở')) }}
+        <img src="{{ $tour->image }}" alt="{{ $tour->image }}">
 
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
