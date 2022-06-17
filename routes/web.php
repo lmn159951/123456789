@@ -16,14 +16,18 @@ use App\Http\Controllers\NhanVien\TimKiemController;
 use App\Http\Controllers\NhanVien\DatTourController;
 use App\Http\Controllers\NhanVien\LienHeController;
 use App\Http\Controllers\NhanVien\TrangChuController;
+use App\Http\Controllers\NhanVien\DangNhapController;
 
-Route::get('dangnhap')->name('dangnhap');
+//NhanVien dang nhap
+Route::get('dangnhap', [DangNhapController::class, 'index'])->name('dangnhapGet');
+Route::post('dangnhap', [DangNhapController::class, 'dangnhap'])->name('dangnhapPost');
+
 Route::get('/', [TrangChuController::class, 'index'])->name('trangchu');
 Route::get('timkiem', [TimKiemController::class, 'index'])->name('timkiem');
 Route::get('lienhe', [LienHeController::class, 'index'])->name('timkiem');
+
 Route::prefix('nhanvien')->name('nhanvien.')->group(function(){
     Route::resource('thongtincanhan', NVNhanVienController::class);
-
     Route::resource('dattour', DatTourController::class);
 });
 
