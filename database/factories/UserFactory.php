@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Agency;
 use App\Models\Department;
 use App\Models\Position;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -23,18 +24,22 @@ class UserFactory extends Factory
     {
         $agencyId = Agency::inRandomOrder()->first()->id;
         $departmentId = Department::inRandomOrder()->first()->id;
+
         $fullname = $this->faker->name;
 
         $username = '';
-        $username .= getFullName(convertName($fullname));
+        $username .= getFirstName(convertName($fullname));
         $username .= paddingNumberLeadingZeros($agencyId);
         $username .= paddingNumberLeadingZeros($departmentId);
+        $username .= paddingNumberLeadingZeros(
+            User::where('agency_id', $agencyId)->where('department_id', $departmentId)->count() + 1
+        , 3);
 
         return [
             'fullname' => $fullname,
             'username' => $username,
             'password' => Hash::make('1'),
-            'remember_token' => Str::random(10),
+            'remember_token' => null,
             'email' => $username."@gmail.com",
             'email_verified_at' => now(),
             'gender' => $this->faker->randomElement(['Nam', 'Nữ']),

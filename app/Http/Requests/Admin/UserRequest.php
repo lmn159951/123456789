@@ -20,29 +20,38 @@ class UserRequest extends FormRequest
     {
         return [
             'fullname' => 'required',
-            'username' => 'required',
+            'username' => 'required|unique:users',
             'password' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
-            'citizen_card' => 'required',
-            'start_date' => 'required',
-            'is_admin' => 'required',
+            'email' => 'nullable|email|unique:users',
+            'phone' => 'nullable|regex:/0[0-9]{9}/',
+            'citizen_card' => 'nullable|regex:/0[0-9]{8}/|numeric|unique:users',
+            'start_date' => 'nullable|before_or_equal:now',
         ];
     }
 
     public function updateRules()
     {
         return [
-            'name' => ['required', Rule::unique('users')->ignore($this->route('agency'), 'id')],
-            'address' => 'required'
+            'fullname' => 'required',
+            'username' => ['required', Rule::unique('users')->ignore($this->route('user'), 'id')],
+            'password' => 'nullable',
+            'email' => ['nullable', 'email', Rule::unique('users')->ignore($this->route('user'), 'id')],
+            'phone' => 'nullable|regex:/0[0-9]{9}/',
+            'citizen_card' => ['nullable', 'regex:/[0-9]{9}/', 'numeric', Rule::unique('users')->ignore($this->route('user'), 'id')],
+            'start_date' => 'nullable|before_or_equal:now',
         ];
     }
 
     public function attributes()
     {
         return [
-            'name' => 'Tên nhân viên',
-            'address' => 'Địa chỉ',
+            'fullname' => 'Họ tên',
+            'username' => 'Tên tài khoản',
+            'password' => 'Mật khẩu',
+            'email' => 'Email',
+            'phone' => 'Số diể',
+            'citizen_card' => 'Chứng minh nhân dân',
+            'start_date' => 'Ngày bắt đầu làm',
         ];
     }
 
@@ -51,6 +60,11 @@ class UserRequest extends FormRequest
         return [
             'required' => ':attribute không được để trống.',
             'unique' => ':attribute đã tồn tại.',
+            'email' => ':attribute không hợp lệ',
+            'regex' => ':attribute không hợp lệ',
+            'size' => ':attribute vui lòng nhập đúng :size ký tự',
+            'numeric' => ':attribute không được nhập ký tự',
+            'before_or_equal' => ':attribute không hợp lệ',
         ];
     }
 }

@@ -33,7 +33,6 @@ class PositionRequest extends FormRequest
     public function attributes()
     {
         return [
-            'position_id' => 'Mã chức vụ',
             'name' => 'Tên chức vụ',
         ];
     }

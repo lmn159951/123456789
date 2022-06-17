@@ -50,7 +50,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'Tạo đơn vị thành công');
+            ->with('message', 'Tạo nhân viên thành công');
     }
 
     public function edit(int $id)
@@ -64,15 +64,34 @@ class UserController extends Controller
         return view('admin.pages.users.edit', $parameters);
     }
 
+    public function show(int $id)
+    {
+        $parameters = [];
+        $parameters['user'] = User::with(['agency', 'department', 'position'])->find($id);
+
+        return view('admin.pages.users.show', $parameters);
+    }
+
     public function update(UserRequest $request, int $id)
     {
-        $validated = $request->validated();
-
-        User::where('id', $id)->update($validated);
+        $user = User::find($id);
+        $user->fullname = $request->fullname;
+        $user->username = $request->username;
+        $user->password = Hash::make($request->password);
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->gender = $request->gender;
+        $user->citizen_card = $request->citizen_card;
+        $user->agency_id = $request->agency_id;
+        $user->department_id = $request->department_id;
+        $user->position_id = $request->position_id;
+        $user->start_date = $request->start_date;
+        $user->is_admin = $request->is_admin;
+        $user->save();
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'Cập nhật đơn vị thành công');
+            ->with('message', 'Cập nhật nhân viên thành công');
     }
 
     public function destroy(int $id)
@@ -81,6 +100,6 @@ class UserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'Xoá đơn vị thành công');
+            ->with('message', 'Xoá nhân viên thành công');
     }
 }

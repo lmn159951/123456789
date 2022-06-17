@@ -33,7 +33,6 @@ class DepartmentRequest extends FormRequest
     public function attributes()
     {
         return [
-            'department_id' => 'Mã phòng ban',
             'name' => 'Tên phòng ban',
         ];
     }
