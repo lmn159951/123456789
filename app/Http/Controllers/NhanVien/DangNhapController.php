@@ -19,7 +19,7 @@ class DangNhapController extends Controller
     {
         $username = $request->post('username');
         $password = $request->post('password');
-        if(Auth::attempt(['username' => $username, 'password' => $password, 'is_admin' => '0']))
+        if(Auth::guard('user')->attempt(['username' => $username, 'password' => $password, 'is_admin' => '0', 'deleted_at' => null]))
         {
             return redirect()->route('home');
         }

@@ -39,15 +39,15 @@
         <div class="humberger__menu__widget">
             
             <div class="header__top__right__auth">
-                @auth
-                
+                @auth('user')
                 <ul class="header__menu__dropdown">
                     <a href="#">Thông tin cá nhân</a>
-                    <a href="#">Đăng xuất</a>
-                    
+                    <a href="#">Đăng xuất</a>     
                 </ul>
                 @endauth
-                <a href="#"><i class="fa fa-user"></i> Đăng nhập</a>
+                @guest('user')
+                    <a href="#"><i class="fa fa-user"></i> Đăng nhập</a>
+                @endguest
             </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
@@ -85,12 +85,13 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__right">
                             <div class="header__top__right__social">
-                                <a href="#"><i class="fa fa-user"></i>Đăng nhập</a>
-                                @auth()
-                                    
+                                @auth('user')
+                                    <a href="#"><i class="fa fa-user"></i>Thông tin cá nhân</a>
+                                    <a href="#"><i class="fa fa-user"></i>Đăng xuất</a>
                                 @endauth
-                                <a href="#"><i class="fa fa-user"></i>Thông tin cá nhân</a>
-                                <a href="#"><i class="fa fa-user"></i>Đăng xuất</a>
+                                @guest('user')
+                                    <a href="#"><i class="fa fa-user"></i>Đăng nhập</a>
+                                @endguest
                             </div>
                         </div>
                     </div>

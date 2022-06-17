@@ -31,7 +31,7 @@ Route::post('guimail', [SendMailController::class, 'index'])->name('sendmail');
 Route::prefix('nhanvien')->name('nhanvien.')->group(function(){
     Route::resource('thongtincanhan', NVNhanVienController::class);
     Route::resource('dattour', DatTourController::class);
-});
+})->middleware('auth:user');
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
