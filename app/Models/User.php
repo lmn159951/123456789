@@ -25,4 +25,21 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function agency()
+    {
+        return $this->belongsTo(Agency::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+
 }

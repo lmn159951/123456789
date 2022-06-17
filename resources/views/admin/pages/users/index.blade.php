@@ -5,56 +5,52 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Quản lý nhân viên</h1>
 
-            @if (session('success'))
+            @if (session('message'))
                 <div class="alert alert-success text-center">
-                    {{ session('success') }}
+                    {{ session('message') }}
                 </div>
             @endif
 
             <div class="my-3 d-flex justify-content-end">
-                <a class="btn btn-primary" href="{{ route('quantri.nhanvien.create') }}">
+                <a class="btn btn-primary" href="{{ route('admin.users.create') }}">
                     Thêm
                 </a>
             </div>
 
-            <table class="table table-striped table-hover my-3">
+            <table class="table table-hover my-3">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Tên nhân viên</th>
-                        <th scope="col">Tên tài khoản</th>
+                        <th scope="col">Họ tên</th>
+                        <th scope="col">Tài khoản</th>
                         <th scope="col">Giới tính</th>
-                        <th scope="col">Số điện thoại</th>
-                        <th scope="col">Email</th>
                         <th scope="col">Phòng ban</th>
                         <th scope="col">Chức vụ</th>
-                        <th scope="col">Đơn vị</th>
                         <th scope="col">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($danhSachNhanVien as $index => $nhanVien)
+                    @foreach ($users as $index => $user)
                         <tr>
                             <th scope="row">{{ $index + 1 }}</th>
-                            <td>{{ $nhanVien->ten_nhan_vien }}</td>
-                            <td>{{ $nhanVien->ten_tai_khoan }}</td>
-                            <td>{{ $nhanVien->gioi_tinh }}</td>
-                            <td>{{ $nhanVien->so_dien_thoai }}</td>
-                            <td>{{ $nhanVien->email }}</td>
-                            {{-- <td>{{ $nhanVien->phongBan->ten_phong_ban }}</td>
-                            <td>{{ $nhanVien->chucVu->ten_chuc_vu }}</td>
-                            <td>{{ $nhanVien->donVi->ten_don_vi }}</td> --}}
-                            <td>
+                            <td>{{ $user->fullname }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->gender }}</td>
+                            <td>{{ $user->department->name }}</td>
+                            <td>{{ $user->position->name }}</td>
+                            <td style="min-width: 250px;">
                                 <div class="d-flex">
-                                    <a class="btn btn-warning"
-                                        href="{{ route('quantri.nhanvien.edit', $nhanVien->ma_nhan_vien) }}">
+                                    <a class="btn btn-warning" href="{{ route('admin.users.edit', $user->id) }}">
                                         Cập nhật
                                     </a>
-                                    <form class="ml-3" method="post"
-                                        action="{{ route('quantri.nhanvien.destroy', $nhanVien->ma_nhan_vien) }}">
+                                    <a class="btn btn-info ml-2" href="{{ route('admin.users.show', $user->id) }}">
+                                        Xem
+                                    </a>
+                                    <form class="ml-2" method="post"
+                                        action="{{ route('admin.users.destroy', $user->id) }}">
                                         @method('DELETE') @csrf
                                         <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Bạn có chắc muốn xoá nhân viên này?')">
+                                            onclick="return confirm('Bạn có chắc muốn xoá đơn vị này?')">
                                             Xoá
                                         </button>
                                     </form>
@@ -64,6 +60,11 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="pagination-wrapper d-flex justify-content-between">
+                <div class="text">Hiển thị {{ $users->firstItem() }} từ {{ $users->lastItem() }} trong
+                    {{ $users->total() }} số nhân viên</div>
+                <div class="pagination">{{ $users->links() }}</div>
+            </div>
         </div>
 
     </div>

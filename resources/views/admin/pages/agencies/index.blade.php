@@ -5,9 +5,9 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Quản lý đơn vị</h1>
 
-            @if (session('success'))
+            @if (session('message'))
                 <div class="alert alert-success text-center">
-                    {{ session('success') }}
+                    {{ session('message') }}
                 </div>
             @endif
 

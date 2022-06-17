@@ -30,7 +30,7 @@ class AgencyController extends Controller
 
         return redirect()
             ->route('admin.agencies.index')
-            ->with('success', 'Tạo đơn vị thành công');
+            ->with('message', 'Tạo đơn vị thành công');
     }
 
     public function edit(int $id)
@@ -49,7 +49,7 @@ class AgencyController extends Controller
 
         return redirect()
             ->route('admin.agencies.index')
-            ->with('success', 'Cập nhật đơn vị thành công');
+            ->with('message', 'Cập nhật đơn vị thành công');
     }
 
     public function destroy(int $id)
@@ -58,6 +58,6 @@ class AgencyController extends Controller
 
         return redirect()
             ->route('admin.agencies.index')
-            ->with('success', 'Xoá đơn vị thành công');
+            ->with('message', 'Xoá đơn vị thành công');
     }
 }
