@@ -39,20 +39,23 @@
         <div class="humberger__menu__widget">
             
             <div class="header__top__right__auth">
-                <a href="#"><i class="fa fa-user"></i> Đăng nhập</a>
-                    <ul class="header__menu__dropdown">
-                        <a href="#">Thông tin cá nhân</a>
-                        <a href="#">Đăng xuất</a>
-                        
-                    </ul>
+                @auth('user')
+                <ul class="header__menu__dropdown">
+                    <a href="#">Thông tin cá nhân</a>
+                    <a href="{{ route('logout') }}">Đăng xuất</a>     
+                </ul>
+                @endauth
+                @guest('user')
+                    <a href="{{ route('dangnhapGet') }}"><i class="fa fa-user"></i> Đăng nhập</a>
+                @endguest
             </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a href="#">Trang chủ</a></li>
+                <li class="active"><a href="{{ route('home') }}">Trang chủ</a></li>
                 <li><a href="#">Tất cả tour du lịch</a></li>
                 <li><a href="#">Tìm kiếm</a></li>
-                <li><a href="#">Liên hệ</a></li>
+                <li><a href="{{ route('contact') }}">Liên hệ</a></li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -81,9 +84,14 @@
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__right">
-                            <div class="header__top__right__social"></div>
-                            <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i>Đăng nhập</a>
+                            <div class="header__top__right__social">
+                                @auth('user')
+                                    <a href="#"><i class="fa fa-user"></i>Thông tin cá nhân</a>
+                                    <a href="{{ route('logout') }}"><i class="fa fa-user"></i>Đăng xuất</a>
+                                @endauth
+                                @guest('user')
+                                    <a href="{{ route('dangnhapGet') }}"><i class="fa fa-user"></i>Đăng nhập</a>
+                                @endguest
                             </div>
                         </div>
                     </div>
@@ -100,10 +108,10 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="#">Trang chủ</a></li>
+                            <li class="active"><a href="{{ route('home') }}">Trang chủ</a></li>
                             <li><a href="#">Tất cả các tour</a></li>
                             <li><a href="#">Tìm kiếm</a></li>
-                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="{{ route('contact') }}">Liên hệ</a></li>
                            
                         </ul>
                     </nav>
@@ -118,60 +126,6 @@
         </div>
     </header>
     <!-- Header Section End -->
-
-    <!-- Hero Section Begin -->
-    <section class="hero">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>Địa điểm du lịch</span>
-                        </div>
-                        <ul>
-                            <li><a href="#">Đông Bắc Bộ</a></li>
-                            <li><a href="#">Tây Bắc Bộ</a></li>
-                            <li><a href="#">Đồng bằng sông Hồng</a></li>
-                            <li><a href="#">Bắc Trung Bộ</a></li>
-                            <li><a href="#">Nam Trung Bộ</a></li>
-                            <li><a href="#">Tây Nguyên</a></li>
-                            <li><a href="#">Đông Nam Bộ</a></li>
-                            <li><a href="#">Tây Nam Bộ</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="#">
-                                <input type="text" placeholder="Bạn muốn tìm kiếm gì?">
-                                <button type="submit" class="site-btn">Tìm kiếm</button>
-                            </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+84.376.97.4917</h5>
-                                <span>Hỗ trợ 24/7</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hero__item set-bg" data-setbg="img/hero/banner.jpg">
-                        <div class="hero__text">
-                            <span>TOUR DU LỊCH</span>
-                            <h2>Vui chơi <br />Giải Trí <br />Thư Giãn</h2>
-                            <h5>Hãy đến trải nghiệm và cảm nhận</h5>
-                            <a href="#" class="primary-btn">XEM TOUR</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Hero Section End -->
 
     @yield('content')
 

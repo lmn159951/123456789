@@ -21,12 +21,13 @@ use App\Http\Controllers\NhanVien\SendMailController;
 
 //NhanVien dang nhap
 Route::get('dangnhap', [DangNhapController::class, 'index'])->name('dangnhapGet');
-Route::post('dangnhap', [DangNhapController::class, 'dangnhap'])->name('dangnhapPost');
+Route::post('dangnhap', [DangNhapController::class, 'login'])->name('dangnhapPost');
 
 Route::get('/', [TrangChuController::class, 'index'])->name('home');
 Route::get('timkiem', [TimKiemController::class, 'index'])->name('search');
 Route::get('lienhe', [LienHeController::class, 'index'])->name('contact');
 Route::post('guimail', [SendMailController::class, 'index'])->name('sendmail');
+Route::get('dangxuat', [DangNhapController::class, 'logout'])->name('logout');
 
 Route::prefix('nhanvien')->name('nhanvien.')->group(function(){
     Route::resource('thongtincanhan', NVNhanVienController::class);
