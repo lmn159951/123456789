@@ -2,28 +2,47 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class DepartmentRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
+        return (empty($this->route('department')) ? $this->createRules() : $this->updateRules());
+    }
+
+    public function createRules()
+    {
         return [
-            //
+            'name' => 'required|unique:departments',
+        ];
+    }
+
+    public function updateRules()
+    {
+        return [
+            'name' => ['required', Rule::unique('departments')->ignore($this->route('department'), 'id')],
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'department_id' => 'Mã phòng ban',
+            'name' => 'Tên phòng ban',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attribute không được để trống.',
+            'unique' => ':attribute đã tồn tại.',
         ];
     }
 }

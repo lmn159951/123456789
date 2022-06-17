@@ -3,83 +3,61 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Position;
+use App\Http\Requests\Admin\PositionRequest;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $parameters = [];
+        $parameters['positions'] = Position::all();
+
+        return view('admin.pages.positions.index', $parameters);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.pages.positions.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(PositionRequest $request)
     {
-        //
+        $position = new Position;
+        $position->name = $request->name;
+        $position->save();
+
+        return redirect()
+            ->route('admin.positions.index')
+            ->with('success', 'Tạo chức vụ thành công');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(int $id)
     {
-        //
+        $parameters = [];
+        $parameters['positions'] = Position::find($id);
+
+        return view('admin.pages.positions.edit', $parameters);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(PositionRequest $request, int $id)
     {
-        //
+        $validated = $request->validated();
+
+        Position::where('id', $id)->update($validated);
+
+        return redirect()
+            ->route('admin.positions.index')
+            ->with('success', 'Cập nhật chức vụ thành công');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy(int $id)
     {
-        //
-    }
+        Position::destroy($id);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return redirect()
+            ->route('admin.positions.index')
+            ->with('success', 'Xoá chức vụ thành công');
     }
 }
