@@ -42,20 +42,20 @@
                 @auth('user')
                 <ul class="header__menu__dropdown">
                     <a href="#">Thông tin cá nhân</a>
-                    <a href="#">Đăng xuất</a>     
+                    <a href="{{ route('logout') }}">Đăng xuất</a>     
                 </ul>
                 @endauth
                 @guest('user')
-                    <a href="#"><i class="fa fa-user"></i> Đăng nhập</a>
+                    <a href="{{ route('dangnhapGet') }}"><i class="fa fa-user"></i> Đăng nhập</a>
                 @endguest
             </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a href="#">Trang chủ</a></li>
+                <li class="active"><a href="{{ route('home') }}">Trang chủ</a></li>
                 <li><a href="#">Tất cả tour du lịch</a></li>
                 <li><a href="#">Tìm kiếm</a></li>
-                <li><a href="#">Liên hệ</a></li>
+                <li><a href="{{ route('contact') }}">Liên hệ</a></li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -87,10 +87,10 @@
                             <div class="header__top__right__social">
                                 @auth('user')
                                     <a href="#"><i class="fa fa-user"></i>Thông tin cá nhân</a>
-                                    <a href="#"><i class="fa fa-user"></i>Đăng xuất</a>
+                                    <a href="{{ route('logout') }}"><i class="fa fa-user"></i>Đăng xuất</a>
                                 @endauth
                                 @guest('user')
-                                    <a href="#"><i class="fa fa-user"></i>Đăng nhập</a>
+                                    <a href="{{ route('dangnhapGet') }}"><i class="fa fa-user"></i>Đăng nhập</a>
                                 @endguest
                             </div>
                         </div>
@@ -108,10 +108,10 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="#">Trang chủ</a></li>
+                            <li class="active"><a href="{{ route('home') }}">Trang chủ</a></li>
                             <li><a href="#">Tất cả các tour</a></li>
                             <li><a href="#">Tìm kiếm</a></li>
-                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="{{ route('contact') }}">Liên hệ</a></li>
                            
                         </ul>
                     </nav>

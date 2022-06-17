@@ -15,7 +15,7 @@ class DangNhapController extends Controller
         return view('nhanvien.pages.dangnhap');
     }
 
-    public function dangnhap(NVDangNhapRequest $request)
+    public function login(NVDangNhapRequest $request)
     {
         $username = $request->post('username');
         $password = $request->post('password');
@@ -24,5 +24,11 @@ class DangNhapController extends Controller
             return redirect()->route('home');
         }
         return view('nhanvien.pages.dangnhap')->with('message', 'Tên đăng nhập hoặc mật khẩu không đúng!');
+    }
+
+    public function logout()
+    {
+        Auth::guard('user')->logout();
+        return redirect()->route('home');
     }
 }
