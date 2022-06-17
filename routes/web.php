@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AgencyController;
 use Illuminate\Support\Facades\Route;
 //Admin
-use App\Http\Controllers\Admin\QuanTriController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\PositionController;
 use App\Http\Controllers\Admin\RegionController;
@@ -36,9 +36,9 @@ Route::prefix('nhanvien')->name('nhanvien.')->group(function(){
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [QuanTriController::class, 'dashboard'])->name('dashboard');
-    Route::get('/login', [QuanTriController::class, 'login'])->name('login');
-    Route::get('/register', [QuanTriController::class, 'register'])->name('register');
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/login', [AdminController::class, 'login'])->name('login');
+    Route::get('/register', [AdminController::class, 'register'])->name('register');
 
     Route::resource('agencies', AgencyController::class);
     Route::resource('departments', DepartmentController::class);

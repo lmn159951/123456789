@@ -5,9 +5,9 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Quản lý chức vụ</h1>
 
-            @if (session('success'))
+            @if (session('message'))
                 <div class="alert alert-success text-center">
-                    {{ session('success') }}
+                    {{ session('message') }}
                 </div>
             @endif
 
@@ -32,8 +32,7 @@
                             <td>{{ $position->name }}</td>
                             <td>
                                 <div class="d-flex">
-                                    <a class="btn btn-warning"
-                                        href="{{ route('admin.positions.edit', $position->id) }}">
+                                    <a class="btn btn-warning" href="{{ route('admin.positions.edit', $position->id) }}">
                                         Cập nhật
                                     </a>
                                     <form class="ml-3" method="post"
