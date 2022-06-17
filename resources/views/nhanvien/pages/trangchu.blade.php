@@ -11,14 +11,11 @@
                         <span>Địa điểm du lịch</span>
                     </div>
                     <ul>
-                        <li><a href="#">Đông Bắc Bộ</a></li>
-                        <li><a href="#">Tây Bắc Bộ</a></li>
-                        <li><a href="#">Đồng bằng sông Hồng</a></li>
-                        <li><a href="#">Bắc Trung Bộ</a></li>
-                        <li><a href="#">Nam Trung Bộ</a></li>
-                        <li><a href="#">Tây Nguyên</a></li>
-                        <li><a href="#">Đông Nam Bộ</a></li>
-                        <li><a href="#">Tây Nam Bộ</a></li>
+                        @isset($recordsRegions)
+                            @foreach ($recordsRegions as $recordRegion)
+                                <li><a href="#">{{ $recordRegion['name'] }}</a></li>
+                            @endforeach
+                        @endisset
                     </ul>
                 </div>
             </div>
