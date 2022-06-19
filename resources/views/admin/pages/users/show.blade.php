@@ -14,17 +14,6 @@
                         <input type="text" class="form-control" value="{{ $user->fullname }}" disabled>
                     </div>
                     <div class="col">
-                        <label for="username" class="form-label">Tên tài khoản:</label>
-                        <input type="text" class="form-control" value="{{ $user->username }}" disabled>
-                    </div>
-                </div>
-
-                <div class="row g-3 mt-2">
-                    <div class="col">
-                        <label for="password" class="form-label">Mật khẩu:</label>
-                        <input type="password" class="form-control" value="{{ $user->password }}" disabled>
-                    </div>
-                    <div class="col">
                         <label for="email" class="form-label">Email:</label>
                         <input type="text" class="form-control" value="{{ $user->email }}" disabled>
                     </div>

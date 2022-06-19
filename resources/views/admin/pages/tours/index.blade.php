@@ -12,7 +12,7 @@
             @endif
 
             <div class="my-3 d-flex justify-content-end">
-                <a class="btn btn-primary" href="{{ route('admin.users.create') }}">
+                <a class="btn btn-primary" href="{{ route('admin.tours.create') }}">
                     Thêm
                 </a>
             </div>
@@ -22,36 +22,36 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Tên</th>
-                        <th scope="col">Ngày bắt đầu</th>
-                        <th scope="col">Ngày kết thúc</th>
+                        <th scope="col">Thời gian đi</th>
+                        <th scope="col">Thời gian đăng ký</th>
                         <th scope="col">Giá tiền</th>
-                        <th scope="col">Số người tối đa</th>
+                        <th scope="col">Số lượng</th>
                         <th scope="col">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $index => $user)
+                    @foreach ($tours as $index => $tour)
                         <tr>
                             <th scope="row">{{ $index + 1 }}</th>
-                            <td>{{ $user->fullname }}</td>
-                            <td>{{ $user->username }}</td>
-                            <td>{{ $user->gender }}</td>
-                            <td>{{ $user->department->name }}</td>
-                            <td>{{ $user->position->name }}</td>
+                            <td>{{ $tour->name }}</td>
+                            <td>{{ $tour->tour_start_date }} - {{ $tour->tour_end_date }}</td>
+                            <td>{{ $tour->registration_start_date }} - {{ $tour->registration_end_date }}</td>
+                            <td>{{ $tour->price }}</td>
+                            <td>{{ $tour->max_people }}</td>
                             <td style="min-width: 250px;">
                                 <div class="d-flex">
-                                    <a class="btn btn-warning" href="{{ route('admin.users.edit', $user->id) }}">
-                                        Cập nhật
+                                    <a class="btn btn-warning" href="{{ route('admin.tours.edit', $tour->id) }}">
+                                        <i class="fas fa-fw fa-pen"></i>
                                     </a>
-                                    <a class="btn btn-info ml-2" href="{{ route('admin.users.show', $user->id) }}">
-                                        Xem
+                                    <a class="btn btn-info ml-2" href="{{ route('admin.tours.show', $tour->id) }}">
+                                        <i class="fas fa-fw fa-eye"></i>
                                     </a>
                                     <form class="ml-2" method="post"
-                                        action="{{ route('admin.users.destroy', $user->id) }}">
+                                        action="{{ route('admin.tours.destroy', $tour->id) }}">
                                         @method('DELETE') @csrf
                                         <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Bạn có chắc muốn xoá đơn vị này?')">
-                                            Xoá
+                                            <i class="fas fa-fw fa-trash"></i>
                                         </button>
                                     </form>
                                 </div>
@@ -61,9 +61,9 @@
                 </tbody>
             </table>
             <div class="pagination-wrapper d-flex justify-content-between">
-                <div class="text">Hiển thị {{ $users->firstItem() }} từ {{ $users->lastItem() }} trong
-                    {{ $users->total() }} số nhân viên</div>
-                <div class="pagination">{{ $users->links() }}</div>
+                <div class="text">Hiển thị {{ $tours->firstItem() }} từ {{ $tours->lastItem() }} trong
+                    {{ $tours->total() }} số tour</div>
+                <div class="pagination">{{ $tours->links() }}</div>
             </div>
         </div>
 

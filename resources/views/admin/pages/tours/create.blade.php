@@ -3,154 +3,155 @@
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h1 class="text-center">Tạo nhân viên</h1>
+            <h1 class="text-center">Tạo tour</h1>
 
-            <form class="container" action="{{ route('admin.users.store') }}" method="POST">
+            <form class="container" action="{{ route('admin.tours.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <div class="row g-3">
-                    <div class="col">
-                        <label for="fullname" class="form-label">Tên nhân viên:</label>
-                        <input type="text" class="form-control @error('fullname') is-invalid @enderror"
-                            value="{{ old('fullname') }}" name="fullname" id="fullname">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Tên tour:</label>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                        value="{{ old('name') }}" name="name" id="name">
 
-                        @error('fullname')
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
+                    @error('name')
+                        <div id="validationServer03Feedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="row align-items-start">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Hình ảnh:</label>
+                            <input type="file" class="form-control @error('image') is-invalid @enderror" name="image"
+                                id="image">
+
+                            @error('image')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="col">
-                        <label for="username" class="form-label">Tên tài khoản:</label>
-                        <input type="text" class="form-control @error('username') is-invalid @enderror"
-                            value="{{ old('username') }}" name="username" id="username">
+                        <div class="mb-3">
+                            <label for="description_file" class="form-label">File mô tả:</label>
+                            <input type="file" class="form-control @error('description_file') is-invalid @enderror"
+                                name="description_file" id="description_file">
 
-                        @error('username')
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
+                            @error('description_file')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 
-                <div class="row g-3 mt-2">
+                <div class="row align-items-start">
                     <div class="col">
-                        <label for="password" class="form-label">Mật khẩu:</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror"
-                            value="{{ old('password') }}" name="password" id="password">
+                        <div class="mb-3">
+                            <label for="tour_start_date" class="form-label">Ngày bắt đầu tour:</label>
+                            <input type="date" class="form-control @error('tour_start_date') is-invalid @enderror"
+                                value="{{ old('tour_start_date') }}" name="tour_start_date" id="tour_start_date">
 
-                        @error('password')
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
+                            @error('tour_start_date')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="col">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="text" class="form-control @error('email') is-invalid @enderror"
-                            value="{{ old('email') }}" name="email" id="email">
+                        <div class="mb-3">
+                            <label for="tour_end_date" class="form-label">Ngày kết thúc tour:</label>
+                            <input type="date" class="form-control @error('tour_end_date') is-invalid @enderror"
+                                value="{{ old('tour_end_date') }}" name="tour_end_date" id="tour_end_date">
 
-                        @error('email')
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="row g-3 mt-2">
-                    <div class="col">
-                        <label for="phone" class="form-label">Phone:</label>
-                        <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                            value="{{ old('phone') }}" name="phone" id="phone">
-
-                        @error('phone')
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                    <div class="col">
-                        <label for="gender" class="form-label">Giới tính:</label>
-
-                        <select id="gender" class="form-select" name="gender">
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                        </select>
+                            @error('tour_end_date')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 
-                <div class="row g-3 mt-2">
+                <div class="row align-items-start">
                     <div class="col">
-                        <label for="citizen_card" class="form-label">Chứng minh nhân dân:</label>
-                        <input type="text" class="form-control @error('citizen_card') is-invalid @enderror"
-                            value="{{ old('citizen_card') }}" name="citizen_card" id="citizen_card">
+                        <div class="mb-3">
+                            <label for="registration_start_date" class="form-label">Ngày bắt đầu đăng ký tour:</label>
+                            <input type="date"
+                                class="form-control @error('registration_start_date') is-invalid @enderror"
+                                value="{{ old('registration_start_date') }}" name="registration_start_date"
+                                id="registration_start_date">
 
-                        @error('citizen_card')
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
+                            @error('registration_start_date')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="col">
-                        <label for="agency_id" class="form-label">Đơn vị:</label>
+                        <div class="mb-3">
+                            <label for="registration_end_date" class="form-label">Ngày kết thúc đăng ký tour:</label>
+                            <input type="date" class="form-control @error('registration_end_date') is-invalid @enderror"
+                                value="{{ old('registration_end_date') }}" name="registration_end_date"
+                                id="registration_end_date">
 
-                        <select id="agency_id" class="form-select" name="agency_id" value="{{ old('agency_id') }}">
-                            @foreach ($agencies as $agency)
-                                <option value="{{ $agency->id }}">{{ $agency->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row g-3 mt-2">
-                    <div class="col">
-                        <label for="department_id" class="form-label">Phòng ban:</label>
-
-                        <select id="department_id" class="form-select" name="department_id"
-                            value="{{ old('department_id') }}">
-                            @foreach ($departments as $department)
-                                <option value="{{ $department->id }}">{{ $department->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col">
-                        <label for="start_date" class="form-label">Ngày vào làm:</label>
-                        <input type="date" class="form-control @error('start_date') is-invalid @enderror"
-                            value="{{ old('start_date') }}" name="start_date" id="start_date">
-
-                        @error('start_date')
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
+                            @error('registration_end_date')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 
-                <div class="row g-3 mt-2">
+                <div class="row align-items-start">
                     <div class="col">
-                        <label for="position_id" class="form-label">Chức vụ:</label>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Số tiền:</label>
+                            <input type="number" class="form-control @error('price') is-invalid @enderror"
+                                value="{{ old('price') }}" name="price" id="price">
 
-                        <select id="position_id" class="form-select" name="position_id"
-                            value="{{ old('position_id') }}">
-                            @foreach ($positions as $position)
-                                <option value="{{ $position->id }}">{{ $position->name }}</option>
-                            @endforeach
-                        </select>
+                            @error('price')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="col">
-                        <label for="is_admin" class="form-label">Phân quyền:</label>
+                        <div class="mb-3">
+                            <label for="max_people" class="form-label">Số người tối đa:</label>
+                            <input type="number" class="form-control @error('max_people') is-invalid @enderror"
+                                value="{{ old('max_people') }}" name="max_people" id="max_people">
 
-                        <select id="is_admin" class="form-select" name="is_admin">
-                            <option value="0">Người dùng</option>
-                            <option value="1">Người quản trị</option>
-                        </select>
+                            @error('max_people')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
+
+                <div class="mb-3">
+                    <label for="region" class="form-label">Vùng miền:</label>
+                    <select name="region_id" id="region_id" class="form-select">
+                        @foreach ($regions as $region)
+                            <option value="{{ $region->id }}">{{ $region->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
 
                 <div class="my-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary mr-3">Tạo</button>
-                    <a class="btn btn-secondary" href="{{ route('admin.users.index') }}">
+                    <a class="btn btn-secondary" href="{{ route('admin.tours.index') }}">
                         Trở về
                     </a>
                 </div>

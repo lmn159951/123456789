@@ -13,7 +13,7 @@ class TourController extends Controller
     public function index()
     {
         $parameters = [];
-        $parameters['tours'] = Tour::with('region')->paginate(5);
+        $parameters['tours'] = Tour::Paginate(10);
 
         return view('admin.pages.tours.index', $parameters);
     }
@@ -23,64 +23,96 @@ class TourController extends Controller
         $parameters = [];
         $parameters['regions'] = Region::all();
 
-        return view('admin.pages.tours.create', $parameters);
+        return view('admin.pages.tours.create',$parameters);
     }
 
     public function store(TourRequest $request)
     {
         $tour = new Tour;
-        $tour->name = $request->post('name');
-        $tour->image = $request->post('image');
-        $tour->description_file = $request->post('description_file');
-        $tour->tour_start_date = $request->post('tour_start_date');
-        $tour->tour_end_date = $request->post('tour_end_date');
-        $tour->registration_start_date = $request->post('registration_start_date');
-        $tour->registration_end_date = $request->post('registration_end_date');
-        $tour->price = $request->post('price');
-        $tour->max_people = $request->post('max_people');
-        $tour->region_id = $request->post('region_id');
+        $tour->name = $request->name;
+
+        if($request->hasFile('image'))
+        {
+            $destinationPath = 'public/images/tours';
+            $file = $request->file('image');
+            $fileImage = time()."-".$file->getClientOriginalName();
+            $file->storeAs($destinationPath, $fileImage);
+            $tour->image = $fileImage;
+        }
+
+        if($request->hasFile('description_file'))
+        {
+            $destinationPath = 'public/files/tours';
+            $file = $request->file('description_file');
+            $fileDescription = time()."-".$file->getClientOriginalName();
+            $file->storeAs($destinationPath, $fileDescription);
+            $tour->description_file =  $fileDescription;
+        }
+        $tour->tour_start_date = $request->tour_start_date;
+        $tour->tour_end_date = $request->tour_end_date;
+        $tour->registration_start_date = $request->registration_start_date;
+        $tour->registration_end_date = $request->registration_end_date;
+        $tour->price = $request->price;
+        $tour->max_people = $request->max_people;
+        $tour->region_id = $request->region_id;
         $tour->save();
 
         return redirect()
             ->route('admin.tours.index')
-            ->with('message', 'Tạo nhân viên thành công');
+            ->with('message', 'Tạo tour thành công');
     }
 
     public function edit(int $id)
     {
         $parameters = [];
+        $parameters['tour'] = Tour::find($id);
         $parameters['regions'] = Region::all();
-        $parameters['user'] = Tour::find($id);
 
         return view('admin.pages.tours.edit', $parameters);
-    }
-
-    public function show(int $id)
-    {
-        $parameters = [];
-        $parameters['user'] = Tour::with('region')->find($id);
-
-        return view('admin.pages.tours.show', $parameters);
     }
 
     public function update(TourRequest $request, int $id)
     {
         $tour = Tour::find($id);
-        $tour->name = $request->post('name');
-        $tour->image = $request->post('image');
-        $tour->description_file = $request->post('description_file');
-        $tour->tour_start_date = $request->post('tour_start_date');
-        $tour->tour_end_date = $request->post('tour_end_date');
-        $tour->registration_start_date = $request->post('registration_start_date');
-        $tour->registration_end_date = $request->post('registration_end_date');
-        $tour->price = $request->post('price');
-        $tour->max_people = $request->post('max_people');
-        $tour->region_id = $request->post('region_id');
+        $tour->name = $request->name;
+
+        if($request->hasFile('image'))
+        {
+            $destinationPath = 'public/images/tours';
+            $file = $request->file('image');
+            $fileImage = time()."-".$file->getClientOriginalName();
+            $file->storeAs($destinationPath, $fileImage);
+            $tour->image = $fileImage;
+        }
+
+        if($request->hasFile('description_file'))
+        {
+            $destinationPath = 'public/files/tours';
+            $file = $request->file('description_file');
+            $fileDescription = time()."-".$file->getClientOriginalName();
+            $file->storeAs($destinationPath, $fileDescription);
+            $tour->description_file =  $fileDescription;
+        }
+        $tour->tour_start_date = $request->tour_start_date;
+        $tour->tour_end_date = $request->tour_end_date;
+        $tour->registration_start_date = $request->registration_start_date;
+        $tour->registration_end_date = $request->registration_end_date;
+        $tour->price = $request->price;
+        $tour->max_people = $request->max_people;
+        $tour->region_id = $request->region_id;
         $tour->save();
 
         return redirect()
             ->route('admin.tours.index')
-            ->with('message', 'Cập nhật nhân viên thành công');
+            ->with('message', 'Cập nhật tour thành công');
+    }
+
+    public function show(int $id)
+    {
+        $parameters = [];
+        $parameters['tour'] = Tour::with(['region'])->find($id);
+
+        return view('admin.pages.tours.show', $parameters);
     }
 
     public function destroy(int $id)
@@ -89,6 +121,6 @@ class TourController extends Controller
 
         return redirect()
             ->route('admin.tours.index')
-            ->with('message', 'Xoá nhân viên thành công');
+            ->with('message', 'Xoá tour thành công');
     }
 }
