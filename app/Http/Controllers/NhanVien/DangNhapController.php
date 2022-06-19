@@ -12,6 +12,7 @@ class DangNhapController extends Controller
     //
     public function index()
     {
+        
         return view('nhanvien.pages.dangnhap');
     }
 
