@@ -19,7 +19,6 @@ class Tour extends Model
         return $this->belongsTo(Region::class);
     }
 
-<<<<<<< Updated upstream
     public static function EmptySlotRemain($tourId)
     {
         $tour = Tour::where('id', $tourId)->first();
@@ -75,10 +74,9 @@ class Tour extends Model
             ->toArray();
             return $tours;
         }
-=======
+    }
     public function agencies()
     {
         return $this->belongsToMany(Agency::class, 'agency_tours');
->>>>>>> Stashed changes
     }
 }

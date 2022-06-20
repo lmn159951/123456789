@@ -27,8 +27,8 @@ class TourFactory extends Factory
         );
         $registrationEndDate= Carbon::createFromFormat('Y-m-d H:i:s', $registrationStartDate)->addDays($datenumber);
 
-        $tourStartDate =  Carbon::createFromFormat('Y-m-d H:i:s', $registrationStartDate)->addDays(
-            $this->faker->numberBetween(1, $datenumber)
+        $tourStartDate =  Carbon::createFromFormat('Y-m-d H:i:s', $registrationEndDate)->addDays(
+            $this->faker->numberBetween(2, 8)
         );
         $tourEndDate= Carbon::createFromFormat('Y-m-d H:i:s', $tourStartDate)->addDays(
             $this->faker->numberBetween(2, 8)

@@ -8,10 +8,5 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class AgencyTour extends Pivot
 {
     use HasFactory;
-<<<<<<< Updated upstream
     protected $table = 'agency_tours';
-=======
-
-
->>>>>>> Stashed changes
 }

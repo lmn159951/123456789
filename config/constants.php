@@ -161,9 +161,9 @@ return [
         ['name' => 'Đồng bằng sông Hồng', 'created_at' => Carbon::now()],
         ['name' => 'Bắc Trung Bộ', 'created_at' => Carbon::now()],
         ['name' => 'Nam Trung Bộ', 'created_at' => Carbon::now()],
-        ['name' => 'Vùng Duyên hải Nam Trung Bộ', 'created_at' => Carbon::now()],
-        ['name' => 'Vùng Đông Nam Bộ', 'created_at' => Carbon::now()],
-        ['name' => 'Vùng đồng bằng sông Cửu Long', 'created_at' => Carbon::now()],
+        ['name' => 'Tây Nguyên', 'created_at' => Carbon::now()],
+        ['name' => 'Đông Nam Bộ', 'created_at' => Carbon::now()],
+        ['name' => 'Tây Nam Bộ', 'created_at' => Carbon::now()]
     ],
 
     'fullnames' =>
