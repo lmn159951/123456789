@@ -27,7 +27,7 @@ class TourRequest extends FormRequest
             'registration_start_date' => 'required|after:now',
             'registration_end_date' => 'required|after_or_equal:registration_start_date|before:tour_start_date',
             'price' => 'required',
-            'max_people' => 'required|min:1',
+            'max_people' => 'required|numeric|min:2',
         ];
     }
 
@@ -42,7 +42,21 @@ class TourRequest extends FormRequest
             'registration_start_date' => 'required|after:now',
             'registration_end_date' => 'required|after_or_equal:registration_start_date|before:tour_start_date',
             'price' => 'required',
-            'max_people' => 'required|min:1',
+            'max_people' => 'required|numeric|min:2',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attribute không được để trống.',
+            'unique' => ':attribute đã tồn tại.',
+            'after' => ':attribute phải sau ngày hiện tại.',
+            'after_or_equal' => ':attribute phải bằng hoặc sau ngày bắt đầu.',
+            'before'=>':attribute phải trước ngày bắt đầu tour.',
+            'mimes' => ':attribute có định dạng không hợp lệ.',
+            'min' => ':attribute phải lớn hơn hoặc bằng :min',
+            'numeric' => ':attribute phải là số'
         ];
     }
 
@@ -59,19 +73,6 @@ class TourRequest extends FormRequest
             'registration_end_date' => 'Ngày kết thúc đăng ký',
             'price' => 'Giá tiền',
             'max_people' => 'Số người tối đa',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'required' => ':attribute không được để trống.',
-            'unique' => ':attribute đã tồn tại.',
-            'after' => ':attribute phải sau ngày hiện tại.',
-            'after_or_equal' => ':attribute phải bằng hoặc sau ngày bắt đầu.',
-            'before'=>':attribute phải trước ngày bắt đầu tour.',
-            'mimes' => ':attribute có định dạng không hợp lệ.',
-            'min' => ':attribute phải lớn hơn hoặc bằng :min'
         ];
     }
 }

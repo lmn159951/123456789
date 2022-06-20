@@ -32,6 +32,17 @@ if (!function_exists('getFirstName'))
 	}
 }
 
+if (!function_exists('getName'))
+{
+    function getName(string $fullName)
+    {
+        $explodedFullName = explode(' ', $fullName);
+        $numberWords = count($explodedFullName);
+        $fullname = $explodedFullName[$numberWords - 2].' '.$explodedFullName[$numberWords - 1];
+		return strtolower($fullname);
+	}
+}
+
 if (!function_exists('getFullName'))
 {
     function getFullName(string $fullName)

@@ -12,7 +12,7 @@ class PositionController extends Controller
     public function index()
     {
         $parameters = [];
-        $parameters['positions'] = Position::all();
+        $parameters['positions'] = Position::paginate(5);
 
         return view('admin.pages.positions.index', $parameters);
     }

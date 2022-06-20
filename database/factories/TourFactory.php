@@ -23,12 +23,12 @@ class TourFactory extends Factory
         $datenumber =  $this->faker->randomElement(range(1, 6)) * 30;
 
         $registrationStartDate = Carbon::createFromTimestamp(
-            $this->faker->dateTimeBetween($startDate = '-10 years', $endDate = 'now', $timezone = 'Asia/Ho_Chi_Minh')->getTimeStamp()
+            $this->faker->dateTimeBetween($startDate = '-1 months', $endDate = '+1 months', $timezone = 'Asia/Ho_Chi_Minh')->getTimeStamp()
         );
         $registrationEndDate= Carbon::createFromFormat('Y-m-d H:i:s', $registrationStartDate)->addDays($datenumber);
 
-        $tourStartDate =  Carbon::createFromFormat('Y-m-d H:i:s', $registrationStartDate)->addDays(
-            $this->faker->numberBetween(1, $datenumber)
+        $tourStartDate =  Carbon::createFromFormat('Y-m-d H:i:s', $registrationEndDate)->addDays(
+            $this->faker->numberBetween(2, 8)
         );
         $tourEndDate= Carbon::createFromFormat('Y-m-d H:i:s', $tourStartDate)->addDays(
             $this->faker->numberBetween(2, 8)

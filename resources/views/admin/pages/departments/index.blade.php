@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="shadow p-4 mb-5 bg-body rounded">
-            <h1 class="text-center">Quản lý phòng ban</h1>
+        <div class="shadow p-4 mb-5 rounded">
+            <h3 class="text-center">Quản lý phòng ban</h3>
 
             @if (session('success'))
                 <div class="alert alert-success text-center">
@@ -17,7 +17,7 @@
                 </a>
             </div>
 
-            <table class="table table-striped table-hover my-3">
+            <table class="table table-hover my-3">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -50,6 +50,12 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <div class="pagination-wrapper d-flex justify-content-between">
+                <div class="text">Hiển thị {{ $departments->firstItem() }} từ {{ $departments->lastItem() }} trong
+                    {{ $departments->total() }} số nhân viên</div>
+                <div class="pagination">{{ $departments->links() }}</div>
+            </div>
         </div>
 
     </div>

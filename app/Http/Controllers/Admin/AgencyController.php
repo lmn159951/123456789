@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Agency;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AgencyRequest;
 
@@ -11,7 +12,7 @@ class AgencyController extends Controller
     public function index()
     {
         $parameters = [];
-        $parameters['agencies'] = Agency::all();
+        $parameters['agencies'] = Agency::paginate(5);
 
         return view('admin.pages.agencies.index', $parameters);
     }
@@ -59,5 +60,39 @@ class AgencyController extends Controller
         return redirect()
             ->route('admin.agencies.index')
             ->with('message', 'Xoá đơn vị thành công');
+    }
+
+    public function search(Request $request)
+    {
+        $agencies = Agency::where('name', 'LIKE', '%'.$request->keyword.'%')->paginate(5);
+
+        $response = '';
+        foreach ($agencies as $index => $agency)
+        {
+            $response .= '
+                <tr>
+                    <th scope="row">'.($index + 1).'</th>
+                    <td style="max-width: 400px;">'.$agency->name.'</td>
+                    <td style="max-width: 400px;">'.$agency->address.'</td>
+                    <td>
+                        <div class="d-flex">
+                            <a class="btn btn-warning" href="'.route("admin.agencies.edit", $agency->id).'">
+                                Cập nhật
+                            </a>
+                            <form class="ml-3" method="post"
+                                action="'.route("admin.agencies.destroy", $agency->id).'">
+                                @method("DELETE") @csrf
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm("Bạn có chắc muốn xoá đơn vị này?")">
+                                    Xoá
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            ';
+        }
+
+        return response()->json($response);
     }
 }

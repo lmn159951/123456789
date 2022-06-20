@@ -224,51 +224,62 @@ Vùng đồng bằng sông Cửu Long
 
 -----------------------Users::
 ------------------------------name::
-Thân Quốc Anh
-Hồ Trung Anh
-Chương Ngọc Cảnh
-Lâm Mạnh Ðình
-Bình Thanh Ðoàn
-Khổng Minh Ðức
-Mạch Thiện Ðức
-Cáp Huy Khánh
-Mạnh Gia Hùng
-Hàn Hữu Hùng
-Chriêng Tấn Phát
-Nghị Hữu Phước
-Đậu Thiện Sinh
-Dương Minh Tuấn
-Hầu Khánh Văn
-Hà Hồng Vinh
-Thang Bảo Quyên
-Khúc Diễm Khuê
-Từ Diên Vỹ
-Đái Duy Mỹ
-Nông Hà Liên
-Đoàn Hải Yến
-Lăng Hoàng Mai
-Sử Hồng Hạnh
-Thi Ngọc Trinh
-Bàn Nhật Mai
-Đoàn Phương Diễm
-Diêm Phương Thủy
-Ngân Thái Lan
-Mai Thanh Tuyền
-Khâu Thư Sương
-Tôn Thất Vân Chi
-Tào Ðức Chính
-Ngân Thành Ðạt
-Thành Việt Dũng
-Lều Thiên Hưng
-Lê Hồng Lĩnh
-Thập Duy Luận
-Nhâm Hải Nam
-Đoàn Hào Nghiệp
-Bình Xuân Phúc
-Dư Xuân Phúc
-Lường Dũng Trí
-Ngọc Quốc Trụ
-Duy Duy Thắng
-Nghiêm Chí Thanh
-Mầu Minh Thiện
-Ngân Thanh Vũ
+['Đương Hoàng Ân',
+'Lý Kiên Bình',
+'Chiêm Hữu Cảnh',
+'Liên Mạnh Dũng',
+'Mạc Tạ Hiền',
+'Lại Trung Hiếu',
+'Phí Ðức Hòa',
+'Ngọc Công Lý',
+'Ngạc Anh Minh',
+'Mục Bình Nguyên',
+'Ao Thanh Phong',
+'Chu Minh Quân',
+'Cổ Vương Triều',
+'Đậu Hoài Trung',
+'Bạch Ðình Tuấn',
+'Ngạc Quang Tuấn',
+'Tào Anh Thái',
+'Phương Quyết Thắng',
+'Hàn Kim Thịnh',
+'Văn Kim Thịnh',
+'Nhan Cao Thọ',
+'Quảng Vạn Thông',
+'Uông Hải Thụy',
+'Chế Vũ Uy',
+'Tinh Thế Vinh',
+'Tinh Nam An',
+'Lạc Thành An',
+'Thái Bảo Châu',
+'Trác Phúc Cường',
+'Hướng Trí Dũng',
+'Hà Minh Khôi',
+'Võ Việt Khôi',
+'Lèng Sơn Hải',
+'Lã Trung Hiếu',
+'Mầu Công Lập',
+'Triệu Thành Nguyên',
+'Tấn Trung Nguyên',
+'Giáp Hồng Phát',
+'Cổ Chấn Phong',
+'Doãn Ðình Phú',
+'Linh Cao Sơn',
+'Diêm Thành Tín',
+'Ấu Quang Trung',
+'Phương Hữu Từ',
+'Vưu Việt Thái',
+'Ánh Vạn Thắng',
+'Ứng Công Thành',
+'Đỗ Huy Thông',
+'Trịnh Minh Thuận',
+'Kiều Gia Uy']
+
+[['name' => 'Tây Bắc Bộ', 'created_at' => Carbon::now()],
+['name' => 'Đông Bắc bộ', 'created_at' => Carbon::now()],
+['name' => 'Đồng bằng sông Hồng', 'created_at' => Carbon::now()],
+['name' => 'Bắc Trung Bộ', 'created_at' => Carbon::now()],
+['name' => 'Nam Trung Bộ', 'created_at' => Carbon::now()],
+['name' => 'Tây Nguyên', 'created_at' => Carbon::now()],
+['name' => 'Đông Nam Bộ', 'created_at' => Carbon::now()],
+['name' => 'Tây Nam Bộ', 'created_at' => Carbon::now()]]

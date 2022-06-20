@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             RegionSeeder::class,
             UserSeeder::class,
             TourSeeder::class,
+            SupportSeeder::class
         ]);
     }
 }

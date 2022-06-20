@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class AgencyTour extends Model
+class AgencyTour extends Pivot
 {
     use HasFactory;
     protected $table = 'agency_tours';

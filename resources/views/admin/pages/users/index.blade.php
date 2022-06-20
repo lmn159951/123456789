@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h1 class="text-center">Quản lý nhân viên</h1>
+            <h3 class="text-center">Quản lý nhân viên</h3>
 
             @if (session('message'))
                 <div class="alert alert-success text-center">

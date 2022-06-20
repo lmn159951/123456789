@@ -12,4 +12,9 @@ class Agency extends Model
     protected $table = 'agencies';
 
     protected $fillable = ['name', 'address'];
+
+    public function tours()
+    {
+        return $this->belongsToMany(Tour::class, 'agency_tours');
+    }
 }
