@@ -7,7 +7,8 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Travel | Template</title>
+    <link rel="icon" href="{{ URL::asset('favicon.ico') }}" type="image/x-icon"/>
+    <title>Go Travel</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -33,7 +34,7 @@
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><h2>GO TRAVEL</h2></a>
+            <a href="{{ route('home') }}"><h2>GO TRAVEL</h2></a>
         </div>
        
         <div class="humberger__menu__widget">
@@ -41,7 +42,7 @@
             <div class="header__top__right__auth">
                 @auth('user')
                 <ul class="header__menu__dropdown">
-                    <a href="#">Thông tin cá nhân</a>
+                    <a href="{{ route('nhanvien.thongtincanhan.index') }}">Thông tin cá nhân</a>
                     <a href="{{ route('logout') }}">Đăng xuất</a>     
                 </ul>
                 @endauth
@@ -52,7 +53,7 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a href="{{ route('home') }}">Trang chủ</a></li>
+                <li class=""><a href="{{ route('home') }}">Trang chủ</a></li>
                 <li><a href="#">Tất cả tour du lịch</a></li>
                 <li><a href="#">Tìm kiếm</a></li>
                 <li><a href="{{ route('contact') }}">Liên hệ</a></li>
@@ -86,7 +87,7 @@
                         <div class="header__top__right">
                             <div class="header__top__right__social">
                                 @auth('user')
-                                    <a href="#"><i class="fa fa-user"></i>Thông tin cá nhân</a>
+                                    <a href="{{ route('nhanvien.thongtincanhan.index') }}"><i class="fa fa-user"></i>Thông tin cá nhân</a>
                                     <a href="{{ route('logout') }}"><i class="fa fa-user"></i>Đăng xuất</a>
                                 @endauth
                                 @guest('user')
@@ -102,13 +103,13 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="#"><h2>GO TRAVEL</h2></a>
+                        <a href="{{ route('home') }}"><h2>GO TRAVEL</h2></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="{{ route('home') }}">Trang chủ</a></li>
+                            <li class=""><a href="{{ route('home') }}">Trang chủ</a></li>
                             <li><a href="#">Tất cả các tour</a></li>
                             <li><a href="#">Tìm kiếm</a></li>
                             <li><a href="{{ route('contact') }}">Liên hệ</a></li>
