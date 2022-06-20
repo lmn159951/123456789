@@ -37,14 +37,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="hero__item set-bg" data-setbg="img/hero/banner.jpg">
-                    <div class="hero__text">
-                        <span>TOUR DU LỊCH</span>
-                        <h2>Vui chơi <br />Giải Trí <br />Thư Giãn</h2>
-                        <h5>Hãy đến trải nghiệm và cảm nhận</h5>
-                        <a href="#" class="primary-btn">XEM TOUR</a>
-                    </div>
-                </div>
+                @isset($firstTour)
+                            @if(count($firstTour)==0)
+                            <div class="hero__item set-bg" data-setbg="">
+                                <div class="hero__text">
+                                    <h2>HIỆN TẠI KHÔNG MỞ TOUR DU LỊCH NÀO</h2>
+                                </div>
+                            </div>
+                            @else
+                            <div class="hero__item set-bg" data-setbg="{{ $firstTour['image'] }}">
+                                <div class="hero__text">
+                                            <span>TOUR DU LỊCH</span>
+                                            <h2>{{ $firstTour['name'] }}</h2>
+                                            <a href="#" class="primary-btn">XEM TOUR</a>
+                                            <a href="#" class="primary-btn">ĐẶT TOUR</a>
+                                </div>
+                            </div>
+                            @endif
+                @endisset
+                
             </div>
         </div>
     </div>
@@ -61,112 +72,28 @@
                     
                 </div>
             </div>
-            <div class="row featured__filter">
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-1.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#">Đặt tour</a></li>
-                            </ul>
+            @isset($highlightTours)
+                @if(count($highlightTours) > 0)
+                        @foreach ($highlightTours as $highlightTour)
+                        <div class="row featured__filter">
+                            <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+                                <div class="featured__item">
+                                    <div class="featured__item__pic set-bg" data-setbg="{{ $highlightTour['image'] }}">
+                                        <ul class="featured__item__pic__hover">
+                                            <li><a href="#">Đặt tour</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="featured__item__text">
+                                        <h6><a href="#">{{ $highlightTour['name'] }}</a></h6>
+                                        <h5>{{ number_format($highlightTour['price'], 0, '', '.') }} VNĐ</h5>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-2.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#">Đặt tour</a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#">Đặt tour</a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-4.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#">Đặt tour</a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#">Đặt tour</a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#">Đặt tour</a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#">Đặt tour</a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#">Đặt tour</a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        @endforeach
+                @endif
+            @endisset
+            
         </div>
     </section>
     <!-- Featured Section End -->

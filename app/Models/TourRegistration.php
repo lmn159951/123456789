@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TourRegistration extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id';
+    protected $table = 'tour_registrations';
 }
