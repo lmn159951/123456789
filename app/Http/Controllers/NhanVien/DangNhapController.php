@@ -12,7 +12,7 @@ class DangNhapController extends Controller
     //
     public function index()
     {
-        
+
         return view('nhanvien.pages.dangnhap');
     }
 
@@ -20,10 +20,17 @@ class DangNhapController extends Controller
     {
         $username = $request->post('username');
         $password = $request->post('password');
+
         if(Auth::guard('user')->attempt(['username' => $username, 'password' => $password, 'is_admin' => '0', 'deleted_at' => null]))
         {
             return redirect()->route('home');
         }
+
+        if(Auth::attempt(['username' => $username, 'password' => $password, 'is_admin' => '1', 'deleted_at' => null]))
+        {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('nhanvien.pages.dangnhap')->with('message', 'Tên đăng nhập hoặc mật khẩu không đúng!');
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TourRequest;
+use App\Models\Agency;
 use App\Models\Region;
 use App\Models\Tour;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class TourController extends Controller
     public function index()
     {
         $parameters = [];
-        $parameters['tours'] = Tour::Paginate(10);
+        $parameters['tours'] = Tour::Paginate(5);
 
         return view('admin.pages.tours.index', $parameters);
     }
@@ -22,8 +23,9 @@ class TourController extends Controller
     {
         $parameters = [];
         $parameters['regions'] = Region::all();
+        $parameters['agencies'] = Agency::all();
 
-        return view('admin.pages.tours.create',$parameters);
+        return view('admin.pages.tours.create', $parameters);
     }
 
     public function store(TourRequest $request)
@@ -33,18 +35,18 @@ class TourController extends Controller
 
         if($request->hasFile('image'))
         {
-            $destinationPath = 'public/images/tours';
+            $destinationPath = 'public/images';
             $file = $request->file('image');
-            $fileImage = time()."-".$file->getClientOriginalName();
+            $fileImage = time().".".$file->getClientOriginalExtension();
             $file->storeAs($destinationPath, $fileImage);
             $tour->image = $fileImage;
         }
 
         if($request->hasFile('description_file'))
         {
-            $destinationPath = 'public/files/tours';
+            $destinationPath = 'public/files';
             $file = $request->file('description_file');
-            $fileDescription = time()."-".$file->getClientOriginalName();
+            $fileDescription = time().".".$file->getClientOriginalExtension();
             $file->storeAs($destinationPath, $fileDescription);
             $tour->description_file =  $fileDescription;
         }
@@ -78,18 +80,18 @@ class TourController extends Controller
 
         if($request->hasFile('image'))
         {
-            $destinationPath = 'public/images/tours';
+            $destinationPath = 'public/images';
             $file = $request->file('image');
-            $fileImage = time()."-".$file->getClientOriginalName();
+            $fileImage = time().".".$file->getClientOriginalExtension();
             $file->storeAs($destinationPath, $fileImage);
             $tour->image = $fileImage;
         }
 
         if($request->hasFile('description_file'))
         {
-            $destinationPath = 'public/files/tours';
+            $destinationPath = 'public/files';
             $file = $request->file('description_file');
-            $fileDescription = time()."-".$file->getClientOriginalName();
+            $fileDescription = time().".".$file->getClientOriginalExtension();
             $file->storeAs($destinationPath, $fileDescription);
             $tour->description_file =  $fileDescription;
         }

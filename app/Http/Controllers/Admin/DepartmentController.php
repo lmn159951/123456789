@@ -12,7 +12,7 @@ class DepartmentController extends Controller
     public function index()
     {
         $parameters = [];
-        $parameters['departments'] = Department::all();
+        $parameters['departments'] = Department::paginate(5);
 
         return view('admin.pages.departments.index', $parameters);
     }

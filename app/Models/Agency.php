@@ -10,4 +10,9 @@ class Agency extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'address'];
+
+    public function tours()
+    {
+        return $this->belongsToMany(Tour::class, 'agency_tours');
+    }
 }

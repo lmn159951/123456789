@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h1 class="text-center">Quản lý tour</h1>
+            <h3 class="text-center">Quản lý tour</h3>
 
             @if (session('message'))
                 <div class="alert alert-success text-center">
@@ -34,8 +34,14 @@
                         <tr>
                             <th scope="row">{{ $index + 1 }}</th>
                             <td>{{ $tour->name }}</td>
-                            <td>{{ $tour->tour_start_date }} - {{ $tour->tour_end_date }}</td>
-                            <td>{{ $tour->registration_start_date }} - {{ $tour->registration_end_date }}</td>
+                            <td>
+                                {{ date('d/m/Y', strtotime($tour->tour_start_date)) }} -
+                                {{ date('d/m/Y', strtotime($tour->tour_end_date)) }}
+                            </td>
+                            <td>
+                                {{ date('d/m/Y', strtotime($tour->registration_start_date)) }} -
+                                {{ date('d/m/Y', strtotime($tour->registration_end_date)) }}
+                            </td>
                             <td>{{ $tour->price }}</td>
                             <td>{{ $tour->max_people }}</td>
                             <td style="min-width: 250px;">

@@ -34,12 +34,12 @@ Route::prefix('nhanvien')->name('nhanvien.')->group(function(){
     Route::resource('dattour', DatTourController::class);
 });
 
-
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/login', [AdminController::class, 'login'])->name('login');
     Route::get('/register', [AdminController::class, 'register'])->name('register');
 
+    Route::get('agencies/search', [AgencyController::class, 'search'])->name('agencies.search');
     Route::resource('agencies', AgencyController::class);
     Route::resource('departments', DepartmentController::class);
     Route::resource('positions', PositionController::class);

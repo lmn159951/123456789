@@ -22,35 +22,45 @@
                 <div class="col">
                     <label for="fullname" class="form-label">Hình ảnh:</label>
                     <input type="text" class="form-control" value="{{ $tour->image }}" disabled>
-                    <img src="{{ asset("storage/images/tours/$tour->image") }}"
-                        alt="{{ asset("storage/images/tours/$tour->image") }}" width="100" height="100">
+                    <img src="{{ asset('/storage/images/' . $tour->image) }}"
+                        alt="{{ asset('/storage/images/' . $tour->image) }}" width="100" height="100">
                 </div>
 
                 <div class="col">
                     <label for="username" class="form-label">File mô tả:</label>
                     <input type="text" class="form-control" value="{{ $tour->description_file }}" disabled>
+                    {{-- <a class="btn btn-secondary" href="{{ route('admin.tours.download') }}">
+                        xem file
+                    </a> --}}
+
+                    <a href="{{ asset('/storage/files/' . $tour->description_file) }}" target="_BLANK">Click here to open
+                        the file</a>
                 </div>
             </div>
 
             <div class="row g-3 mt-2">
                 <div class="col">
                     <label for="password" class="form-label">Ngày bắt đầu tour:</label>
-                    <input type="text" class="form-control" value="{{ $tour->tour_start_date }}" disabled>
+                    <input type="text" class="form-control"
+                        value="{{ date('d/m/Y', strtotime($tour->tour_start_date)) }}" disabled>
                 </div>
                 <div class="col">
                     <label for="email" class="form-label">Ngày kết thúc tour:</label>
-                    <input type="text" class="form-control" value="{{ $tour->tour_end_date }}" disabled>
+                    <input type="text" class="form-control"
+                        value="{{ date('d/m/Y', strtotime($tour->tour_end_date)) }}" disabled>
                 </div>
             </div>
 
             <div class="row g-3 mt-2">
                 <div class="col">
                     <label for="password" class="form-label">Ngày bắt đầu tour:</label>
-                    <input type="text" class="form-control" value="{{ $tour->registration_start_date }}" disabled>
+                    <input type="text" class="form-control"
+                        value="{{ date('d/m/Y', strtotime($tour->registration_start_date)) }}" disabled>
                 </div>
                 <div class="col">
                     <label for="email" class="form-label">Ngày kết thúc tour:</label>
-                    <input type="text" class="form-control" value="{{ $tour->registration_end_date }}" disabled>
+                    <input type="text" class="form-control"
+                        value="{{ date('d/m/Y', strtotime($tour->registration_end_date)) }}" disabled>
                 </div>
             </div>
 

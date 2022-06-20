@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h1 class="text-center">Quản lý chức vụ</h1>
+            <h3 class="text-center">Quản lý chức vụ</h3>
 
             @if (session('message'))
                 <div class="alert alert-success text-center">
@@ -49,6 +49,12 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <div class="pagination-wrapper d-flex justify-content-between">
+                <div class="text">Hiển thị {{ $positions->firstItem() }} từ {{ $positions->lastItem() }} trong
+                    {{ $positions->total() }} số tour</div>
+                <div class="pagination">{{ $positions->links() }}</div>
+            </div>
         </div>
 
     </div>

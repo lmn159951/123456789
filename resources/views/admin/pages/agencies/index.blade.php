@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h1 class="text-center">Quản lý đơn vị</h1>
+            <h3 class="text-center">Quản lý đơn vị</h3>
 
             @if (session('message'))
                 <div class="alert alert-success text-center">
@@ -11,7 +11,9 @@
                 </div>
             @endif
 
-            <div class="my-3 d-flex justify-content-end">
+            <div class="my-3 d-flex justify-content-between">
+                <input type="text" class="form-control col-4" autocomplete="off" name="keyword" id="search">
+
                 <a class="btn btn-primary" href="{{ route('admin.agencies.create') }}">
                     Thêm
                 </a>
@@ -26,7 +28,7 @@
                         <th scope="col">Thao tác</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-content">
                     @foreach ($agencies as $index => $agency)
                         <tr>
                             <th scope="row">{{ $index + 1 }}</th>
@@ -51,7 +53,40 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <div class="pagination-wrapper d-flex justify-content-between">
+                <div class="text">Hiển thị {{ $agencies->firstItem() }} từ {{ $agencies->lastItem() }} trong
+                    {{ $agencies->total() }} số tour</div>
+                <div class="pagination">{{ $agencies->links() }}</div>
+            </div>
         </div>
 
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'csrftoken': '{{ csrf_token() }}'
+                }
+            });
+
+            $('#search').keyup(function() {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('admin.agencies.search') }}",
+                    data: {
+                        'keyword': $(this).val()
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                        $('.table-content').html(response);
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
