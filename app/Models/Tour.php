@@ -38,7 +38,7 @@ class Tour extends Model
 
     public static function FirstTour()
     {
-        return Tour::BestTour(0, 1)[0];
+        return Tour::BestTour(0, 1);
     }
 
     public static function HightLightTours()

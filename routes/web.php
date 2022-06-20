@@ -29,7 +29,7 @@ Route::get('lienhe', [LienHeController::class, 'index'])->name('contact');
 Route::post('guimail', [SendMailController::class, 'index'])->name('sendmail');
 Route::get('dangxuat', [DangNhapController::class, 'logout'])->name('logout');
 
-Route::prefix('nhanvien')->name('nhanvien.')->group(function(){
+Route::middleware('user')->prefix('nhanvien')->name('nhanvien.')->group(function(){
     Route::resource('thongtincanhan', NVNhanVienController::class);
     Route::resource('dattour', DatTourController::class);
 });

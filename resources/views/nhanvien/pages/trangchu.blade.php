@@ -41,14 +41,14 @@
                             @if(count($firstTour)==0)
                             <div class="hero__item set-bg" data-setbg="">
                                 <div class="hero__text">
-                                    <h2>HIỆN TẠI KHÔNG MỞ TOUR DU LỊCH NÀO</h2>
+                                    <h2><!-- HIỆN TẠI KHÔNG MỞ TOUR DU LỊCH NÀO --></h2>
                                 </div>
                             </div>
                             @else
-                            <div class="hero__item set-bg" data-setbg="{{ $firstTour['image'] }}">
+                            <div class="hero__item set-bg" data-setbg="{{ $firstTour[0]['image'] }}">
                                 <div class="hero__text">
                                             <span>TOUR DU LỊCH</span>
-                                            <h2>{{ $firstTour['name'] }}</h2>
+                                            <h2>{{ $firstTour[0]['name'] }}</h2>
                                             <a href="#" class="primary-btn">XEM TOUR</a>
                                             <a href="#" class="primary-btn">ĐẶT TOUR</a>
                                 </div>
