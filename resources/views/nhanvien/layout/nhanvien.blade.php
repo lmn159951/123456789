@@ -14,14 +14,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/elegant-icons.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/nice-select.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('nhanvien/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('nhanvien/css/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('nhanvien/css/elegant-icons.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('nhanvien/css/nice-select.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('nhanvien/css/jquery-ui.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('nhanvien/css/owl.carousel.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('nhanvien/css/slicknav.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('nhanvien/css/style.css') }}" type="text/css">
 </head>
 
 <body>
@@ -42,8 +42,8 @@
                 <div class="dropdown">
                     <a href="#"><i class="fa fa-user"></i> Xin chào {{ Auth::guard('user')->user()->fullname }}</a>
                     <div class="dropdown-content">
-                        <a href="{{ url('/nhanvien/thongtincanhan') }}"><i></i> Thông tin cá nhân</a>
-                        <a href="#"><i></i> Thay đổi mật khẩu</a>
+                        <a href="{{ route('nhanvien.thongtincanhan.index') }}"><i></i> Thông tin cá nhân</a>
+                        <a href="{{ route('nhanvien.thaydoimatkhau.index') }}"><i></i> Thay đổi mật khẩu</a>
                         <a href="{{ route('logout') }}"><i></i> Đăng xuất</a>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="{{ route('home') }}">Trang chủ</a></li>
-                <li><a href="">Tất cả tour du lịch</a></li>
+                <li><a href="{{ route('alltour') }}">Tất cả tour du lịch</a></li>
                 <li><a href="#">Tìm kiếm</a></li>
                 <li><a href="{{ route('contact') }}">Liên hệ</a></li>
             </ul>
@@ -92,8 +92,8 @@
                                 <div class="dropdown">
                                     <a href="#"><i class="fa fa-user"></i> Xin chào {{ Auth::guard('user')->user()->fullname }}</a>
                                     <div class="dropdown-content">
-                                        <a href="{{ url('/nhanvien/thongtincanhan') }}"><i></i> Thông tin cá nhân</a>
-                                        <a href="#"><i></i> Thay đổi mật khẩu</a>
+                                        <a href="{{ route('nhanvien.thongtincanhan.index') }}"><i></i> Thông tin cá nhân</a>
+                                        <a href="{{ route('nhanvien.thaydoimatkhau.index') }}"><i></i> Thay đổi mật khẩu</a>
                                         <a href="{{ route('logout') }}"><i></i> Đăng xuất</a>
                                     </div>
                                 </div>
@@ -114,8 +114,8 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="{{ url('home') }}">Trang chủ</a></li>
-                            <li><a href="">Tất cả các tour</a></li>
+                            <li class="active"><a href="{{ route('home') }}">Trang chủ</a></li>
+                            <li><a href="{{ route('alltour') }}">Tất cả các tour</a></li>
                             <li><a href="#">Tìm kiếm</a></li>
                             <li><a href="{{ route('contact') }}">Liên hệ</a></li>
                            
@@ -133,67 +133,7 @@
     </header>
     <!-- Header Section End -->
 
-<!-- Hero Section Begin -->
-<section class="hero">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="hero__categories">
-                    <div class="hero__categories__all">
-                        <i class="fa fa-bars"></i>
-                        <span>Địa điểm du lịch</span>
-                    </div>
-                    <ul>
-                        @isset($recordsRegions)
-                            @foreach ($recordsRegions as $recordRegion)
-                                <li><a href="#">{{ $recordRegion['name'] }}</a></li>
-                            @endforeach
-                        @endisset
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-9">
-                <div class="hero__search">
-                    <div class="hero__search__form">
-                        <form action="#">
-                            <input type="text" placeholder="Bạn muốn tìm kiếm gì?">
-                            <button type="submit" class="site-btn">Tìm kiếm</button>
-                        </form>
-                    </div>
-                    <div class="hero__search__phone">
-                        <div class="hero__search__phone__icon">
-                            <i class="fa fa-phone"></i>
-                        </div>
-                        <div class="hero__search__phone__text">
-                            <h5>+84.376.97.4917</h5>
-                            <span>Hỗ trợ 24/7</span>
-                        </div>
-                    </div>
-                </div>
-                @isset($firstTour)
-                            @if(count($firstTour)==0)
-                            <div class="hero__item set-bg" data-setbg="">
-                                <div class="hero__text">
-                                    <h2><!-- HIỆN TẠI KHÔNG MỞ TOUR DU LỊCH NÀO --></h2>
-                                </div>
-                            </div>
-                            @else
-                            <div class="hero__item set-bg" data-setbg="{{ $firstTour[0]['image'] }}">
-                                <div class="hero__text">
-                                            <span>TOUR DU LỊCH</span>
-                                            <h2>{{ $firstTour[0]['name'] }}</h2>
-                                            <a href="#" class="primary-btn">XEM TOUR</a>
-                                            <a href="#" class="primary-btn">ĐẶT TOUR</a>
-                                </div>
-                            </div>
-                            @endif
-                @endisset
-                
-            </div>
-        </div>
-    </div>
-</section>
-    <!-- Hero Section End -->
+
 <!-- End Header -->
 
 @yield('content')
@@ -240,14 +180,14 @@
 
 
     <!-- Js Plugins -->
-    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.nice-select.min.js') }}"></script>
-    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.slicknav.js') }}"></script>
-    <script src="{{ asset('js/mixitup.min.js') }}"></script>
-    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('nhanvien/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('nhanvien/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('nhanvien/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('nhanvien/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('nhanvien/js/jquery.slicknav.js') }}"></script>
+    <script src="{{ asset('nhanvien/js/mixitup.min.js') }}"></script>
+    <script src="{{ asset('nhanvien/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('nhanvien/js/main.js') }}"></script>
 
 
 

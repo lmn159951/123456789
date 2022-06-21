@@ -4,9 +4,12 @@ namespace App\Http\Controllers\NhanVien;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Region;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\NhanVien\ChangePasswordRequest;
+use App\Models\User;
 
-class LienHeController extends Controller
+class ChangePassword extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +19,7 @@ class LienHeController extends Controller
     public function index()
     {
         //
-        $recordsRegions = Region::select('name')->get()->toArray();
-        return view('nhanvien.pages.lienhe')->with('recordsRegions', $recordsRegions);
+        return view('nhanvien.pages.thaydoimatkhau');
     }
 
     /**
@@ -58,9 +60,26 @@ class LienHeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ChangePasswordRequest $request)
     {
-        //
+        
+        $request->validated();
+        
+        //Check old password
+        $user = Auth::guard('user')->user();
+        if(!Hash::check($request->oldPassword, $user->password))
+        {
+            $request->session()->flash('error', 'Mật khẩu cũ không đúng');
+            return redirect()->route('nhanvien.thaydoimatkhau.index');
+        }
+        
+        //Update password
+        $user->update([
+            'password' => bcrypt($request->input('newPassword'))
+        ]);
+
+        $request->session()->flash('message', 'Thay đổi mật khẩu thành công');
+        return redirect()->route('nhanvien.thaydoimatkhau.index');
     }
 
     /**
@@ -73,6 +92,7 @@ class LienHeController extends Controller
     public function update(Request $request, $id)
     {
         //
+        
     }
 
     /**

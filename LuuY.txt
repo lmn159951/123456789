@@ -1,4 +1,11 @@
 Dung xampp 8.1
 Cai dat composer
 Tao csdl quanlydulich trong phpMyAdmin
-Php artisan migrate
+Dung sql trong sql
+php artisan serve
+
+Upload web
+nhap sql
+thay doi database, pass, name, ...
+tat debug
+

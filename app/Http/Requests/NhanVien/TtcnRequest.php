@@ -22,7 +22,7 @@ class TtcnRequest extends FormRequest
         return [
             'email' => 'required|email',
             'phone' => 'required|numeric',
-            'citizen_card' => 'required|numeric|min:9|max:',
+            'citizen_card' => 'required|numeric',
         ];
     }
 

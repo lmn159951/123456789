@@ -20,7 +20,7 @@ class NVNhanVienController extends Controller
     public function index()
     {
         //
-        $ttcn = User::TTCN();
+        $ttcn = User::with(['agency', 'department', 'position'])->where('id', Auth::guard('user')->user()->id)->first();
         return view('nhanvien.pages.thongtincanhan')->with('ttcn', $ttcn);
     }
 

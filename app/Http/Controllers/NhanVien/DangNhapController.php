@@ -23,10 +23,11 @@ class DangNhapController extends Controller
 
         if(Auth::guard('user')->attempt(['username' => $username, 'password' => $password, 'is_admin' => '0', 'deleted_at' => null]))
         {
+            
             return redirect()->route('home');
         }
 
-        if(Auth::attempt(['username' => $username, 'password' => $password, 'is_admin' => '1', 'deleted_at' => null]))
+        if(Auth::guard('admin')->attempt(['username' => $username, 'password' => $password, 'is_admin' => '1', 'deleted_at' => null]))
         {
             return redirect()->route('admin.dashboard');
         }
