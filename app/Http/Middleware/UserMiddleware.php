@@ -18,7 +18,7 @@ class UserMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::guard('user')->check()) {
-            return redirect('/');
+            return redirect('dangnhap');
         }
 
         return $next($request);
