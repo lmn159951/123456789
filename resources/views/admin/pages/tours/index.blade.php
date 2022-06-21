@@ -42,7 +42,7 @@
                                 {{ date('d/m/Y', strtotime($tour->registration_start_date)) }} -
                                 {{ date('d/m/Y', strtotime($tour->registration_end_date)) }}
                             </td>
-                            <td>{{ $tour->price }}</td>
+                            <td>{{ currency_format($tour->price, '') }}</td>
                             <td>{{ $tour->max_people }}</td>
                             <td style="min-width: 250px;">
                                 <div class="d-flex">

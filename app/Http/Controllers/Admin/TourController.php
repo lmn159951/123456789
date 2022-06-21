@@ -117,6 +117,11 @@ class TourController extends Controller
         return view('admin.pages.tours.show', $parameters);
     }
 
+    public function showFileDescription(Tour $tour)
+    {
+        return view('admin.pages.tours.showFileDescription', ['tour' => $tour]);
+    }
+
     public function destroy(int $id)
     {
         Tour::destroy($id);

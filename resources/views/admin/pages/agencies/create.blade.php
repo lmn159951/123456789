@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h1 class="text-center">Tạo đơn vị</h1>
+            <h3 class="text-center">Tạo đơn vị</h3>
 
             <form class="container" style="max-width: 800px;" action="{{ route('admin.agencies.store') }}" method="POST">
                 @csrf
@@ -40,6 +40,5 @@
                 </div>
             </form>
         </div>
-
     </div>
 @endsection
