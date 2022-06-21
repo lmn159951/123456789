@@ -4,6 +4,10 @@ namespace App\Http\Controllers\NhanVien;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\NhanVien\TtcnRequest;
+use App\Models\User;
+
 
 class NVNhanVienController extends Controller
 {
@@ -12,10 +16,12 @@ class NVNhanVienController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         //
-        return view('nhanvien.pages.thongtincanhan');
+        $ttcn = User::TTCN();
+        return view('nhanvien.pages.thongtincanhan')->with('ttcn', $ttcn);
     }
 
     /**
@@ -34,9 +40,10 @@ class NVNhanVienController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TtcnRequest $request)
     {
         //
+        
     }
 
     /**
@@ -57,9 +64,14 @@ class NVNhanVienController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(TtcnRequest $request)
     {
         //
+        $validated = $request->validated();
+
+        User::where('id', Auth::guard('user')->user()->id)->update($validated);
+        $request->session()->flash('message', 'Lưu thông tin thành công');
+        return redirect()->route('nhanvien.thongtincanhan.index');
     }
 
     /**
