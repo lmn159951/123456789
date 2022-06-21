@@ -18,6 +18,7 @@ use App\Http\Controllers\NhanVien\LienHeController;
 use App\Http\Controllers\NhanVien\TrangChuController;
 use App\Http\Controllers\NhanVien\DangNhapController;
 use App\Http\Controllers\NhanVien\SendMailController;
+use App\Http\Controllers\NhanVien\QuenMatKhauController;
 use App\Http\Controllers\PageController;
 
 //NhanVien dang nhap
@@ -27,6 +28,8 @@ Route::post('dangnhap', [DangNhapController::class, 'login'])->name('dangnhapPos
 Route::get('/', [TrangChuController::class, 'index'])->name('home');
 Route::get('timkiem', [TimKiemController::class, 'index'])->name('search');
 Route::get('lienhe', [LienHeController::class, 'index'])->name('contact');
+Route::get('quenmatkhau', [QuenMatKhauController::class, 'index'])->name('forgotpasswordGet');
+Route::post('quenmatkhau', [QuenMatKhauController::class, 'ForgotPassword'])->name('forgotpasswordPost');
 Route::post('guimail', [SendMailController::class, 'index'])->name('sendmail');
 Route::get('dangxuat', [DangNhapController::class, 'logout'])->name('logout');
 
