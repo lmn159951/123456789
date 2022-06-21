@@ -40,12 +40,4 @@ class AgencyRequest extends FormRequest
             'address' => 'Địa chỉ',
         ];
     }
-
-    public function messages()
-    {
-        return [
-            'required' => ':attribute không được để trống.',
-            'unique' => ':attribute đã tồn tại.',
-        ];
-    }
 }

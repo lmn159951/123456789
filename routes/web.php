@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\PositionController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SupportController;
 
 //NhanVien
 use App\Http\Controllers\NhanVien\NVNhanVienController;
@@ -41,22 +42,22 @@ Route::middleware('user')->prefix('nhanvien')->name('nhanvien.')->group(function
     Route::resource('dattour', DatTourController::class);
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/login', [AdminController::class, 'login'])->name('login');
     Route::get('/register', [AdminController::class, 'register'])->name('register');
 
-    Route::get('agencies/search', [AgencyController::class, 'search'])->name('agencies.search');
     Route::resource('agencies', AgencyController::class);
     Route::resource('departments', DepartmentController::class);
     Route::resource('positions', PositionController::class);
     Route::resource('users', UserController::class);
     Route::resource('regions', RegionController::class);
+    Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription');
     Route::resource('tours', TourController::class);
-    Route::resource('page',PageController::class);
+    Route::resource('supports', SupportController::class);
 });
 
-Route::get('/view/{is}',[PageController::class,'view'])->name('view');
+
 
 Route::fallback(function () {
     return "404";

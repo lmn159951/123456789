@@ -35,7 +35,9 @@
                 <div class="col">
                     <label for="username" class="form-label">File mô tả:</label>
                     <input type="text" class="form-control" value="{{ $tour->description_file }}" disabled>
-                    <a href="{{ url('/view', $tour->id) }}" target="_BLANK">Click here to open the file</a>
+                    <a href="{{ route('admin.tours.showFileDescription', $tour->id) }}" target="_BLANK">Click here to open
+                        the
+                        file</a>
                 </div>
             </div>
 

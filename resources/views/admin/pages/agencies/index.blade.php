@@ -11,10 +11,55 @@
                 </div>
             @endif
 
-            <div class="my-3 d-flex justify-content-between">
-                <input type="text" class="form-control col-4" autocomplete="off" name="keyword" id="search">
+            <div class="card">
+                <div class="card-header">
+                    Lọc dữ liệu
+                </div>
+                <div class="card-body">
+                    <form class="container" style="max-width: 800px;" action="{{ route('admin.agencies.index') }}"
+                        method="GET">
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Tên đơn vị:</label>
+                                    <input type="text" class="form-control" value="{{ request()->query('name') }}"
+                                        name="name" id="name">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Địa chỉ:</label>
+                                    <input type="text" class="form-control" value="{{ request()->query('address') }}"
+                                        name="address" id="address">
+                                </div>
+                            </div>
+                        </div>
 
-                <a class="btn btn-primary" href="{{ route('admin.agencies.create') }}">
+                        <div class="my-3 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="my-3 d-flex justify-content-between">
+
+                <div class="form-group d-flex align-items-center col-3">
+                    <label for="perPage">Số dòng trong bảng: </label>
+                    <select class="form-control" id="perPage" name="perPage" onchange="location = this.value"
+                        style="width: 50px;margin-left: 10px;">
+
+                        @foreach ($perPages as $perPage)
+                            <option value="{{ request()->fullUrlWithQuery(['per_page' => $perPage]) }}"
+                                @selected(request()->input('per_page') == $perPage)>
+                                {{ $perPage }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <a class="btn btn-primary d-flex justify-content-center align-items-center"
+                    href="{{ route('admin.agencies.create') }}">
                     Thêm
                 </a>
             </div>
@@ -56,8 +101,8 @@
 
             <div class="pagination-wrapper d-flex justify-content-between">
                 <div class="text">Hiển thị {{ $agencies->firstItem() }} từ {{ $agencies->lastItem() }} trong
-                    {{ $agencies->total() }} số tour</div>
-                <div class="pagination">{{ $agencies->links() }}</div>
+                    {{ $agencies->total() }} dòng</div>
+                <div class="pagination">{{ $agencies->withQueryString()->links() }}</div>
             </div>
         </div>
 
@@ -71,21 +116,6 @@
                 headers: {
                     'csrftoken': '{{ csrf_token() }}'
                 }
-            });
-
-            $('#search').keyup(function() {
-                $.ajax({
-                    type: "GET",
-                    url: "{{ route('admin.agencies.search') }}",
-                    data: {
-                        'keyword': $(this).val()
-                    },
-                    dataType: "json",
-                    success: function(response) {
-                        console.log(response);
-                        $('.table-content').html(response);
-                    }
-                });
             });
         });
     </script>

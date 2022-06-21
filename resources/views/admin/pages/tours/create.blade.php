@@ -52,35 +52,6 @@
                 <div class="row align-items-start">
                     <div class="col">
                         <div class="mb-3">
-                            <label for="tour_start_date" class="form-label">Ngày bắt đầu tour:</label>
-                            <input type="date" class="form-control @error('tour_start_date') is-invalid @enderror"
-                                value="{{ old('tour_start_date') }}" name="tour_start_date" id="tour_start_date">
-
-                            @error('tour_start_date')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="mb-3">
-                            <label for="tour_end_date" class="form-label">Ngày kết thúc tour:</label>
-                            <input type="date" class="form-control @error('tour_end_date') is-invalid @enderror"
-                                value="{{ old('tour_end_date') }}" name="tour_end_date" id="tour_end_date">
-
-                            @error('tour_end_date')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row align-items-start">
-                    <div class="col">
-                        <div class="mb-3">
                             <label for="registration_start_date" class="form-label">Ngày bắt đầu đăng ký tour:</label>
                             <input type="date"
                                 class="form-control @error('registration_start_date') is-invalid @enderror"
@@ -102,6 +73,35 @@
                                 id="registration_end_date">
 
                             @error('registration_end_date')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row align-items-start">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="tour_start_date" class="form-label">Ngày bắt đầu tour:</label>
+                            <input type="date" class="form-control @error('tour_start_date') is-invalid @enderror"
+                                value="{{ old('tour_start_date') }}" name="tour_start_date" id="tour_start_date">
+
+                            @error('tour_start_date')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="tour_end_date" class="form-label">Ngày kết thúc tour:</label>
+                            <input type="date" class="form-control @error('tour_end_date') is-invalid @enderror"
+                                value="{{ old('tour_end_date') }}" name="tour_end_date" id="tour_end_date">
+
+                            @error('tour_end_date')
                                 <div id="validationServer03Feedback" class="invalid-feedback">
                                     {{ $message }}
                                 </div>
