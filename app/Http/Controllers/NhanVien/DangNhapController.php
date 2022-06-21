@@ -36,11 +36,10 @@ class DangNhapController extends Controller
 
     public function logout()
     {
-        if(Auth::check())
-        {
+        
             Auth::guard('user')->logout();
             Auth::guard('admin')->logout();
-        }            
+                 
         return redirect()->route('home');
     }
 }
