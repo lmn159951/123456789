@@ -9,10 +9,12 @@ use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $parameters = [];
-        $parameters['departments'] = Department::paginate(5);
+        $parameters['perPages'] = [5, 10, 25, 50, 100, 200, 400, 500];
+        $parameters['departments'] = Department::where('name', 'LIKE', '%'.$request->name.'%')->paginate($request->get('per_page', 5));
+        $request->request->add(['per_page' => $request->get('per_page', 5)]);
 
         return view('admin.pages.departments.index', $parameters);
     }

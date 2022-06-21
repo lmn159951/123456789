@@ -12,17 +12,11 @@ class AgencyController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Agency::query();
-
-        DB::enableQueryLog();
-
         $parameters = [];
         $parameters['perPages'] = [5, 10, 25, 50, 100, 200, 400, 500];
         $parameters['agencies'] = Agency::where('name', 'LIKE', '%'.$request->name.'%')
-                                ->orWhere('address', 'LIKE', '%'.$request->address.'%')
+                                ->where('address', 'LIKE', '%'.$request->address.'%')
                                 ->paginate($request->get('per_page', 5));
-
-        dd(DB::getQueryLog());
 
         return view('admin.pages.agencies.index', $parameters);
     }

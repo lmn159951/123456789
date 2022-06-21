@@ -13,10 +13,37 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $filterParameters = collect(array_filter($request->except(['per_page', 'page']), function($param) { return isset($param); }));
+        $whereLikeParameters = $filterParameters->only(['fullname', 'email', 'phone', 'citizen_card']);
+        $whereParameters = $filterParameters->only(['gender', 'agency_id', 'department_id', 'position_id', 'is_admin']);
+        $dateParameters = $filterParameters->only(['start_date']);
+
+        $query = User::query();
+
+        foreach ($whereLikeParameters as $field => $value)
+        {
+            $query->where($field, 'LIKE', '%'.$value.'%');
+        }
+
+        foreach ($whereParameters as $field => $value)
+        {
+            $query->where($field, 'LIKE', '%'.$value.'%');
+        }
+
+        $now = date('Y-m-d');
+        foreach ($dateParameters as $field => $value)
+        {
+            $query->whereBetween($field, [$value, $now]);
+        }
+
         $parameters = [];
-        $parameters['users'] = User::with(['agency', 'department', 'position'])->paginate(5);
+        $parameters['perPages'] = [5, 10, 25, 50, 100, 200, 400, 500];
+        $parameters['users'] = $query->with(['agency', 'department', 'position'])->paginate($request->get('per_page', 5));
+        $parameters['agencies'] = Agency::all();
+        $parameters['departments'] = Department::all();
+        $parameters['positions'] = Position::all();
 
         return view('admin.pages.users.index', $parameters);
     }

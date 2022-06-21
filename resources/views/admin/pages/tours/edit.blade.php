@@ -5,9 +5,9 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Cập nhật tour</h1>
 
-            <form class="container" action="{{ route('admin.tours.update', $tour->id) }}" method="POST"
+            <form class="container" action="{{ route('admin.tours.update', $tour->id) }}" method="HEAD"
                 enctype="multipart/form-data">
-                @csrf @method('PATCH')
+                @csrf @method('HEAD')
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Tên tour:</label>

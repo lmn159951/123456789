@@ -26,6 +26,7 @@ class UserRequest extends FormRequest
             'phone' => 'nullable|regex:/0[0-9]{9}/',
             'citizen_card' => 'nullable|regex:/0[0-9]{8}/|numeric|unique:users',
             'start_date' => 'nullable|before_or_equal:now',
+            'is_admin' => 'required|boolean'
         ];
     }
 
@@ -39,32 +40,20 @@ class UserRequest extends FormRequest
             'phone' => 'nullable|regex:/0[0-9]{9}/',
             'citizen_card' => ['nullable', 'regex:/[0-9]{9}/', 'numeric', Rule::unique('users')->ignore($this->route('user'), 'id')],
             'start_date' => 'nullable|before_or_equal:now',
+            'is_admin' => 'required|boolean'
         ];
     }
 
     public function attributes()
     {
         return [
-            'fullname' => 'Họ tên',
-            'username' => 'Tên tài khoản',
-            'password' => 'Mật khẩu',
-            'email' => 'Email',
-            'phone' => 'Số diể',
-            'citizen_card' => 'Chứng minh nhân dân',
-            'start_date' => 'Ngày bắt đầu làm',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'required' => ':attribute không được để trống.',
-            'unique' => ':attribute đã tồn tại.',
-            'email' => ':attribute không hợp lệ',
-            'regex' => ':attribute không hợp lệ',
-            'size' => ':attribute vui lòng nhập đúng :size ký tự',
-            'numeric' => ':attribute không được nhập ký tự',
-            'before_or_equal' => ':attribute không hợp lệ',
+            'fullname' => 'họ tên',
+            'username' => 'tên tài khoản',
+            'password' => 'mật khẩu',
+            'email' => 'email',
+            'phone' => 'số điện thoại',
+            'citizen_card' => 'chứng minh nhân dân',
+            'start_date' => 'ngày bắt đầu làm',
         ];
     }
 }

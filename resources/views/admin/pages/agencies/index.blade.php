@@ -18,20 +18,25 @@
                 <div class="card-body">
                     <form class="container" style="max-width: 800px;" action="{{ route('admin.agencies.index') }}"
                         method="GET">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Tên đơn vị:</label>
-                            <input type="text" class="form-control" value="{{ old('name') }}" name="name"
-                                id="name">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Địa chỉ:</label>
-                            <input type="text" class="form-control" value="{{ old('address') }}" name="address"
-                                id="address">
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Tên đơn vị:</label>
+                                    <input type="text" class="form-control" value="{{ request()->query('name') }}"
+                                        name="name" id="name">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Địa chỉ:</label>
+                                    <input type="text" class="form-control" value="{{ request()->query('address') }}"
+                                        name="address" id="address">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="my-3 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary mr-3">Tìm kiếm</button>
+                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                         </div>
                     </form>
                 </div>
@@ -45,7 +50,7 @@
                         style="width: 50px;margin-left: 10px;">
 
                         @foreach ($perPages as $perPage)
-                            <option value="{{ url()->current() . '?per_page=' . request()->input('per_page') }}"
+                            <option value="{{ request()->fullUrlWithQuery(['per_page' => $perPage]) }}"
                                 @selected(request()->input('per_page') == $perPage)>
                                 {{ $perPage }}
                             </option>
@@ -97,7 +102,7 @@
             <div class="pagination-wrapper d-flex justify-content-between">
                 <div class="text">Hiển thị {{ $agencies->firstItem() }} từ {{ $agencies->lastItem() }} trong
                     {{ $agencies->total() }} dòng</div>
-                <div class="pagination">{{ $agencies->links() }}</div>
+                <div class="pagination">{{ $agencies->withQueryString()->links() }}</div>
             </div>
         </div>
 

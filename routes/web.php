@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\PositionController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SupportController;
 
 //NhanVien
 use App\Http\Controllers\NhanVien\NVNhanVienController;
@@ -50,7 +51,7 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::resource('regions', RegionController::class);
     Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription');
     Route::resource('tours', TourController::class);
-    Route::resource('page',PageController::class);
+    Route::resource('supports', SupportController::class);
 });
 
 

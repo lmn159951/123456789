@@ -36,12 +36,4 @@ class DepartmentRequest extends FormRequest
             'name' => 'Tên phòng ban',
         ];
     }
-
-    public function messages()
-    {
-        return [
-            'required' => ':attribute không được để trống.',
-            'unique' => ':attribute đã tồn tại.',
-        ];
-    }
 }

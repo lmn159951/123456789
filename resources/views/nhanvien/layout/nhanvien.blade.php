@@ -7,7 +7,7 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="{{ URL::asset('favicon.ico') }}" type="image/x-icon"/>
+    <link rel="icon" href="{{ URL::asset('favicon.ico') }}" type="image/x-icon" />
     <title>Go Travel</title>
 
     <!-- Google Font -->
@@ -29,24 +29,26 @@
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="{{ route('home') }}"><h2>GO TRAVEL</h2></a>
+            <a href="{{ route('home') }}">
+                <h2>GO TRAVEL</h2>
+            </a>
         </div>
-       
+
         <div class="humberger__menu__widget">
-            
+
             <div class="header__top__right__auth">
                 @guest('user')
-                <a href="{{ route('dangnhapGet') }}"><i></i>Đăng nhập</a>
+                    <a href="{{ route('dangnhapGet') }}"><i></i>Đăng nhập</a>
                 @endguest
                 @auth('user')
-                <div class="dropdown">
-                    <a href="#"><i class="fa fa-user"></i> Xin chào {{ Auth::guard('user')->user()->fullname }}</a>
-                    <div class="dropdown-content">
-                        <a href="{{ url('/nhanvien/thongtincanhan') }}"><i></i> Thông tin cá nhân</a>
-                        <a href="#"><i></i> Thay đổi mật khẩu</a>
-                        <a href="{{ route('logout') }}"><i></i> Đăng xuất</a>
+                    <div class="dropdown">
+                        <a href="#"><i class="fa fa-user"></i> Xin chào {{ auth()->user()->fullname }}</a>
+                        <div class="dropdown-content">
+                            <a href="{{ url('/nhanvien/thongtincanhan') }}"><i></i> Thông tin cá nhân</a>
+                            <a href="#"><i></i> Thay đổi mật khẩu</a>
+                            <a href="{{ route('logout') }}"><i></i> Đăng xuất</a>
+                        </div>
                     </div>
-                </div>
                 @endauth
             </div>
         </div>
@@ -59,7 +61,7 @@
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
-      
+
         <div class="humberger__menu__contact">
             <ul>
                 <li><i class="fa fa-envelope"></i> travel?@gmail.vn</li>
@@ -86,17 +88,18 @@
                         <div class="header__top__right">
                             <div class="header__top__right__social">
                                 @guest('user')
-                                <a href="{{ route('dangnhapGet') }}"><i></i>Đăng nhập</a>
+                                    <a href="{{ route('dangnhapGet') }}"><i></i>Đăng nhập</a>
                                 @endguest
                                 @auth('user')
-                                <div class="dropdown">
-                                    <a href="#"><i class="fa fa-user"></i> Xin chào {{ Auth::guard('user')->user()->fullname }}</a>
-                                    <div class="dropdown-content">
-                                        <a href="{{ url('/nhanvien/thongtincanhan') }}"><i></i> Thông tin cá nhân</a>
-                                        <a href="#"><i></i> Thay đổi mật khẩu</a>
-                                        <a href="{{ route('logout') }}"><i></i> Đăng xuất</a>
+                                    <div class="dropdown">
+                                        <a href="#"><i class="fa fa-user"></i> Xin chào
+                                            {{ Auth::guard('user')->user()->fullname }}</a>
+                                        <div class="dropdown-content">
+                                            <a href="{{ url('/nhanvien/thongtincanhan') }}"><i></i> Thông tin cá nhân</a>
+                                            <a href="#"><i></i> Thay đổi mật khẩu</a>
+                                            <a href="{{ route('logout') }}"><i></i> Đăng xuất</a>
+                                        </div>
                                     </div>
-                                </div>
                                 @endauth
                             </div>
                         </div>
@@ -108,7 +111,9 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="{{ route('home') }}"><h2>GO TRAVEL</h2></a>
+                        <a href="{{ route('home') }}">
+                            <h2>GO TRAVEL</h2>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -118,12 +123,12 @@
                             <li><a href="">Tất cả các tour</a></li>
                             <li><a href="#">Tìm kiếm</a></li>
                             <li><a href="{{ route('contact') }}">Liên hệ</a></li>
-                           
+
                         </ul>
                     </nav>
                 </div>
                 <div class="col-lg-3">
-                   
+
                 </div>
             </div>
             <div class="humberger__open">
@@ -133,79 +138,83 @@
     </header>
     <!-- Header Section End -->
 
-<!-- Hero Section Begin -->
-<section class="hero">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="hero__categories">
-                    <div class="hero__categories__all">
-                        <i class="fa fa-bars"></i>
-                        <span>Địa điểm du lịch</span>
-                    </div>
-                    <ul>
-                        @isset($recordsRegions)
-                            @foreach ($recordsRegions as $recordRegion)
-                                <li><a href="#">{{ $recordRegion['name'] }}</a></li>
-                            @endforeach
-                        @endisset
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-9">
-                <div class="hero__search">
-                    <div class="hero__search__form">
-                        <form action="#">
-                            <input type="text" placeholder="Bạn muốn tìm kiếm gì?">
-                            <button type="submit" class="site-btn">Tìm kiếm</button>
-                        </form>
-                    </div>
-                    <div class="hero__search__phone">
-                        <div class="hero__search__phone__icon">
-                            <i class="fa fa-phone"></i>
+    <!-- Hero Section Begin -->
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="hero__categories">
+                        <div class="hero__categories__all">
+                            <i class="fa fa-bars"></i>
+                            <span>Địa điểm du lịch</span>
                         </div>
-                        <div class="hero__search__phone__text">
-                            <h5>+84.376.97.4917</h5>
-                            <span>Hỗ trợ 24/7</span>
-                        </div>
+                        <ul>
+                            @isset($recordsRegions)
+                                @foreach ($recordsRegions as $recordRegion)
+                                    <li><a href="#">{{ $recordRegion['name'] }}</a></li>
+                                @endforeach
+                            @endisset
+                        </ul>
                     </div>
                 </div>
-                @isset($firstTour)
-                            @if(count($firstTour)==0)
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="#">
+                                <input type="text" placeholder="Bạn muốn tìm kiếm gì?">
+                                <button type="submit" class="site-btn">Tìm kiếm</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>+84.376.97.4917</h5>
+                                <span>Hỗ trợ 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                    @isset($firstTour)
+                        @if (count($firstTour) == 0)
                             <div class="hero__item set-bg" data-setbg="">
                                 <div class="hero__text">
-                                    <h2><!-- HIỆN TẠI KHÔNG MỞ TOUR DU LỊCH NÀO --></h2>
+                                    <h2>
+                                        <!-- HIỆN TẠI KHÔNG MỞ TOUR DU LỊCH NÀO -->
+                                    </h2>
                                 </div>
                             </div>
-                            @else
+                        @else
                             <div class="hero__item set-bg" data-setbg="{{ $firstTour[0]['image'] }}">
                                 <div class="hero__text">
-                                            <span>TOUR DU LỊCH</span>
-                                            <h2>{{ $firstTour[0]['name'] }}</h2>
-                                            <a href="#" class="primary-btn">XEM TOUR</a>
-                                            <a href="#" class="primary-btn">ĐẶT TOUR</a>
+                                    <span>TOUR DU LỊCH</span>
+                                    <h2>{{ $firstTour[0]['name'] }}</h2>
+                                    <a href="#" class="primary-btn">XEM TOUR</a>
+                                    <a href="#" class="primary-btn">ĐẶT TOUR</a>
                                 </div>
                             </div>
-                            @endif
-                @endisset
-                
+                        @endif
+                    @endisset
+
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
     <!-- Hero Section End -->
-<!-- End Header -->
+    <!-- End Header -->
 
-@yield('content')
+    @yield('content')
 
-<!-- Footer Section Begin -->
+    <!-- Footer Section Begin -->
     <footer class="footer spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__about__logo">
-                            <a href="#"><h2>GO TRAVEL</h2></a>
+                            <a href="#">
+                                <h2>GO TRAVEL</h2>
+                            </a>
                         </div>
                         <ul>
                             <li>Địa chỉ: phường 5,Mỹ Tho-Tiền Giang</li>
@@ -216,8 +225,8 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
                     <div class="footer__widget">
-                        <h6>Thời gian hoạt động</h6>   
-                            <p>Thứ hai - Thứ sáu: 07.30am to 17.00pm</p>  
+                        <h6>Thời gian hoạt động</h6>
+                        <p>Thứ hai - Thứ sáu: 07.30am to 17.00pm</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12">
@@ -229,14 +238,14 @@
                             <button type="submit" class="site-btn">Đăng ký</button>
                         </form>
                         <div class="footer__widget__social">
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-<!-- Footer Section End -->
+    <!-- Footer Section End -->
 
 
     <!-- Js Plugins -->
