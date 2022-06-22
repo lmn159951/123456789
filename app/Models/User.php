@@ -42,6 +42,11 @@ class User extends Authenticatable
         return $this->belongsTo(Position::class);
     }
 
+    public function tour_registration()
+    {
+        return $this->hasMany(TourRegistration::class);
+    }
+
     public static function TTCN()
     {
         return User::where('users.id', Auth::guard('user')->user()->id)
