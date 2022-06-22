@@ -54,8 +54,6 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::resource('supports', SupportController::class);
 });
 
-
-
 Route::fallback(function () {
     return "404";
 });

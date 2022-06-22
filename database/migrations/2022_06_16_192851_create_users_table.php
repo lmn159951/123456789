@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('gender');
+            $table->dateTime('birthdate');
             $table->string('phone')->nullable();
             $table->string('citizen_card')->nullable();
             $table->smallInteger('agency_id')->unsigned();
@@ -34,6 +35,7 @@ return new class extends Migration
             $table->foreign('agency_id')->references('id')->on('agencies')->onDelete('cascade');
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
+            $table->string('user_token')->nullable();
         });
     }
 
