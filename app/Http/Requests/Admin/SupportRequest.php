@@ -20,11 +20,11 @@ class SupportRequest extends FormRequest
     public function createRules()
     {
         return [
-            'start_year' => 'required',
-            'end_year' => 'required|after:start_year',
+            'start_year' => 'required|integer|gt:2022',
+            'end_year' => 'required|integer|gt:start_year',
             'min_condition'=>'nullable',
             'max_condition'=>'nullable',
-            'price'=>'required|min:1',
+            'price'=>'required|numeric|min:1',
         ];
     }
 
@@ -35,7 +35,7 @@ class SupportRequest extends FormRequest
             'end_year' => 'required|integer|gt:start_year',
             'min_condition'=>'nullable|integer|between',
             'max_condition'=>'nullable|integer',
-            'price'=>'required|min:1',
+            'price'=>'required|numeric|min:1',
         ];
     }
 

@@ -80,4 +80,8 @@ class Tour extends Model
     {
         return $this->belongsToMany(Agency::class, 'agency_tours');
     }
+    public function tour_registrations()
+    {
+        return $this->belongsToMany(TourRegistration::class,'tour_registrations');
+    }
 }

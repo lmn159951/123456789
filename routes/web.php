@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SupportController;
-
+use App\Http\Controllers\Admin\TourRegistrationController;
 //NhanVien
 use App\Http\Controllers\NhanVien\NVNhanVienController;
 use App\Http\Controllers\NhanVien\TimKiemController;
@@ -20,8 +20,6 @@ use App\Http\Controllers\NhanVien\TrangChuController;
 use App\Http\Controllers\NhanVien\DangNhapController;
 use App\Http\Controllers\NhanVien\SendMailController;
 use App\Http\Controllers\NhanVien\QuenMatKhauController;
-use App\Http\Controllers\NhanVien\ChangePassword;
-use App\Http\Controllers\PageController;
 
 
 //Public
@@ -66,9 +64,8 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::resource('tours', TourController::class);
     Route::resource('supports', SupportController::class);
     Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
+    Route::resource('tour_registrations',TourRegistrationController::class);
 });
-
-
 
 Route::fallback(function () {
     return "404";

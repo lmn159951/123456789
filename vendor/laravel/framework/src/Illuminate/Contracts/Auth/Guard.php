@@ -54,4 +54,5 @@ interface Guard
      * @return void
      */
     public function setUser(Authenticatable $user);
+
 }

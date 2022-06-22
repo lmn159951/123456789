@@ -20,6 +20,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Factory::create();
+
         User::insert([
             [
             'fullname' => 'Lê Ngọc Hở',
@@ -33,11 +35,12 @@ class UserSeeder extends Seeder
             'agency_id' => 9,
             'department_id' =>7,
             'position_id' => 3,
+            'birthdate' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
             'start_date' => date('Y-m-d', strtotime('13-06-2022')),
             'is_admin' => '1',
         ],
         [
-            'fullname' => 'Bùi Thị Thuỳ Dương',
+            'fullname' => 'Bùi Thị Thùy Dương',
             'username' => 'thuyduong123',
             'password' => Hash::make('1'),
             'email' => 'thuyduong123@gmail.com',
@@ -48,6 +51,7 @@ class UserSeeder extends Seeder
             'agency_id' => 9,
             'department_id' =>7,
             'position_id' => 3,
+            'birthdate' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
             'start_date' => date('Y-m-d', strtotime('13-06-2022')),
             'is_admin' => '1',
         ],
@@ -63,6 +67,7 @@ class UserSeeder extends Seeder
             'agency_id' => 9,
             'department_id' =>7,
             'position_id' => 3,
+            'birthdate' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
             'start_date' => date('Y-m-d', strtotime('13-06-2022')),
             'is_admin' => '1',
         ],
@@ -78,12 +83,11 @@ class UserSeeder extends Seeder
             'agency_id' => 9,
             'department_id' =>7,
             'position_id' => 3,
+            'birthdate' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
             'start_date' => date('Y-m-d', strtotime('13-06-2022')),
             'is_admin' => '1',
         ]
         ]);
-
-        $faker = Factory::create();
 
         $fullnames = collect(config('constants.fullnames'));
         $fullnames = $fullnames->shuffle();
@@ -111,6 +115,7 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
                 'gender' => $faker->randomElement(['Nam', 'Nữ']),
                 'phone' => $faker->numerify('0#########'),
+                'birthdate' => $faker->dateTimeBetween($startDate = '-40 years', $endDate = '-20 years', $timezone = 'Asia/Ho_Chi_Minh'),
                 'citizen_card' => $faker->numerify('3########'),
                 'agency_id' => $agencyId,
                 'department_id' => $departmentId,
