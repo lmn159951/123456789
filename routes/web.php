@@ -20,6 +20,7 @@ use App\Http\Controllers\NhanVien\TrangChuController;
 use App\Http\Controllers\NhanVien\DangNhapController;
 use App\Http\Controllers\NhanVien\SendMailController;
 use App\Http\Controllers\NhanVien\QuenMatKhauController;
+use App\Http\Controllers\NhanVien\ChangePassword;
 use App\Http\Controllers\PageController;
 
 //NhanVien dang nhap
@@ -27,6 +28,7 @@ Route::get('dangnhap', [DangNhapController::class, 'index'])->name('dangnhapGet'
 Route::post('dangnhap', [DangNhapController::class, 'login'])->name('dangnhapPost');
 
 Route::get('/', [TrangChuController::class, 'index'])->name('home');
+Route::get('tatcacactour', [TrangChuController::class, 'allTour'])->name('alltour');
 Route::get('timkiem', [TimKiemController::class, 'index'])->name('search');
 Route::get('lienhe', [LienHeController::class, 'index'])->name('contact');
 Route::get('quenmatkhau', [QuenMatKhauController::class, 'index'])->name('forgotpasswordGet');
@@ -35,6 +37,7 @@ Route::post('guimail', [SendMailController::class, 'index'])->name('sendmail');
 Route::get('dangxuat', [DangNhapController::class, 'logout'])->name('logout');
 
 Route::middleware('user')->prefix('nhanvien')->name('nhanvien.')->group(function(){
+    Route::resource('thaydoimatkhau', ChangePassword::class); 
     Route::resource('thongtincanhan', NVNhanVienController::class);
     Route::resource('dattour', DatTourController::class);
 });

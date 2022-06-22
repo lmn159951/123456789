@@ -52,10 +52,10 @@
                 @csrf
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Họ và tên" required name="name">
+                        <input style="width: 100%"  type="text" placeholder="Họ và tên" required name="name">
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <input type="email" placeholder="Email" required name="email">
+                        <input style="width: 100%"  type="email" placeholder="Email" required name="email">
                     </div>
                     <div class="col-lg-12 text-center">
                         <textarea placeholder="Ý kiến của bạn là..." required name="comment"></textarea>

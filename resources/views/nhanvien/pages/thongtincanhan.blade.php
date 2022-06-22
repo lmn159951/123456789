@@ -12,9 +12,9 @@
             </div>
             @auth('user')
             @isset($ttcn)
-            <form action="{{ route('nhanvien.thongtincanhan.edit', Auth::guard('user')->user()->id) }}" method="HEAD">
+            <form action="{{ route('nhanvien.thongtincanhan.edit', Auth::guard('user')->user()->id) }}" method="POST">
                 @method('HEAD')
-                @csrf
+                @csrf  
                 <div class="d-flex justify-content-center">
                     <div class="row">
                         <div class="col-3"></div>
@@ -27,12 +27,13 @@
                         <div class="col-5"><p>Email: <span class="dau_">(*)</span></p></div>
                         <div class="col-4"></div>
                         <div class="password d-flex justify-content-center">
-                            <input type="text" placeholder="" required name="email" value="{{ $ttcn ->email}}">
+                            <input type="email" placeholder="" required name="email" value="{{ $ttcn ->email}}">
                         </div>
                         @error('email') 
-                        <div class="password d-flex justify-content-center">
-                            {{ $message }}
-                        </div>
+                        <div class="col-3"></div>
+                        <div class="col-5" style="margin-top: -25px;">
+                            <p style="color: red;">*{{ $message }}</p></div>
+                        <div class="col-4"></div>
                         @enderror
                         <div class="col-3"></div>
                         <div class="col-5"><p>Giới tính:</p></div>
@@ -44,47 +45,49 @@
                         <div class="col-5"><p>Số điện thoại: <span class="dau_">(*)</span></p></div>
                         <div class="col-4"></div>
                         <div class="tentaikhoan d-flex justify-content-center">
-                            <input type="text" placeholder="" required name="phone" value="{{ $ttcn ->phone}}">
+                            <input type="number" placeholder="" required name="phone" value="{{ $ttcn ->phone}}">
                         </div>
                         @error('phone') 
-                        <div class="password d-flex justify-content-center">
-                            {{ $message }}
-                        </div>
+                        <div class="col-3"></div>
+                        <div class="col-5" style="margin-top: -25px;">
+                            <p style="color: red;">*{{ $message }}</p></div>
+                        <div class="col-4"></div>
                         @enderror
                         <div class="col-3"></div>
                         <div class="col-5"><p>CMND/CCCD: <span class="dau_">(*)</span></p></div>
                         <div class="col-4"></div>
                         <div class="tentaikhoan d-flex justify-content-center">
-                            <input type="text" placeholder="" required name="citizen_card" value="{{ $ttcn->citizen_card}}">
+                            <input type="number" placeholder="" required name="citizen_card" value="{{ $ttcn->citizen_card}}">
                         </div>
                         @error('citizen_card') 
-                        <div class="password d-flex justify-content-center">
-                            {{ $message }}
-                        </div>
+                        <div class="col-3"></div>
+                        <div class="col-5" style="margin-top: -25px;">
+                            <p style="color: red;">*{{ $message }}</p></div>
+                        <div class="col-4"></div>
                         @enderror
                         <div class="col-3"></div>
                         <div class="col-5"><p>Tên phòng ban:</p></div>
                         <div class="col-4"></div>
                         <div class="tentaikhoan d-flex justify-content-center">
-                            <input readonly type="text" placeholder="" required name="department_id" value="{{ $ttcn->department_name }}">
+                            <input readonly type="text" placeholder="" required name="department_id" value="{{ $ttcn->department->name }}">
                         </div>
                         <div class="col-3"></div>
                         <div class="col-5"><p>Tên chức vụ:</p></div>
                         <div class="col-4"></div>
                         <div class="tentaikhoan d-flex justify-content-center">
-                            <input readonly type="text" placeholder="" name="position_id" value="{{ $ttcn->position_name }}">
+                            <input readonly type="text" placeholder="" name="position_id" value="{{ $ttcn->position->name }}">
                         </div>
                         <div class="col-3"></div>
                         <div class="col-5"><p>Tên đơn vị:</p></div>
                         <div class="col-4"></div>
                         <div class="tentaikhoan d-flex justify-content-center">
-                            <input readonly type="text" placeholder="" name="agency_id" value="{{ $ttcn->agency_name }}">
+                            <input readonly type="text" placeholder="" name="agency_id" value="{{ $ttcn->agency->name }}">
                         </div>
                         <div class="col-3"></div>
                         <div class="col-5"><p>Ngày vào làm:</p></div>
                         <div class="col-4"></div>
                         <div class="tentaikhoan d-flex justify-content-center">
-                            <input readonly type="text" placeholder="" name="start_date" value="{{ $ttcn->start_date }}">
+                            <input readonly type="text" placeholder="" name="start_date" value="{{ date('d-m-Y', strtotime($ttcn->start_date)) }}">
                         </div>
                         <div class="col-lg-12 text-center">
                             <button type="submit" class="site-btn">LƯU</button>
