@@ -12,13 +12,25 @@ class AgencyController extends Controller
 {
     public function index(Request $request)
     {
+        $query = Agency::query();
+
+        foreach ($request->except(['per_page', 'page']) as $attributes => $value)
+        {
+            $query->where($attributes, 'LIKE', '%'.$value.'%');
+        }
+
         $parameters = [];
         $parameters['perPages'] = [5, 10, 25, 50, 100, 200, 400, 500];
-        $parameters['agencies'] = Agency::where('name', 'LIKE', '%'.$request->name.'%')
-                                ->where('address', 'LIKE', '%'.$request->address.'%')
-                                ->paginate($request->get('per_page', 5));
+        $parameters['agencies'] = $query->paginate($request->get('per_page', 5));
 
         return view('admin.pages.agencies.index', $parameters);
+    }
+
+    public function search(Request $request)
+    {
+        $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
+
+        return redirect()->route('admin.agencies.index', $parameters);
     }
 
     public function create()
@@ -60,6 +72,18 @@ class AgencyController extends Controller
     public function destroy(int $id)
     {
         Agency::destroy($id);
+
+        return redirect()
+            ->route('admin.agencies.index')
+            ->with('message', 'Xoá đơn vị thành công');
+    }
+
+    public function deleteMany(Request $request)
+    {
+        echo 'deleteMany';
+        die;
+
+        Agency::findOrFail($request->ids)->delete();
 
         return redirect()
             ->route('admin.agencies.index')

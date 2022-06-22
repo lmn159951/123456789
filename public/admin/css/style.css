@@ -861,7 +861,7 @@ ol {
 .featured__item__pic__hover li a {
 	font-size: 25px;
 	color: #1c1c1c;
-	
+
 	width: 160px;
 	line-height: 35px;
 	text-align: center;
@@ -869,7 +869,7 @@ ol {
 	background: #ffffff;
 	display: block;
 	padding: 5px 30px;
-	
+
 	-webkit-transition: all, 0.5s;
 	-moz-transition: all, 0.5s;
 	-ms-transition: all, 0.5s;
@@ -2972,3 +2972,4 @@ input:read-only {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+

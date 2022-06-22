@@ -176,7 +176,7 @@
                                         @method('DELETE') @csrf
                                         <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Bạn có chắc muốn xoá đơn vị này?')">
-                                            Xoá
+                                            <i class="fas fa-fw fa-trash"></i>
                                         </button>
                                     </form>
                                 </div>

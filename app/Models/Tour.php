@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\TourRegistration;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tour extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $primaryKey = 'id';
     protected $table = 'tours';
 
