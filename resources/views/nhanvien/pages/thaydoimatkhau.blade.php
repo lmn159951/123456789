@@ -10,7 +10,7 @@
                     </div>
                 </div>
             </div>
-            <form action="{{ route('nhanvien.thaydoimatkhau.edit', Auth::guard('user')->user()->id) }}" method="POST">
+            <form action="{{ route('nhanvien.thay-doi-mat-khau.edit', Auth::guard('user')->user()->id) }}" method="POST">
                 @csrf
                 @method('HEAD')
                 <div class="d-flex justify-content-center">

@@ -12,12 +12,15 @@ class DangNhapController extends Controller
     //
     public function index()
     {
-
+        if(Auth::guard('user')->check())
+            return redirect()->route('home');
         return view('nhanvien.pages.dangnhap');
     }
 
     public function login(NVDangNhapRequest $request)
     {
+        if(Auth::guard('user')->check())
+            return redirect()->route('home');
         $username = $request->post('username');
         $password = $request->post('password');
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Region;
 use App\Models\Tour;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class TrangChuController extends Controller
@@ -22,23 +23,23 @@ class TrangChuController extends Controller
 
     public function allTour()
     {
-        $allTours;
         $today = Carbon::now()->format('Y-m-d');
+        $allTours = DB::table('tours')
+        ->where('registration_start_date', '<=', $today)
+        ->where('registration_end_date', '>=', $today)
+        ->orderBy('id', 'DESC'); 
+        $perPage = 4;
+        
         if(!Auth::guard('user')->check())
         {
-            $allTours = Tour::where('registration_start_date', '<=', $today)
-            ->where('registration_end_date', '>=', $today)
-            ->orderBy('id', 'desc')
-            ->get();
+            $allTours = $allTours->paginate($perPage);
         }
         else
         {
-            $allTours = Tour::where('registration_start_date', '<=', $today)
-            ->where('registration_end_date', '>=', $today)
-            ->orderBy('tours.id', 'desc')
+            $allTours = DB::table('tours')
             ->join('agency_tours', 'tours.id', '=', 'agency_tours.tour_id')
             ->where('agency_id', Auth::guard('user')->user()->agency_id)
-            ->get();
+            ->paginate($perPage);
         }
         return view('nhanvien.pages.tatcacactour')->with('allTours', $allTours);
     }

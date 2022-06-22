@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
             'is_admin' => '1',
         ],
         [
-            'fullname' => 'Bùi Thị Thuỳ Dương',
+            'fullname' => 'Bùi Thị Thùy Dương',
             'username' => 'thuyduong123',
             'password' => Hash::make('1'),
             'email' => 'thuyduong123@gmail.com',

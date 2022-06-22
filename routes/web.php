@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SupportController;
-
+use App\Http\Controllers\Admin\TourRegistrationController;
 //NhanVien
 use App\Http\Controllers\NhanVien\NVNhanVienController;
 use App\Http\Controllers\NhanVien\TimKiemController;
@@ -20,28 +20,35 @@ use App\Http\Controllers\NhanVien\TrangChuController;
 use App\Http\Controllers\NhanVien\DangNhapController;
 use App\Http\Controllers\NhanVien\SendMailController;
 use App\Http\Controllers\NhanVien\QuenMatKhauController;
-use App\Http\Controllers\NhanVien\ChangePassword;
-use App\Http\Controllers\PageController;
 
-//NhanVien dang nhap
-Route::get('dangnhap', [DangNhapController::class, 'index'])->name('dangnhapGet');
-Route::post('dangnhap', [DangNhapController::class, 'login'])->name('dangnhapPost');
 
+//Public
 Route::get('/', [TrangChuController::class, 'index'])->name('home');
-Route::get('tatcacactour', [TrangChuController::class, 'allTour'])->name('alltour');
-Route::get('timkiem', [TimKiemController::class, 'index'])->name('search');
-Route::get('lienhe', [LienHeController::class, 'index'])->name('contact');
-Route::get('quenmatkhau', [QuenMatKhauController::class, 'index'])->name('forgotpasswordGet');
-Route::post('quenmatkhau', [QuenMatKhauController::class, 'ForgotPassword'])->name('forgotpasswordPost');
-Route::post('guimail', [SendMailController::class, 'index'])->name('sendmail');
-Route::get('dangxuat', [DangNhapController::class, 'logout'])->name('logout');
+Route::get('tat-ca-cac-tour', [TrangChuController::class, 'allTour'])->name('alltour');
+Route::get('tim-kiem', [TimKiemController::class, 'index'])->name('search');
+Route::get('lien-he', [LienHeController::class, 'index'])->name('contact');
+Route::post('gui-mail', [SendMailController::class, 'index'])->name('sendmail');
 
-Route::middleware('user')->prefix('nhanvien')->name('nhanvien.')->group(function(){
-    Route::resource('thaydoimatkhau', ChangePassword::class);
-    Route::resource('thongtincanhan', NVNhanVienController::class);
-    Route::resource('dattour', DatTourController::class);
+//Un loged in user
+Route::middleware('not_loged_in')->group(function(){
+    Route::get('dang-nhap', [DangNhapController::class, 'index'])->name('login');
+    Route::post('dang-nhap', [DangNhapController::class, 'login'])->name('loginPost');
+
+    Route::get('quen-mat-khau', [QuenMatKhauController::class, 'index'])->name('forgotpassword');
+    Route::post('quen-mat-khau', [QuenMatKhauController::class, 'forgotpassword'])->name('forgotpasswordPost');
+    Route::get('khoi-phuc-tai-khoan/{token}', [QuenMatKhauController::class, 'recoveryaccount'])->name('recoveryaccount');
+    Route::post('khoi-phuc-tai-khoan', [QuenMatKhauController::class, 'recoveryaccountPost'])->name('recoveryaccountPost');
 });
 
+//User
+Route::middleware('user')->prefix('nhan-vien')->name('nhanvien.')->group(function(){
+    Route::resource('thay-doi-mat-khau', ChangePassword::class);
+    Route::resource('thong-tin-ca-nhan', NVNhanVienController::class);
+    Route::resource('dat-tour', DatTourController::class);
+    Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
+});
+
+//Admin
 Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/login', [AdminController::class, 'login'])->name('login');
@@ -58,10 +65,10 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription');
     Route::resource('tours', TourController::class);
     Route::resource('supports', SupportController::class);
+    Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
+    Route::resource('tour_registrations',TourRegistrationController::class);
 });
 
 Route::fallback(function () {
     return "404";
 });
-
-

@@ -40,7 +40,7 @@
                             <div class="col">
                                 <label for="gender" class="form-label">Giới tính:</label>
                                 <select id="gender" class="form-select" name="gender">
-                                    <option value="" @selected(request()->query('gender') == '')>--------------Không
+                                    <option class="text-center" value="" @selected(request()->query('gender') == '')>--------------Không
                                         chọn--------------</option>
                                     <option value="Nam" @selected(request()->query('gender') == 'Nam')>Nam</option>
                                     <option value="Nữ" @selected(request()->query('gender') == 'Nữ')>Nữ</option>
@@ -56,7 +56,7 @@
                             <div class="col">
                                 <label for="agency_id" class="form-label">Đơn vị:</label>
                                 <select id="agency_id" class="form-select" name="agency_id">
-                                    <option value="">--------------Không chọn--------------</option>
+                                    <option class="text-center" value="">--------------Không chọn--------------</option>
                                     @foreach ($agencies as $agency)
                                         <option value="{{ $agency->id }}" @selected(request()->query('agency_id') == $agency->id)>
                                             {{ $agency->name }}</option>
@@ -69,7 +69,7 @@
                             <div class="col">
                                 <label for="department_id" class="form-label">Phòng ban:</label>
                                 <select id="department_id" class="form-select" name="department_id">
-                                    <option value="">--------------Không chọn--------------</option>
+                                    <option class="text-center" value="">--------------Không chọn--------------</option>
                                     @foreach ($departments as $department)
                                         <option value="{{ $department->id }}" @selected(request()->query('department_id') == $department->id)>
                                             {{ $department->name }}
@@ -93,7 +93,7 @@
                             <div class="col">
                                 <label for="position_id" class="form-label">Chức vụ:</label>
                                 <select id="position_id" class="form-select" name="position_id">
-                                    <option value="">--------------Không chọn--------------</option>
+                                    <option class="text-center" value="">--------------Không chọn--------------</option>
                                     @foreach ($positions as $position)
                                         <option value="{{ $position->id }}" @selected(request()->query('position_id') == $position->id)>
                                             {{ $position->name }}
@@ -104,7 +104,7 @@
                             <div class="col">
                                 <label for="is_admin" class="form-label">Phân quyền:</label>
                                 <select id="is_admin" class="form-select" name="is_admin">
-                                    <option value="">--------------Không chọn--------------</option>
+                                    <option class="text-center" value="">--------------Không chọn--------------</option>
                                     <option value="0" @selected(request()->query('is_admin') == '0')>Người dùng</option>
                                     <option value="1" @selected(request()->query('is_admin') == '1')>Người quản trị</option>
                                 </select>
