@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class UserMiddleware
+class NotLogedInMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,9 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::guard('user')->check()) {
-            return redirect()->route('login');
+        if (Auth::guard('user')->check()) {
+            return redirect()->route('home');
         }
-
         return $next($request);
     }
 }

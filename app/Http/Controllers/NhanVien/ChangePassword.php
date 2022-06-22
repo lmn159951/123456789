@@ -62,15 +62,14 @@ class ChangePassword extends Controller
      */
     public function edit(ChangePasswordRequest $request)
     {
-        
         $request->validated();
-        
+
         //Check old password
         $user = Auth::guard('user')->user();
         if(!Hash::check($request->oldPassword, $user->password))
         {
             $request->session()->flash('error', 'Mật khẩu cũ không đúng');
-            return redirect()->route('nhanvien.thaydoimatkhau.index');
+            return redirect()->route('nhanvien.thay-doi-mat-khau.index');
         }
         
         //Update password
@@ -79,7 +78,7 @@ class ChangePassword extends Controller
         ]);
 
         $request->session()->flash('message', 'Thay đổi mật khẩu thành công');
-        return redirect()->route('nhanvien.thaydoimatkhau.index');
+        return redirect()->route('nhanvien.thay-doi-mat-khau.index');
     }
 
     /**

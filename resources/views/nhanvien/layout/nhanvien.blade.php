@@ -36,26 +36,26 @@
 
         <div class="humberger__menu__widget">
 
-            <div class="header__top__right__auth">
+            {{-- <div class="header__top__right__auth">
                 @guest('user')
-                    <a href="{{ route('dangnhapGet') }}"><i></i>Đăng nhập</a>
+                    <a href="{{ route('login') }}"><i></i>Đăng nhập</a>
                 @endguest
                 @auth('user')
                 <div class="dropdown">
                     <a href="#"><i class="fa fa-user"></i> Xin chào {{ Auth::guard('user')->user()->fullname }}</a>
                     <div class="dropdown-content">
-                        <a href="{{ route('nhanvien.thongtincanhan.index') }}"><i></i> Thông tin cá nhân</a>
-                        <a href="{{ route('nhanvien.thaydoimatkhau.index') }}"><i></i> Thay đổi mật khẩu</a>
-                        <a href="{{ route('logout') }}"><i></i> Đăng xuất</a>
+                        <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i></i> Thông tin cá nhân</a>
+                        <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"><i></i> Thay đổi mật khẩu</a>
+                        <a href="{{ route('nhanvien.logut') }}"><i></i> Đăng xuất</a>
                     </div>
                 @endauth
-            </div>
+            </div> --}}
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a href="{{ route('home') }}">Trang chủ</a></li>
+                <li class=""><a href="{{ route('home') }}">Trang chủ</a></li>
                 <li><a href="{{ route('alltour') }}">Tất cả tour du lịch</a></li>
-                <li><a href="#">Tìm kiếm</a></li>
+                <li><a href="{{ route('search') }}">Tìm kiếm</a></li>
                 <li><a href="{{ route('contact') }}">Liên hệ</a></li>
             </ul>
         </nav>
@@ -87,17 +87,18 @@
                         <div class="header__top__right">
                             <div class="header__top__right__social">
                                 @guest('user')
-                                    <a href="{{ route('dangnhapGet') }}"><i></i>Đăng nhập</a>
+                                    <a href="{{ route('login') }}"><i></i>Đăng nhập</a>
                                 @endguest
                                 @auth('user')
                                 <div class="dropdown">
                                     <a href="#"><i class="fa fa-user"></i> Xin chào {{ Auth::guard('user')->user()->fullname }}</a>
                                     <div class="dropdown-content">
-                                        <a href="{{ route('nhanvien.thongtincanhan.index') }}"><i></i> Thông tin cá nhân</a>
-                                        <a href="{{ route('nhanvien.thaydoimatkhau.index') }}"><i></i> Thay đổi mật khẩu</a>
-                                        <a href="{{ route('logout') }}"><i></i> Đăng xuất</a>
+                                        <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i></i> Thông tin cá nhân</a>
+                                        <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"><i></i> Thay đổi mật khẩu</a>
+                                        <a href="{{ route('nhanvien.logout') }}"><i></i> Đăng xuất</a>
                                     </div>
                                 @endauth
+                                
                             </div>
                         </div>
                     </div>
@@ -116,10 +117,10 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="{{ route('home') }}">Trang chủ</a></li>
-                            <li><a href="{{ route('alltour') }}">Tất cả các tour</a></li>
-                            <li><a href="#">Tìm kiếm</a></li>
-                            <li><a href="{{ route('contact') }}">Liên hệ</a></li>
+                            <li class="{{ Request::routeIs('home') ? 'active' : '' }}"><a href="{{ route('home') }}">Trang chủ</a></li>
+                            <li class="{{ Request::routeIs('alltour') ? 'active' : '' }}"><a href="{{ route('alltour') }}">Tất cả các tour</a></li>
+                            <li class="{{ Request::routeIs('search') ? 'active' : '' }}"><a href="{{ route('search') }}">Tìm kiếm</a></li>
+                            <li class="{{ Request::routeIs('contact') ? 'active' : '' }}"><a href="{{ route('contact') }}">Liên hệ</a></li>
 
                         </ul>
                     </nav>

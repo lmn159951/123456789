@@ -12,7 +12,7 @@
             </div>
             @auth('user')
             @isset($ttcn)
-            <form action="{{ route('nhanvien.thongtincanhan.edit', Auth::guard('user')->user()->id) }}" method="POST">
+            <form action="{{ route('nhanvien.thong-tin-ca-nhan.edit', Auth::guard('user')->user()->id) }}" method="POST">
                 @method('HEAD')
                 @csrf  
                 <div class="d-flex justify-content-center">

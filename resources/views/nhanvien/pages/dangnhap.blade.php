@@ -10,7 +10,7 @@
                     </div>
                 </div>
             </div>
-            <form action="{{ route('dangnhapPost') }}" method="POST">
+            <form action="{{ route('loginPost') }}" method="POST">
                 @csrf
                 <div class="d-flex justify-content-center">
                     <div class="row">
@@ -21,7 +21,7 @@
                             <input type="password" placeholder="Mật khẩu" required name="password">
                         </div>
                         <div class="quenmatkhau d-flex justify-content-center">
-                            <a href="#" class="txtquenmatkhau">Quên mật khẩu</a>
+                            <a href="{{ route('forgotpassword') }}" class="txtquenmatkhau">Quên mật khẩu</a>
                         </div>    
                         <div class="col-lg-12 text-center">
                             <button type="submit" class="site-btn">ĐĂNG NHẬP</button>
