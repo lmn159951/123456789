@@ -198,42 +198,28 @@
     <script src="{{ asset('admin/js/custom-table.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            //     }
-            // });
-
             $("#buttonDeleteMany").click(function() {
-                console.log('buttonDeleteMany clicked');
-
                 const deleteRecords = $(
                     ".table-content tr .control--checkbox input[type=checkbox]:checked"
                 );
 
                 const deleteRecordsIds = deleteRecords.map(function(item) {
-                        return parseInt($(this).val());
-                    })
-                    .get();
-
-                console.log({
-                    deleteRecordsIds
-                });
-
-                console.log("{{ route('admin.agencies.deleteMany') }}");
+                    return parseInt($(this).val());
+                }).get();
 
                 $.ajax({
-                    type: "DELETE",
-                    url: {{ route('admin.agencies.deleteMany') }},
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ route('admin.agencies.deleteMany') }}",
                     data: {
-                        "ids": deleteRecordsIds,
+                        'ids': deleteRecordsIds,
+                        '_method': 'delete'
                     },
-                    dataType: "JSON",
-                    success: function(response) {
-                        console.log({
-                            response
-                        });
-                    },
+                    success: function(response, textStatus, xhr) {
+                        window.location = '{{ route('admin.agencies.index') }}';
+                    }
                 });
             });
         });

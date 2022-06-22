@@ -33,7 +33,6 @@ Route::post('gui-mail', [SendMailController::class, 'index'])->name('sendmail');
 Route::middleware('not_loged_in')->group(function(){
     Route::get('dang-nhap', [DangNhapController::class, 'index'])->name('login');
     Route::post('dang-nhap', [DangNhapController::class, 'login'])->name('loginPost');
-
     Route::get('quen-mat-khau', [QuenMatKhauController::class, 'index'])->name('forgotpassword');
     Route::post('quen-mat-khau', [QuenMatKhauController::class, 'forgotpassword'])->name('forgotpasswordPost');
     Route::get('khoi-phuc-tai-khoan/{token}', [QuenMatKhauController::class, 'recoveryaccount'])->name('recoveryaccount');
@@ -45,11 +44,11 @@ Route::middleware('user')->prefix('nhan-vien')->name('nhanvien.')->group(functio
     Route::resource('thay-doi-mat-khau', ChangePassword::class);
     Route::resource('thong-tin-ca-nhan', NVNhanVienController::class);
     Route::resource('dat-tour', DatTourController::class);
-    Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
+    // Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
 });
 
 //Admin
-Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/login', [AdminController::class, 'login'])->name('login');
     Route::get('/register', [AdminController::class, 'register'])->name('register');
@@ -65,7 +64,7 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription');
     Route::resource('tours', TourController::class);
     Route::resource('supports', SupportController::class);
-    Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
+    // Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
     Route::resource('tour_registrations',TourRegistrationController::class);
 });
 

@@ -80,13 +80,8 @@ class AgencyController extends Controller
 
     public function deleteMany(Request $request)
     {
-        echo 'deleteMany';
-        die;
+        Agency::destroy($request->ids);
 
-        Agency::findOrFail($request->ids)->delete();
-
-        return redirect()
-            ->route('admin.agencies.index')
-            ->with('message', 'Xoá đơn vị thành công');
+        return redirect()->route('admin.agencies.index')->with('message', 'Xoá đơn vị thành công');
     }
 }

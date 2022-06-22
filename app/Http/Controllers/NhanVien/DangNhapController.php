@@ -26,7 +26,6 @@ class DangNhapController extends Controller
 
         if(Auth::guard('user')->attempt(['username' => $username, 'password' => $password, 'is_admin' => '0', 'deleted_at' => null]))
         {
-            
             return redirect()->route('home');
         }
 
@@ -40,10 +39,9 @@ class DangNhapController extends Controller
 
     public function logout()
     {
-        
-            Auth::guard('user')->logout();
-            Auth::guard('admin')->logout();
-                 
+        Auth::guard('user')->logout();
+        Auth::guard('admin')->logout();
+
         return redirect()->route('home');
     }
 }
