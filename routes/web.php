@@ -26,6 +26,7 @@ Route::get('dangnhap', [DangNhapController::class, 'index'])->name('dangnhapGet'
 Route::post('dangnhap', [DangNhapController::class, 'login'])->name('dangnhapPost');
 
 Route::get('/', [TrangChuController::class, 'index'])->name('home');
+Route::get('tatcacactour', [TrangChuController::class, 'allTour'])->name('alltour');
 Route::get('timkiem', [TimKiemController::class, 'index'])->name('search');
 Route::get('lienhe', [LienHeController::class, 'index'])->name('contact');
 Route::get('quenmatkhau', [QuenMatKhauController::class, 'index'])->name('forgotpasswordGet');
@@ -34,6 +35,7 @@ Route::post('guimail', [SendMailController::class, 'index'])->name('sendmail');
 Route::get('dangxuat', [DangNhapController::class, 'logout'])->name('logout');
 
 Route::middleware('user')->prefix('nhanvien')->name('nhanvien.')->group(function(){
+    Route::resource('thaydoimatkhau', ChangePassword::class); 
     Route::resource('thongtincanhan', NVNhanVienController::class);
     Route::resource('dattour', DatTourController::class);
 });
@@ -53,8 +55,6 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     Route::resource('supports', SupportController::class);
     Route::resource('tour_registrations',TourRegistrationController::class);
 });
-
-
 
 Route::fallback(function () {
     return "404";

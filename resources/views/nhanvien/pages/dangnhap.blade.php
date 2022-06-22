@@ -39,22 +39,4 @@
             </form>
         </div>
     </div>
-    <style type="text/css">
-        a:link {
-          text-decoration: none;
-        }
-
-        a:visited {
-          text-decoration: none;
-        }
-
-        a:hover {
-            color:#007bff;
-          text-decoration: underline;
-        }
-
-        a:active {
-          text-decoration: underline;
-        }
-    </style>
 @endsection
