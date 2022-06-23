@@ -7,23 +7,32 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AgencyRequest;
 use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Datatables;
 
 class AgencyController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Agency::query();
+        return view('admin.pages.agencies.index');
+    }
 
-        foreach ($request->except(['per_page', 'page']) as $attributes => $value)
-        {
-            $query->where($attributes, 'LIKE', '%'.$value.'%');
-        }
-
-        $parameters = [];
-        $parameters['perPages'] = [5, 10, 25, 50, 100, 200, 400, 500];
-        $parameters['agencies'] = $query->paginate($request->get('per_page', 5));
-
-        return view('admin.pages.agencies.index', $parameters);
+    public function datatableApi()
+    {
+        $agencies = Agency::all();
+        return DataTables::of($agencies)
+            ->addIndexColumn()
+            ->addColumn('action', function (Agency $agency) {
+                return $agency->id;
+            })->addColumn('checkbox', function (Agency $agency) {
+                return '
+                    <label class="control control--checkbox">
+                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$agency->id.'" />
+                        <div class="control__indicator"></div>
+                    </label>
+                ';
+            })
+            ->rawColumns(['action', 'checkbox'])
+            ->make();
     }
 
     public function search(Request $request)
@@ -60,9 +69,7 @@ class AgencyController extends Controller
 
     public function update(AgencyRequest $request, int $id)
     {
-        $validated = $request->validated();
-
-        Agency::where('id', $id)->update($validated);
+        Agency::where('id', $id)->update($request->validated());
 
         return redirect()
             ->route('admin.agencies.index')
@@ -82,6 +89,8 @@ class AgencyController extends Controller
     {
         Agency::destroy($request->ids);
 
-        return redirect()->route('admin.agencies.index')->with('message', 'Xoá đơn vị thành công');
+        return response()->json([
+            'message' => 'Xoá đơn vị thành công'
+        ]);
     }
 }

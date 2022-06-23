@@ -17,36 +17,6 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        // DB::enableQueryLog();
-        // $queryParameters = collect($request->except(['per_page', 'page']));
-
-        // $query = User::query();
-
-        // foreach ($queryParameters->only(['fullname', 'email', 'phone', 'citizen_card']) as $field => $value)
-        // {
-        //     $query->where($field, 'LIKE', '%'.$value.'%');
-        // }
-
-        // foreach ($queryParameters->only(['gender', 'agency_id', 'department_id', 'position_id', 'is_admin']) as $field => $value)
-        // {
-        //     $query->where($field, $value);
-        // }
-
-        // $now = date('Y-m-d');
-        // foreach ($queryParameters->only(['start_date']) as $field => $value)
-        // {
-        //     $query->whereBetween($field, [$value, $now]);
-        // }
-
-        // $parameters = [];
-        // $parameters['perPages'] = [5, 10, 25, 50, 100, 200, 400, 500];
-        // $parameters['users'] = $query->with(['agency', 'department', 'position'])->paginate($request->get('per_page', 5));
-        // $parameters['agencies'] = Agency::all();
-        // $parameters['departments'] = Department::all();
-        // $parameters['positions'] = Position::all();
-
-        // dd(DB::getQueryLog());
-
         return view('admin.pages.users.index');
     }
 
@@ -59,15 +29,10 @@ class UserController extends Controller
             ->addColumn('action', function (User $user) {
                 return $user->id;
             })->addColumn('checkbox', function (User $user) {
-                return '
-                    <label class="control control--checkbox">
-                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$user->id.'" />
-                        <div class="control__indicator"></div>
-                    </label>
-                ';
+                return $user->id;
             })
             ->rawColumns(['action', 'checkbox'])
-            ->make();
+            ->make(true);
     }
 
     public function search(Request $request)

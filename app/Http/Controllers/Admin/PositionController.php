@@ -6,15 +6,39 @@ use App\Http\Controllers\Controller;
 use App\Models\Position;
 use App\Http\Requests\Admin\PositionRequest;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class PositionController extends Controller
 {
     public function index()
     {
-        $parameters = [];
-        $parameters['positions'] = Position::paginate(5);
+        return view('admin.pages.positions.index');
+    }
 
-        return view('admin.pages.positions.index', $parameters);
+    public function datatableApi()
+    {
+        $positions = Position::all();
+        return DataTables::of($positions)
+            ->addIndexColumn()
+            ->addColumn('action', function (Position $position) {
+                return $position->id;
+            })->addColumn('checkbox', function (Position $position) {
+                return '
+                    <label class="control control--checkbox">
+                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$position->id.'" />
+                        <div class="control__indicator"></div>
+                    </label>
+                ';
+            })
+            ->rawColumns(['action', 'checkbox'])
+            ->make();
+    }
+
+    public function search(Request $request)
+    {
+        $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
+
+        return redirect()->route('admin.agencies.index', $parameters);
     }
 
     public function create()
@@ -59,5 +83,14 @@ class PositionController extends Controller
         return redirect()
             ->route('admin.positions.index')
             ->with('success', 'Xoá chức vụ thành công');
+    }
+
+    public function deleteMany(Request $request)
+    {
+        Position::destroy($request->ids);
+
+        return response()->json([
+            'message' => 'Xoá chức vụ thành công'
+        ]);
     }
 }
