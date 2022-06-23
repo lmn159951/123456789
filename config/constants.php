@@ -54,7 +54,7 @@ return [
 
     'departments' => [
         ['name' => 'Phòng kế toán', 'created_at' => Carbon::now()],
-        ['name' => 'Phòng tài chín', 'created_at' => Carbon::now()],
+        ['name' => 'Phòng tài chính', 'created_at' => Carbon::now()],
         ['name' => 'Phòng hành chính', 'created_at' => Carbon::now()],
         ['name' => 'Phòng nhân sự', 'created_at' => Carbon::now()],
         ['name' => 'Phòng kinh doanh', 'created_at' => Carbon::now()],

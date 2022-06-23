@@ -6,18 +6,41 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DepartmentRequest;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class DepartmentController extends Controller
 {
     public function index(Request $request)
     {
-        $parameters = [];
-        $parameters['perPages'] = [5, 10, 25, 50, 100, 200, 400, 500];
-        $parameters['departments'] = Department::where('name', 'LIKE', '%'.$request->name.'%')->paginate($request->get('per_page', 5));
-        $request->request->add(['per_page' => $request->get('per_page', 5)]);
-
-        return view('admin.pages.departments.index', $parameters);
+        return view('admin.pages.departments.index');
     }
+
+    public function datatableApi()
+    {
+        $departments = Department::all();
+        return DataTables::of($departments)
+            ->addIndexColumn()
+            ->addColumn('action', function (Department $department) {
+                return $department->id;
+            })->addColumn('checkbox', function (Department $department) {
+                return '
+                    <label class="control control--checkbox">
+                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$department->id.'" />
+                        <div class="control__indicator"></div>
+                    </label>
+                ';
+            })
+            ->rawColumns(['action', 'checkbox'])
+            ->make();
+    }
+
+    public function search(Request $request)
+    {
+        $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
+
+        return redirect()->route('admin.agencies.index', $parameters);
+    }
+
 
     public function create()
     {
@@ -59,5 +82,14 @@ class DepartmentController extends Controller
         return redirect()
                 ->route('admin.departments.index')
                 ->with('success', 'Xoá đơn vị thành công');
+    }
+
+    public function deleteMany(Request $request)
+    {
+        Department::destroy($request->ids);
+
+        return response()->json([
+            'message' => 'Xoá phòng ban thành công'
+        ]);
     }
 }

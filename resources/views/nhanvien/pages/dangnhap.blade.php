@@ -1,6 +1,6 @@
 @extends('nhanvien.layout.nhanvien')
 @section('content')
- <!-- Contact Form Begin -->
+    <!-- Contact Form Begin -->
     <div class="contact-form spad">
         <div class="container">
             <div class="row">
@@ -22,20 +22,19 @@
                         </div>
                         <div class="quenmatkhau d-flex justify-content-center">
                             <a href="{{ route('forgotpassword') }}" class="txtquenmatkhau">Quên mật khẩu</a>
-                        </div>    
+                        </div>
                         <div class="col-lg-12 text-center">
                             <button type="submit" class="site-btn">ĐĂNG NHẬP</button>
                             @isset($message)
-                            <div class="d-flex justify-content-center">
-                                <div class="alert alert-danger mt-3 w-50" role="alert">
-                                    {{ $message }}
+                                <div class="d-flex justify-content-center">
+                                    <div class="alert alert-danger mt-3 w-50" role="alert">
+                                        {{ $message }}
+                                    </div>
                                 </div>
-                            </div>
-                               
                             @endisset
                         </div>
                     </div>
-                </div>    
+                </div>
             </form>
         </div>
     </div>
