@@ -55,10 +55,18 @@ class UserController extends Controller
         $users = User::with(['department', 'position'])->get();
 
         return Datatables::of($users)
+            ->addIndexColumn()
             ->addColumn('action', function (User $user) {
                 return $user->id;
+            })->addColumn('checkbox', function (User $user) {
+                return '
+                    <label class="control control--checkbox">
+                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$user->id.'" />
+                        <div class="control__indicator"></div>
+                    </label>
+                ';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'checkbox'])
             ->make();
     }
 
@@ -153,8 +161,10 @@ class UserController extends Controller
 
     public function deleteMany(Request $request)
     {
-        Agency::destroy($request->ids);
+        User::destroy($request->ids);
 
-        return redirect()->route('admin.users.index');
+        return response()->json([
+            'message' => 'Xoá nhân viên thành công'
+        ]);
     }
 }

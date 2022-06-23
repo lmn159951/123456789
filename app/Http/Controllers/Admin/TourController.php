@@ -117,9 +117,12 @@ class TourController extends Controller
         return view('admin.pages.tours.show', $parameters);
     }
 
-    public function showFileDescription(Tour $tour)
+    public function showFileDescription(int $id)
     {
-        return view('admin.pages.tours.showFileDescription', ['tour' => $tour]);
+        $parameters = [];
+        $parameters['tour'] = Tour::find($id);
+
+        return view('admin.pages.tours.showFileDescription', $parameters);
     }
 
     public function destroy(int $id)
