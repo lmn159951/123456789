@@ -2,50 +2,79 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\UserRequest;
-use App\Models\Agency;
-use App\Models\Department;
-use App\Models\Position;
 use App\Models\User;
+use App\Models\Agency;
+use App\Models\Position;
+use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\Admin\UserRequest;
+use Yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $filterParameters = collect(array_filter($request->except(['per_page', 'page']), function($param) { return isset($param); }));
-        $whereLikeParameters = $filterParameters->only(['fullname', 'email', 'phone', 'citizen_card']);
-        $whereParameters = $filterParameters->only(['gender', 'agency_id', 'department_id', 'position_id', 'is_admin']);
-        $dateParameters = $filterParameters->only(['start_date']);
+        // DB::enableQueryLog();
+        // $queryParameters = collect($request->except(['per_page', 'page']));
 
-        $query = User::query();
+        // $query = User::query();
 
-        foreach ($whereLikeParameters as $field => $value)
-        {
-            $query->where($field, 'LIKE', '%'.$value.'%');
-        }
+        // foreach ($queryParameters->only(['fullname', 'email', 'phone', 'citizen_card']) as $field => $value)
+        // {
+        //     $query->where($field, 'LIKE', '%'.$value.'%');
+        // }
 
-        foreach ($whereParameters as $field => $value)
-        {
-            $query->where($field, 'LIKE', '%'.$value.'%');
-        }
+        // foreach ($queryParameters->only(['gender', 'agency_id', 'department_id', 'position_id', 'is_admin']) as $field => $value)
+        // {
+        //     $query->where($field, $value);
+        // }
 
-        $now = date('Y-m-d');
-        foreach ($dateParameters as $field => $value)
-        {
-            $query->whereBetween($field, [$value, $now]);
-        }
+        // $now = date('Y-m-d');
+        // foreach ($queryParameters->only(['start_date']) as $field => $value)
+        // {
+        //     $query->whereBetween($field, [$value, $now]);
+        // }
 
-        $parameters = [];
-        $parameters['perPages'] = [5, 10, 25, 50, 100, 200, 400, 500];
-        $parameters['users'] = $query->with(['agency', 'department', 'position'])->paginate($request->get('per_page', 5));
-        $parameters['agencies'] = Agency::all();
-        $parameters['departments'] = Department::all();
-        $parameters['positions'] = Position::all();
+        // $parameters = [];
+        // $parameters['perPages'] = [5, 10, 25, 50, 100, 200, 400, 500];
+        // $parameters['users'] = $query->with(['agency', 'department', 'position'])->paginate($request->get('per_page', 5));
+        // $parameters['agencies'] = Agency::all();
+        // $parameters['departments'] = Department::all();
+        // $parameters['positions'] = Position::all();
 
-        return view('admin.pages.users.index', $parameters);
+        // dd(DB::getQueryLog());
+
+        return view('admin.pages.users.index');
+    }
+
+    public function datatableApi()
+    {
+        $users = User::with(['department', 'position'])->get();
+
+        return Datatables::of($users)
+            ->addIndexColumn()
+            ->addColumn('action', function (User $user) {
+                return $user->id;
+            })->addColumn('checkbox', function (User $user) {
+                return '
+                    <label class="control control--checkbox">
+                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$user->id.'" />
+                        <div class="control__indicator"></div>
+                    </label>
+                ';
+            })
+            ->rawColumns(['action', 'checkbox'])
+            ->make();
+    }
+
+    public function search(Request $request)
+    {
+        $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
+
+        return redirect()->route('admin.users.index', $parameters);
     }
 
     public function create()
@@ -128,5 +157,14 @@ class UserController extends Controller
         return redirect()
             ->route('admin.users.index')
             ->with('message', 'Xoá nhân viên thành công');
+    }
+
+    public function deleteMany(Request $request)
+    {
+        User::destroy($request->ids);
+
+        return response()->json([
+            'message' => 'Xoá nhân viên thành công'
+        ]);
     }
 }

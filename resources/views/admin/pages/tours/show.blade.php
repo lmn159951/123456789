@@ -28,8 +28,6 @@
                         <img src="{{ asset('/storage/images/' . $tour->image) }}"
                             alt="{{ asset('/storage/images/' . $tour->image) }}" width="100" height="100">
                     @endif
-
-
                 </div>
 
                 <div class="col">

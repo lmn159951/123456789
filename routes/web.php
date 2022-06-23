@@ -59,7 +59,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::resource('departments', DepartmentController::class);
     Route::resource('positions', PositionController::class);
+
+    // Route::post('/users/search', [UserController::class, 'search'])->name('users.search');
+    Route::delete('/users/deleteMany', [UserController::class, 'deleteMany'])->name('users.deleteMany');
+    Route::get('/users/datatableApi', [UserController::class, 'datatableApi'])->name('users.datatableApi');
     Route::resource('users', UserController::class);
+
     Route::resource('regions', RegionController::class);
     Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription');
     Route::resource('tours', TourController::class);

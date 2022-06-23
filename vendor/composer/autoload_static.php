@@ -32,6 +32,7 @@ class ComposerStaticInit779901fad2942b15c86159f074ed9a75
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
+        '0b47d6d4a00ca9112ba3953b49e7c9a4' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -42,6 +43,10 @@ class ComposerStaticInit779901fad2942b15c86159f074ed9a75
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
+        ),
+        'Y' => 
+        array (
+            'Yajra\\DataTables\\' => 17,
         ),
         'W' => 
         array (
@@ -180,6 +185,10 @@ class ComposerStaticInit779901fad2942b15c86159f074ed9a75
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'Yajra\\DataTables\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
         ),
         'Whoops\\' => 
         array (
@@ -514,8 +523,10 @@ class ComposerStaticInit779901fad2942b15c86159f074ed9a75
         'App\\Http\\Controllers\\Admin\\RegionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/RegionController.php',
         'App\\Http\\Controllers\\Admin\\SupportController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/SupportController.php',
         'App\\Http\\Controllers\\Admin\\TourController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/TourController.php',
+        'App\\Http\\Controllers\\Admin\\TourRegistrationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/TourRegistrationController.php',
         'App\\Http\\Controllers\\Admin\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/UserController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\NhanVien\\ChangePassword' => __DIR__ . '/../..' . '/app/Http/Controllers/NhanVien/ChangePassword.php',
         'App\\Http\\Controllers\\NhanVien\\DangNhapController' => __DIR__ . '/../..' . '/app/Http/Controllers/NhanVien/DangNhapController.php',
         'App\\Http\\Controllers\\NhanVien\\DatTourController' => __DIR__ . '/../..' . '/app/Http/Controllers/NhanVien/DatTourController.php',
         'App\\Http\\Controllers\\NhanVien\\LienHeController' => __DIR__ . '/../..' . '/app/Http/Controllers/NhanVien/LienHeController.php',
@@ -529,6 +540,7 @@ class ComposerStaticInit779901fad2942b15c86159f074ed9a75
         'App\\Http\\Middleware\\AdminMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminMiddleware.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
+        'App\\Http\\Middleware\\NotLogedInMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/NotLogedInMiddleware.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
@@ -541,11 +553,14 @@ class ComposerStaticInit779901fad2942b15c86159f074ed9a75
         'App\\Http\\Requests\\Admin\\PositionRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Admin/PositionRequest.php',
         'App\\Http\\Requests\\Admin\\RegionRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Admin/RegionRequest.php',
         'App\\Http\\Requests\\Admin\\SupportRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Admin/SupportRequest.php',
+        'App\\Http\\Requests\\Admin\\TourRegistrationRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Admin/TourRegistrationRequest.php',
         'App\\Http\\Requests\\Admin\\TourRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Admin/TourRequest.php',
         'App\\Http\\Requests\\Admin\\UserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Admin/UserRequest.php',
         'App\\Http\\Requests\\NhanVien\\NVDangNhapRequest' => __DIR__ . '/../..' . '/app/Http/Requests/NhanVien/NVDangNhapRequest.php',
+        'App\\Http\\Requests\\NhanVien\\RecoveryAccountRequest' => __DIR__ . '/../..' . '/app/Http/Requests/NhanVien/RecoveryAccountRequest.php',
         'App\\Http\\Requests\\NhanVien\\TtcnRequest' => __DIR__ . '/../..' . '/app/Http/Requests/NhanVien/TtcnRequest.php',
         'App\\Http\\Requests\\SendMailRequest' => __DIR__ . '/../..' . '/app/Http/Requests/SendMailRequest.php',
+        'App\\Mail\\ForgotPassword' => __DIR__ . '/../..' . '/app/Mail/ForgotPassword.php',
         'App\\Mail\\MailNotify' => __DIR__ . '/../..' . '/app/Mail/MailNotify.php',
         'App\\Models\\Agency' => __DIR__ . '/../..' . '/app/Models/Agency.php',
         'App\\Models\\AgencyTour' => __DIR__ . '/../..' . '/app/Models/AgencyTour.php',
@@ -556,6 +571,7 @@ class ComposerStaticInit779901fad2942b15c86159f074ed9a75
         'App\\Models\\Tour' => __DIR__ . '/../..' . '/app/Models/Tour.php',
         'App\\Models\\TourRegistration' => __DIR__ . '/../..' . '/app/Models/TourRegistration.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\UserSupport' => __DIR__ . '/../..' . '/app/Models/UserSupport.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -667,16 +683,11 @@ class ComposerStaticInit779901fad2942b15c86159f074ed9a75
         'Cron\\HoursField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/HoursField.php',
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
-        'Database\\Factories\\NhanVienFactory' => __DIR__ . '/../..' . '/database/factories/NhanVienFactory.php',
-        'Database\\Factories\\SupportFactory' => __DIR__ . '/../..' . '/database/factories/SupportFactory.php',
         'Database\\Factories\\TourFactory' => __DIR__ . '/../..' . '/database/factories/TourFactory.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\AgencySeeder' => __DIR__ . '/../..' . '/database/seeders/AgencySeeder.php',
-        'Database\\Seeders\\ChucVuSeeder' => __DIR__ . '/../..' . '/database/seeders/ChucVuSeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\DepartmentSeeder' => __DIR__ . '/../..' . '/database/seeders/DepartmentSeeder.php',
-        'Database\\Seeders\\NhanVienSeeder' => __DIR__ . '/../..' . '/database/seeders/NhanVienSeeder.php',
-        'Database\\Seeders\\PhongBanSeeder' => __DIR__ . '/../..' . '/database/seeders/PhongBanSeeder.php',
         'Database\\Seeders\\PositionSeeder' => __DIR__ . '/../..' . '/database/seeders/PositionSeeder.php',
         'Database\\Seeders\\RegionSeeder' => __DIR__ . '/../..' . '/database/seeders/RegionSeeder.php',
         'Database\\Seeders\\SupportSeeder' => __DIR__ . '/../..' . '/database/seeders/SupportSeeder.php',
@@ -5651,6 +5662,21 @@ class ComposerStaticInit779901fad2942b15c86159f074ed9a75
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+        'Yajra\\DataTables\\CollectionDataTable' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/CollectionDataTable.php',
+        'Yajra\\DataTables\\Contracts\\DataTable' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Contracts/DataTable.php',
+        'Yajra\\DataTables\\Contracts\\Formatter' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Contracts/Formatter.php',
+        'Yajra\\DataTables\\DataTableAbstract' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/DataTableAbstract.php',
+        'Yajra\\DataTables\\DataTables' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/DataTables.php',
+        'Yajra\\DataTables\\DataTablesServiceProvider' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/DataTablesServiceProvider.php',
+        'Yajra\\DataTables\\EloquentDataTable' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/EloquentDataTable.php',
+        'Yajra\\DataTables\\Exceptions\\Exception' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Exceptions/Exception.php',
+        'Yajra\\DataTables\\Facades\\DataTables' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Facades/DataTables.php',
+        'Yajra\\DataTables\\Processors\\DataProcessor' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Processors/DataProcessor.php',
+        'Yajra\\DataTables\\Processors\\RowProcessor' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Processors/RowProcessor.php',
+        'Yajra\\DataTables\\QueryDataTable' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/QueryDataTable.php',
+        'Yajra\\DataTables\\Utilities\\Config' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Config.php',
+        'Yajra\\DataTables\\Utilities\\Helper' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Helper.php',
+        'Yajra\\DataTables\\Utilities\\Request' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Request.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',
