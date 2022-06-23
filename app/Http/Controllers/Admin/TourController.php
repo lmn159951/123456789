@@ -8,15 +8,40 @@ use App\Models\Agency;
 use App\Models\Region;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class TourController extends Controller
 {
     public function index()
     {
-        $parameters = [];
-        $parameters['tours'] = Tour::Paginate(5);
+        return view('admin.pages.tours.index');
+    }
 
-        return view('admin.pages.tours.index', $parameters);
+    public function datatableApi()
+    {
+        $tours = Tour::with(['region'])->get();
+
+        return Datatables::of($tours)
+            ->addIndexColumn()
+            ->addColumn('action', function (Tour $tour) {
+                return $tour->id;
+            })->addColumn('checkbox', function (Tour $tour) {
+                return '
+                    <label class="control control--checkbox">
+                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$tour->id.'" />
+                        <div class="control__indicator"></div>
+                    </label>
+                ';
+            })
+            ->rawColumns(['action', 'checkbox'])
+            ->make();
+    }
+
+    public function search(Request $request)
+    {
+        $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
+
+        return redirect()->route('admin.users.index', $parameters);
     }
 
     public function create()
@@ -132,5 +157,14 @@ class TourController extends Controller
         return redirect()
             ->route('admin.tours.index')
             ->with('message', 'Xoá tour thành công');
+    }
+
+    public function deleteMany(Request $request)
+    {
+        Tour::destroy($request->ids);
+
+        return response()->json([
+            'message' => 'Xoá nhân viên thành công'
+        ]);
     }
 }

@@ -32,12 +32,12 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p>Bạn có chắc muốn xoá user được đánh dấu không?</p>
+                                <p>Bạn có chắc muốn xoá người dùng được đánh dấu không?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-danger" id="buttonDeleteMany">
-                                    Xoá dánh dau
+                                    Xoá đánh dấu
                                 </button>
                             </div>
                         </div>
@@ -93,25 +93,13 @@
             const tableContent = $('#table-content').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{!! route('admin.users.datatableApi') !!}',
-                columnDefs: [{
-                    targets: 'no-sort',
-                    orderable: false
-                }],
+                ajax: "{!! route('admin.users.datatableApi') !!}",
                 columns: [{
                         data: 'checkbox',
                         name: 'checkbox',
                         targets: 0,
                         orderable: false,
                         searchable: false,
-                        render: function(userId) {
-                            return `
-                                <label class="control control--checkbox">
-                                    <input type="checkbox" class="table-checkbox" name="ids[]" value="${userId}" />
-                                    <div class="control__indicator"></div>
-                                </label>
-                            `;
-                        }
                     },
                     {
                         data: 'DT_RowIndex',
@@ -128,7 +116,7 @@
                     {
                         data: 'gender',
                         name: 'gender',
-                        width: "75px"
+                        width: '75px'
                     },
                     {
                         data: 'department.name',

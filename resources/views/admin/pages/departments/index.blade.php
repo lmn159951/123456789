@@ -1,101 +1,247 @@
 @extends('admin.layouts.admin')
 
+@push('styles')
+    <link href="{{ asset('admin/fonts/icomoon/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/css/custom-table.css') }}" rel="stylesheet">
+@endpush
+
 @section('content')
     <div class="container-fluid">
-        <div class="shadow p-4 mb-5 rounded">
+        <div class="shadow p-4 mb-5 bg-body rounded">
             <h3 class="text-center">Quản lý phòng ban</h3>
 
-            @if (session('success'))
+            @if (session('message'))
                 <div class="alert alert-success text-center">
-                    {{ session('success') }}
+                    {{ session('message') }}
                 </div>
             @endif
 
-            <div class="card">
-                <div class="card-header">
-                    Lọc dữ liệu
-                </div>
-                <div class="card-body">
-                    <form class="container" style="max-width: 800px;" action="{{ route('admin.departments.index') }}"
-                        method="GET">
-                        <div class="row align-items-start">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Tên phòng ban:</label>
-                                    <input type="text" class="form-control" value="{{ request()->query('name') }}"
-                                        name="name" id="name">
-                                </div>
+            <div class="d-grid gap-2 d-flex align-items-center justify-content-end my-3">
+
+                <button id="buttonDeleteManyModel" type="button" class="btn btn-danger d-none" data-bs-toggle="modal"
+                    data-bs-target="#deleteAllModal">
+                    Xoá đánh dấu
+                </button>
+
+                <div class="modal fade" id="deleteAllModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Bạn có chắc muốn xoá phòng ban được đánh dấu không?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger" id="buttonDeleteMany">
+                                    Xoá đánh dấu
+                                </button>
                             </div>
                         </div>
-                        <div class="my-3 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="my-3 d-flex justify-content-between">
-
-                <div class="form-group d-flex align-items-center col-3">
-                    <label for="perPage">Số dòng trong bảng: </label>
-                    <select class="form-control" id="perPage" name="perPage" onchange="location = this.value"
-                        style="width: 50px;margin-left: 10px;">
-
-                        @foreach ($perPages as $perPage)
-                            <option value="{{ request()->fullUrlWithQuery(['per_page' => $perPage]) }}"
-                                @selected(request()->input('per_page') == $perPage)>
-                                {{ $perPage }}
-                            </option>
-                        @endforeach
-                    </select>
+                    </div>
                 </div>
 
-                <a class="btn btn-primary d-flex justify-content-center align-items-center"
-                    href="{{ route('admin.departments.create') }}">
+                <a class="btn btn-primary" href="{{ route('admin.departments.create') }}">
                     Thêm
                 </a>
             </div>
-
-            <table class="table table-hover my-3">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Tên phòng ban</th>
-                        <th scope="col">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($departments as $index => $department)
+                <table class="table table-hover my-3" id="table-content">
+                    <thead>
                         <tr>
-                            <th scope="row">{{ $index + 1 }}</th>
-                            <td>{{ $department->name }}</td>
-                            <td>
-                                <div class="d-flex">
-                                    <a class="btn btn-warning"
-                                        href="{{ route('admin.departments.edit', $department->id) }}">
-                                        Cập nhật
-                                    </a>
-                                    <form class="ml-3" method="post"
-                                        action="{{ route('admin.departments.destroy', $department->id) }}">
-                                        @method('DELETE') @csrf
-                                        <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Bạn có chắc muốn xoá phòng ban này?')">
-                                            Xoá
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+                            <th scope="col">
+                                <label class="control control--checkbox">
+                                    <input type="checkbox" class="js-check-all" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </th>
+                            <th scope="col">#</th>
+                            <th scope="col">
+                                Tên phòng ban
+                            </th>
+                            <th scope="col">
+                                Thao tác
+                            </th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
 
-            <div class="pagination-wrapper d-flex justify-content-between">
-                <div class="text">Hiển thị {{ $departments->firstItem() }} từ {{ $departments->lastItem() }} trong
-                    {{ $departments->total() }} số nhân viên</div>
-                <div class="pagination">{{ $departments->links() }}</div>
-            </div>
+                </table>
         </div>
 
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            const tableContent = $('#table-content').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{!! route('admin.departments.datatableApi') !!}",
+                columns: [{
+                        data: 'checkbox',
+                        name: 'checkbox',
+                        targets: 'no-sort',
+                        orderable: false,
+                        searchable: false,
+                        className: ''
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'action',
+                        targets: 7,
+                        orderable: false,
+                        searchable: false,
+                        render: function(departmentId) {
+                            const updateUrl = 'http://127.0.0.1:8000/admin/departments/' + departmentId +
+                                '/edit';
+                            const deleteUrl = 'http://127.0.0.1:8000/admin/departments/' + departmentId;
+
+                            return `
+                                <div class="d-flex">
+                                    <a class="btn btn-warning mr-2" href="${updateUrl}">
+                                        <i class="fas fa-fw fa-pen"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal-${departmentId}">
+                                        <i class="fas fa-fw fa-trash"></i>
+                                    </button>
+                                    <div class="modal fade" id="deleteModal-${departmentId}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Bạn có muốn xoá phòng ban này?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <form class="ml-3" method="post"
+                                                        action="${deleteUrl}">
+                                                        @method('DELETE') @csrf
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Xoá
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }
+                ]
+            });
+
+            $(document).on('click', '.js-check-all', function() {
+
+                if ($(this).prop("checked")) {
+                    $('tr input[type="checkbox"]').each(function() {
+                        $(this).prop("checked", true);
+                        $(this).closest("tr").addClass("active");
+                    });
+                } else {
+                    $('tr input[type="checkbox"]').each(function() {
+                        $(this).prop("checked", false);
+                        $(this).closest("tr").removeClass("active");
+                    });
+                }
+            });
+
+            $(document).on('change', 'tr input[type="checkbox"]', function() {
+                if ($('tr input.table-checkbox[type="checkbox"]').length === $(
+                        'tr input.table-checkbox[type="checkbox"]:checked').length) {
+                    $('.js-check-all').prop('checked', true);
+                } else {
+                    $('.js-check-all').prop('checked', false);
+                }
+            });
+
+            $(document).on("click", 'th[scope="row"] input[type="checkbox"]', function() {
+                if ($(this).closest("tr").hasClass("active")) {
+                    $(this).closest("tr").removeClass("active");
+                } else {
+                    $(this).closest("tr").addClass("active");
+                }
+            });
+
+            $(document).on('change', ".control--checkbox input[type=checkbox]", function(event) {
+                const deleteRecords = $(
+                    "tbody tr .control--checkbox input[type=checkbox]:checked"
+                );
+
+                const deleteRecordsLength = deleteRecords.length;
+
+                console.log({
+                    deleteRecordsLength
+                });
+
+                if (deleteRecordsLength >= 1) {
+                    $("#buttonDeleteManyModel").removeClass('d-none');
+                    $("#buttonDeleteManyModel").text(
+                        `Xoá đánh dấu (${deleteRecordsLength})`
+                    );
+
+                    $("#buttonDeleteMany").text(
+                        `Xoá đánh dấu (${deleteRecordsLength})`
+                    );
+                } else {
+                    $("#buttonDeleteManyModel").addClass('d-none');
+                }
+            });
+
+            $("#buttonDeleteMany").click(function() {
+                const deleteRecords = $(
+                    "tbody tr .control--checkbox input[type=checkbox]:checked"
+                );
+
+                const deleteRecordsIds = deleteRecords.map(function(item) {
+                    return parseInt($(this).val());
+                }).get();
+
+                console.log({
+                    deleteRecordsIds
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ route('admin.departments.deleteMany') }}",
+                    data: {
+                        'ids': deleteRecordsIds,
+                        '_method': 'delete'
+                    },
+                    success: function(response, textStatus, xhr) {
+                        $('#deleteAllModal').modal('hide');
+                        tableContent.draw();
+                        $('.js-check-all').prop('checked', false);
+                        $("#buttonDeleteManyModel").addClass('d-none');
+                    }
+                });
+            });
+
+            $('table tr:first').removeClass(['sorting_disabled', 'sorting_asc'])
+        });
+    </script>
+
+    {{-- <script src="{{ asset('admin/js/custom-table.js') }}"></script> --}}
+@endpush

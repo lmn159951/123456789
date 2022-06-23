@@ -47,7 +47,7 @@ Route::middleware('user')->prefix('nhan-vien')->name('nhanvien.')->group(functio
     Route::resource('thay-doi-mat-khau', ChangePassword::class);
     Route::resource('thong-tin-ca-nhan', NVNhanVienController::class);
     Route::resource('dat-tour', DatTourController::class);
-    // Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
+    Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
 });
 
 //Admin
@@ -57,9 +57,15 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
 
     Route::post('/agencies/search', [AgencyController::class, 'search'])->name('agencies.search');
     Route::delete('/agencies/deleteMany', [AgencyController::class, 'deleteMany'])->name('agencies.deleteMany');
+    Route::get('/agencies/datatableApi', [AgencyController::class, 'datatableApi'])->name('agencies.datatableApi');
     Route::resource('agencies', AgencyController::class);
-
+    Route::post('/departments/search', [DepartmentController::class, 'search'])->name('departments.search');
+    Route::delete('/departments/deleteMany', [DepartmentController::class, 'deleteMany'])->name('departments.deleteMany');
+    Route::get('/departments/datatableApi', [DepartmentController::class, 'datatableApi'])->name('departments.datatableApi');
     Route::resource('departments', DepartmentController::class);
+    Route::post('/positions/search', [PositionController::class, 'search'])->name('positions.search');
+    Route::delete('/positions/deleteMany', [PositionController::class, 'deleteMany'])->name('positions.deleteMany');
+    Route::get('/positions/datatableApi', [PositionController::class, 'datatableApi'])->name('positions.datatableApi');
     Route::resource('positions', PositionController::class);
 
     // Route::post('/users/search', [UserController::class, 'search'])->name('users.search');
@@ -68,8 +74,14 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
     Route::resource('users', UserController::class);
 
     Route::resource('regions', RegionController::class);
+    Route::post('/tours/search', [TourController::class, 'search'])->name('tours.search');
+    Route::delete('/tours/deleteMany', [TourController::class, 'deleteMany'])->name('tours.deleteMany');
+    Route::get('/tours/datatableApi', [TourController::class, 'datatableApi'])->name('tours.datatableApi');
     Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription');
     Route::resource('tours', TourController::class);
+    Route::post('/supports/search', [SupportController::class, 'search'])->name('supports.search');
+    Route::delete('/supports/deleteMany', [SupportController::class, 'deleteMany'])->name('supports.deleteMany');
+    Route::get('/supports/datatableApi', [SupportController::class, 'datatableApi'])->name('supports.datatableApi');
     Route::resource('supports', SupportController::class);
     Route::resource('tour_registrations',TourRegistrationController::class);
 });

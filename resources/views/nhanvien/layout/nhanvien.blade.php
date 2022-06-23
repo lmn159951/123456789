@@ -36,7 +36,7 @@
 
         <div class="humberger__menu__widget">
 
-            {{-- <div class="header__top__right__auth">
+             <!-- <div class="header__top__right__auth">
                 @guest('user')
                     <a href="{{ route('login') }}"><i></i>Đăng nhập</a>
                 @endguest
@@ -46,10 +46,10 @@
                     <div class="dropdown-content">
                         <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i></i> Thông tin cá nhân</a>
                         <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"><i></i> Thay đổi mật khẩu</a>
-                        <a href="{{ route('nhanvien.logut') }}"><i></i> Đăng xuất</a>
+                        <a href="{{ route('nhanvien.logout') }}"><i></i> Đăng xuất</a>
                     </div>
                 @endauth
-            </div> --}}
+            </div> -->
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
