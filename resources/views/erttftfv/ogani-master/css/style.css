@@ -902,7 +902,7 @@ ol {
 
 .featured__item__text h5 {
 	color: #252525;
-	font-weight: 700;
+
 }
 
 /*---------------------
@@ -2919,6 +2919,7 @@ ol {
 	padding-left: 20px;
 	margin-bottom: 30px;
 	border-radius: 4px;
+	background-color: white;
 
 }
 .quenmatkhau
@@ -2992,12 +2993,4 @@ input:read-only {
     line-height: 1.5;
     border-radius: 25px;
     transition: color .15s
-}
-.phantrang
-{
-	color: black;
-}
-.sapxepgia
-{
-
 }
