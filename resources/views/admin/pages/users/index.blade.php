@@ -17,9 +17,6 @@
             @endif
 
             <div class="d-grid gap-2 d-flex align-items-center justify-content-end my-3">
-                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#searchModal">
-                    Tìm kiếm
-                </button>
 
                 <button id="buttonDeleteManyModel" type="button" class="btn btn-danger d-none" data-bs-toggle="modal"
                     data-bs-target="#deleteAllModal">
@@ -36,12 +33,12 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p>Bạn có chắc muốn xoá user được đánh dấu không?</p>
+                                <p>Bạn có chắc muốn xoá người dùng được đánh dấu không?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-danger" id="buttonDeleteMany">
-                                    Xoá dánh dau
+                                    Xoá đánh dấu
                                 </button>
                             </div>
                         </div>
@@ -97,14 +94,14 @@
             const tableContent = $('#table-content').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{!! route('admin.users.datatableApi') !!}',
+                ajax: "{!! route('admin.users.datatableApi') !!}",
                 columns: [{
                         data: 'checkbox',
                         name: 'checkbox',
                         targets: 'no-sort',
                         orderable: false,
                         searchable: false,
-                        className: ''
+                        className: '',
                     },
                     {
                         data: 'DT_RowIndex',
@@ -120,7 +117,8 @@
                     },
                     {
                         data: 'gender',
-                        name: 'gender'
+                        name: 'gender',
+                        width: '75px'
                     },
                     {
                         data: 'department.name',
@@ -139,11 +137,15 @@
                             const updateUrl = 'http://127.0.0.1:8000/admin/users/' + userId +
                                 '/edit';
                             const deleteUrl = 'http://127.0.0.1:8000/admin/users/' + userId;
+                            const showUrl = 'http://127.0.0.1:8000/admin/users/' + userId;
 
                             return `
                                 <div class="d-flex">
                                     <a class="btn btn-warning mr-2" href="${updateUrl}">
                                         <i class="fas fa-fw fa-pen"></i>
+                                    </a>
+                                    <a class="btn btn-info mr-2" href="${showUrl}">
+                                        <i class="fas fa-fw fa-eye"></i>
                                     </a>
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#deleteModal-${userId}">
