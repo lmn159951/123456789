@@ -44,7 +44,7 @@ Route::middleware('user')->prefix('nhan-vien')->name('nhanvien.')->group(functio
     Route::resource('thay-doi-mat-khau', ChangePassword::class);
     Route::resource('thong-tin-ca-nhan', NVNhanVienController::class);
     Route::resource('dat-tour', DatTourController::class);
-    // Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
+    Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
 });
 
 //Admin
