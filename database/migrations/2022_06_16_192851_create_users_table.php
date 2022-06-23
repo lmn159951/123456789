@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('gender');
-            $table->dateTime('birthdate');
+            $table->dateTime('birthday')->nullable();
             $table->string('phone')->nullable();
             $table->string('citizen_card')->nullable();
             $table->smallInteger('agency_id')->unsigned();

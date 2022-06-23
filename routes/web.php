@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\TourRegistrationController;
+use App\Http\Controllers\Admin\AuthController;
+
 //NhanVien
 use App\Http\Controllers\NhanVien\NVNhanVienController;
 use App\Http\Controllers\NhanVien\TimKiemController;
@@ -20,6 +22,7 @@ use App\Http\Controllers\NhanVien\TrangChuController;
 use App\Http\Controllers\NhanVien\DangNhapController;
 use App\Http\Controllers\NhanVien\SendMailController;
 use App\Http\Controllers\NhanVien\QuenMatKhauController;
+
 
 
 //Public
@@ -48,10 +51,9 @@ Route::middleware('user')->prefix('nhan-vien')->name('nhanvien.')->group(functio
 });
 
 //Admin
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/login', [AdminController::class, 'login'])->name('login');
-    Route::get('/register', [AdminController::class, 'register'])->name('register');
+    Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
     Route::post('/agencies/search', [AgencyController::class, 'search'])->name('agencies.search');
     Route::delete('/agencies/deleteMany', [AgencyController::class, 'deleteMany'])->name('agencies.deleteMany');
@@ -69,7 +71,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription');
     Route::resource('tours', TourController::class);
     Route::resource('supports', SupportController::class);
-    // Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
     Route::resource('tour_registrations',TourRegistrationController::class);
 });
 

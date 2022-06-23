@@ -60,9 +60,7 @@ class AgencyController extends Controller
 
     public function update(AgencyRequest $request, int $id)
     {
-        $validated = $request->validated();
-
-        Agency::where('id', $id)->update($validated);
+        Agency::where('id', $id)->update($request->validated());
 
         return redirect()
             ->route('admin.agencies.index')

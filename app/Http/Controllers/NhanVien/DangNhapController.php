@@ -14,6 +14,9 @@ class DangNhapController extends Controller
     {
         if(Auth::guard('user')->check())
             return redirect()->route('home');
+
+        if(Auth::guard('admin')->check())
+            return redirect()->route('home');
         return view('nhanvien.pages.dangnhap');
     }
 
@@ -21,6 +24,7 @@ class DangNhapController extends Controller
     {
         if(Auth::guard('user')->check())
             return redirect()->route('home');
+
         $username = $request->post('username');
         $password = $request->post('password');
 
@@ -40,7 +44,6 @@ class DangNhapController extends Controller
     public function logout()
     {
         Auth::guard('user')->logout();
-        Auth::guard('admin')->logout();
 
         return redirect()->route('home');
     }
