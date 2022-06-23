@@ -30,6 +30,8 @@ $(function () {
 
         const deleteRecordsLength = deleteRecords.length;
 
+        console.log({ deleteRecordsLength });
+
         if (deleteRecordsLength >= 1) {
             $("#buttonDeleteManyModel").show();
             $("#buttonDeleteManyModel").text(
