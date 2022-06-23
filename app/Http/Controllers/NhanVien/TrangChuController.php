@@ -27,7 +27,7 @@ class TrangChuController extends Controller
         $allTours = DB::table('tours')
         ->where('registration_start_date', '<=', $today)
         ->where('registration_end_date', '>=', $today)
-        ->orderBy('id', 'DESC'); 
+        ->orderBy('tours.id', 'DESC'); 
         $perPage = 4;
         
         if(!Auth::guard('user')->check())
@@ -36,7 +36,7 @@ class TrangChuController extends Controller
         }
         else
         {
-            $allTours = DB::table('tours')
+            $allTours = $allTours
             ->join('agency_tours', 'tours.id', '=', 'agency_tours.tour_id')
             ->where('agency_id', Auth::guard('user')->user()->agency_id)
             ->paginate($perPage);
