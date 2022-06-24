@@ -227,7 +227,7 @@ $(document).ready(function()
     
   $("#hide").click(function()
   {
-    $("#memo && #demo").remove();
+    $("#memo").remove();
   }
   );
 
@@ -256,12 +256,5 @@ $(function () {
             }
             checkin.hide();
             $('#timeCheckOut')[0].focus();
-        }).data('datepicker');
-        var checkout = $('#timeCheckOut').datepicker({
-            onRender: function (date) {
-                return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
-            }
-        }).on('changeDate', function (ev) {
-            checkout.hide();
         }).data('datepicker');
     });
