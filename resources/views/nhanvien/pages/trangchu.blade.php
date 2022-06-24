@@ -50,7 +50,7 @@
                                             <span>TOUR DU LỊCH</span>
                                             <h2>{{ $firstTour[0]['name'] }}</h2>
                                             <a href="#" class="primary-btn">XEM TOUR</a>
-                                            <a href="#" class="primary-btn">ĐẶT TOUR</a>
+                                            <a href="{{ route('nhanvien.tourregis', $firstTour[0]['tour_id']) }}" class="primary-btn">ĐẶT TOUR</a>
                                 </div>
                             </div>
                             @endif
@@ -80,7 +80,7 @@
                                 <div class="featured__item">
                                     <div class="featured__item__pic set-bg" data-setbg="{{ $highlightTour['image'] }}">
                                         <ul class="featured__item__pic__hover">
-                                            <li><a href="#">Đặt tour</a></li>
+                                            <li><a href="{{ route('nhanvien.tourregis', $highlightTour['tour_id']) }}">Đặt tour</a></li>
                                         </ul>
                                     </div>
                                     <div class="featured__item__text">

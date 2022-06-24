@@ -191,7 +191,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
                     <div class="footer__widget">
                         <h6>Thời gian hoạt động</h6>
-                        <p>Thứ hai - Thứ sáu: 07.30am to 17.00pm</p>
+                        <p>Thứ hai - Thứ sáu: 07.30 đến 17.00</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12">
