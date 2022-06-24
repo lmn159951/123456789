@@ -23,6 +23,6 @@ class TourRegistration extends Model
         return $this->belongsTo(Tour::class);
     }
 
-
+    
 
 }

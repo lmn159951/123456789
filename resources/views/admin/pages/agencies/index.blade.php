@@ -7,6 +7,7 @@
 
 @section('content')
     <div class="container-fluid">
+
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h3 class="text-center">Quản lý đơn vị</h3>
 
@@ -16,27 +17,29 @@
                 </div>
             @endif
 
-            <div class="d-grid gap-2 d-flex align-items-center justify-content-end my-3">
-
-                <button id="buttonDeleteManyModel" type="button" class="btn btn-danger d-none" data-bs-toggle="modal"
-                    data-bs-target="#deleteAllModal">
+            <div class="d-flex align-items-center justify-content-end my-3">
+                <button type="button" class="btn btn-danger mr-2 d-none" id="buttonDeleteManyModel" data-toggle="modal"
+                    data-target="#deleteManyModel">
                     Xoá đánh dấu
                 </button>
 
-                <div class="modal fade" id="deleteAllModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
+                <div class="modal fade" id="deleteManyModel" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                             <div class="modal-body">
                                 <p>Bạn có chắc muốn xoá đơn vị được đánh dấu không?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    Đóng
+                                </button>
                                 <button type="button" class="btn btn-danger" id="buttonDeleteMany">
                                     Xoá đánh dấu
                                 </button>
@@ -45,33 +48,34 @@
                     </div>
                 </div>
 
+
                 <a class="btn btn-primary" href="{{ route('admin.agencies.create') }}">
                     Thêm
                 </a>
             </div>
-                <table class="table table-hover my-3" id="table-content">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                <label class="control control--checkbox">
-                                    <input type="checkbox" class="js-check-all" />
-                                    <div class="control__indicator"></div>
-                                </label>
-                            </th>
-                            <th scope="col">#</th>
-                            <th scope="col">
-                                Tên đơn vị
-                            </th>
-                            <th scope="col">
-                                Địa chỉ
-                            </th>
-                            <th scope="col">
-                                Thao tác
-                            </th>
-                        </tr>
-                    </thead>
+            <table class="table table-hover my-3" id="table-content">
+                <thead>
+                    <tr>
+                        <th scope="col" data-orderable="false">
+                            <label class="control control--checkbox">
+                                <input type="checkbox" class="js-check-all" />
+                                <div class="control__indicator"></div>
+                            </label>
+                        </th>
+                        <th scope="col">#</th>
+                        <th scope="col">
+                            Tên đơn vị
+                        </th>
+                        <th scope="col">
+                            Địa chỉ
+                        </th>
+                        <th scope="col">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
 
-                </table>
+            </table>
         </div>
 
     </div>
@@ -88,10 +92,8 @@
                 columns: [{
                         data: 'checkbox',
                         name: 'checkbox',
-                        targets: 'no-sort',
                         orderable: false,
                         searchable: false,
-                        className: ''
                     },
                     {
                         data: 'DT_RowIndex',
@@ -107,7 +109,6 @@
                     },
                     {
                         data: 'action',
-                        targets: 7,
                         orderable: false,
                         searchable: false,
                         render: function(agencyId) {
@@ -120,18 +121,19 @@
                                     <a class="btn btn-warning mr-2" href="${updateUrl}">
                                         <i class="fas fa-fw fa-pen"></i>
                                     </a>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal-${agencyId}">
+
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal${agencyId}">
                                         <i class="fas fa-fw fa-trash"></i>
                                     </button>
-                                    <div class="modal fade" id="deleteModal-${agencyId}" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
+
+                                    <div class="modal fade" id="exampleModal${agencyId}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                                        <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>Bạn có muốn xoá đơn vị này?</p>
@@ -150,6 +152,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             `;
                         }
@@ -238,7 +241,7 @@
                         '_method': 'delete'
                     },
                     success: function(response, textStatus, xhr) {
-                        $('#deleteAllModal').modal('hide');
+                        $('#deleteManyModel').modal('toggle');
                         tableContent.draw();
                         $('.js-check-all').prop('checked', false);
                         $("#buttonDeleteManyModel").addClass('d-none');

@@ -33,7 +33,7 @@ class SupportRequest extends FormRequest
         return [
             'start_year' => 'required|integer|gt:2022',
             'end_year' => 'required|integer|gt:start_year',
-            'min_condition'=>'nullable|integer|between',
+            'min_condition'=>'nullable|integer',
             'max_condition'=>'nullable|integer',
             'price'=>'required|numeric|min:1',
         ];

@@ -56,7 +56,6 @@ class TourController extends Controller
     public function store(TourRequest $request)
     {
         $tour = new Tour;
-        $tour->name = $request->name;
 
         if($request->hasFile('image'))
         {
@@ -75,6 +74,10 @@ class TourController extends Controller
             $file->storeAs($destinationPath, $fileDescription);
             $tour->description_file =  $fileDescription;
         }
+
+        $tour->fill($request->except(['image', 'description_file']));
+
+        $tour->name = $request->name;
         $tour->tour_start_date = $request->tour_start_date;
         $tour->tour_end_date = $request->tour_end_date;
         $tour->registration_start_date = $request->registration_start_date;
