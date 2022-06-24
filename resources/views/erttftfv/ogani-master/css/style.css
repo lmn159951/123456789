@@ -902,7 +902,7 @@ ol {
 
 .featured__item__text h5 {
 	color: #252525;
-	font-weight: 700;
+
 }
 
 /*---------------------
@@ -2993,11 +2993,10 @@ input:read-only {
     border-radius: 25px;
     transition: color .15s
 }
-.phantrang
-{
-	color: black;
-}
-.sapxepgia
-{
-
+.img {
+  display: block;
+  max-width:240px;
+  max-height:225px;
+  width: auto;
+  height: auto;
 }

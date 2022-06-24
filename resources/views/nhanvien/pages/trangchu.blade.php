@@ -50,7 +50,7 @@
                                             <span>TOUR DU LỊCH</span>
                                             <h2>{{ $firstTour[0]['name'] }}</h2>
                                             <a href="#" class="primary-btn">XEM TOUR</a>
-                                            <a href="#" class="primary-btn">ĐẶT TOUR</a>
+                                            <a href="{{ route('nhanvien.tourregis', $firstTour[0]['tour_id']) }}" class="primary-btn">ĐẶT TOUR</a>
                                 </div>
                             </div>
                             @endif
@@ -76,19 +76,22 @@
                 @isset($highlightTours)
                 @if(count($highlightTours) > 0)
                         @foreach ($highlightTours as $highlightTour)
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                                <div class="featured__item">
-                                    <div class="featured__item__pic set-bg" data-setbg="{{ $highlightTour['image'] }}">
-                                        <ul class="featured__item__pic__hover">
-                                            <li><a href="#">Đặt tour</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="featured__item__text">
-                                        <h6><a href="#">{{ $highlightTour['name'] }}</a></h6>
-                                        <h5>{{ number_format($highlightTour['price'], 0, '', '.') }} VNĐ</h5>
-                                    </div>
+                        <div class="col-lg-3 col-md-4  mix vegetables fastfood text-center">
+                            <div class="featured__item" style="margin-top: 10px;">
+                                <div class="img">
+                                    <a href=""><img src="{{ $highlightTour['image'] }}"></a>
                                 </div>
-                            </div>
+                                <div class="featured__item__text text-left">
+                                    <h6 style="font-size: 30px;"><a href="#">Crab Pool Security</a></h6>
+                                    <h5>Ngày Bắt Đầu: {{ $highlightTour['tour_start_date'] }}</h5>
+                                    <h5>Số Lượng: 20/{{ $highlightTour['max_people'] }}</h5>
+                                    <h5>Giá: {{ number_format($highlightTour['price'], 0, '.', ',') }}VNĐ</h5>
+                                </div> 
+                                <div class="col-lg-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
+                                    <button type="submit" class="site-btn">ĐẶT TOUR</button>
+                                </div>   
+                            </div>   
+                        </div> 
                         @endforeach
                 @endif
                 @endisset

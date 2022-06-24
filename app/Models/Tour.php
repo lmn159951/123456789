@@ -8,6 +8,7 @@ use App\Models\TourRegistration;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Tour extends Model
 {
@@ -20,13 +21,24 @@ class Tour extends Model
         return $this->belongsTo(Region::class);
     }
 
-    public static function EmptySlotRemain($tourId)
+    public static function Slot($tourId=0)
     {
-        $tour = Tour::where('id', $tourId)->first();
-        return $tour->max_people - (TourRegistration::where('tour_id', $tourId)->get()->count());
+        return TourRegistration::where('tour_id', $tourId)->get()->count();
     }
 
-    public static function IsRegiterTour($tourId)
+    public static function EmptySlotRemain($tourId=0)
+    { 
+        $tour = Tour::where('id', $tourId)->first();
+        return  $tour->max_people - (Tour::Slot($tourId));
+    }
+
+    public static function TourInfo($tourId=0)
+    {
+        $tourInfo = Tour::where('id',$tourId)->first();
+        return $tourInfo;
+    }
+
+    public static function IsRegiterTour($tourId=0)
     {
         $today = Carbon::now()->format('Y-m-d');
         if(Tour::where('registration_start_date', '<=', $today)
@@ -49,13 +61,12 @@ class Tour extends Model
 
     private static function BestTour($startNumber, $amount)
     {
-        $perfectPrice = '3000000';
         $today = Carbon::now()->format('Y-m-d');
         if(Auth::guard('user')->check())
         {
+            
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
-            // ->where('price', '<=', $perfectPrice)
             ->join('agency_tours', 'tours.id', '=', 'agency_tours.tour_id')
             ->where('agency_id', Auth::guard('user')->user()->agency_id)
             ->orderBy('tours.id', 'DESC') 
@@ -69,7 +80,8 @@ class Tour extends Model
         {
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
-            // ->where('price', '<=', $perfectPrice)
+            ->select([DB::raw('id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
+             'registration_start_date', 'registration_end_date', 'price', 'max_people'])
             ->get()
             ->skip($startNumber)
             ->take($amount)
