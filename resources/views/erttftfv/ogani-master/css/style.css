@@ -2919,7 +2919,6 @@ ol {
 	padding-left: 20px;
 	margin-bottom: 30px;
 	border-radius: 4px;
-	background-color: white;
 
 }
 .quenmatkhau
@@ -2993,4 +2992,11 @@ input:read-only {
     line-height: 1.5;
     border-radius: 25px;
     transition: color .15s
+}
+.img {
+  display: block;
+  max-width:240px;
+  max-height:225px;
+  width: auto;
+  height: auto;
 }
