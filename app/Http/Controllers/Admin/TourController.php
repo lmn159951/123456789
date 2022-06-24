@@ -8,6 +8,7 @@ use App\Models\Agency;
 use App\Models\Region;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
 class TourController extends Controller
@@ -95,10 +96,20 @@ class TourController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['tour'] = Tour::find($id);
-        $parameters['regions'] = Region::all();
 
-        return view('admin.pages.tours.edit', $parameters);
+        $bln = DB::table('tours')->where('id',$id)->count() > 0;
+
+        if($bln)
+        {
+            $parameters['tour'] = Tour::find($id);
+            $parameters['regions'] = Region::all();
+
+            return view('admin.pages.tours.edit', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.tours.index');
+        }
     }
 
     public function update(TourRequest $request, int $id)

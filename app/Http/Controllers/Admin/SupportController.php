@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\SupportRequest;
 use App\Models\Support;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupportController extends Controller
 {
@@ -42,6 +43,11 @@ class SupportController extends Controller
         return redirect()->route('admin.supports.index', $parameters);
     }
 
+    public function show()
+    {
+        return redirect()->route('admin.supports.index');
+    }
+
     public function create()
     {
         return view('admin.pages.supports.create');
@@ -65,9 +71,22 @@ class SupportController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['support'] = Support::find($id);
 
-        return view('admin.pages.supports.edit', $parameters);
+        $bln = DB::table('supports')->where('id', $id)->count() > 0;
+
+        if($bln)
+        {
+
+            $parameters['support'] = Support::find($id);
+            return view('admin.pages.supports.edit', $parameters);
+
+        }
+        else
+        {
+
+            return redirect()->route('admin.supports.index');
+            
+        }
     }
 
     public function update(SupportRequest $request, int $id)

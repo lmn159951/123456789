@@ -62,9 +62,24 @@ class AgencyController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['agency'] = Agency::find($id);
 
-        return view('admin.pages.agencies.edit', $parameters);
+        $bln = DB::table('agencies')->where('id', $id)->count() > 0;
+
+        if($bln)
+        {
+            $parameters['agency'] = Agency::find($id);
+
+            return view('admin.pages.agencies.edit', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.agencies.index');
+        }
+    }
+
+    public function show()
+    {
+        return redirect()->route('admin.agencies.index');
     }
 
     public function update(AgencyRequest $request, int $id)

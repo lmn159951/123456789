@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h1 class="text-center">Thông tin nhân viên</h1>
+            <h1 class="text-center">Thông tin tour</h1>
 
             <div class="row g-3">
                 <div class="col">
@@ -41,6 +41,19 @@
 
             <div class="row g-3 mt-2">
                 <div class="col">
+                    <label for="password" class="form-label">Ngày bắt đầu đăng ký tour:</label>
+                    <input type="text" class="form-control"
+                        value="{{ date('d/m/Y', strtotime($tour->registration_start_date)) }}" disabled>
+                </div>
+                <div class="col">
+                    <label for="email" class="form-label">Ngày kết thúc đăng ký tour:</label>
+                    <input type="text" class="form-control"
+                        value="{{ date('d/m/Y', strtotime($tour->registration_end_date)) }}" disabled>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-2">
+                <div class="col">
                     <label for="password" class="form-label">Ngày bắt đầu tour:</label>
                     <input type="text" class="form-control"
                         value="{{ date('d/m/Y', strtotime($tour->tour_start_date)) }}" disabled>
@@ -52,18 +65,6 @@
                 </div>
             </div>
 
-            <div class="row g-3 mt-2">
-                <div class="col">
-                    <label for="password" class="form-label">Ngày bắt đầu tour:</label>
-                    <input type="text" class="form-control"
-                        value="{{ date('d/m/Y', strtotime($tour->registration_start_date)) }}" disabled>
-                </div>
-                <div class="col">
-                    <label for="email" class="form-label">Ngày kết thúc tour:</label>
-                    <input type="text" class="form-control"
-                        value="{{ date('d/m/Y', strtotime($tour->registration_end_date)) }}" disabled>
-                </div>
-            </div>
 
             <div class="row g-3 mt-2">
                 <div class="col">

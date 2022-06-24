@@ -26,7 +26,7 @@
                         <div class="featured__item">
                             <div class="featured__item__pic set-bg" data-setbg="{{ $tour->image }}">
                                 <ul class="featured__item__pic__hover">
-                                    <li><a href="#">Đặt tour</a></li>
+                                    <li><a href="{{ route('nhanvien.tourregis', $tour->tour_id) }}">Đặt tour</a></li>
                                 </ul>
                             </div>
                             <div class="featured__item__text">

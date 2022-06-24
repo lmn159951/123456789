@@ -23,8 +23,8 @@ class UserRequest extends FormRequest
             'username' => 'required|unique:users',
             'password' => 'required',
             'email' => 'nullable|email|unique:users',
-            'phone' => 'nullable|regex:/0[0-9]{9}/',
-            'citizen_card' => 'nullable|regex:/0[0-9]{8}/|numeric|unique:users',
+            'phone' => 'nullable|regex:/0[0-9]{9}/|numeric',
+            'citizen_card' => 'nullable|regex:/3[0-9]{8}/|numeric|unique:users',
             'start_date' => 'nullable|before_or_equal:now',
             'is_admin' => 'required|boolean'
         ];
@@ -33,12 +33,12 @@ class UserRequest extends FormRequest
     public function updateRules()
     {
         return [
-            'fullname' => 'required',
+            'fullname' => 'required',   
             'username' => ['required', Rule::unique('users')->ignore($this->route('user'), 'id')],
             'password' => 'nullable',
             'email' => ['nullable', 'email', Rule::unique('users')->ignore($this->route('user'), 'id')],
-            'phone' => 'nullable|regex:/0[0-9]{9}/',
-            'citizen_card' => ['nullable', 'regex:/[0-9]{9}/', 'numeric', Rule::unique('users')->ignore($this->route('user'), 'id')],
+            'phone' => 'nullable|regex:/0[0-9]{9}/|numeric',
+            'citizen_card' => ['nullable', 'regex:/3[0-9]{8}/', 'numeric', Rule::unique('users')->ignore($this->route('user'), 'id')],
             'start_date' => 'nullable|before_or_equal:now',
             'is_admin' => 'required|boolean'
         ];

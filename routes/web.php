@@ -16,11 +16,12 @@ use App\Http\Controllers\Admin\AuthController;
 //NhanVien
 use App\Http\Controllers\NhanVien\NVNhanVienController;
 use App\Http\Controllers\NhanVien\TimKiemController;
-use App\Http\Controllers\NhanVien\DatTourController;
+use App\Http\Controllers\NhanVien\DangKyTourController;
 use App\Http\Controllers\NhanVien\LienHeController;
 use App\Http\Controllers\NhanVien\TrangChuController;
 use App\Http\Controllers\NhanVien\DangNhapController;
 use App\Http\Controllers\NhanVien\SendMailController;
+use App\Http\Controllers\NhanVien\ChangePassword;
 use App\Http\Controllers\NhanVien\QuenMatKhauController;
 
 
@@ -46,7 +47,10 @@ Route::middleware('not_loged_in')->group(function(){
 Route::middleware('user')->prefix('nhan-vien')->name('nhanvien.')->group(function(){
     Route::resource('thay-doi-mat-khau', ChangePassword::class);
     Route::resource('thong-tin-ca-nhan', NVNhanVienController::class);
-    Route::resource('dat-tour', DatTourController::class);
+    Route::get('dang-ky-tour/{tour_id}', [DangKyTourController::class, 'index'])->name('tourregis')
+    ->where('tour_id', '[0-9]+');
+    Route::post('dang-ky-tour/{tour_id}', [DangKyTourController::class, 'tourregistration'])->name('tourregisPost')
+    ->where('tour_id', '[0-9]+');
     Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
 });
 
