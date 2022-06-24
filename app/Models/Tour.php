@@ -8,6 +8,7 @@ use App\Models\TourRegistration;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Tour extends Model
 {
@@ -20,10 +21,15 @@ class Tour extends Model
         return $this->belongsTo(Region::class);
     }
 
+    public static function Slot($tourId=0)
+    {
+        return TourRegistration::where('tour_id', $tourId)->get()->count();
+    }
+
     public static function EmptySlotRemain($tourId=0)
     { 
         $tour = Tour::where('id', $tourId)->first();
-        return  $tour->max_people - (TourRegistration::where('tour_id', $tourId)->get()->count());
+        return  $tour->max_people - (Tour::Slot($tourId));
     }
 
     public static function TourInfo($tourId=0)
@@ -74,6 +80,8 @@ class Tour extends Model
         {
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
+            ->select([DB::raw('id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
+             'registration_start_date', 'registration_end_date', 'price', 'max_people'])
             ->get()
             ->skip($startNumber)
             ->take($amount)

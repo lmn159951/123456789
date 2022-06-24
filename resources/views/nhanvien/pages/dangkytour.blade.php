@@ -150,7 +150,7 @@
                         <input type="hidden" name="id[]" value="{{ $relativeInfo->id }}">
                         <div class="col-lg-12">
                             <div class="contact__form__title" style="margin-top: 10px; margin-bottom: 20px;">
-                                <h2>Thành viên : {{ $relativeInfo->relationship }}</h2>
+                                <h2>Thành viên : {{ $relativeInfo->relative_fullname }}({{ $relativeInfo->relationship }})</h2>
                             </div>
                                 <div class="d-flex justify-content-center">
                                     <span class="border" style="width:60%">

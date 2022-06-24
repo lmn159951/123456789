@@ -27,6 +27,8 @@ class TrangChuController extends Controller
         $allTours = DB::table('tours')
         ->where('registration_start_date', '<=', $today)
         ->where('registration_end_date', '>=', $today)
+        ->select([DB::raw('id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
+             'registration_start_date', 'registration_end_date', 'price', 'max_people'])
         ->orderBy('tours.id', 'DESC'); 
         $perPage = 4;
         
