@@ -77,12 +77,22 @@ class UserController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['agencies'] = Agency::all();
-        $parameters['departments'] = Department::all();
-        $parameters['positions'] = Position::all();
-        $parameters['user'] = User::find($id);
 
-        return view('admin.pages.users.edit', $parameters);
+        $bln = DB::table('users')->where('id', $id)->count() > 0;
+
+        if($bln)
+        {
+            $parameters['agencies'] = Agency::all();
+            $parameters['departments'] = Department::all();
+            $parameters['positions'] = Position::all();
+            $parameters['user'] = User::find($id);
+
+            return view('admin.pages.users.edit', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.users.index');
+        }
     }
 
     public function show(int $id)
