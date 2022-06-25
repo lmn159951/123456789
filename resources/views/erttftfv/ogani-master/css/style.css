@@ -2936,7 +2936,7 @@ ol {
 	color: red;
 }
 input:read-only {
-  background-color: white;
+  background-color: #e9ecef;
 }
 .txtquenmatkhau:hover
 {
@@ -2974,6 +2974,10 @@ input:read-only {
 {
 	border-radius: 25px;
 }
+.ngaysinh
+{
+	border: 1px solid #ebebeb;
+}
 .btnn
 {
 	   display: inline-block;
@@ -2995,8 +2999,8 @@ input:read-only {
 }
 .img {
   display: block;
-  max-width:240px;
-  max-height:225px;
+  min-width:240px;
+  min-height:262px;
   width: auto;
   height: auto;
 }
