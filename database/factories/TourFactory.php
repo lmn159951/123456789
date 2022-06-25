@@ -19,12 +19,10 @@ class TourFactory extends Factory
     public function definition()
     {
         $regionId = Region::inRandomOrder()->first()->id;
-        $maxPeoples = range(2, 9);
         $datenumber =  $this->faker->randomElement(range(1, 6)) * 30;
+        $maxPeoples = range(2, 9);
 
-        $registrationStartDate = Carbon::createFromTimestamp(
-            $this->faker->dateTimeBetween($startDate = '-1 months', $endDate = '+1 months', $timezone = 'Asia/Ho_Chi_Minh')->getTimeStamp()
-        );
+        $registrationStartDate = randomDatetime('01-01-2018');
         $registrationEndDate= Carbon::createFromFormat('Y-m-d H:i:s', $registrationStartDate)->addDays($datenumber);
 
         $tourStartDate =  Carbon::createFromFormat('Y-m-d H:i:s', $registrationEndDate)->addDays(

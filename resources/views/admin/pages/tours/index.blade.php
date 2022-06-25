@@ -16,21 +16,22 @@
                 </div>
             @endif
 
-            <div class="d-grid gap-2 d-flex align-items-center justify-content-end my-3">
+            <div class="d-flex align-items-center justify-content-end my-2" id="buttonActions">
 
-                <button id="buttonDeleteManyModel" type="button" class="btn btn-danger d-none" data-bs-toggle="modal"
-                    data-bs-target="#deleteAllModal">
+                <button type="button" id="buttonDeleteManyModel" class="btn btn-danger mr-2 d-none" data-toggle="modal"
+                    data-target="#deleteAllModal">
                     Xoá đánh dấu
                 </button>
 
-                <div class="modal fade" id="deleteAllModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
+                <div class="modal fade" id="deleteAllModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                             <div class="modal-body">
                                 <p>Bạn có chắc muốn xoá tour được đánh dấu không?</p>
@@ -45,6 +46,8 @@
                     </div>
                 </div>
 
+
+
                 <a class="btn btn-primary" href="{{ route('admin.tours.create') }}">
                     Thêm
                 </a>
@@ -54,12 +57,8 @@
                 <thead>
                     <tr>
                         <th scope="col">
-                            <label class="control control--checkbox">
-                                <input type="checkbox" class="js-check-all" />
-                                <div class="control__indicator"></div>
-                            </label>
+                            #
                         </th>
-                        <th scope="col">#</th>
                         <th scope="col">
                             Tên tour
                         </th>
@@ -67,7 +66,13 @@
                             Thời gian đăng ký
                         </th>
                         <th scope="col">
+                            Thời thời kết thúc
+                        </th>
+                        <th scope="col">
                             Thời gian đi
+                        </th>
+                        <th scope="col">
+                            Thời gian về
                         </th>
                         <th scope="col">
                             Giá tiền
@@ -91,33 +96,70 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            const tableContent = $('#table-content').DataTable({
+            const table = $('#table-content').DataTable({
+                responsive: true,
                 processing: true,
                 serverSide: true,
                 ajax: "{!! route('admin.tours.datatableApi') !!}",
+                dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"left-col"l><"right-col"f>>rtip',
+                buttons: [
+                    'selectAll',
+                    'selectNone'
+                ],
+                language: {
+                    buttons: {
+                        selectAll: "Chọn hết",
+                        selectNone: "Bỏ chọn"
+                    }
+                },
+                columnDefs: [{
+                    type: 'date-dd-mmm-yyyy',
+                    targets: [2, 3, 4, 5]
+                }],
+                select: true,
                 columns: [{
-                        data: 'checkbox',
-                        name: 'checkbox',
-                        targets: 'no-sort',
-                        orderable: false,
-                        searchable: false,
-                        className: ''
-                    },
-                    {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        data: 'id',
+                        name: 'id',
                     },
                     {
                         data: 'name',
                         name: 'name'
                     },
                     {
-                        data: '',
-                        name: ''
+                        data: 'tour_start_date',
+                        name: 'tour_start_date',
+                        width: '75px',
+                        render: function(datetime) {
+                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
+                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
+                        }
                     },
                     {
-                        data: '',
-                        name: ''
+                        data: 'tour_end_date',
+                        name: 'tour_end_date',
+                        width: '75px',
+                        render: function(datetime) {
+                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
+                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
+                        }
+                    },
+                    {
+                        data: 'registration_start_date',
+                        name: 'registration_start_date',
+                        width: '75px',
+                        render: function(datetime) {
+                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
+                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
+                        }
+                    },
+                    {
+                        data: 'registration_end_date',
+                        name: 'registration_end_date',
+                        width: '75px',
+                        render: function(datetime) {
+                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
+                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
+                        }
                     },
                     {
                         data: 'price',
@@ -140,31 +182,34 @@
 
                             return `
                                 <div class="d-flex">
-                                    <a class="btn btn-warning mr-2" href="${updateUrl}">
+                                    <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
                                         <i class="fas fa-fw fa-pen"></i>
                                     </a>
                                     <a class="btn btn-info mr-2" href="${showUrl}">
                                         <i class="fas fa-fw fa-eye"></i>
                                     </a>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal-${tourId}">
+
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                        data-target="#deleteModal-${tourId}">
                                         <i class="fas fa-fw fa-trash"></i>
                                     </button>
-                                    <div class="modal fade" id="deleteModal-${tourId}" tabindex="-1"
+
+                                    <div class="modal fade" id="deleteModal-${tourId}" tabindex="-1" role="dialog"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
+                                        <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>Bạn có muốn xoá người dùng này?</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
+                                                        data-dismiss="modal">Close</button>
                                                     <form class="ml-3" method="post"
                                                         action="${deleteUrl}">
                                                         @method('DELETE') @csrf
@@ -181,6 +226,29 @@
                         }
                     }
                 ]
+            });
+
+            table.on('select', function(event, datatable, type, indexes) {
+                if (type === 'row') {
+                    $("#buttonDeleteManyModel").removeClass('d-none');
+                    $("#buttonDeleteManyModel").text(
+                        `Xoá đánh dấu (${indexes.length})`
+                    );
+
+                    $("#buttonDeleteMany").text(
+                        `Xoá đánh dấu (${indexes.length})`
+                    );
+                }
+            });
+
+            table.on('deselect', function(event, datatable, type, indexes) {
+                if (type === 'row') {
+                    if (table.rows({
+                            selected: true
+                        }).count() === 0) {
+                        $("#buttonDeleteManyModel").addClass('d-none');
+                    }
+                }
             });
 
             $(document).on('click', '.js-check-all', function() {

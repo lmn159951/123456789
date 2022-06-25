@@ -63,12 +63,20 @@ if (!function_exists('paddingNumberLeadingZeros'))
 
 if (!function_exists('currency_format'))
 {
-    function currency_format($number, $suffix = 'đ')
+    function currency_format(int $number, string $separator = ',', string $suffix = '')
     {
         if (!empty($number))
         {
-            return number_format($number, 0, ',', '.') . "{$suffix}";
+            return number_format($number, 0, ',', $separator) . "{$suffix}";
         }
+    }
+}
+
+if (!function_exists('randomDatetime'))
+{
+    function randomDatetime(string $startDate, string $endDate = 'now')
+    {
+        return date('d-m-Y', mt_rand(strtotime($startDate), strtotime($endDate)));
     }
 }
 

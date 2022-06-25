@@ -24,8 +24,11 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="image" class="form-label">Hình ảnh:</label>
-                            <input type="file" class="form-control @error('image') is-invalid @enderror" name="image"
-                                id="image">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
+                                    id="image">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
 
                             @error('image')
                                 <div id="validationServer03Feedback" class="invalid-feedback">
@@ -37,8 +40,11 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="description_file" class="form-label">File mô tả:</label>
-                            <input type="file" class="form-control @error('description_file') is-invalid @enderror"
-                                name="description_file" id="description_file">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
+                                    name="description_file" id="description_file">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
 
                             @error('description_file')
                                 <div id="validationServer03Feedback" class="invalid-feedback">
@@ -139,9 +145,9 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="region" class="form-label">Vùng miền:</label>
-                    <select name="region_id" id="region_id" class="form-select">
+                <div class="form-group">
+                    <label for="region_id">Vùng miền:</label>
+                    <select id="region_id" name="region_id" class="form-control">
                         @foreach ($regions as $region)
                             <option value="{{ $region->id }}">{{ $region->name }}</option>
                         @endforeach

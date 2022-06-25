@@ -24,13 +24,17 @@ class SupportController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function (Support $support) {
                 return $support->id;
-            })->addColumn('checkbox', function (Support $support) {
+            })
+            ->addColumn('checkbox', function (Support $support) {
                 return '
                     <label class="control control--checkbox">
                         <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$support->id.'" />
                         <div class="control__indicator"></div>
                     </label>
                 ';
+            })
+            ->editColumn('price', function (Support $support) {
+                return currency_format($support->price, $separator = ',');
             })
             ->rawColumns(['action', 'checkbox'])
             ->make();
@@ -85,7 +89,7 @@ class SupportController extends Controller
         {
 
             return redirect()->route('admin.supports.index');
-            
+
         }
     }
 
