@@ -8,13 +8,27 @@
             <form class="container" action="{{ route('admin.users.store') }}" method="POST">
                 @csrf
 
-                <div class="row g-3">
+                <div class="row g-3 mt-2">
                     <div class="col">
-                        <label for="fullname" class="form-label">Tên nhân viên:</label>
-                        <input type="text" class="form-control @error('fullname') is-invalid @enderror"
-                            value="{{ old('fullname') }}" name="fullname" id="fullname">
+                    <label for="fullname" class="form-label">Tên nhân viên:</label>
+                            <input type="text" class="form-control @error('fullname') is-invalid @enderror"
+                                value="{{ old('fullname') }}" name="fullname" id="fullname">
 
-                        @error('fullname')
+                            @error('fullname')
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-2">
+                    <div class="col">
+                        <label for="birthday" class="form-label">Ngày sinh:</label>
+                        <input type="date" class="form-control @error('birthday') is-invalid @enderror"
+                            value="{{ old('birthday') }}" name="birthday" id="birthday">
+
+                        @error('birthday')
                             <div id="validationServer03Feedback" class="invalid-feedback">
                                 {{ $message }}
                             </div>
