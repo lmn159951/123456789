@@ -28,8 +28,14 @@ class UserController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function (User $user) {
                 return $user->id;
-            })->addColumn('checkbox', function (User $user) {
-                return $user->id;
+            })
+            ->addColumn('checkbox', function (User $user) {
+                return '
+                    <label class="control control--checkbox">
+                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$user->id.'" />
+                        <div class="control__indicator"></div>
+                    </label>
+                ';
             })
             ->rawColumns(['action', 'checkbox'])
             ->make(true);

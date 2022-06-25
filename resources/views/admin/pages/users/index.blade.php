@@ -175,15 +175,17 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             `;
                         }
                     }
                 ]
+            }).on('selectItems', function(e, dt, items) {
+                console.log('Items to be selected are now: ', items);
             });
 
             $(document).on('click', '.js-check-all', function() {
-
                 if ($(this).prop("checked")) {
                     $('tr input[type="checkbox"]').each(function() {
                         $(this).prop("checked", true);

@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
             'agency_id' => 9,
             'department_id' =>7,
             'position_id' => 3,
-            'birthdate' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
+            'birthday' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
             'start_date' => date('Y-m-d', strtotime('13-06-2022')),
             'is_admin' => '1',
         ],
@@ -83,7 +83,7 @@ class UserSeeder extends Seeder
             'agency_id' => 9,
             'department_id' =>7,
             'position_id' => 3,
-            'birthdate' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
+            'birthday' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
             'start_date' => date('Y-m-d', strtotime('13-06-2022')),
             'is_admin' => '1',
         ]

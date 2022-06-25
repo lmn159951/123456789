@@ -17,9 +17,9 @@ class SupportSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create();
-        $startYear = 2000;
+        $startYear = 2015;
 
-        for ($index = 0; $index < 10; $index++)
+        for ($index = 0; $index < 5; $index++)
         {
             $conditions = [];
             $numberConditions = $faker->numberBetween(1, 3);

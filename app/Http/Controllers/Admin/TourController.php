@@ -26,13 +26,29 @@ class TourController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function (Tour $tour) {
                 return $tour->id;
-            })->addColumn('checkbox', function (Tour $tour) {
+            })
+            ->addColumn('checkbox', function (Tour $tour) {
                 return '
                     <label class="control control--checkbox">
                         <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$tour->id.'" />
                         <div class="control__indicator"></div>
                     </label>
                 ';
+            })
+            ->editColumn('price', function (Tour $tour) {
+                return currency_format($tour->price, $separator = ',', $suffix = '₫');
+            })
+            ->editColumn('tour_start_date', function (Tour $tour) {
+                return $tour->tour_start_date;
+            })
+            ->editColumn('tour_end_date', function (Tour $tour) {
+                return $tour->tour_end_date;
+            })
+            ->editColumn('registration_start_date', function (Tour $tour) {
+                return $tour->registration_start_date;
+            })
+            ->editColumn('registration_end_date', function (Tour $tour) {
+                return $tour->registration_end_date;
             })
             ->rawColumns(['action', 'checkbox'])
             ->make();
@@ -57,7 +73,6 @@ class TourController extends Controller
     public function store(TourRequest $request)
     {
         $tour = new Tour;
-        $tour->name = $request->name;
 
         if($request->hasFile('image'))
         {
@@ -76,6 +91,10 @@ class TourController extends Controller
             $file->storeAs($destinationPath, $fileDescription);
             $tour->description_file =  $fileDescription;
         }
+
+        $tour->fill($request->except(['image', 'description_file']));
+
+        $tour->name = $request->name;
         $tour->tour_start_date = $request->tour_start_date;
         $tour->tour_end_date = $request->tour_end_date;
         $tour->registration_start_date = $request->registration_start_date;
