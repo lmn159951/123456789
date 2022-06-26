@@ -75,24 +75,24 @@
             <div class="row featured__filter">
                 @isset($highlightTours)
                 @if(count($highlightTours) > 0)
-                        @foreach ($highlightTours as $highlightTour)
+                        @for($i=1; $i<=count($highlightTours); $i++)
                         <div class="col-lg-3 col-md-4  mix vegetables fastfood text-center">
                             <div class="featured__item" style="margin-top: 10px;">
                                 <div class="img">
-                                    <a href=""><img src="{{ $highlightTour['image'] }}"></a>
+                                    <a href=""><img src="{{ $highlightTours[$i]['image'] }}"></a>
                                 </div>
                                 <div class="featured__item__text text-left">
-                                    <h6 style="font-size: 30px;"><a href="#">Crab Pool Security</a></h6>
-                                    <h5>Ngày Bắt Đầu: {{ $highlightTour['tour_start_date'] }}</h5>
-                                    <h5>Số Lượng: 20/{{ $highlightTour['max_people'] }}</h5>
-                                    <h5>Giá: {{ number_format($highlightTour['price'], 0, '.', ',') }}VNĐ</h5>
+                                    <h6 style="font-size: 30px;"><a href="#">{{ Str::limit($highlightTours[$i]['name'], 25, '...') }}</a></h6>
+                                    <h5>Ngày Bắt Đầu: {{ date_format(date_create($highlightTours[$i]['tour_start_date']),"d-m-Y") }}</h5>
+                                    <h5>Số Lượng: {{ $slot[$i] }}/{{ $highlightTours[$i]['max_people'] }}</h5>
+                                    <h5>Giá: {{ number_format($highlightTours[$i]['price'], 0, '.', ',') }}VNĐ</h5>
                                 </div> 
                                 <div class="col-lg-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
-                                    <button type="submit" class="site-btn">ĐẶT TOUR</button>
+                                    <a href="{{ route('nhanvien.tourregis', $highlightTours[$i]['tour_id']) }}"><button type="submit" class="site-btn">ĐẶT TOUR</button></a>
                                 </div>   
                             </div>   
                         </div> 
-                        @endforeach
+                        @endfor
                 @endif
                 @endisset
             </div>

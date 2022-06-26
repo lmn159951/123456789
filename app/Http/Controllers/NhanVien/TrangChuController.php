@@ -17,8 +17,13 @@ class TrangChuController extends Controller
         $recordsRegions = Region::select('name')->get()->toArray();
         $firstTour = Tour::FirstTour();
         $highlightTours = Tour::HightLightTours();
+        $slot = array();
+        for($i=1; $i<=count($highlightTours); $i++)
+        {
+            $slot[$i] = Tour::Slot($highlightTours[$i]['tour_id']);
+        }
         return view('nhanvien.pages.trangchu')->with('recordsRegions', $recordsRegions)
-        ->with('firstTour', $firstTour)->with('highlightTours', $highlightTours);
+        ->with('firstTour', $firstTour)->with('highlightTours', $highlightTours)->with('slot', $slot);
     }
 
     public function allTour()
@@ -27,8 +32,8 @@ class TrangChuController extends Controller
         $allTours = DB::table('tours')
         ->where('registration_start_date', '<=', $today)
         ->where('registration_end_date', '>=', $today)
-        ->select([DB::raw('id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
-             'registration_start_date', 'registration_end_date', 'price', 'max_people'])
+        ->select('tours.id','name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
+             'registration_start_date', 'registration_end_date', 'price', 'max_people')
         ->orderBy('tours.id', 'DESC'); 
         $perPage = 4;
         

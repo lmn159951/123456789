@@ -57,7 +57,7 @@
                                         <div class="col-3"></div>
                                         <div class="col-7"></div>
                                         <div class="col-2">
-                                            <button id = "hide" type="button" class="btn btn text-dark">X</button>
+                                            <button id = "hide" onclick="$('.row').has(this).remove()" type="button" class="btn btn text-dark">X</button>
                                         </div>
 
                                         
@@ -65,7 +65,7 @@
                                         <div class="col-6"><p>Họ và tên thành viên: <span class="dau_">(*)</span></p></div>
                                         <div class="col-4"></div>
                                         <div class="tentaikhoan d-flex justify-content-center">
-                                            <input name="relative_fullname[]" style="width:69%; border: 1px solid #ebebeb"  type="text" placeholder="">
+                                            <input required name="relative_fullname[]" style="width:69%; border: 1px solid #ebebeb"  type="text" placeholder="">
                                         </div>
 
                                         {{-- <div class="col-2"></div>
@@ -77,7 +77,7 @@
                                         <div class="col-6"><p>Ngày Sinh: <span class="dau_">(*)</span></p></div>
                                         <div class="col-4"></div>
                                         <div class="password d-flex justify-content-center">
-                                            <input name="birthdate[]" style="width:69%; border: 1px solid #ebebeb" type="text" placeholder="">
+                                            <input required name="birthdate[]" style="width:69%; border: 1px solid #ebebeb" type="date" placeholder="">
                                         </div> 
 
                                         {{-- <div class="col-2"></div>
@@ -89,7 +89,7 @@
                                         <div class="col-6"><p>Giới tính: <span class="dau_">(*)</span></p></div>
                                         <div class="col-4"></div>
                                         <div class="tentaikhoan d-flex justify-content-center">
-                                            <input name="gender[]" style="width:69%; border: 1px solid #ebebeb;" type="text" placeholder="">
+                                            <input required name="gender[]" style="width:69%; border: 1px solid #ebebeb;" type="text" placeholder="">
                                         </div>
 
                                         {{-- <div class="col-2"></div>
@@ -101,7 +101,7 @@
                                         <div class="col-6"><p>Mối Quan Hệ Với Nhân Viên: <span class="dau_">(*)</span></p></div>
                                         <div class="col-4"></div>
                                         <div class="tentaikhoan d-flex justify-content-center">
-                                            <input name="relationship[]" style="width:69%; border: 1px solid #ebebeb;" type="text" placeholder="">
+                                            <input required name="relationship[]" style="width:69%; border: 1px solid #ebebeb;" type="text" placeholder="">
                                         </div>
 
                                         {{-- <div class="col-2"></div>
@@ -113,7 +113,7 @@
                                         <div class="col-6"><p>Số Điện Thoại: <span class="dau_">(*)</span></p></div>
                                         <div class="col-4"></div>
                                         <div class="tentaikhoan d-flex justify-content-center">
-                                            <input name="phone[]" style="width:69%; border: 1px solid #ebebeb;" type="text" placeholder="">
+                                            <input required name="phone[]" style="width:69%; border: 1px solid #ebebeb;" type="number" placeholder="">
                                         </div>
 
                                         {{-- <div class="col-2"></div>
@@ -125,7 +125,7 @@
                                         <div class="col-6"><p>CMND/CCCD: <span class="dau_">(*)</span></p></div>
                                         <div class="col-4"></div>
                                         <div class="tentaikhoan d-flex justify-content-center">
-                                            <input name="citizen_card[]" style="width:69%; border: 1px solid #ebebeb;" type="text" placeholder="">
+                                            <input required name="citizen_card[]" style="width:69%; border: 1px solid #ebebeb;" type="number" placeholder="">
                                         </div>
 
                                         {{-- <div class="col-2"></div>
@@ -158,7 +158,7 @@
                                             <div class="col-3"></div>
                                             <div class="col-7"></div>
                                             <div class="col-2">
-                                                <button id = "hide" type="button" class="btn btn text-dark">X</button>
+                                                <button id = "hide" onclick="$('.row').has(this).remove()" type="button" class="btn btn text-dark">X</button>
                                             </div>
     
                                             
@@ -166,7 +166,7 @@
                                             <div class="col-6"><p>Họ và tên thành viên: <span class="dau_">(*)</span></p></div>
                                             <div class="col-4"></div>
                                             <div class="tentaikhoan d-flex justify-content-center">
-                                                <input name="relative_fullname[]" style="width:69%; border: 1px solid #ebebeb"  
+                                                <input required name="relative_fullname[]" style="width:69%; border: 1px solid #ebebeb"  
                                                 type="text" placeholder="" value="{{ $relativeInfo->relative_fullname }}">
                                             </div>
     
@@ -179,8 +179,8 @@
                                             <div class="col-6"><p>Ngày Sinh: <span class="dau_">(*)</span></p></div>
                                             <div class="col-4"></div>
                                             <div class="password d-flex justify-content-center">
-                                                <input name="birthdate[]" style="width:69%; border: 1px solid #ebebeb" 
-                                                type="text" placeholder="" value="{{ date('d-m-Y', strtotime($relativeInfo->birthdate)) }}">
+                                                <input required name="birthdate[]" style="width:69%; border: 1px solid #ebebeb" 
+                                                type="date" placeholder="" value="{{ date('d-m-Y', strtotime($relativeInfo->birthdate)) }}">
                                             </div> 
     
                                             {{-- <div class="col-2"></div>
@@ -192,7 +192,7 @@
                                             <div class="col-6"><p>Giới tính: <span class="dau_">(*)</span></p></div>
                                             <div class="col-4"></div>
                                             <div class="tentaikhoan d-flex justify-content-center">
-                                                <input name="gender[]" style="width:69%; border: 1px solid #ebebeb;" 
+                                                <input required name="gender[]" style="width:69%; border: 1px solid #ebebeb;" 
                                                 type="text" placeholder="" value="{{ $relativeInfo->gender }}">
                                             </div>
     
@@ -205,7 +205,7 @@
                                             <div class="col-6"><p>Mối Quan Hệ Với Nhân Viên: <span class="dau_">(*)</span></p></div>
                                             <div class="col-4"></div>
                                             <div class="tentaikhoan d-flex justify-content-center">
-                                                <input name="relationship[]" style="width:69%; border: 1px solid #ebebeb;" 
+                                                <input required name="relationship[]" style="width:69%; border: 1px solid #ebebeb;" 
                                                 type="text" placeholder="" value="{{ $relativeInfo->relationship }}">
                                             </div>
     
@@ -218,8 +218,8 @@
                                             <div class="col-6"><p>Số Điện Thoại: <span class="dau_">(*)</span></p></div>
                                             <div class="col-4"></div>
                                             <div class="tentaikhoan d-flex justify-content-center">
-                                                <input name="phone[]" style="width:69%; border: 1px solid #ebebeb;" 
-                                                type="text" placeholder="" value="{{ $relativeInfo->phone }}">
+                                                <input required name="phone[]" style="width:69%; border: 1px solid #ebebeb;" 
+                                                type="number" placeholder="" value="{{ $relativeInfo->phone }}">
                                             </div>
     
                                             {{-- <div class="col-2"></div>
@@ -231,8 +231,8 @@
                                             <div class="col-6"><p>CMND/CCCD: <span class="dau_">(*)</span></p></div>
                                             <div class="col-4"></div>
                                             <div class="tentaikhoan d-flex justify-content-center">
-                                                <input name="citizen_card[]" style="width:69%; border: 1px solid #ebebeb;" 
-                                                type="text" placeholder="" value="{{ $relativeInfo->citizen_card }}">
+                                                <input required name="citizen_card[]" style="width:69%; border: 1px solid #ebebeb;" 
+                                                type="number" placeholder="" value="{{ $relativeInfo->citizen_card }}">
                                             </div>
     
                                             {{-- <div class="col-2"></div>
@@ -261,28 +261,10 @@
               <div class="col-1"></div>
               <div class="col-1"></div>
               <div class="col-2">
-                  <button type="submit" class="site-btn">Đăng Ký</button>
+                  <button type="submit" class="site-btn">Lưu</button>
               </div>
             </div>    
             </form>            
         </div>                           
     </div>
-<script>
-$(document).ready(function()
-{
-	
-  $("#hide").click(function()
-  {
-   	
-  }
-  );
-
-  $("#themthanhvien").click(function()
-  {
-    $("#memo").append($("#demo").html());
-  }
-  );
-}
-);
-</script>
 @endsection

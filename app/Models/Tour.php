@@ -41,6 +41,7 @@ class Tour extends Model
     public static function IsRegiterTour($tourId=0)
     {
         $today = Carbon::now()->format('Y-m-d');
+        
         if(Tour::where('registration_start_date', '<=', $today)
         ->where('registration_end_date', '>=', $today)
         ->where('id', $tourId)
