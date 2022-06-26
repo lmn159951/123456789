@@ -71,7 +71,7 @@ class PositionController extends Controller
 
         if($bln)
         {
-            $parameters['agency'] = Position::find($id);
+            $parameters['positions'] = Position::find($id);
 
             return view('admin.pages.positions.edit', $parameters);
         }

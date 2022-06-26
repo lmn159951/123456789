@@ -201,7 +201,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>Bạn có muốn xoá người dùng này?</p>
+                                                    <p>Bạn có muốn xoá tour này?</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
@@ -256,14 +256,10 @@
             });
 
             $("#buttonDeleteMany").click(function() {
-                const selectedIds = table.rows({
-                    selected: true
-                }).data().pluck('id');
+                const selectedIds = table.rows({ selected: true }).data().pluck('id');
                 const deleteRecordsIds = [];
-
-                for (let i = 0; i < table.rows({
-                        selected: true
-                    }).count(); i++) {
+                for(let i = 0; i < table.rows({ selected: true }).count(); i++)
+                {
                     deleteRecordsIds.push(selectedIds[i]);
                 }
 

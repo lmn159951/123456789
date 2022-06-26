@@ -147,9 +147,19 @@ class TourController extends Controller
     public function show(int $id)
     {
         $parameters = [];
-        $parameters['tour'] = Tour::with(['region'])->find($id);
 
-        return view('admin.pages.tours.show', $parameters);
+        $bln = DB::table('tours')->where('id',$id)->count() > 0;
+
+        if($bln)
+        {
+            $parameters['tour'] = Tour::with(['region'])->find($id);
+
+            return view('admin.pages.tours.show', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.tours.index');
+        }
     }
 
     public function showFileDescription(int $id)

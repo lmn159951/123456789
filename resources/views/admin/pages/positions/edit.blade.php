@@ -13,6 +13,7 @@
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Tên chức vụ:</label>
+                    <label class="text-danger">(*)</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                         value="{{ old('name') ?? $positions->name }}" name="name" id="name">
 

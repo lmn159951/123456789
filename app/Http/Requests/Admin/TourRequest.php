@@ -28,6 +28,7 @@ class TourRequest extends FormRequest
             'registration_end_date' => 'required|after_or_equal:registration_start_date|before:tour_start_date',
             'price' => 'required|numeric|min:1000|max:1000000000',
             'max_people' => 'required|numeric|min:2|max:1000',
+            'region_id'=>'required|numeric|exists:regions,id'
         ];
     }
 
@@ -43,6 +44,7 @@ class TourRequest extends FormRequest
             'registration_end_date' => 'required|after_or_equal:registration_start_date|before:tour_start_date',
             'price' => 'required|numeric|min:1000|max:1000000000',
             'max_people' => 'required|numeric|min:2|max:1000',
+            'region_id'=>'required|numeric|exists:regions,id'
         ];
     }
 

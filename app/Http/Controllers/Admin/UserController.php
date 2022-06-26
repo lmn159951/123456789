@@ -104,9 +104,20 @@ class UserController extends Controller
     public function show(int $id)
     {
         $parameters = [];
-        $parameters['user'] = User::with(['agency', 'department', 'position'])->find($id);
 
-        return view('admin.pages.users.show', $parameters);
+        $bln = DB::table('users')->where('id',$id)->count() > 0;
+        
+        if($bln)
+        {
+            $parameters['user'] = User::find($id)->with(['agency', 'department', 'position'])->first();
+
+            return view('admin.pages.users.show', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.users.index');
+        }
+        
     }
 
     public function update(UserRequest $request, int $id)

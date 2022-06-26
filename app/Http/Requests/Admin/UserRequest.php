@@ -26,7 +26,10 @@ class UserRequest extends FormRequest
             'phone' => 'nullable|regex:/0[0-9]{9}/|numeric',
             'citizen_card' => 'nullable|regex:/3[0-9]{8}/|numeric|unique:users',
             'start_date' => 'nullable|before_or_equal:now',
-            'is_admin' => 'required|boolean'
+            'is_admin' => 'required|boolean',
+            'department_id'=>'required|exists:departments,id',
+            'position_id'=>'required|exists:positions,id',
+            'agency_id'=>'required|exists:agencies,id'
         ];
     }
 
@@ -40,7 +43,10 @@ class UserRequest extends FormRequest
             'phone' => 'nullable|regex:/0[0-9]{9}/|numeric',
             'citizen_card' => ['nullable', 'regex:/3[0-9]{8}/', 'numeric', Rule::unique('users')->ignore($this->route('user'), 'id')],
             'start_date' => 'nullable|before_or_equal:now',
-            'is_admin' => 'required|boolean'
+            'is_admin' => 'required|boolean',
+            'department_id'=>'required|exists:departments,id',
+            'position_id'=>'required|exists:positions,id',
+            'agency_id'=>'required|exists:agencies,id'
         ];
     }
 
