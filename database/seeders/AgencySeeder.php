@@ -65,7 +65,5 @@ class AgencySeeder extends Seeder
         ];
 
         Agency::insert($agencies);
-
-        print_r(Agency::all()->toArray());
     }
 }
