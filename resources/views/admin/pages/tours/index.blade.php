@@ -66,7 +66,7 @@
                             Thời gian đăng ký
                         </th>
                         <th scope="col">
-                            Thời thời kết thúc
+                            Thời gian kết thúc
                         </th>
                         <th scope="col">
                             Thời gian đi
@@ -112,10 +112,6 @@
                         selectNone: "Bỏ chọn"
                     }
                 },
-                columnDefs: [{
-                    type: 'date-dd-mmm-yyyy',
-                    targets: [2, 3, 4, 5]
-                }],
                 select: true,
                 columns: [{
                         data: 'id',
@@ -171,7 +167,7 @@
                     },
                     {
                         data: 'action',
-                        targets: 7,
+                        targets: 8,
                         orderable: false,
                         searchable: false,
                         render: function(tourId) {
@@ -199,13 +195,13 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
+                                                    <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
+                                                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>Bạn có muốn xoá người dùng này?</p>
+                                                    <p>Bạn có muốn xoá tour này?</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
@@ -232,11 +228,11 @@
                 if (type === 'row') {
                     $("#buttonDeleteManyModel").removeClass('d-none');
                     $("#buttonDeleteManyModel").text(
-                        `Xoá đánh dấu (${indexes.length})`
+                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
                     );
 
                     $("#buttonDeleteMany").text(
-                        `Xoá đánh dấu (${indexes.length})`
+                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
                     );
                 }
             });
@@ -248,78 +244,24 @@
                         }).count() === 0) {
                         $("#buttonDeleteManyModel").addClass('d-none');
                     }
-                }
-            });
 
-            $(document).on('click', '.js-check-all', function() {
-
-                if ($(this).prop("checked")) {
-                    $('tr input[type="checkbox"]').each(function() {
-                        $(this).prop("checked", true);
-                        $(this).closest("tr").addClass("active");
-                    });
-                } else {
-                    $('tr input[type="checkbox"]').each(function() {
-                        $(this).prop("checked", false);
-                        $(this).closest("tr").removeClass("active");
-                    });
-                }
-            });
-
-            $(document).on('change', 'tr input[type="checkbox"]', function() {
-                if ($('tr input.table-checkbox[type="checkbox"]').length === $(
-                        'tr input.table-checkbox[type="checkbox"]:checked').length) {
-                    $('.js-check-all').prop('checked', true);
-                } else {
-                    $('.js-check-all').prop('checked', false);
-                }
-            });
-
-            $(document).on("click", 'th[scope="row"] input[type="checkbox"]', function() {
-                if ($(this).closest("tr").hasClass("active")) {
-                    $(this).closest("tr").removeClass("active");
-                } else {
-                    $(this).closest("tr").addClass("active");
-                }
-            });
-
-            $(document).on('change', ".control--checkbox input[type=checkbox]", function(event) {
-                const deleteRecords = $(
-                    "tbody tr .control--checkbox input[type=checkbox]:checked"
-                );
-
-                const deleteRecordsLength = deleteRecords.length;
-
-                console.log({
-                    deleteRecordsLength
-                });
-
-                if (deleteRecordsLength >= 1) {
-                    $("#buttonDeleteManyModel").removeClass('d-none');
                     $("#buttonDeleteManyModel").text(
-                        `Xoá đánh dấu (${deleteRecordsLength})`
+                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
                     );
 
                     $("#buttonDeleteMany").text(
-                        `Xoá đánh dấu (${deleteRecordsLength})`
+                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
                     );
-                } else {
-                    $("#buttonDeleteManyModel").addClass('d-none');
                 }
             });
 
             $("#buttonDeleteMany").click(function() {
-                const deleteRecords = $(
-                    "tbody tr .control--checkbox input[type=checkbox]:checked"
-                );
-
-                const deleteRecordsIds = deleteRecords.map(function(item) {
-                    return parseInt($(this).val());
-                }).get();
-
-                console.log({
-                    deleteRecordsIds
-                });
+                const selectedIds = table.rows({ selected: true }).data().pluck('id');
+                const deleteRecordsIds = [];
+for(let i = 0; i < table.rows({ selected: true }).count(); i++)
+                {
+                    deleteRecordsIds.push(selectedIds[i]);
+                }
 
                 $.ajax({
                     type: 'POST',
@@ -332,15 +274,10 @@
                         '_method': 'delete'
                     },
                     success: function(response, textStatus, xhr) {
-                        $('#deleteAllModal').modal('hide');
-                        tableContent.draw();
-                        $('.js-check-all').prop('checked', false);
-                        $("#buttonDeleteManyModel").addClass('d-none');
+                        window.location.reload();
                     }
                 });
             });
-
-            $('table tr:first').removeClass(['sorting_disabled', 'sorting_asc'])
         });
     </script>
 

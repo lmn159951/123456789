@@ -12,6 +12,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="start_year" class="form-label">Năm bắt đầu:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="number" class="form-control @error('start_year') is-invalid @enderror"
                                 name="start_year" id="start_year" value="{{ old('start_year') ?? $support->start_year }}">
 
@@ -25,6 +26,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="end_year" class="form-label">Năm kết thúc:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="number" class="form-control @error('end_year') is-invalid @enderror"
                                 name="end_year" id="end_year" value="{{ old('end_year') ?? $support->end_year }}">
 
@@ -70,6 +72,7 @@
 
                 <div class="mb-3">
                     <label for="price" class="form-label">Số tiền:</label>
+                    <label class="text-danger">(*)</label>
                     <input type="number" class="form-control @error('price') is-invalid @enderror"
                         value="{{ old('price') ?? $support->price }}" name="price" id="price">
 

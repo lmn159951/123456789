@@ -70,7 +70,7 @@ class DepartmentController extends Controller
 
         if($bln)
         {
-            $parameters['agency'] = Department::find($id);
+            $parameters['department'] = Department::find($id);
 
             return view('admin.pages.departments.edit', $parameters);
         }

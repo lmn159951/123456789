@@ -10,6 +10,7 @@
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Tên tour:</label>
+                    <label class="text-danger">(*)</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                         value="{{ old('name') }}" name="name" id="name">
 
@@ -59,6 +60,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="registration_start_date" class="form-label">Ngày bắt đầu đăng ký tour:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="date"
                                 class="form-control @error('registration_start_date') is-invalid @enderror"
                                 value="{{ old('registration_start_date') }}" name="registration_start_date"
@@ -74,6 +76,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="registration_end_date" class="form-label">Ngày kết thúc đăng ký tour:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="date" class="form-control @error('registration_end_date') is-invalid @enderror"
                                 value="{{ old('registration_end_date') }}" name="registration_end_date"
                                 id="registration_end_date">
@@ -91,6 +94,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="tour_start_date" class="form-label">Ngày bắt đầu tour:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="date" class="form-control @error('tour_start_date') is-invalid @enderror"
                                 value="{{ old('tour_start_date') }}" name="tour_start_date" id="tour_start_date">
 
@@ -104,6 +108,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="tour_end_date" class="form-label">Ngày kết thúc tour:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="date" class="form-control @error('tour_end_date') is-invalid @enderror"
                                 value="{{ old('tour_end_date') }}" name="tour_end_date" id="tour_end_date">
 
@@ -120,6 +125,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="price" class="form-label">Số tiền:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="number" class="form-control @error('price') is-invalid @enderror"
                                 value="{{ old('price') }}" name="price" id="price">
 
@@ -133,6 +139,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="max_people" class="form-label">Số người tối đa:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="number" class="form-control @error('max_people') is-invalid @enderror"
                                 value="{{ old('max_people') }}" name="max_people" id="max_people">
 

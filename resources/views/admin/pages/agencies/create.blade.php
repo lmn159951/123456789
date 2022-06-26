@@ -10,6 +10,7 @@
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Tên đơn vị:</label>
+                    <label class="text-danger">(*)</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                         value="{{ old('name') }}" name="name" id="name">
 
@@ -22,6 +23,7 @@
 
                 <div class="mb-3">
                     <label for="address" class="form-label">Địa chỉ:</label>
+                    <label class="text-danger">(*)</label>
                     <input type="text" class="form-control @error('address') is-invalid @enderror"
                         value="{{ old('address') }}" name="address" id="address">
 
