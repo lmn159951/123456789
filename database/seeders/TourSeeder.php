@@ -3,10 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Agency;
+use App\Models\Region;
 use Faker\Factory;
 use App\Models\Tour;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Carbon;
 
 class TourSeeder extends Seeder
 {
@@ -17,19 +19,43 @@ class TourSeeder extends Seeder
      */
     public function run()
     {
-        Tour::factory()->count(50)->create();
-
         $faker = Factory::create();
 
-        for ($index = 1; $index < 50; $index++)
-        {
-            $tour = Tour::find($index);
+        $initialDate = createCarbonDatetime('01-01-2015');
+        $agencies = Agency::inRandomOrder()->get();
+        $region = Region::inRandomOrder()->get();
+        $travel = ['lake', 'beach', 'nature', 'mountains', 'Landscape', 'outdoors', 'outdoor'];
 
-            $agencies = Agency::inRandomOrder()->take($faker->numberBetween($min = 1, $max = 3))->get();
-            foreach ($agencies as $key => $agency)
+        for ($startDate = $initialDate; $startDate->lte(createCarbonDatetime('31-12-2022')); $startDate->addDays(rand(4, 5) * 30))
+        {
+            $numberOfTours = rand(2, 4);
+            $registrationBetweenDate = rand(1, 2) * 30;
+
+            $randomAgencies = $agencies->random(rand(1, 3))->pluck('id')->all();
+
+            for ($i = 0; $i < $numberOfTours; $i++)
             {
-                $tour->agencies()->attach($agency);
-                $tour->save();
+                $registrationStartDate = $startDate;
+                $registrationEndDate = Carbon::createFromFormat('Y-m-d H:i:s', $registrationStartDate)->addDays($registrationBetweenDate);
+                $tourStartDate =  Carbon::createFromFormat('Y-m-d H:i:s', $registrationEndDate)->addDays(rand(1, 8));
+                $tourEndDate= Carbon::createFromFormat('Y-m-d H:i:s', $tourStartDate)->addDays(rand(1, 8));
+                $regionId = $region->random()->first()->id;
+
+                $createdTour = Tour::create([
+                    'name' => $faker->sentence(),
+                    'image' => 'https://source.unsplash.com/random/'.$faker->randomElement($travel),
+                    'description_file' => 'description_file.docx',
+                    'registration_start_date' => $registrationStartDate,
+                    'registration_end_date' => $registrationEndDate,
+                    'tour_start_date' => $tourStartDate,
+                    'tour_end_date' => $tourEndDate,
+                    'price' => rand(500, 9999) * 1000,
+                    'max_people' => rand(2, 8) * 10,
+                    'region_id' => $regionId,
+                ]);
+
+                $createdTour->agencies()->attach($randomAgencies);
+                $createdTour->save();
             }
         }
     }

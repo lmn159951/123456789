@@ -28,8 +28,14 @@ class UserController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function (User $user) {
                 return $user->id;
-            })->addColumn('checkbox', function (User $user) {
-                return $user->id;
+            })
+            ->addColumn('checkbox', function (User $user) {
+                return '
+                    <label class="control control--checkbox">
+                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$user->id.'" />
+                        <div class="control__indicator"></div>
+                    </label>
+                ';
             })
             ->rawColumns(['action', 'checkbox'])
             ->make(true);
@@ -77,20 +83,41 @@ class UserController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['agencies'] = Agency::all();
-        $parameters['departments'] = Department::all();
-        $parameters['positions'] = Position::all();
-        $parameters['user'] = User::find($id);
 
-        return view('admin.pages.users.edit', $parameters);
+        $bln = DB::table('users')->where('id', $id)->count() > 0;
+
+        if($bln)
+        {
+            $parameters['agencies'] = Agency::all();
+            $parameters['departments'] = Department::all();
+            $parameters['positions'] = Position::all();
+            $parameters['user'] = User::find($id);
+
+            return view('admin.pages.users.edit', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.users.index');
+        }
     }
 
     public function show(int $id)
     {
         $parameters = [];
-        $parameters['user'] = User::with(['agency', 'department', 'position'])->find($id);
 
-        return view('admin.pages.users.show', $parameters);
+        $bln = DB::table('users')->where('id',$id)->count() > 0;
+        
+        if($bln)
+        {
+            $parameters['user'] = User::find($id)->with(['agency', 'department', 'position'])->first();
+
+            return view('admin.pages.users.show', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.users.index');
+        }
+        
     }
 
     public function update(UserRequest $request, int $id)

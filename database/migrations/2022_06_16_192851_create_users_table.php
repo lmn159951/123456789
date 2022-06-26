@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('gender');
             $table->dateTime('birthday')->nullable();
             $table->string('phone')->nullable();
-            $table->string('citizen_card')->nullable();
+            $table->string('citizen_card');
             $table->smallInteger('agency_id')->unsigned();
             $table->smallInteger('department_id')->unsigned();
             $table->smallInteger('position_id')->unsigned();

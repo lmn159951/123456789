@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\SupportRequest;
 use App\Models\Support;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupportController extends Controller
 {
@@ -23,13 +24,17 @@ class SupportController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function (Support $support) {
                 return $support->id;
-            })->addColumn('checkbox', function (Support $support) {
+            })
+            ->addColumn('checkbox', function (Support $support) {
                 return '
                     <label class="control control--checkbox">
                         <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$support->id.'" />
                         <div class="control__indicator"></div>
                     </label>
                 ';
+            })
+            ->editColumn('price', function (Support $support) {
+                return currency_format($support->price, $separator = ',');
             })
             ->rawColumns(['action', 'checkbox'])
             ->make();
@@ -40,6 +45,11 @@ class SupportController extends Controller
         $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
 
         return redirect()->route('admin.supports.index', $parameters);
+    }
+
+    public function show()
+    {
+        return redirect()->route('admin.supports.index');
     }
 
     public function create()
@@ -65,9 +75,22 @@ class SupportController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['support'] = Support::find($id);
 
-        return view('admin.pages.supports.edit', $parameters);
+        $bln = DB::table('supports')->where('id', $id)->count() > 0;
+
+        if($bln)
+        {
+
+            $parameters['support'] = Support::find($id);
+            return view('admin.pages.supports.edit', $parameters);
+
+        }
+        else
+        {
+
+            return redirect()->route('admin.supports.index');
+
+        }
     }
 
     public function update(SupportRequest $request, int $id)

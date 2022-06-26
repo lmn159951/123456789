@@ -8,6 +8,7 @@ use App\Models\Agency;
 use App\Models\Region;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
 class TourController extends Controller
@@ -25,13 +26,9 @@ class TourController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function (Tour $tour) {
                 return $tour->id;
-            })->addColumn('checkbox', function (Tour $tour) {
-                return '
-                    <label class="control control--checkbox">
-                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$tour->id.'" />
-                        <div class="control__indicator"></div>
-                    </label>
-                ';
+            })
+            ->editColumn('price', function (Tour $tour) {
+                return currency_format($tour->price, $separator = ',', $suffix = '₫');
             })
             ->rawColumns(['action', 'checkbox'])
             ->make();
@@ -56,7 +53,6 @@ class TourController extends Controller
     public function store(TourRequest $request)
     {
         $tour = new Tour;
-        $tour->name = $request->name;
 
         if($request->hasFile('image'))
         {
@@ -75,6 +71,10 @@ class TourController extends Controller
             $file->storeAs($destinationPath, $fileDescription);
             $tour->description_file =  $fileDescription;
         }
+
+        $tour->fill($request->except(['image', 'description_file']));
+
+        $tour->name = $request->name;
         $tour->tour_start_date = $request->tour_start_date;
         $tour->tour_end_date = $request->tour_end_date;
         $tour->registration_start_date = $request->registration_start_date;
@@ -92,10 +92,20 @@ class TourController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['tour'] = Tour::find($id);
-        $parameters['regions'] = Region::all();
 
-        return view('admin.pages.tours.edit', $parameters);
+        $bln = DB::table('tours')->where('id',$id)->count() > 0;
+
+        if($bln)
+        {
+            $parameters['tour'] = Tour::find($id);
+            $parameters['regions'] = Region::all();
+
+            return view('admin.pages.tours.edit', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.tours.index');
+        }
     }
 
     public function update(TourRequest $request, int $id)
@@ -137,9 +147,19 @@ class TourController extends Controller
     public function show(int $id)
     {
         $parameters = [];
-        $parameters['tour'] = Tour::with(['region'])->find($id);
 
-        return view('admin.pages.tours.show', $parameters);
+        $bln = DB::table('tours')->where('id',$id)->count() > 0;
+
+        if($bln)
+        {
+            $parameters['tour'] = Tour::with(['region'])->find($id);
+
+            return view('admin.pages.tours.show', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.tours.index');
+        }
     }
 
     public function showFileDescription(int $id)

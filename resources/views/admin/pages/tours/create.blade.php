@@ -10,6 +10,7 @@
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Tên tour:</label>
+                    <label class="text-danger">(*)</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                         value="{{ old('name') }}" name="name" id="name">
 
@@ -24,8 +25,11 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="image" class="form-label">Hình ảnh:</label>
-                            <input type="file" class="form-control @error('image') is-invalid @enderror" name="image"
-                                id="image">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
+                                    id="image">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
 
                             @error('image')
                                 <div id="validationServer03Feedback" class="invalid-feedback">
@@ -37,8 +41,11 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="description_file" class="form-label">File mô tả:</label>
-                            <input type="file" class="form-control @error('description_file') is-invalid @enderror"
-                                name="description_file" id="description_file">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
+                                    name="description_file" id="description_file">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
 
                             @error('description_file')
                                 <div id="validationServer03Feedback" class="invalid-feedback">
@@ -53,6 +60,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="registration_start_date" class="form-label">Ngày bắt đầu đăng ký tour:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="date"
                                 class="form-control @error('registration_start_date') is-invalid @enderror"
                                 value="{{ old('registration_start_date') }}" name="registration_start_date"
@@ -68,6 +76,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="registration_end_date" class="form-label">Ngày kết thúc đăng ký tour:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="date" class="form-control @error('registration_end_date') is-invalid @enderror"
                                 value="{{ old('registration_end_date') }}" name="registration_end_date"
                                 id="registration_end_date">
@@ -85,6 +94,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="tour_start_date" class="form-label">Ngày bắt đầu tour:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="date" class="form-control @error('tour_start_date') is-invalid @enderror"
                                 value="{{ old('tour_start_date') }}" name="tour_start_date" id="tour_start_date">
 
@@ -98,6 +108,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="tour_end_date" class="form-label">Ngày kết thúc tour:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="date" class="form-control @error('tour_end_date') is-invalid @enderror"
                                 value="{{ old('tour_end_date') }}" name="tour_end_date" id="tour_end_date">
 
@@ -114,6 +125,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="price" class="form-label">Số tiền:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="number" class="form-control @error('price') is-invalid @enderror"
                                 value="{{ old('price') }}" name="price" id="price">
 
@@ -127,6 +139,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="max_people" class="form-label">Số người tối đa:</label>
+                            <label class="text-danger">(*)</label>
                             <input type="number" class="form-control @error('max_people') is-invalid @enderror"
                                 value="{{ old('max_people') }}" name="max_people" id="max_people">
 
@@ -139,9 +152,9 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="region" class="form-label">Vùng miền:</label>
-                    <select name="region_id" id="region_id" class="form-select">
+                <div class="form-group">
+                    <label for="region_id">Vùng miền:</label>
+                    <select id="region_id" name="region_id" class="form-control">
                         @foreach ($regions as $region)
                             <option value="{{ $region->id }}">{{ $region->name }}</option>
                         @endforeach

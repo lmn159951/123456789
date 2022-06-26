@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\DepartmentRequest;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
 class DepartmentController extends Controller
@@ -41,6 +42,11 @@ class DepartmentController extends Controller
         return redirect()->route('admin.agencies.index', $parameters);
     }
 
+    public function show()
+    {
+        return redirect()->route('admin.departments.index');
+    }
+
 
     public function create()
     {
@@ -59,9 +65,19 @@ class DepartmentController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['department'] = Department::find($id);
 
-        return view('admin.pages.departments.edit', $parameters);
+        $bln = DB::table('departments')->where('id', $id)->count() > 0;
+
+        if($bln)
+        {
+            $parameters['department'] = Department::find($id);
+
+            return view('admin.pages.departments.edit', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.departments.index');
+        }
     }
 
     public function update(DepartmentRequest $request, int $id)

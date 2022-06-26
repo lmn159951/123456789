@@ -21,6 +21,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create();
+        $agencyCollection = Agency::inRandomOrder()->get();
+        $departmentCollection = Department::inRandomOrder()->get();
+        $positionCollection = Position::inRandomOrder()->get();
+        $fullnames = collect(config('constants.fullnames'))->shuffle();
 
         User::insert([
             [
@@ -35,7 +39,7 @@ class UserSeeder extends Seeder
             'agency_id' => 9,
             'department_id' =>7,
             'position_id' => 3,
-            'birthdate' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
+            'birthday' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
             'start_date' => date('Y-m-d', strtotime('13-06-2022')),
             'is_admin' => '1',
         ],
@@ -51,7 +55,7 @@ class UserSeeder extends Seeder
             'agency_id' => 9,
             'department_id' =>7,
             'position_id' => 3,
-            'birthdate' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
+            'birthday' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
             'start_date' => date('Y-m-d', strtotime('13-06-2022')),
             'is_admin' => '1',
         ],
@@ -67,7 +71,7 @@ class UserSeeder extends Seeder
             'agency_id' => 9,
             'department_id' =>7,
             'position_id' => 3,
-            'birthdate' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
+            'birthday' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
             'start_date' => date('Y-m-d', strtotime('13-06-2022')),
             'is_admin' => '1',
         ],
@@ -83,20 +87,17 @@ class UserSeeder extends Seeder
             'agency_id' => 9,
             'department_id' =>7,
             'position_id' => 3,
-            'birthdate' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
+            'birthday' => $faker->dateTimeBetween($startDate = '-21 years', $endDate = '-21 years', $timezone = 'Asia/Ho_Chi_Minh'),
             'start_date' => date('Y-m-d', strtotime('13-06-2022')),
             'is_admin' => '1',
         ]
         ]);
 
-        $fullnames = collect(config('constants.fullnames'));
-        $fullnames = $fullnames->shuffle();
-
         $users = [];
         foreach ($fullnames as $index => $fullname)
         {
-            $agencyId = Agency::inRandomOrder()->first()->id;
-            $departmentId = Department::inRandomOrder()->first()->id;
+            $agencyId = $agencyCollection->random()->first()->id;
+            $departmentId = $departmentCollection->random()->first()->id;
 
             $username = '';
             $username .= getName(convertName($fullname));
@@ -106,7 +107,7 @@ class UserSeeder extends Seeder
                 User::where('agency_id', $agencyId)->where('department_id', $departmentId)->count() + 1
             , 3);
 
-            $users[] = [
+            User::create([
                 'fullname' => $fullname,
                 'username' => $username,
                 'password' => Hash::make('1'),
@@ -115,14 +116,14 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
                 'gender' => $faker->randomElement(['Nam', 'Nữ']),
                 'phone' => $faker->numerify('0#########'),
-                'birthdate' => $faker->dateTimeBetween($startDate = '-40 years', $endDate = '-20 years', $timezone = 'Asia/Ho_Chi_Minh'),
+                'birthday' => randomCarbonDatetime('01-01-1980', '01-01-2001'),
                 'citizen_card' => $faker->numerify('3########'),
                 'agency_id' => $agencyId,
                 'department_id' => $departmentId,
-                'position_id' => Position::inRandomOrder()->first()->id,
-                'start_date' => $faker->dateTimeBetween($startDate = '-20 years', $endDate = 'now', $timezone = 'Asia/Ho_Chi_Minh'),
+                'position_id' => $positionCollection->random()->first()->id,
+                'start_date' => randomCarbonDatetime('01-01-2015'),
                 'is_admin' => '0',
-            ];
+            ]);
         }
 
         User::insert($users);

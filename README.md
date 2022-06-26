@@ -283,3 +283,65 @@ Vùng đồng bằng sông Cửu Long
 ['name' => 'Tây Nguyên', 'created_at' => Carbon::now()],
 ['name' => 'Đông Nam Bộ', 'created_at' => Carbon::now()],
 ['name' => 'Tây Nam Bộ', 'created_at' => Carbon::now()]]
+
+Nhân viên phân tích dữ liệu
+Quản trị hệ thống
+Lập trình viên
+Kỹ sư phần mềm
+Nhân viên phân tích hệ thống
+Chuyên viên hỗ trợ kỹ thuật/ người sử dụng cuối cùng
+Thiết kế web/ dịch vụ Internet
+Người giám sát
+Trưởng Nhóm
+Sếp
+Trợ lí giám đốc
+Thư kí
+Nhân viên
+Cán bộ, viên chức
+Tổng giám đốc
+Quản lý
+Giám đốc
+Phó giám đốc
+Hội đồng quản trị
+Trưởng phòng
+Phó trưởng phòng
+Phó Giám đốc
+Giám đốc điều hành
+Giám đốc thông tin
+Trưởng phòng hoạt động
+Giám đốc tài chính
+Phó chủ tịch
+Chủ tịch
+Thành viên ban quản trị
+Phó phòng kinh doanh
+
+['Nhân viên phân tích dữ liệu',
+'Quản trị hệ thống',
+'Lập trình viên',
+'Kỹ sư phần mềm',
+'Nhân viên phân tích hệ thống',
+'Chuyên viên hỗ trợ kỹ thuật/ người sử dụng cuối cùng',
+'Thiết kế web/ dịch vụ Internet',
+'Người giám sát',
+'Trưởng Nhóm',
+'Sếp',
+'Trợ lí giám đốc',
+'Thư kí',
+'Nhân viên',
+'Cán bộ, viên chức',
+'Tổng giám đốc',
+'Quản lý',
+'Giám đốc',
+'Phó giám đốc',
+'Hội đồng quản trị',
+'Trưởng phòng',
+'Phó trưởng phòng',
+'Phó Giám đốc',
+'Giám đốc điều hành',
+'Giám đốc thông tin',
+'Trưởng phòng hoạt động',
+'Giám đốc tài chính',
+'Phó chủ tịch',
+'Chủ tịch',
+'Thành viên ban quản trị',
+'Phó phòng kinh doanh']

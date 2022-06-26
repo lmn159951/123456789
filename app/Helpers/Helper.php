@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Support\Carbon;
+
 if (!function_exists('convertName'))
 {
     function convertName($str) {
@@ -61,13 +64,46 @@ if (!function_exists('paddingNumberLeadingZeros'))
 	}
 }
 
-if (!function_exists('currency_format')) {
-    function currency_format($number, $suffix = 'đ')
+if (!function_exists('currency_format'))
+{
+    function currency_format(int $number, string $separator = ',', string $suffix = '')
     {
         if (!empty($number))
         {
-            return number_format($number, 0, ',', '.') . "{$suffix}";
+            return number_format($number, 0, ',', $separator) . "{$suffix}";
         }
+    }
+}
+
+if (!function_exists('createCarbonDatetime'))
+{
+    function createCarbonDatetime(string $datetime)
+    {
+        $datetime = Carbon::createFromFormat('d-m-Y', $datetime);
+        $datetime->hour(23);
+        $datetime->minute(59);
+        $datetime->second(59);
+        return $datetime;
+    }
+}
+
+if (!function_exists('randomCarbonDatetime'))
+{
+    function randomCarbonDatetime(string $startDate, string $endDate = 'now')
+    {
+        $startDateTimestamp = Carbon::createFromFormat('d-m-Y', $startDate, 'Asia/Ho_Chi_Minh')->timestamp;
+        if ($endDate === 'now')
+        {
+            $endDateTimestamp = Carbon::now()->timestamp;
+        }
+        else
+        {
+            $endDateTimestamp = Carbon::createFromFormat('d-m-Y', $endDate, 'Asia/Ho_Chi_Minh')->timestamp;
+        }
+
+
+        $randomDateTimestamp = mt_rand($startDateTimestamp, $endDateTimestamp);
+        return Carbon::createFromTimestamp($randomDateTimestamp, 'Asia/Ho_Chi_Minh');
     }
 }
 

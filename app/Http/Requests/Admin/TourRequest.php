@@ -26,8 +26,9 @@ class TourRequest extends FormRequest
             'tour_end_date' => 'required|after_or_equal:tour_start_date',
             'registration_start_date' => 'required|after:now',
             'registration_end_date' => 'required|after_or_equal:registration_start_date|before:tour_start_date',
-            'price' => 'required',
-            'max_people' => 'required|numeric|min:2',
+            'price' => 'required|numeric|min:1000|max:1000000000',
+            'max_people' => 'required|numeric|min:2|max:1000',
+            'region_id'=>'required|numeric|exists:regions,id'
         ];
     }
 
@@ -39,10 +40,11 @@ class TourRequest extends FormRequest
             'description_file' => 'nullable|mimes:doc,pdf,docx',
             'tour_start_date' => 'required|after:now',
             'tour_end_date' => 'required|after_or_equal:tour_start_date',
-            'registration_start_date' => 'required|after:now',
+            'registration_start_date' => 'required',
             'registration_end_date' => 'required|after_or_equal:registration_start_date|before:tour_start_date',
-            'price' => 'required',
-            'max_people' => 'required|numeric|min:2',
+            'price' => 'required|numeric|min:1000|max:1000000000',
+            'max_people' => 'required|numeric|min:2|max:1000',
+            'region_id'=>'required|numeric|exists:regions,id'
         ];
     }
 
@@ -56,7 +58,8 @@ class TourRequest extends FormRequest
             'before'=>':attribute phải trước ngày bắt đầu tour.',
             'mimes' => ':attribute có định dạng không hợp lệ.',
             'min' => ':attribute phải lớn hơn hoặc bằng :min',
-            'numeric' => ':attribute phải là số'
+            'numeric' => ':attribute phải là số',
+            'max' => ':attribute phải nhỏ hơn hoặc bằng :max'
         ];
     }
 

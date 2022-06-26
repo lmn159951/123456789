@@ -8,10 +8,18 @@
             <form class="container" action="{{ route('admin.users.store') }}" method="POST">
                 @csrf
 
-                <div class="row g-3">
+                <div class="row g-3 mt-2">
                     <div class="col">
                         <label for="fullname" class="form-label">Tên nhân viên:</label>
                         <input type="text" class="form-control" value="{{ $user->fullname }}" disabled>
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-2">
+                    <div class="col">
+                        <label for="birthday" class="form-label">Ngày sinh:</label>
+                        <input type="text" id="birthday" class="form-control"
+                            value="{{ date('d-m-Y', strtotime($user->birthday)) }}" disabled>
                     </div>
                     <div class="col">
                         <label for="email" class="form-label">Email:</label>

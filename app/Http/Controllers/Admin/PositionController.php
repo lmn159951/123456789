@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Position;
 use App\Http\Requests\Admin\PositionRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
 class PositionController extends Controller
@@ -38,7 +39,12 @@ class PositionController extends Controller
     {
         $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
 
-        return redirect()->route('admin.agencies.index', $parameters);
+        return redirect()->route('admin.positions.index', $parameters);
+    }
+
+    public function show()
+    {
+        return redirect()->route('admin.positions.index');
     }
 
     public function create()
@@ -60,9 +66,19 @@ class PositionController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['positions'] = Position::find($id);
 
-        return view('admin.pages.positions.edit', $parameters);
+        $bln = DB::table('positions')->where('id', $id)->count() > 0;
+
+        if($bln)
+        {
+            $parameters['positions'] = Position::find($id);
+
+            return view('admin.pages.positions.edit', $parameters);
+        }
+        else
+        {
+            return redirect()->route('admin.positions.index');
+        }
     }
 
     public function update(PositionRequest $request, int $id)
