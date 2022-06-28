@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\NhanVien\DangKyTourRequest;
 use App\Models\TourRegistration;
 use Illuminate\Support\Facades\DB;
+use App\Models\UserSupport;
+use App\Models\Support;
 
 class DangKyTourController extends Controller
 {
@@ -42,7 +44,8 @@ class DangKyTourController extends Controller
         $emptySlotRemain = Tour::EmptySlotRemain($tour_id);
         $tourInfo = Tour::TourInfo($tour_id);
         //Da dang ky
-        $relativeInfos = TourRegistration::where('user_id', Auth::guard('user')->user()->id)->get();
+        $relativeInfos = TourRegistration::where('user_id', Auth::guard('user')->user()->id)
+        ->where('tour_id', $tour_id)->get();
         if($relativeInfos->count() > 0)
         {
             return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo)
@@ -86,7 +89,7 @@ class DangKyTourController extends Controller
                     'tour_id' => $tour_id,
                     'registration_date' => $registrationDate,
                     'relative_fullname' => $request['relative_fullname'][$i],
-                    'birthdate' => Carbon::createFromFormat('d-m-Y', $request['birthdate'][$i])->format('Y-m-d'),
+                    'birthdate' => Carbon::createFromFormat('Y-m-d', $request['birthdate'][$i])->format('Y-m-d'),
                     'gender' => $request['gender'][$i],
                     'relationship' => $request['relationship'][$i],
                     'phone' => $request['phone'][$i],
@@ -119,30 +122,80 @@ class DangKyTourController extends Controller
         TourRegistration::where('id',$id)->delete();
     }
 
-    public function tourregistration(Request $request, $tour_id)
+    public function AllSupportNow()
+    {
+        $today = Carbon::now()->format('Y');
+        return Support::where('start_year', '<=', $today)
+        ->where('end_year', '>=', $today)
+        ->get();
+    }
+
+    public function ExpYear()
+    {
+        $today = Carbon::now();
+        $dt = new Carbon(Auth::guard('user')->user()->start_date);
+        return $today->diffInYears($dt);
+    }
+
+    public function CheckUsedSupport($support_id)
+    {
+        if(UserSupport::where('user_id', Auth::guard('user')->user()->id)
+        ->where('support_id', $support_id)
+        ->get()->count() == 0)
+            return false;
+        return true;
+    }
+
+    public function InsertSupportToUserSupport($support_id)
+    {   
+        UserSupport::insert([
+            'user_id' => Auth::guard('user')->user()->id,
+            'support_id' => $support_id
+        ]);
+    }
+
+    public function InsertSupportToTourRegistration()
+    {
+        $allSupportNow = $this->AllSupportNow();
+        $expYear = $this->ExpYear();
+        foreach($allSupportNow as $supportNow)
+        {
+            if(!$this->CheckUsedSupport($supportNow->id) && $expYear >= $supportNow->min_condition
+            && $expYear <= $supportNow->max_condition)
+            {
+                $this->InsertSupportToUserSupport($supportNow->id);
+                return $supportNow->price;
+            }
+        }
+        return 0;
+    }
+
+    public function tourregistration(Request $request, $tour_id=0)
     {
         // $validated = $request->validated(); 
         if(!$this->checkTour($tour_id))
-            dd("lỗi check tour");// return abort(403);
+            return abort(403);
 
         $numberMembersInput = 0;
         if(isset($request->post()['id']))
         {
             $numberMembersInput = count($request->post()['id']);
             
-            //Kiem tra dau vao id cua member hop le khong
+            //Kiem tra dau vao id cua member hop le voi tour id
             for($i=0; $i<$numberMembersInput; $i++)
             {
                 $id = $request->post('id')[$i]; 
-                $number = TourRegistration::where('user_id', Auth::guard('user')->user()->id)
-                ->where('id', $id)->get()->count();
+                $count = TourRegistration::where('user_id', Auth::guard('user')->user()->id)
+                ->where('id', $id)->where('tour_id', $tour_id)->get()->count();
 
-                if($number !=1 && $id != "0")
-                    dd("Lỗi sửa id!!");// return abort(403);
+                if($count !=1 && $id != "0")
+                    // dd("Lỗi sửa id!!"); 
+                    return abort(403);
             }
         }
 
-        $relativeInfos = TourRegistration::where('user_id', Auth::guard('user')->user()->id); 
+        $relativeInfos = TourRegistration::where('user_id', Auth::guard('user')->user()->id)
+        ->where('tour_id', $tour_id); 
         $registrationDateNow = Carbon::now()->format('Y-m-d');
         $price = Tour::where('id', $tour_id)->first()->price;
         $emptySlotRemain = Tour::EmptySlotRemain($tour_id);
@@ -151,44 +204,63 @@ class DangKyTourController extends Controller
         {
             
             if($numberMembersInput+1 > $emptySlotRemain)
-                dd("Quá số ghế trống");
+                return abort(403);
+                // dd("Quá số ghế trống");
             //them vao csdl
-            $this->InsertUserToTourRegistrations($registrationDateNow, $price, $tour_id);
+            //them ho tro neu co
+            $supportPrice = (int)$this->InsertSupportToTourRegistration();
+            
+            $this->InsertUserToTourRegistrations($registrationDateNow, 
+            ((int)$price < $supportPrice) ? '0' : (int)$price-$supportPrice, $tour_id);
             if($numberMembersInput == 0)
             {
-                dd("Đăng ký tour thành công!");
+                return redirect()->route('home');
+                // dd("Đăng ký tour thành công!");
             }
             for($i=0; $i<$numberMembersInput; $i++)
                 $this->InsertMemberToTourRegistrations($request->post(), $registrationDateNow, $price, $tour_id, $i);
-            dd("Đăng ký tour thành công!");
+            return redirect()->route('home');
+            // dd("Đăng ký tour thành công!");
         }
 
-        //Da dang ky
-        //Chi muon thay doi ban than va khong co thanh vien nao theo
-        if($numberMembersInput == 0)
-            dd("Sửa nội dung cá nhân trong thông tin cá nhân!");
-        
+        //Da dang ky        
         //Them, cap nhat hoac xoa thong tin thanh vien
+
+        //Xoa
+        $relativeInfos = $relativeInfos->where('relationship', '<>', null)->get();
+        if($numberMembersInput == 0)
+        {
+            foreach($relativeInfos as $relativeInfo)
+            {
+                $this->DeleteMemberTourRegistration($relativeInfo->id);
+            }
+        }
+        else    
+        foreach($request->post('id') as $id)
+        {
+            foreach($relativeInfos as $relativeInfo)
+            {
+                if($id == $relativeInfo->id) break;
+            }
+            $this->DeleteMemberTourRegistration($id);
+        } 
+
+        //Them, cap nhat
         for($i=0; $i<$numberMembersInput; $i++)
         {
             $id = $request->post('id')[$i];
-            //Them
             if($id == "0")
             {
                 $this->InsertMemberToTourRegistrations($request->post(), $registrationDateNow, $price, $tour_id, $i);
             }
             
-            //Cap nhat
             else if(TourRegistration::where('id', $id)->count() == 1)
             {
                 $this->UpdateMemberToTourRegistrations($request->post(), $tour_id, $i); 
             }
             
-            //Xoa
-            else $this->DeleteMemberTourRegistration($id);
         }
 
-        dd("Them sua xoa thanh vien thanh cong!!");
-        return redirect()->route('nhanvien.thong-tin-ca-nhan.index');
+        return redirect()->route('home');
     }
 }
