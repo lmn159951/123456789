@@ -96,8 +96,8 @@
                 },
                 select: true,
                 columns: [{
-                        data: 'id',
-                        name: 'id',
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
                     },
                     {
                         data: 'name',
@@ -109,9 +109,11 @@
                         orderable: false,
                         searchable: false,
                         render: function(departmentId) {
-                            const updateUrl = 'http://127.0.0.1:8000/admin/departments/' + departmentId +
+                            const updateUrl = 'http://127.0.0.1:8000/admin/departments/' +
+                                departmentId +
                                 '/edit';
-                            const deleteUrl = 'http://127.0.0.1:8000/admin/departments/' + departmentId;
+                            const deleteUrl = 'http://127.0.0.1:8000/admin/departments/' +
+                                departmentId;
 
                             return `
                                 <div class="d-flex">
@@ -190,10 +192,13 @@
             });
 
             $("#buttonDeleteMany").click(function() {
-                const selectedIds = table.rows({ selected: true }).data().pluck('id');
+                const selectedIds = table.rows({
+                    selected: true
+                }).data().pluck('id');
                 const deleteRecordsIds = [];
-for(let i = 0; i < table.rows({ selected: true }).count(); i++)
-                {
+                for (let i = 0; i < table.rows({
+                        selected: true
+                    }).count(); i++) {
                     deleteRecordsIds.push(selectedIds[i]);
                 }
 

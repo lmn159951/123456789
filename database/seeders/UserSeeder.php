@@ -21,9 +21,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create();
-        $agencyCollection = Agency::inRandomOrder()->get();
-        $departmentCollection = Department::inRandomOrder()->get();
-        $positionCollection = Position::inRandomOrder()->get();
         $fullnames = collect(config('constants.fullnames'))->shuffle();
 
         User::insert([
@@ -96,8 +93,8 @@ class UserSeeder extends Seeder
         $users = [];
         foreach ($fullnames as $index => $fullname)
         {
-            $agencyId = $agencyCollection->random()->first()->id;
-            $departmentId = $departmentCollection->random()->first()->id;
+            $agencyId = Agency::inRandomOrder()->first()->id;
+            $departmentId = Department::inRandomOrder()->first()->id;
 
             $username = '';
             $username .= getName(convertName($fullname));
@@ -120,7 +117,7 @@ class UserSeeder extends Seeder
                 'citizen_card' => $faker->numerify('3########'),
                 'agency_id' => $agencyId,
                 'department_id' => $departmentId,
-                'position_id' => $positionCollection->random()->first()->id,
+                'position_id' => Position::inRandomOrder()->first()->id,
                 'start_date' => randomCarbonDatetime('01-01-2015'),
                 'is_admin' => '0',
             ]);

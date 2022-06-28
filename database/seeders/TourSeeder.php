@@ -21,17 +21,14 @@ class TourSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        $initialDate = createCarbonDatetime('01-01-2015');
-        $agencies = Agency::inRandomOrder()->get();
-        $region = Region::inRandomOrder()->get();
+        $initialDate = createCarbonDatetime('01-01-2018');
+
         $travel = ['lake', 'beach', 'nature', 'mountains', 'Landscape', 'outdoors', 'outdoor'];
 
         for ($startDate = $initialDate; $startDate->lte(createCarbonDatetime('31-12-2022')); $startDate->addDays(rand(4, 5) * 30))
         {
-            $numberOfTours = rand(2, 4);
+            $numberOfTours = rand(1, 3);
             $registrationBetweenDate = rand(1, 2) * 30;
-
-            $randomAgencies = $agencies->random(rand(1, 3))->pluck('id')->all();
 
             for ($i = 0; $i < $numberOfTours; $i++)
             {
@@ -39,7 +36,7 @@ class TourSeeder extends Seeder
                 $registrationEndDate = Carbon::createFromFormat('Y-m-d H:i:s', $registrationStartDate)->addDays($registrationBetweenDate);
                 $tourStartDate =  Carbon::createFromFormat('Y-m-d H:i:s', $registrationEndDate)->addDays(rand(1, 8));
                 $tourEndDate= Carbon::createFromFormat('Y-m-d H:i:s', $tourStartDate)->addDays(rand(1, 8));
-                $regionId = $region->random()->first()->id;
+                $regionId = Region::inRandomOrder()->first()->id;
 
                 $createdTour = Tour::create([
                     'name' => $faker->sentence(),
@@ -54,6 +51,7 @@ class TourSeeder extends Seeder
                     'region_id' => $regionId,
                 ]);
 
+                $randomAgencies = Agency::inRandomOrder()->limit(rand(1, 3))->get();
                 $createdTour->agencies()->attach($randomAgencies);
                 $createdTour->save();
             }

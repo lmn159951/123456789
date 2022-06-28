@@ -5,7 +5,7 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Tạo nhân viên</h1>
 
-            <form class="container" action="{{ route('admin.users.store') }}" method="POST">
+            <form class="container" action="{{ route('admin.users.store') }}" method="POST"   autocomplete="off">
                 @csrf
 
                 <div class="row g-3 mt-2">

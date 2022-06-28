@@ -23,23 +23,9 @@ class DepartmentController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function (Department $department) {
                 return $department->id;
-            })->addColumn('checkbox', function (Department $department) {
-                return '
-                    <label class="control control--checkbox">
-                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$department->id.'" />
-                        <div class="control__indicator"></div>
-                    </label>
-                ';
             })
-            ->rawColumns(['action', 'checkbox'])
+            ->rawColumns(['action'])
             ->make();
-    }
-
-    public function search(Request $request)
-    {
-        $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
-
-        return redirect()->route('admin.agencies.index', $parameters);
     }
 
     public function show()

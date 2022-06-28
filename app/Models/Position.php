@@ -12,4 +12,18 @@ class Position extends Model
     protected $table = 'positions';
     protected $fillable = ['name'];
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($position) {
+            $position->users()->delete();
+        });
+    }
+
 }

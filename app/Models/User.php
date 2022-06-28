@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
@@ -38,6 +39,14 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function getSeniorityAttribute()
+    {
+        $startDate = Carbon::parse($this->start_date);
+        $endDate = Carbon::now();
+
+        return $startDate->diffInYears($endDate);
+    }
 
     public function agency()
     {

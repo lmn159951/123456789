@@ -93,7 +93,7 @@ class Tour extends Model
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
             ->select([DB::raw('id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
-             'registration_start_date', 'registration_end_date', 'price', 'max_people'])
+            'registration_start_date', 'registration_end_date', 'price', 'max_people'])
             ->get()
             ->skip($startNumber)
             ->take($amount)

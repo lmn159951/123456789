@@ -8,7 +8,6 @@ use App\Models\Agency;
 use App\Models\Region;
 use App\Models\Tour;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
 class TourController extends Controller
@@ -30,15 +29,11 @@ class TourController extends Controller
             ->editColumn('price', function (Tour $tour) {
                 return currency_format($tour->price, $separator = ',', $suffix = '₫');
             })
-            ->rawColumns(['action', 'checkbox'])
+            ->editColumn('max_people', function (Tour $tour) {
+                return (string)$tour->max_people;
+            })
+            ->rawColumns(['action'])
             ->make();
-    }
-
-    public function search(Request $request)
-    {
-        $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
-
-        return redirect()->route('admin.users.index', $parameters);
     }
 
     public function create()
@@ -52,114 +47,63 @@ class TourController extends Controller
 
     public function store(TourRequest $request)
     {
-        $tour = new Tour;
+        $tour = new Tour();
+        $tour->fill($request->validated());
+        $tour->agencies()->attach($request->agency_ids);
 
-        if($request->hasFile('image'))
+        if($request->hasFile('file_image'))
         {
-            $destinationPath = 'public/images';
-            $file = $request->file('image');
-            $fileImage = time().".".$file->getClientOriginalExtension();
-            $file->storeAs($destinationPath, $fileImage);
-            $tour->image = $fileImage;
+            $tour->image = time().".".$request->file('file_image')->getClientOriginalExtension();
+            $request->file('file_image')->storeAs('public/images', $tour->image);
         }
 
-        if($request->hasFile('description_file'))
+        if($request->hasFile('file_description'))
         {
-            $destinationPath = 'public/files';
-            $file = $request->file('description_file');
-            $fileDescription = time().".".$file->getClientOriginalExtension();
-            $file->storeAs($destinationPath, $fileDescription);
-            $tour->description_file =  $fileDescription;
+            $tour->description_file = time().".".$request->file('file_description')->getClientOriginalExtension();
+            $request->file('file_description')->storeAs('public/files', $tour->description_file);
         }
 
-        $tour->fill($request->except(['image', 'description_file']));
-
-        $tour->name = $request->name;
-        $tour->tour_start_date = $request->tour_start_date;
-        $tour->tour_end_date = $request->tour_end_date;
-        $tour->registration_start_date = $request->registration_start_date;
-        $tour->registration_end_date = $request->registration_end_date;
-        $tour->price = $request->price;
-        $tour->max_people = $request->max_people;
-        $tour->region_id = $request->region_id;
         $tour->save();
 
-        return redirect()
-            ->route('admin.tours.index')
-            ->with('message', 'Tạo tour thành công');
+        return redirect()->route('admin.tours.index')->with('message', 'Tạo tour thành công');
     }
 
     public function edit(int $id)
     {
         $parameters = [];
+        $parameters['tour'] = Tour::find($id);
+        $parameters['regions'] = Region::all();
 
-        $bln = DB::table('tours')->where('id',$id)->count() > 0;
-
-        if($bln)
-        {
-            $parameters['tour'] = Tour::find($id);
-            $parameters['regions'] = Region::all();
-
-            return view('admin.pages.tours.edit', $parameters);
-        }
-        else
-        {
-            return redirect()->route('admin.tours.index');
-        }
+        return view('admin.pages.tours.edit', $parameters);
     }
 
     public function update(TourRequest $request, int $id)
     {
         $tour = Tour::find($id);
-        $tour->name = $request->name;
+        $tour->fill($request->validated());
 
-        if($request->hasFile('image'))
+        if($request->hasFile('file_image'))
         {
-            $destinationPath = 'public/images';
-            $file = $request->file('image');
-            $fileImage = time().".".$file->getClientOriginalExtension();
-            $file->storeAs($destinationPath, $fileImage);
-            $tour->image = $fileImage;
+            $tour->image = time().".".$request->file('file_image')->getClientOriginalExtension();
+            $request->file('file_image')->storeAs('public/images', $tour->image);
         }
 
-        if($request->hasFile('description_file'))
+        if($request->hasFile('file_description'))
         {
-            $destinationPath = 'public/files';
-            $file = $request->file('description_file');
-            $fileDescription = time().".".$file->getClientOriginalExtension();
-            $file->storeAs($destinationPath, $fileDescription);
-            $tour->description_file =  $fileDescription;
+            $tour->description_file = time().".".$request->file('file_description')->getClientOriginalExtension();
+            $request->file('file_description')->storeAs('public/files', $tour->description_file);
         }
-        $tour->tour_start_date = $request->tour_start_date;
-        $tour->tour_end_date = $request->tour_end_date;
-        $tour->registration_start_date = $request->registration_start_date;
-        $tour->registration_end_date = $request->registration_end_date;
-        $tour->price = $request->price;
-        $tour->max_people = $request->max_people;
-        $tour->region_id = $request->region_id;
+
         $tour->save();
 
-        return redirect()
-            ->route('admin.tours.index')
-            ->with('message', 'Cập nhật tour thành công');
+        return redirect()->route('admin.tours.index')->with('message', 'Cập nhật tour thành công');
     }
 
     public function show(int $id)
     {
-        $parameters = [];
+        $parameters['tour'] = Tour::with(['region'])->find($id);
 
-        $bln = DB::table('tours')->where('id',$id)->count() > 0;
-
-        if($bln)
-        {
-            $parameters['tour'] = Tour::with(['region'])->find($id);
-
-            return view('admin.pages.tours.show', $parameters);
-        }
-        else
-        {
-            return redirect()->route('admin.tours.index');
-        }
+        return view('admin.pages.tours.show', $parameters);
     }
 
     public function showFileDescription(int $id)
@@ -174,9 +118,7 @@ class TourController extends Controller
     {
         Tour::destroy($id);
 
-        return redirect()
-            ->route('admin.tours.index')
-            ->with('message', 'Xoá tour thành công');
+        return redirect()->route('admin.tours.index')->with('message', 'Xoá tour thành công');
     }
 
     public function deleteMany(Request $request)

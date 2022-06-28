@@ -5,7 +5,8 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Tạo tour</h1>
 
-            <form class="container" action="{{ route('admin.tours.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="container" action="{{ route('admin.tours.store') }}" method="POST" enctype="multipart/form-data"
+                autocomplete="off">
                 @csrf
 
                 <div class="mb-3">
@@ -24,34 +25,39 @@
                 <div class="row align-items-start">
                     <div class="col">
                         <div class="mb-3">
-                            <label for="image" class="form-label">Hình ảnh:</label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
-                                    id="image">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>
+                            <label for="file_image" class="form-label">Hình ảnh:</label>
+                            <label class="text-danger">(*)</label>
 
-                            @error('image')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <div class="custom-file">
+                                <input type="file" name="file_image"
+                                    class="custom-file-input @error('file_image') is-invalid @enderror"
+                                    id="validatedCustomFile">
+                                <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
+
+                                @error('file_image')
+                                    <div id="validationServer03Feedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-3">
-                            <label for="description_file" class="form-label">File mô tả:</label>
+                            <label for="file_description" class="form-label">File mô tả:</label>
+                            <label class="text-danger">(*)</label>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
-                                    name="description_file" id="description_file">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>
+                                <input type="file" name="file_description"
+                                    class="custom-file-input @error('file_description') is-invalid @enderror"
+                                    id="validatedCustomFile">
+                                <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
 
-                            @error('description_file')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                                @error('file_description')
+                                    <div id="validationServer03Feedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,13 +160,33 @@
 
                 <div class="form-group">
                     <label for="region_id">Vùng miền:</label>
+                    <label class="text-danger">(*)</label>
                     <select id="region_id" name="region_id" class="form-control">
                         @foreach ($regions as $region)
-                            <option value="{{ $region->id }}">{{ $region->name }}</option>
+                            <option value="{{ $region->id }}" @selected($region->id == old('region_id'))>{{ $region->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label for="agency_ids">Đơn vị:</label>
+                    <label class="text-danger">(*)</label>
+                    <select multiple class="form-control @error('agency_ids') is-invalid @enderror" name="agency_ids[]"
+                        id="agency_ids">
+                        @foreach ($agencies as $agency)
+                            <option value="{{ $agency->id }}" @selected(in_array($agency->id, old('agency_ids') ?? []))>
+                                {{ $agency->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('agency_ids')
+                        <div id="validationServer03Feedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
 
                 <div class="my-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary mr-3">Tạo</button>
@@ -173,3 +199,9 @@
 
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        
+    </script>
+@endpush

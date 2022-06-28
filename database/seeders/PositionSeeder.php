@@ -54,7 +54,5 @@ class PositionSeeder extends Seeder
         $array = array_map(function($item) { return [ 'name' => $item, 'created_at' => Carbon::now() ]; }, $array);
 
         Position::insert($array);
-
-        print_r(Position::all()->toArray());
     }
 }

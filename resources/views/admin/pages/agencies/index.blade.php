@@ -99,8 +99,8 @@
                 },
                 select: true,
                 columns: [{
-                        data: 'id',
-                        name: 'id',
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
                     },
                     {
                         data: 'name',
@@ -115,27 +115,24 @@
                         targets: 8,
                         orderable: false,
                         searchable: false,
-                        render: function(tourId) {
-                            const updateUrl = 'http://127.0.0.1:8000/admin/agencies/' + tourId +
+                        render: function(id) {
+                            const updateUrl = 'http://127.0.0.1:8000/admin/agencies/' + id +
                                 '/edit';
-                            const deleteUrl = 'http://127.0.0.1:8000/admin/agencies/' + tourId;
-                            const showUrl = 'http://127.0.0.1:8000/admin/agencies/' + tourId;
+                            const deleteUrl = 'http://127.0.0.1:8000/admin/agencies/' + id;
+                            const showUrl = 'http://127.0.0.1:8000/admin/agencies/' + id;
 
                             return `
                                 <div class="d-flex">
                                     <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
                                         <i class="fas fa-fw fa-pen"></i>
                                     </a>
-                                    <a class="btn btn-info mr-2" href="${showUrl}">
-                                        <i class="fas fa-fw fa-eye"></i>
-                                    </a>
 
                                     <button type="button" class="btn btn-danger" data-toggle="modal"
-                                        data-target="#deleteModal-${tourId}">
+                                        data-target="#deleteModal-${id}">
                                         <i class="fas fa-fw fa-trash"></i>
                                     </button>
 
-                                    <div class="modal fade" id="deleteModal-${tourId}" tabindex="-1" role="dialog"
+                                    <div class="modal fade" id="deleteModal-${id}" tabindex="-1" role="dialog"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -201,10 +198,13 @@
             });
 
             $("#buttonDeleteMany").click(function() {
-                const selectedIds = table.rows({ selected: true }).data().pluck('id');
+                const selectedIds = table.rows({
+                    selected: true
+                }).data().pluck('id');
                 const deleteRecordsIds = [];
-for(let i = 0; i < table.rows({ selected: true }).count(); i++)
-                {
+                for (let i = 0; i < table.rows({
+                        selected: true
+                    }).count(); i++) {
                     deleteRecordsIds.push(selectedIds[i]);
                 }
 

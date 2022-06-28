@@ -1,100 +1,95 @@
 @extends('admin.layouts.admin')
 
-@push('styles')
-<link href="{{ asset('admin/fonts/icomoon/style.css') }}" rel="stylesheet">
-<link href="{{ asset('admin/css/custom-table.css') }}" rel="stylesheet">
-@endpush
-
 @section('content')
-<div class="container-fluid">
-    <div class="shadow p-4 mb-5 bg-body rounded">
-        <h3 class="text-center">Quản lý tour</h3>
+    <div class="container-fluid">
+        <div class="shadow p-4 mb-5 bg-body rounded">
+            <h3 class="text-center">Quản lý tour</h3>
 
-        @if (session('message'))
-        <div class="alert alert-success text-center">
-            {{ session('message') }}
-        </div>
-        @endif
+            @if (session('message'))
+                <div class="alert alert-success text-center">
+                    {{ session('message') }}
+                </div>
+            @endif
 
-        <div class="d-flex align-items-center justify-content-end my-2" id="buttonActions">
+            <div class="d-flex align-items-center justify-content-end my-2" id="buttonActions">
 
-            <button type="button" id="buttonDeleteManyModel" class="btn btn-danger mr-2 d-none" data-toggle="modal"
-                data-target="#deleteAllModal">
-                Xoá đánh dấu
-            </button>
+                <button type="button" id="buttonDeleteManyModel" class="btn btn-danger mr-2 d-none" data-toggle="modal"
+                    data-target="#deleteAllModal">
+                    Xoá đánh dấu
+                </button>
 
-            <div class="modal fade" id="deleteAllModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Bạn có chắc muốn xoá tour được đánh dấu không?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger" id="buttonDeleteMany">
-                                Xoá đánh dấu
-                            </button>
+                <div class="modal fade" id="deleteAllModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Bạn có chắc muốn xoá tour được đánh dấu không?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger" id="buttonDeleteMany">
+                                    Xoá đánh dấu
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+
+                <a class="btn btn-primary" href="{{ route('admin.tours.create') }}">
+                    Thêm
+                </a>
             </div>
 
+            <table class="table table-hover my-3" id="table-content">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            #
+                        </th>
+                        <th scope="col">
+                            Tên tour
+                        </th>
+                        <th scope="col">
+                            Thời gian đăng ký
+                        </th>
+                        <th scope="col">
+                            Thời thời kết thúc
+                        </th>
+                        <th scope="col">
+                            Thời gian đi
+                        </th>
+                        <th scope="col">
+                            Thời gian về
+                        </th>
+                        <th scope="col">
+                            Giá tiền
+                        </th>
+                        <th scope="col">
+                            Số lượng người
+                        </th>
+                        <th scope="col">
+                            Thao tác
+                        </th>
+                    </tr>
+                </thead>
 
-
-            <a class="btn btn-primary" href="{{ route('admin.tours.create') }}">
-                Thêm
-            </a>
+            </table>
         </div>
 
-        <table class="table table-hover my-3" id="table-content">
-            <thead>
-                <tr>
-                    <th scope="col">
-                        #
-                    </th>
-                    <th scope="col">
-                        Tên tour
-                    </th>
-                    <th scope="col">
-                        Thời gian đăng ký
-                    </th>
-                    <th scope="col">
-                        Thời thời kết thúc
-                    </th>
-                    <th scope="col">
-                        Thời gian đi
-                    </th>
-                    <th scope="col">
-                        Thời gian về
-                    </th>
-                    <th scope="col">
-                        Giá tiền
-                    </th>
-                    <th scope="col">
-                        Số lượng người
-                    </th>
-                    <th scope="col">
-                        Thao tác
-                    </th>
-                </tr>
-            </thead>
-
-        </table>
     </div>
-
-</div>
 @endsection
 
 @push('scripts')
-<script type="text/javascript">
-    $(document).ready(function() {
+    <script type="text/javascript">
+        $(document).ready(function() {
 
             const table = $('#table-content').DataTable({
                 responsive: true,
@@ -114,8 +109,8 @@
                 },
                 select: true,
                 columns: [{
-                        data: 'id',
-                        name: 'id',
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
                     },
                     {
                         data: 'name',
@@ -256,10 +251,13 @@
             });
 
             $("#buttonDeleteMany").click(function() {
-                const selectedIds = table.rows({ selected: true }).data().pluck('id');
+                const selectedIds = table.rows({
+                    selected: true
+                }).data().pluck('id');
                 const deleteRecordsIds = [];
-                for(let i = 0; i < table.rows({ selected: true }).count(); i++)
-                {
+                for (let i = 0; i < table.rows({
+                        selected: true
+                    }).count(); i++) {
                     deleteRecordsIds.push(selectedIds[i]);
                 }
 
@@ -279,7 +277,5 @@
                 });
             });
         });
-</script>
-
-{{-- <script src="{{ asset('admin/js/custom-table.js') }}"></script> --}}
+    </script>
 @endpush
