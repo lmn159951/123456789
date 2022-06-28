@@ -63,9 +63,6 @@
                             Họ tên
                         </th>
                         <th scope="col">
-                            Tài khoản
-                        </th>
-                        <th scope="col">
                             Giới tính
                         </th>
                         <th scope="col">
@@ -73,6 +70,9 @@
                         </th>
                         <th scope="col">
                             Chức vụ
+                        </th>
+                        <th scope="col">
+                            Đơn vị
                         </th>
                         <th scope="col">
                             Thao tác
@@ -116,10 +116,6 @@
                         name: 'fullname'
                     },
                     {
-                        data: 'username',
-                        name: 'username'
-                    },
-                    {
                         data: 'gender',
                         name: 'gender'
                     },
@@ -130,6 +126,10 @@
                     {
                         data: 'position.name',
                         name: 'position.name'
+                    },
+                    {
+                        data: 'agency.name',
+                        name: 'agency.name'
                     },
                     {
                         data: 'action',

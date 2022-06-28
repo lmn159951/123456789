@@ -115,27 +115,22 @@
                         targets: 8,
                         orderable: false,
                         searchable: false,
-                        render: function(tourId) {
-                            const updateUrl = 'http://127.0.0.1:8000/admin/agencies/' + tourId +
+                        render: function(agencyId) {
+                            const updateUrl = 'http://127.0.0.1:8000/admin/agencies/' + agencyId +
                                 '/edit';
-                            const deleteUrl = 'http://127.0.0.1:8000/admin/agencies/' + tourId;
-                            const showUrl = 'http://127.0.0.1:8000/admin/agencies/' + tourId;
-
+                            const deleteUrl = 'http://127.0.0.1:8000/admin/agencies/' + agencyId;
                             return `
                                 <div class="d-flex">
                                     <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
                                         <i class="fas fa-fw fa-pen"></i>
                                     </a>
-                                    <a class="btn btn-info mr-2" href="${showUrl}">
-                                        <i class="fas fa-fw fa-eye"></i>
-                                    </a>
 
                                     <button type="button" class="btn btn-danger" data-toggle="modal"
-                                        data-target="#deleteModal-${tourId}">
+                                        data-target="#deleteModal-${agencyId}">
                                         <i class="fas fa-fw fa-trash"></i>
                                     </button>
 
-                                    <div class="modal fade" id="deleteModal-${tourId}" tabindex="-1" role="dialog"
+                                    <div class="modal fade" id="deleteModal-${agencyId}" tabindex="-1" role="dialog"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -146,7 +141,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>Bạn có muốn xoá người dùng này?</p>
+                                                    <p>Bạn có muốn xoá đơn vị này?</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"

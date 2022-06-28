@@ -27,9 +27,10 @@
                             <label for="image" class="form-label">Hình ảnh:</label>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
-                                    id="image">
+                                    id="image" onchange="loadFile(event)">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
+                            <img id="imageInput">
 
                             @error('image')
                                 <div id="validationServer03Feedback" class="invalid-feedback">
@@ -173,3 +174,23 @@
 
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        var loadFile = function(event) {
+        var imageInput = document.getElementById('imageInput');
+        imageInput.src = URL.createObjectURL(event.target.files[0]);
+        imageInput.onload = function() {
+        URL.revokeObjectURL(imageInput.src)
+    }
+  };
+    </script>
+@endpush
+
+@push('styles')
+    <style>
+        img {
+            max-height: 150px;
+        }
+    </style>
+@endpush

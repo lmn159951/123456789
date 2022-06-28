@@ -27,7 +27,9 @@
                         <div class="mb-3">
                             <label for="image" class="form-label">Hình ảnh:</label>
                             <input type="file" class="form-control @error('image') is-invalid @enderror"
-                                value="{{ old('image') ?? $tour->image }}" name="image" id="image">
+                                value="{{ old('image') ?? $tour->image }}" name="image" id="image"
+                                onchange="loadFile(event)">
+                                <img id="imageInput">
 
                             @error('image')
                                 <div id="validationServer03Feedback" class="invalid-feedback">
@@ -176,3 +178,23 @@
 
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        var loadFile = function(event) {
+        var imageInput = document.getElementById('imageInput');
+        imageInput.src = URL.createObjectURL(event.target.files[0]);
+        imageInput.onload = function() {
+        URL.revokeObjectURL(imageInput.src)
+    }
+  };
+    </script>
+@endpush
+
+@push('styles')
+    <style>
+        img {
+            max-height: 150px;
+        }
+    </style>
+@endpush
