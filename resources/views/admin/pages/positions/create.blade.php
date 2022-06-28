@@ -5,7 +5,7 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Tạo chức vụ</h1>
 
-            <form class="container" style="max-width: 800px;" action="{{ route('admin.positions.store') }}" method="POST">
+            <form class="container" style="max-width: 800px;" action="{{ route('admin.positions.store') }}" method="POST" autocomplete="off">
                 @csrf
 
                 <div class="mb-3">

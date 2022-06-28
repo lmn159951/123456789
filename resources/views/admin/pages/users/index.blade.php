@@ -108,8 +108,8 @@
                 },
                 select: true,
                 columns: [{
-                        data: 'id',
-                        name: 'id',
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
                     },
                     {
                         data: 'fullname',
@@ -141,6 +141,8 @@
                                 '/edit';
                             const deleteUrl = 'http://127.0.0.1:8000/admin/users/' + userId;
                             const showUrl = 'http://127.0.0.1:8000/admin/users/' + userId;
+                            const resetPasswordUrl =
+                                'http://127.0.0.1:8000/admin/users/resetPassword/' + userId;
 
                             return `
                                 <div class="d-flex">
@@ -183,6 +185,10 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <a class="btn btn-secondary ml-2" href="${resetPasswordUrl}">
+                                        <i class="fas fa-fw fa-rotate"></i>
+                                    </a>
                                 </div>
                             `;
                         }
@@ -222,10 +228,13 @@
             });
 
             $("#buttonDeleteMany").click(function() {
-                const selectedIds = table.rows({ selected: true }).data().pluck('id');
+                const selectedIds = table.rows({
+                    selected: true
+                }).data().pluck('id');
                 const deleteRecordsIds = [];
-for(let i = 0; i < table.rows({ selected: true }).count(); i++)
-                {
+                for (let i = 0; i < table.rows({
+                        selected: true
+                    }).count(); i++) {
                     deleteRecordsIds.push(selectedIds[i]);
                 }
 

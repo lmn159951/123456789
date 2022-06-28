@@ -17,4 +17,18 @@ class Agency extends Model
     {
         return $this->belongsToMany(Tour::class, 'agency_tours');
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($agency) {
+            $agency->users()->delete();
+        });
+    }
 }

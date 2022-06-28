@@ -13,6 +13,19 @@ class TourRegistration extends Model
     protected $primaryKey = 'id';
     protected $table = 'tour_registrations';
 
+    protected $fillable = [
+        'user_id',
+        'tour_id',
+        'registration_date',
+        'relative_fullname',
+        'birthday',
+        'gender',
+        'relationship',
+        'phone',
+        'citizen_card',
+        'cost',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -22,7 +35,5 @@ class TourRegistration extends Model
     {
         return $this->belongsTo(Tour::class);
     }
-
-    
 
 }

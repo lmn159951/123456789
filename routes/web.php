@@ -73,6 +73,7 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
     Route::resource('positions', PositionController::class);
 
     // Route::post('/users/search', [UserController::class, 'search'])->name('users.search');
+    Route::get('/users/resetPassword/{user}', [UserController::class, 'resetPassword'])->name('users.resetPassword');
     Route::delete('/users/deleteMany', [UserController::class, 'deleteMany'])->name('users.deleteMany');
     Route::get('/users/datatableApi', [UserController::class, 'datatableApi'])->name('users.datatableApi');
     Route::resource('users', UserController::class);

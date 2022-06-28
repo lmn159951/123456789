@@ -1,10 +1,5 @@
 @extends('admin.layouts.admin')
 
-@push('styles')
-    <link href="{{ asset('admin/fonts/icomoon/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/css/custom-table.css') }}" rel="stylesheet">
-@endpush
-
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
@@ -66,7 +61,7 @@
                             Thời gian đăng ký
                         </th>
                         <th scope="col">
-                            Thời gian kết thúc
+                            Thời thời kết thúc
                         </th>
                         <th scope="col">
                             Thời gian đi
@@ -114,30 +109,12 @@
                 },
                 select: true,
                 columns: [{
-                        data: 'id',
-                        name: 'id',
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
                     },
                     {
                         data: 'name',
                         name: 'name'
-                    },
-                    {
-                        data: 'tour_start_date',
-                        name: 'tour_start_date',
-                        width: '75px',
-                        render: function(datetime) {
-                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
-                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
-                        }
-                    },
-                    {
-                        data: 'tour_end_date',
-                        name: 'tour_end_date',
-                        width: '75px',
-                        render: function(datetime) {
-                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
-                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
-                        }
                     },
                     {
                         data: 'registration_start_date',
@@ -151,6 +128,24 @@
                     {
                         data: 'registration_end_date',
                         name: 'registration_end_date',
+                        width: '75px',
+                        render: function(datetime) {
+                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
+                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
+                        }
+                    },
+                    {
+                        data: 'tour_start_date',
+                        name: 'tour_start_date',
+                        width: '75px',
+                        render: function(datetime) {
+                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
+                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
+                        }
+                    },
+                    {
+                        data: 'tour_end_date',
+                        name: 'tour_end_date',
                         width: '75px',
                         render: function(datetime) {
                             const timestamps = Math.round(new Date(datetime).getTime() / 1000);
@@ -197,7 +192,7 @@
                                                 <div class="modal-header">
                                                     <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
                                                     <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                                                        <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
@@ -256,10 +251,13 @@
             });
 
             $("#buttonDeleteMany").click(function() {
-                const selectedIds = table.rows({ selected: true }).data().pluck('id');
+                const selectedIds = table.rows({
+                    selected: true
+                }).data().pluck('id');
                 const deleteRecordsIds = [];
-for(let i = 0; i < table.rows({ selected: true }).count(); i++)
-                {
+                for (let i = 0; i < table.rows({
+                        selected: true
+                    }).count(); i++) {
                     deleteRecordsIds.push(selectedIds[i]);
                 }
 
@@ -280,6 +278,4 @@ for(let i = 0; i < table.rows({ selected: true }).count(); i++)
             });
         });
     </script>
-
-    {{-- <script src="{{ asset('admin/js/custom-table.js') }}"></script> --}}
 @endpush

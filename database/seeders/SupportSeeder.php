@@ -18,8 +18,9 @@ class SupportSeeder extends Seeder
     {
         $faker = Factory::create();
         $startYear = 2015;
+        $supportCount = 0;
 
-        for ($index = 0; $index < 5; $index++)
+        while($startYear <= 2023)
         {
             $conditions = [];
             $numberConditions = $faker->numberBetween(1, 3);
@@ -47,6 +48,7 @@ class SupportSeeder extends Seeder
             }
 
             $numberYear = $faker->numberBetween(1, 3);
+            $initialPrice = 0;
             foreach ($conditions as $key => $condition)
             {
                 $support = [];
@@ -60,12 +62,13 @@ class SupportSeeder extends Seeder
                 {
                     $support['max_condition'] = $condition[1];
                 }
-                $support['price'] = $faker->numberBetween(500, 9999) * 1000;
+                $initialPrice += $faker->numberBetween(1000, 2000) * 1000;
+                $support['price'] = $initialPrice;
+                $support['support_id'] = $supportCount + 1;
                 Support::create($support);
             }
             $startYear = $support['end_year'] + 1;
-
-
+            $supportCount++;
         }
     }
 }

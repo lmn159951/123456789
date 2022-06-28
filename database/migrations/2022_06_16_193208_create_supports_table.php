@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('supports', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('support_id')->unsigned();
             $table->smallInteger('start_year')->nullable();
             $table->smallInteger('end_year')->nullable();
             $table->smallInteger('min_condition')->nullable();

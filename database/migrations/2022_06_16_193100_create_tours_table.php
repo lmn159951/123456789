@@ -27,7 +27,7 @@ return new class extends Migration
             $table->smallInteger('region_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
+            $table->foreign('region_id')->references('id')->on('regions')->onDelete('set null');
         });
     }
 

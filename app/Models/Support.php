@@ -8,6 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Support extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['start_year', 'end_year', 'min_condition', 'max_condition', 'price'];
+    protected $fillable = ['start_year', 'end_year', 'support_id', 'min_condition', 'max_condition', 'price'];
 }

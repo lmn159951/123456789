@@ -15,6 +15,18 @@ class Tour extends Model
     use HasFactory, SoftDeletes;
     protected $primaryKey = 'id';
     protected $table = 'tours';
+    protected $fillable = [
+        'name',
+        'image',
+        'description_file',
+        'tour_start_date',
+        'tour_end_date',
+        'registration_start_date',
+        'registration_end_date',
+        'price',
+        'max_people',
+        'region_id',
+    ];
 
     public function region()
     {
@@ -27,7 +39,7 @@ class Tour extends Model
     }
 
     public static function EmptySlotRemain($tourId=0)
-    { 
+    {
         $tour = Tour::where('id', $tourId)->first();
         return  $tour->max_people - (Tour::Slot($tourId));
     }
@@ -41,6 +53,7 @@ class Tour extends Model
     public static function IsRegiterTour($tourId=0)
     {
         $today = Carbon::now()->format('Y-m-d');
+        
         if(Tour::where('registration_start_date', '<=', $today)
         ->where('registration_end_date', '>=', $today)
         ->where('id', $tourId)
@@ -64,12 +77,12 @@ class Tour extends Model
         $today = Carbon::now()->format('Y-m-d');
         if(Auth::guard('user')->check())
         {
-            
+
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
             ->join('agency_tours', 'tours.id', '=', 'agency_tours.tour_id')
             ->where('agency_id', Auth::guard('user')->user()->agency_id)
-            ->orderBy('tours.id', 'DESC') 
+            ->orderBy('tours.id', 'DESC')
             ->get()
             ->skip($startNumber)
             ->take($amount)
@@ -81,7 +94,7 @@ class Tour extends Model
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
             ->select([DB::raw('id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
-             'registration_start_date', 'registration_end_date', 'price', 'max_people'])
+            'registration_start_date', 'registration_end_date', 'price', 'max_people'])
             ->get()
             ->skip($startNumber)
             ->take($amount)
@@ -93,6 +106,7 @@ class Tour extends Model
     {
         return $this->belongsToMany(Agency::class, 'agency_tours');
     }
+
     public function tour_registrations()
     {
         return $this->belongsToMany(TourRegistration::class,'tour_registrations');

@@ -6,74 +6,93 @@ use Faker\Factory;
 use App\Models\Tour;
 use App\Models\User;
 use App\Models\AgencyTour;
+use App\Models\Support;
 use Illuminate\Database\Seeder;
 use App\Models\TourRegistration;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Carbon;
 
 class TourRegisterSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $faker = Factory::create();
-        $toYear = 2015; $fromYear = date('Y');
 
-        for ($year = $toYear; $year <= $fromYear; $year++)
+        TourRegistration::query()->truncate();
+
+        $tours = Tour::with('agencies')->orderBy('registration_start_date', 'DESC')->limit(3)->get();
+
+        foreach ($tours as $tourIndex => $tour)
         {
-            $registrationUsers = User::inRandomOrder()->with('agency')->get();
+            $agencies = $tour->agencies()->get();
 
-            foreach ($registrationUsers as $key => $registrationUser)
+            foreach ($agencies as $agencyIndex => $agency)
             {
-                $agency = $registrationUser->agency;
+                $users = User::where('agency_id', $agency->id)->get();
 
+                foreach ($users as $userIndex => $user)
+                {
+                    $isTourRegistration = rand(0, 1);
 
+                    if ($isTourRegistration === 1)
+                    {
+                        $registrationStartDate = Carbon::parse($tour->registration_start_date);
+                        $registrationEndDate = Carbon::parse($tour->registration_start_date);
+                        $startDate = Carbon::parse($user->start_date);
 
-                $tours = Tour::whereRaw('YEAR(registration_start_date) <= ? AND YEAR(registration_end_date) . >= ?', [$toYear, $toYear])->get();
+                        $registrationDate = randomCarbonDatetime($registrationStartDate->format('d-m-Y'), $registrationEndDate->format('d-m-Y'));
 
-                // $agencicyTours = AgencyTour::whereIn('tour_id', $toursQuery->pluck('id'))->where('agency_id', $agency->agency_id)->count();
+                        $seniority = $startDate->diffInYears($registrationDate);
 
-                print_r($tours);
+                        $support = Support::where('start_year', '<=', $registrationDate->year)
+                                        ->where('end_year', '>=', $registrationDate->year)->get();
 
-                // TourRegistration::create([
-                //     'user_id' => 1,
-                //     'tour_id' => 1,
-                //     'registration_date' => 1,
-                //     'relative_fullname' => 1,
-                //     'birthday' => 1,
-                //     'gender' => 1,
-                //     'relationship' => 1,
-                //     'phone' => 1,
-                //     'citizen_card' => 1,
-                //     'cost' => 1
-                // ]);
+                        $cost = $tour->price;
+                        foreach ($support as $key => $supportDetail)
+                        {
+                            $minCondition = $supportDetail['min_condition'] ?? 0;
+                            $maxCondition = $supportDetail['max_condition'] ?? 100000;
 
-                // $numberOfRelative = rand(0, 3);
-                // for ($i = 0; $i < $numberOfRelative; $i++)
-                // {
-                //     TourRegistration::create([
-                //         'user_id' => 1,
-                //         'tour_id' => 1,
-                //         'registration_date' => 1,
-                //         'relative_fullname' => 1,
-                //         'birthday' => 1,
-                //         'gender' => 1,
-                //         'relationship' => 1,
-                //         'phone' => 1,
-                //         'citizen_card' => 1,
-                //         'cost' => 1
-                //     ]);
-                // }
+                            if ($seniority >= $minCondition && $seniority <= $maxCondition)
+                            {
+                                $cost = $tour->price - $supportDetail->price;
+                                break;
+                            }
+                        }
 
+                        TourRegistration::create([
+                            'user_id' => $user->id,
+                            'tour_id' => $tour->id,
+                            'registration_date' => $registrationDate,
+                            'relative_fullname' => $user->fullname,
+                            'birthday' => $user->birthday,
+                            'gender' => $user->gender,
+                            'relationship' => 'USER',
+                            'phone' => $user->phone,
+                            'citizen_card' => $user->citizen_card,
+                            'cost' => $tour->price - intval($supportDetail->price),
+                        ]);
+
+                        $numberOfRelatives = rand(0, 2);
+                        for ($index = 0; $index < $numberOfRelatives; $index++)
+                        {
+                            TourRegistration::create([
+                                'user_id' => $user->id,
+                                'tour_id' => $tour->id,
+                                'registration_date' => $registrationDate,
+                                'relative_fullname' => $faker->name,
+                                'birthday' => randomCarbonDatetime('01-01-1980', '01-01-2001'),
+                                'gender' => $faker->randomElement(['Nam', 'Nữ']),
+                                'relationship' => 'RELATIONSHIP',
+                                'phone' => $faker->numerify('0#########'),
+                                'citizen_card' => $faker->numerify('3########'),
+                                'cost' => $tour->price,
+                            ]);
+                        }
+                    }
+                }
             }
 
-
         }
-
 
     }
 }

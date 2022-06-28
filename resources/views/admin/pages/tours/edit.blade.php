@@ -41,9 +41,10 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="description_file" class="form-label">File mô tả:</label>
-                            <input type="file" class="form-control @error('description_file') is-invalid @enderror"
-                                value="{{ old('description_file') ?? $tour->description_file }}" name="description_file"
-                                id="description_file">
+                            <div class="custom-file">
+                                <input type="file" name="description_file" class="custom-file-input @error('description_file') is-invalid @enderror" id="validatedCustomFile">
+                                <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
+                            </div>
 
                             @error('description_file')
                                 <div id="validationServer03Feedback" class="invalid-feedback">

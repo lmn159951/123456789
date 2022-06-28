@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('agency_tours', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('agency_id')->unsigned();
-            $table->bigInteger('tour_id')->unsigned();
+            $table->smallInteger('agency_id')->unsigned()->nullable();
+            $table->bigInteger('tour_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('agency_id')->references('id')->on('agencies')->onDelete('cascade');
-            $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');
+            $table->foreign('agency_id')->references('id')->on('agencies')->onDelete('set null');
+            $table->foreign('tour_id')->references('id')->on('tours')->onDelete('set null');
         });
     }
 

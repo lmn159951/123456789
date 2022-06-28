@@ -74,6 +74,28 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
+
+    <script>
+        $('input[type="file"]').change(function(event) {
+            const filename = event.target.files[0].name;
+            $(event.target).siblings('.custom-file-label').html(filename);
+
+            // const extension = filename.substr(filename.lastIndexOf('.') + 1, filename.length).toLowerCase();
+
+            // const allowedExtensions = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+
+            // if ($.inArray(extension, allowedExtensions) > -1) {
+            //     const imagePreview = document.createElement('img');
+            //     imagePreview.id = 'image-preview';
+            //     imagePreview.src = URL.createObjectURL(event.target.files[0]);
+            //     $(event.target).siblings('.custom-file-label').after(imagePreview);
+            // } else {
+            //     $(event.target).siblings('.custom-file-label').after('');
+            // }
+
+        });
+    </script>
+
     @stack('scripts')
 </body>
 

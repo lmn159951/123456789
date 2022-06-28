@@ -27,7 +27,5 @@ class DepartmentSeeder extends Seeder
         ];
 
         Department::insert($departments);
-
-        print_r(Department::all()->toArray());
     }
 }

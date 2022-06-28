@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
@@ -14,9 +15,21 @@ class User extends Authenticatable
     protected $primaryKey = 'id';
     protected $table = 'users';
     protected $fillable = [
+        'fullname',
         'username',
         'password',
-        'is_admin'
+        'remember_token',
+        'email',
+        'email_verified_at',
+        'gender',
+        'phone',
+        'birthday',
+        'citizen_card',
+        'agency_id',
+        'department_id',
+        'position_id',
+        'start_date',
+        'is_admin',
     ];
 
     protected $casts = [
@@ -26,6 +39,14 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function getSeniorityAttribute()
+    {
+        $startDate = Carbon::parse($this->start_date);
+        $endDate = Carbon::now();
+
+        return $startDate->diffInYears($endDate);
+    }
 
     public function agency()
     {

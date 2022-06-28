@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Support\Carbon;
+
 if (!function_exists('convertName'))
 {
     function convertName($str) {
@@ -72,11 +75,35 @@ if (!function_exists('currency_format'))
     }
 }
 
-if (!function_exists('randomDatetime'))
+if (!function_exists('createCarbonDatetime'))
 {
-    function randomDatetime(string $startDate, string $endDate = 'now')
+    function createCarbonDatetime(string $datetime)
     {
-        return date('d-m-Y', mt_rand(strtotime($startDate), strtotime($endDate)));
+        $datetime = Carbon::createFromFormat('d-m-Y', $datetime);
+        $datetime->hour(23);
+        $datetime->minute(59);
+        $datetime->second(59);
+        return $datetime;
+    }
+}
+
+if (!function_exists('randomCarbonDatetime'))
+{
+    function randomCarbonDatetime(string $startDate, string $endDate = 'now')
+    {
+        $startDateTimestamp = Carbon::createFromFormat('d-m-Y', $startDate, 'Asia/Ho_Chi_Minh')->timestamp;
+        if ($endDate === 'now')
+        {
+            $endDateTimestamp = Carbon::now()->timestamp;
+        }
+        else
+        {
+            $endDateTimestamp = Carbon::createFromFormat('d-m-Y', $endDate, 'Asia/Ho_Chi_Minh')->timestamp;
+        }
+
+
+        $randomDateTimestamp = mt_rand($startDateTimestamp, $endDateTimestamp);
+        return Carbon::createFromTimestamp($randomDateTimestamp, 'Asia/Ho_Chi_Minh');
     }
 }
 

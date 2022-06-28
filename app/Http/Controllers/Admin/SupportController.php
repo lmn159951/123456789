@@ -18,33 +18,30 @@ class SupportController extends Controller
 
     public function datatableApi()
     {
-        $supports = Support::all();
+        $supports = Support::orderBy('start_year', 'ASC')->orderBy('min_condition', 'ASC')->get();
 
         return Datatables::of($supports)
             ->addIndexColumn()
             ->addColumn('action', function (Support $support) {
                 return $support->id;
             })
-            ->addColumn('checkbox', function (Support $support) {
-                return '
-                    <label class="control control--checkbox">
-                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$support->id.'" />
-                        <div class="control__indicator"></div>
-                    </label>
-                ';
-            })
             ->editColumn('price', function (Support $support) {
-                return currency_format($support->price, $separator = ',');
+                return currency_format($support->price, $separator = ',', $suffix = '₫');
             })
-            ->rawColumns(['action', 'checkbox'])
+            ->editColumn('start_year', function (Support $support) {
+                return (string)$support->start_year;
+            })
+            ->editColumn('end_year', function (Support $support) {
+                return (string)$support->end_year;
+            })
+            ->editColumn('min_condition', function (Support $support) {
+                return (string)$support->min_condition;
+            })
+            ->editColumn('max_condition', function (Support $support) {
+                return (string)$support->max_condition;
+            })
+            ->rawColumns(['action'])
             ->make();
-    }
-
-    public function search(Request $request)
-    {
-        $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
-
-        return redirect()->route('admin.supports.index', $parameters);
     }
 
     public function show()
@@ -54,54 +51,84 @@ class SupportController extends Controller
 
     public function create()
     {
-        return view('admin.pages.supports.create');
+        $currentYear = date('Y');
+        $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
+
+        $parameters = [];
+        $parameters['start_years'] = range($currentSupport->start_year, $currentSupport->start_year + 10);
+        $parameters['end_years'] = range($currentSupport->end_year, $currentSupport->end_year + 10);
+
+        return view('admin.pages.supports.create', $parameters);
     }
 
     public function store(SupportRequest $request)
     {
-        $support = new Support;
-        $support->start_year= $request->start_year;
-        $support->end_year= $request->end_year;
-        $support->min_condition= $request->min_condition;
-        $support->max_condition= $request->max_condition;
-        $support->price= $request->price;
+        $isExistedSupport = Support::where('start_year', $request->start_year)->where('end_year', $request->end_year);
+
+        if ($isExistedSupport->exists())
+        {
+
+            foreach ($isExistedSupport->get() as $key => $supportDetails)
+            {
+                $minCondition = $supportDetails->min_condition ?? 0;
+                $maxCondition = $supportDetails->max_condition ?? 100;
+
+                $condition = range($minCondition, $maxCondition - 1);
+                $inputCondition = range($request->min_condition, $request->max_condition - 1);
+
+                if (array_intersect($condition, $inputCondition))
+                {
+                    return redirect()->back()->withInput()->with('message', 'Điều kiện tối thiểu hoặc điều kiện tối đa không hợp lệ!');
+                }
+            }
+
+            $request->merge(['support_id' => $isExistedSupport->first()->support_id]);
+        }
+        else
+        {
+            $currentYear = date('Y');
+            $currentSupports = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear);
+
+            foreach ($currentSupports->get() as $key => $supportDetails)
+            {
+                $condition = range($supportDetails->start_year, $supportDetails->end_year);
+                $inputCondition = range($request->min_condition, $request->max_condition);
+
+                if (array_intersect($condition, $inputCondition))
+                {
+                    return redirect()->back()->withInput()->with('message', 'Năm bắt đầu và năm kết thúc không hợp lệ!');
+                }
+            }
+
+            $request->merge(['support_id' => Support::max('support_id') + 1]);
+        }
+
+        $support = new Support();
+        $support->fill($request->validated());
+        $support->support_id = $request->support_id;
         $support->save();
 
-        return redirect()
-            ->route('admin.supports.index')
-            ->with('message', 'Tạo hỗ trợ thành công');
+        return redirect()->route('admin.supports.index')->with('message', 'Tạo hỗ trợ thành công');
     }
 
     public function edit(int $id)
     {
+        $currentYear = date('Y');
+        $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
+        
         $parameters = [];
+        $parameters['support'] = Support::find($id);
+        $parameters['start_years'] = range($currentSupport->start_year, $currentSupport->start_year + 10);
+        $parameters['end_years'] = range($currentSupport->end_year, $currentSupport->end_year + 10);
 
-        $bln = DB::table('supports')->where('id', $id)->count() > 0;
-
-        if($bln)
-        {
-
-            $parameters['support'] = Support::find($id);
-            return view('admin.pages.supports.edit', $parameters);
-
-        }
-        else
-        {
-
-            return redirect()->route('admin.supports.index');
-
-        }
+        return view('admin.pages.supports.edit', $parameters);
     }
 
     public function update(SupportRequest $request, int $id)
     {
-        $validated = $request->validated();
+        Support::where('id', $id)->update($request->validated());
 
-        Support::where('id', $id)->update($validated);
-
-        return redirect()
-            ->route('admin.supports.index')
-            ->with('message', 'Cập nhật hỗ trợ thành công');
+        return redirect()->route('admin.supports.index')->with('message', 'Cập nhật hỗ trợ thành công');
     }
 
 
@@ -109,9 +136,7 @@ class SupportController extends Controller
     {
         Support::destroy($id);
 
-        return redirect()
-            ->route('admin.supports.index')
-            ->with('message', 'Xoá hỗ trợ thành công');
+        return redirect()->route('admin.supports.index')->with('message', 'Xoá hỗ trợ thành công');
     }
 
     public function deleteMany(Request $request)
