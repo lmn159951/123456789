@@ -88,6 +88,8 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
     Route::delete('/supports/deleteMany', [SupportController::class, 'deleteMany'])->name('supports.deleteMany');
     Route::get('/supports/datatableApi', [SupportController::class, 'datatableApi'])->name('supports.datatableApi');
     Route::resource('supports', SupportController::class);
+    Route::delete('/tour_registrations/deleteMany', [TourRegistrationController::class, 'deleteMany'])->name('tour_registrations.deleteMany');
+    Route::get('/tour_registrations/datatableApi', [TourRegistrationController::class, 'datatableApi'])->name('tour_registrations.datatableApi');
     Route::resource('tour_registrations',TourRegistrationController::class);
 });
 

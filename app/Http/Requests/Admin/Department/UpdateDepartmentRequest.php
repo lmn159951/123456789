@@ -8,13 +8,20 @@ class UpdateDepartmentRequest extends FormRequest
 {
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     public function rules()
     {
         return [
-            //
+            'name' => 'required|unique:departments',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name' => 'Tên phòng ban',
         ];
     }
 }

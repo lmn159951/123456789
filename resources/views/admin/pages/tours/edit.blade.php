@@ -25,32 +25,39 @@
                 <div class="row align-items-start">
                     <div class="col">
                         <div class="mb-3">
-                            <label for="image" class="form-label">Hình ảnh:</label>
-                            <input type="file" class="form-control @error('image') is-invalid @enderror"
-                                value="{{ old('image') ?? $tour->image }}" name="image" id="image"
-                                onchange="loadFile(event)">
-                                <img id="imageInput">
+                            <label for="file_image" class="form-label">Hình ảnh:</label>
+                            <label class="text-danger">(*)</label>
+                            <div class="custom-file">
+                                <input type="file" name="file_image"
+                                    class="custom-file-input @error('file_image') is-invalid @enderror"
+                                    id="validatedCustomFile" onchange="loadFile(event)" value="{{ old('image') ?? $tour->image }}">
+                                <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
 
-                            @error('image')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                                @error('file_image')
+                                    <div id="validationServer03Feedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>       
+                            <img id="imageInput">                     
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-3">
-                            <label for="description_file" class="form-label">File mô tả:</label>
+                            <label for="file_description" class="form-label">File mô tả:</label>
+                            <label class="text-danger">(*)</label>
                             <div class="custom-file">
-                                <input type="file" name="description_file" class="custom-file-input @error('description_file') is-invalid @enderror" id="validatedCustomFile">
+                                <input type="file" name="file_description"
+                                    class="custom-file-input @error('file_description') is-invalid @enderror"
+                                    id="validatedCustomFile" value="{{ old('description_file') ?? $tour->description_file }}">
                                 <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
-                            </div>
 
-                            @error('description_file')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                                @error('file_description')
+                                    <div id="validationServer03Feedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>

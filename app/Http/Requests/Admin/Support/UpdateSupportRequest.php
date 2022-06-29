@@ -6,25 +6,31 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateSupportRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
+
     public function authorize()
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
         return [
-            //
+            'start_year' => 'required|integer|gt:2022',
+            'end_year' => 'required|integer|gt:start_year',
+            'min_condition'=>'nullable|numeric|min:1|max:1000',
+            'max_condition'=>'nullable|numeric|min:1|max:1000',
+            'price'=>'required|numeric|min:1|max:100000000',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'start_year' =>  'năm bắt đầu',
+            'end_year' =>  'năm kết thúc',
+            'min_condition'=> 'điều kiện tối thiểu',
+            'max_condition'=> 'điều kiện tối đa',
+            'price'=> 'số tiền',
         ];
     }
 }

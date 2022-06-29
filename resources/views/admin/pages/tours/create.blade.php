@@ -25,18 +25,12 @@
                 <div class="row align-items-start">
                     <div class="col">
                         <div class="mb-3">
-                            <label for="image" class="form-label">Hình ảnh:</label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input @error('image') is-invalid @enderror"
-                                    id="image" onchange="loadFile(event)">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>
-                            <img id="imageInput">
-
+                            <label for="file_image" class="form-label">Hình ảnh:</label>
+                            <label class="text-danger">(*)</label>
                             <div class="custom-file">
                                 <input type="file" name="file_image"
                                     class="custom-file-input @error('file_image') is-invalid @enderror"
-                                    id="validatedCustomFile">
+                                    id="validatedCustomFile" onchange="loadFile(event)">
                                 <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
 
                                 @error('file_image')
@@ -44,7 +38,8 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
+                            </div>       
+                            <img id="imageInput">                     
                         </div>
                     </div>
                     <div class="col">
@@ -220,7 +215,7 @@
 @push('styles')
     <style>
         img {
-            max-height: 150px;
+            max-height: 100px;
         }
     </style>
 @endpush

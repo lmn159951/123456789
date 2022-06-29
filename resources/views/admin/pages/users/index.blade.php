@@ -187,7 +187,7 @@
                                     </div>
 
                                     <a class="btn btn-secondary ml-2" href="${resetPasswordUrl}">
-                                        <i class="fas fa-fw fa-rotate"></i>
+                                        <i class="fas fa-fw fa-sync-alt"></i>
                                     </a>
                                 </div>
                             `;
