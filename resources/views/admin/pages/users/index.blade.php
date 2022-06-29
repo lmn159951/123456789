@@ -63,9 +63,6 @@
                             Họ tên
                         </th>
                         <th scope="col">
-                            Tài khoản
-                        </th>
-                        <th scope="col">
                             Giới tính
                         </th>
                         <th scope="col">
@@ -73,6 +70,9 @@
                         </th>
                         <th scope="col">
                             Chức vụ
+                        </th>
+                        <th scope="col">
+                            Đơn vị
                         </th>
                         <th scope="col">
                             Thao tác
@@ -95,29 +95,40 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{!! route('admin.users.datatableApi') !!}",
-                dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"left-col"l><"right-col"f>>rtip',
-                buttons: [
-                    'selectAll',
-                    'selectNone'
+                // dom: '<"left-col"B><"right-col"fr><"clearfix">t<"left-col"i><"right-col"p><"clearfix">',
+                dom: 'Bfrtip',
+                // dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"right-col"f>>rtip',
+                lengthMenu: [
+                    [10, 25, 50, 100, 250, 500, -1],
+                    ['10 dòng', '25 dòng', '50 dòng', '100 dòng', '250 dòng', '500 dòng', 'Tất cả']
+                ],
+                buttons: [{
+                        extend: 'excelHtml5',
+                        className: 'btn btn-success',
+                        exportOptions: {
+                            columns: ':visible :not(.not-export)'
+                        }
+                    },
+                    {
+                        extend: 'selectAll',
+                        className: 'btn btn-danger'
+                    },
+                    {
+                        extend: 'pageLength',
+                        className: 'btn btn-info'
+                    }
                 ],
                 language: {
-                    buttons: {
-                        selectAll: "Chọn hết",
-                        selectNone: "Bỏ chọn"
-                    }
+                    url: "{!! asset('admin/vendor/datatable/vi.json') !!}",
                 },
                 select: true,
                 columns: [{
-                        data: 'id',
-                        name: 'id',
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
                     },
                     {
                         data: 'fullname',
                         name: 'fullname'
-                    },
-                    {
-                        data: 'username',
-                        name: 'username'
                     },
                     {
                         data: 'gender',
@@ -132,15 +143,22 @@
                         name: 'position.name'
                     },
                     {
+                        data: 'agency.name',
+                        name: 'agency.name'
+                    },
+                    {
                         data: 'action',
-                        targets: 8,
+                        targets: 6,
                         orderable: false,
                         searchable: false,
+                        className: 'not-export',
                         render: function(userId) {
                             const updateUrl = 'http://127.0.0.1:8000/admin/users/' + userId +
                                 '/edit';
                             const deleteUrl = 'http://127.0.0.1:8000/admin/users/' + userId;
                             const showUrl = 'http://127.0.0.1:8000/admin/users/' + userId;
+                            const resetPasswordUrl =
+                                'http://127.0.0.1:8000/admin/users/resetPassword/' + userId;
 
                             return `
                                 <div class="d-flex">
@@ -183,6 +201,10 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <a class="btn btn-secondary ml-2" href="${resetPasswordUrl}">
+                                        <i class="fas fa-fw fa-sync-alt"></i>
+                                    </a>
                                 </div>
                             `;
                         }
@@ -222,10 +244,13 @@
             });
 
             $("#buttonDeleteMany").click(function() {
-                const selectedIds = table.rows({ selected: true }).data().pluck('id');
+                const selectedIds = table.rows({
+                    selected: true
+                }).data().pluck('id');
                 const deleteRecordsIds = [];
-for(let i = 0; i < table.rows({ selected: true }).count(); i++)
-                {
+                for (let i = 0; i < table.rows({
+                        selected: true
+                    }).count(); i++) {
                     deleteRecordsIds.push(selectedIds[i]);
                 }
 

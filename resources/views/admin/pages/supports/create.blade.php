@@ -5,6 +5,12 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Tạo hỗ trợ</h1>
 
+            @if (session()->has('message'))
+                <div class="alert alert-danger my-3 text-center">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+
             <form class="container" action="{{ route('admin.supports.store') }}" method="POST">
                 @csrf
 
@@ -13,22 +19,29 @@
                         <div class="mb-3">
                             <label for="start_year" class="form-label">Năm bắt đầu:</label>
                             <label class="text-danger">(*)</label>
-                            <input type="number" class="form-control @error('start_year') is-invalid @enderror"
-                                name="start_year" id="start_year" value="{{ old('start_year') }}">
 
-                            @error('start_year')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <select id="start_year" class="form-control" name="start_year">
+                                @foreach ($start_years as $start_year)
+                                    <option value="{{ $start_year }}" @selected($start_year == old('start_year'))>
+                                        {{ $start_year }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-3">
                             <label for="end_year" class="form-label">Năm kết thúc:</label>
                             <label class="text-danger">(*)</label>
-                            <input type="number" class="form-control @error('end_year') is-invalid @enderror"
-                                name="end_year" id="end_year" value="{{ old('end_year') }}">
+
+                            <select id="end_year" class="form-control @error('end_year') is-invalid @enderror"
+                                name="end_year">
+                                @foreach ($end_years as $end_year)
+                                    <option value="{{ $end_year }}" @selected($end_year == old('end_year'))>
+                                        {{ $end_year }}
+                                    </option>
+                                @endforeach
+                            </select>
 
                             @error('end_year')
                                 <div id="validationServer03Feedback" class="invalid-feedback">

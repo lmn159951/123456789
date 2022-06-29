@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('agencies', function (Blueprint $table) {
-            $table->smallIncrements('id');
+            $table->id();
             $table->string('name');
             $table->string('address');
             $table->timestamps();

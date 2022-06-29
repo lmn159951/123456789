@@ -65,13 +65,13 @@ class ChangePassword extends Controller
         $request->validated();
 
         //Check old password
-        $user = Auth::guard('user')->user();
+        $user = Auth::user();
         if(!Hash::check($request->oldPassword, $user->password))
         {
             $request->session()->flash('error', 'Mật khẩu cũ không đúng');
             return redirect()->route('nhanvien.thay-doi-mat-khau.index');
         }
-        
+
         //Update password
         $user->update([
             'password' => bcrypt($request->input('newPassword'))
@@ -91,7 +91,7 @@ class ChangePassword extends Controller
     public function update(Request $request, $id)
     {
         //
-        
+
     }
 
     /**

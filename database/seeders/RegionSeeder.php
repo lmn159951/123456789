@@ -28,7 +28,5 @@ class RegionSeeder extends Seeder
         ];
 
         Region::insert($regions);
-
-        print_r(Region::all()->toArray());
     }
 }

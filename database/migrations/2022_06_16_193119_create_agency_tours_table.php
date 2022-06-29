@@ -15,12 +15,11 @@ return new class extends Migration
     {
         Schema::create('agency_tours', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('agency_id')->unsigned();
-            $table->bigInteger('tour_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('agency_id')->references('id')->on('agencies')->onDelete('cascade');
-            $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');
+
+            $table->foreignId('agency_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tour_id')->constrained()->onDelete('cascade');
         });
     }
 

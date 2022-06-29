@@ -108,8 +108,8 @@
                 },
                 select: true,
                 columns: [{
-                        data: 'id',
-                        name: 'id',
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
                     },
                     {
                         data: 'start_year',
@@ -218,10 +218,13 @@
             });
 
             $("#buttonDeleteMany").click(function() {
-                const selectedIds = table.rows({ selected: true }).data().pluck('id');
+                const selectedIds = table.rows({
+                    selected: true
+                }).data().pluck('id');
                 const deleteRecordsIds = [];
-for(let i = 0; i < table.rows({ selected: true }).count(); i++)
-                {
+                for (let i = 0; i < table.rows({
+                        selected: true
+                    }).count(); i++) {
                     deleteRecordsIds.push(selectedIds[i]);
                 }
 
@@ -242,6 +245,4 @@ for(let i = 0; i < table.rows({ selected: true }).count(); i++)
             });
         });
     </script>
-
-    {{-- <script src="{{ asset('admin/js/custom-table.js') }}"></script> --}}
 @endpush

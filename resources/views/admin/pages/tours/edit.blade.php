@@ -25,29 +25,39 @@
                 <div class="row align-items-start">
                     <div class="col">
                         <div class="mb-3">
-                            <label for="image" class="form-label">Hình ảnh:</label>
-                            <input type="file" class="form-control @error('image') is-invalid @enderror"
-                                value="{{ old('image') ?? $tour->image }}" name="image" id="image">
+                            <label for="file_image" class="form-label">Hình ảnh:</label>
+                            <label class="text-danger">(*)</label>
+                            <div class="custom-file">
+                                <input type="file" name="file_image"
+                                    class="custom-file-input @error('file_image') is-invalid @enderror"
+                                    id="validatedCustomFile" onchange="loadFile(event)" value="{{ old('image') ?? $tour->image }}">
+                                <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
 
-                            @error('image')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                                @error('file_image')
+                                    <div id="validationServer03Feedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <img id="imageInput">
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-3">
-                            <label for="description_file" class="form-label">File mô tả:</label>
-                            <input type="file" class="form-control @error('description_file') is-invalid @enderror"
-                                value="{{ old('description_file') ?? $tour->description_file }}" name="description_file"
-                                id="description_file">
+                            <label for="file_description" class="form-label">File mô tả:</label>
+                            <label class="text-danger">(*)</label>
+                            <div class="custom-file">
+                                <input type="file" name="file_description"
+                                    class="custom-file-input @error('file_description') is-invalid @enderror"
+                                    id="validatedCustomFile" value="{{ old('description_file') ?? $tour->description_file }}">
+                                <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
 
-                            @error('description_file')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                                @error('file_description')
+                                    <div id="validationServer03Feedback" class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -164,6 +174,24 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label for="agency_ids">Đơn vị:</label>
+                    <label class="text-danger">(*)</label>
+                    <select multiple class="form-control @error('agency_ids') is-invalid @enderror" name="agency_ids[]"
+                        id="agency_ids">
+                        @foreach ($agencies as $agency)
+                            <option value="{{ $agency->id }}" @selected(in_array($agency->id, $agency_ids))>
+                                {{ $agency->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('agency_ids')
+                        <div id="validationServer03Feedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
 
                 <div class="my-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary mr-3">Cập nhật</button>
@@ -176,3 +204,23 @@
 
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        var loadFile = function(event) {
+        var imageInput = document.getElementById('imageInput');
+        imageInput.src = URL.createObjectURL(event.target.files[0]);
+        imageInput.onload = function() {
+        URL.revokeObjectURL(imageInput.src)
+    }
+  };
+    </script>
+@endpush
+
+@push('styles')
+    <style>
+        img {
+            max-height: 150px;
+        }
+    </style>
+@endpush

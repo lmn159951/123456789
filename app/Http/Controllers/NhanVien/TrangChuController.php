@@ -34,10 +34,10 @@ class TrangChuController extends Controller
         ->where('registration_end_date', '>=', $today)
         ->select(DB::raw('tours.id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
              'registration_start_date', 'registration_end_date', 'price', 'max_people')
-        ->orderBy('tours.id', 'DESC'); 
+        ->orderBy('tours.id', 'DESC');
         $perPage = 4;
-        
-        if(!Auth::guard('user')->check())
+
+        if(!Auth::check())
         {
             $allTours = $allTours->paginate($perPage);
         }
@@ -45,7 +45,7 @@ class TrangChuController extends Controller
         {
             $allTours = $allTours
             ->join('agency_tours', 'tours.id', '=', 'agency_tours.tour_id')
-            ->where('agency_id', Auth::guard('user')->user()->agency_id)
+            ->where('agency_id', Auth::user()->agency_id)
             ->paginate($perPage);
         }
         $slot; $i=0;

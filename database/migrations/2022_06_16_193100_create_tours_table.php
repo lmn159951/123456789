@@ -24,10 +24,9 @@ return new class extends Migration
             $table->dateTime('registration_end_date');
             $table->integer('price');
             $table->integer('max_people');
-            $table->smallInteger('region_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
+            $table->foreignId('region_id')->constrained()->onDelete('cascade');
         });
     }
 

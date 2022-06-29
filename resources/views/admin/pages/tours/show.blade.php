@@ -21,18 +21,18 @@
             <div class="row g-3 mt-2">
                 <div class="col">
                     <label for="fullname" class="form-label">Hình ảnh:</label>
-                    <input type="text" class="form-control" value="{{ $tour->image }}" disabled>
+                    <input type="text" class="form-control" value="{{ asset($tour->image) }}" disabled>
                     @if (str_starts_with($tour->image, 'http'))
-                        <img src="{{ $tour->image }}" alt="{{ $tour->image }}" width="100" height="100">
+                        <img src="{{ $tour->image }}" alt="{{ $tour->image }}" height="100">
                     @else
-                        <img src="{{ asset('/storage/images/' . $tour->image) }}"
-                            alt="{{ asset('/storage/images/' . $tour->image) }}" width="100" height="100">
+                        <img src="{{ asset($tour->image) }}"
+                            alt="{{ asset($tour->image) }}" height="100">
                     @endif
                 </div>
 
                 <div class="col">
                     <label for="username" class="form-label">File mô tả:</label>
-                    <input type="text" class="form-control" value="{{ $tour->description_file }}" disabled>
+                    <input type="text" class="form-control" value="{{ asset($tour->description_file) }}" disabled>
                     <a href="{{ route('admin.tours.showFileDescription', $tour->id) }}" target="_BLANK">Click here to open
                         the
                         file</a>

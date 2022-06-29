@@ -24,18 +24,15 @@ return new class extends Migration
             $table->dateTime('birthday')->nullable();
             $table->string('phone')->nullable();
             $table->string('citizen_card');
-            $table->smallInteger('agency_id')->unsigned();
-            $table->smallInteger('department_id')->unsigned();
-            $table->smallInteger('position_id')->unsigned();
+            $table->string('user_token')->nullable();
             $table->dateTime('start_date');
+            $table->foreignId('agency_id')->constrained()->onDelete('cascade');
+            $table->foreignId('department_id')->constrained()->onDelete('cascade');
+            $table->foreignId('position_id')->constrained()->onDelete('cascade');
             $table->boolean('is_admin');
             $table->timestamps();
             $table->softDeletes();
             $table->rememberToken();
-            $table->foreign('agency_id')->references('id')->on('agencies')->onDelete('cascade');
-            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
-            $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
-            $table->string('user_token')->nullable();
         });
     }
 

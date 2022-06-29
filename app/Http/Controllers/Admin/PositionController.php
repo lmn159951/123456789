@@ -23,23 +23,9 @@ class PositionController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function (Position $position) {
                 return $position->id;
-            })->addColumn('checkbox', function (Position $position) {
-                return '
-                    <label class="control control--checkbox">
-                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$position->id.'" />
-                        <div class="control__indicator"></div>
-                    </label>
-                ';
             })
-            ->rawColumns(['action', 'checkbox'])
+            ->rawColumns(['action'])
             ->make();
-    }
-
-    public function search(Request $request)
-    {
-        $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
-
-        return redirect()->route('admin.positions.index', $parameters);
     }
 
     public function show()

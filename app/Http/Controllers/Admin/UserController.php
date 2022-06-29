@@ -22,30 +22,15 @@ class UserController extends Controller
 
     public function datatableApi()
     {
-        $users = User::with(['department', 'position'])->get();
+        $users = User::with(['department', 'position','agency'])->get();
 
         return Datatables::of($users)
             ->addIndexColumn()
             ->addColumn('action', function (User $user) {
                 return $user->id;
             })
-            ->addColumn('checkbox', function (User $user) {
-                return '
-                    <label class="control control--checkbox">
-                        <input type="checkbox" class="table-checkbox" name="ids[]" value="'.$user->id.'" />
-                        <div class="control__indicator"></div>
-                    </label>
-                ';
-            })
-            ->rawColumns(['action', 'checkbox'])
+            ->rawColumns(['action'])
             ->make(true);
-    }
-
-    public function search(Request $request)
-    {
-        $parameters = array_filter($request->except(['_token', '_method']), function($param) { return isset($param); });
-
-        return redirect()->route('admin.users.index', $parameters);
     }
 
     public function create()
@@ -105,8 +90,8 @@ class UserController extends Controller
     {
         $parameters = [];
 
-        $bln = DB::table('users')->where('id',$id)->count() > 0;
-        
+        $bln = DB::table('users')->where('id', $id)->count() > 0;
+
         if($bln)
         {
             $parameters['user'] = User::find($id)->with(['agency', 'department', 'position'])->first();
@@ -117,7 +102,7 @@ class UserController extends Controller
         {
             return redirect()->route('admin.users.index');
         }
-        
+
     }
 
     public function update(UserRequest $request, int $id)
@@ -158,5 +143,16 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Xoá nhân viên thành công'
         ]);
+    }
+
+    public function resetPassword(int $id)
+    {
+        $user = User::find($id);
+        $user->password = Hash::make(1);
+        $user->save();
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('message', 'Đặt lại mật khẩu nhân viên thành công');
     }
 }
