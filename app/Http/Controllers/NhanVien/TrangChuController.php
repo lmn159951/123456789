@@ -14,7 +14,7 @@ class TrangChuController extends Controller
 {
     public function index()
     {
-        $recordsRegions = Region::select('name')->get()->toArray();
+        $recordsRegions = Region::select('id','name')->get()->toArray();
         $firstTour = Tour::FirstTour();
         $highlightTours = Tour::HightLightTours();
         $slot = array();
@@ -32,7 +32,7 @@ class TrangChuController extends Controller
         $allTours = DB::table('tours')
         ->where('registration_start_date', '<=', $today)
         ->where('registration_end_date', '>=', $today)
-        ->select('tours.id','name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
+        ->select(DB::raw('tours.id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
              'registration_start_date', 'registration_end_date', 'price', 'max_people')
         ->orderBy('tours.id', 'DESC'); 
         $perPage = 4;
@@ -48,6 +48,12 @@ class TrangChuController extends Controller
             ->where('agency_id', Auth::guard('user')->user()->agency_id)
             ->paginate($perPage);
         }
-        return view('nhanvien.pages.tatcacactour')->with('allTours', $allTours);
+        $slot; $i=0;
+        foreach($allTours as $tour)
+        {
+            $slot[$i] = Tour::Slot($tour->tour_id);
+            ++$i;
+        }
+        return view('nhanvien.pages.tatcacactour')->with('allTours', $allTours)->with('slot', $slot);
     }
 }

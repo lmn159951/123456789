@@ -35,11 +35,25 @@ class DangKyTourController extends Controller
             return false;
         return true;
     }
+
+    public function tourhistory()
+    {
+        
+        $results = TourRegistration::where('user_id', Auth::guard('user')->user()->id)
+        ->join('tours', 'tour_registrations.tour_id', '=', 'tours.id')
+        ->select('user_id',DB::raw('COUNT(user_id) as member_count'), 'tour_id', 'name', 
+        DB::raw('SUM(cost) as total_cost'), 'tours.tour_start_date', 
+        'tours.tour_end_date','registration_start_date','registration_end_date')
+        ->groupBy('user_id', 'tour_id', 'name', 'tours.tour_start_date', 
+        'tours.tour_end_date','registration_start_date','registration_end_date')
+        ->orderBy('tour_id', 'DESC')
+        ->get();
+        return view('nhanvien.pages.lichsudatour')->with('results', $results);
+    }
+
     //
     public function index($tour_id=0)
     {
-        if(!$this->checkTour($tour_id))
-            return redirect()->route('home');
 
         $emptySlotRemain = Tour::EmptySlotRemain($tour_id);
         $tourInfo = Tour::TourInfo($tour_id);
@@ -50,13 +64,7 @@ class DangKyTourController extends Controller
         {
             return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo)
         ->with('emptySlotRemain', $emptySlotRemain)->with('relativeInfos', $relativeInfos);
-        }        
-
-        //Chua dang ky
-        
-        if($emptySlotRemain == 0)
-            return redirect()->route('home');
-        
+        }    
         
         return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo)
         ->with('emptySlotRemain', $emptySlotRemain);
@@ -214,12 +222,12 @@ class DangKyTourController extends Controller
             ((int)$price < $supportPrice) ? '0' : (int)$price-$supportPrice, $tour_id);
             if($numberMembersInput == 0)
             {
-                return redirect()->route('home');
+                return redirect()->route('nhanvien.tourhistory');
                 // dd("Đăng ký tour thành công!");
             }
             for($i=0; $i<$numberMembersInput; $i++)
                 $this->InsertMemberToTourRegistrations($request->post(), $registrationDateNow, $price, $tour_id, $i);
-            return redirect()->route('home');
+            return redirect()->route('nhanvien.tourhistory');
             // dd("Đăng ký tour thành công!");
         }
 
@@ -261,6 +269,15 @@ class DangKyTourController extends Controller
             
         }
 
-        return redirect()->route('home');
+        return redirect()->route('nhanvien.tourhistory');
+    }
+
+    public function deletetour(Request $request)
+    {
+        $tourId = $request->post('tourid');
+        TourRegistration::where('user_id', Auth::guard('user')->user()->id)
+        ->where('tour_id', $tourId)->delete();
+        UserSupport::where('user_id', Auth::guard('user')->user()->id)->delete();
+        return redirect()->route('nhanvien.tourhistory');
     }
 }

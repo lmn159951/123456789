@@ -56,7 +56,6 @@ h1 {
 
 h2 {
 	font-size: 36px;
-	clo
 }
 
 h3 {
@@ -2971,4 +2970,16 @@ input:read-only {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.img-fluid
+{
+	width: 100%;
+	height: 300px !important;
+	object-fit: fill;
+}
+
+.img-fluid:hover
+{
+	opacity: 0.5;
 }

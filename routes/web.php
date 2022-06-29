@@ -51,6 +51,8 @@ Route::middleware('user')->prefix('nhan-vien')->name('nhanvien.')->group(functio
     ->where('tour_id', '[0-9]+');
     Route::post('dang-ky-tour/{tour_id}', [DangKyTourController::class, 'tourregistration'])->name('tourregisPost')
     ->where('tour_id', '[0-9]+');
+    Route::post('huy-tour', [DangKyTourController::class, 'deletetour'])->name('deletetour');
+    Route::get('lich-su-dat-tour', [DangKyTourController::class, 'tourhistory'])->name('tourhistory');
     Route::get('dang-xuat', [DangNhapController::class, 'logout'])->name('logout');
 });
 

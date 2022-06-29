@@ -94,13 +94,14 @@
                                             <a href="#"><i class="fa fa-user"></i> Xin chào
                                                 {{ Auth::guard('user')->user()->fullname }}</a>
                                             <div class="dropdown-content">
-                                                <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i></i> Thông
+                                                <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}">Thông
                                                     tin
                                                     cá nhân</a>
-                                                <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"><i></i> Thay
+                                                <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"> Thay
                                                     đổi
                                                     mật khẩu</a>
-                                                <a href="{{ route('nhanvien.logout') }}"><i></i> Đăng xuất</a>
+                                                <a href="{{ route('nhanvien.tourhistory') }}">Lịch sử đặt tour</a>    
+                                                <a href="{{ route('nhanvien.logout') }}"><i></i>Đăng xuất</a>
                                             </div>
                                         </div>
                                     @endauth
@@ -110,19 +111,20 @@
                                             <a href="#"><i class="fa fa-user"></i> Xin chào
                                                 {{ Auth::guard('admin')->user()->fullname }}</a>
                                             <div class="dropdown-content">
-                                                <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i></i> Thông
+                                                <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}">Thông
                                                     tin
                                                     cá nhân</a>
-                                                <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"><i></i> Thay
+                                                <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}">Thay
                                                     đổi
                                                     mật khẩu</a>
-                                                <a href="{{ route('admin.auth.logout') }}"><i></i> Đăng xuất</a>
-                                                <a href="{{ route('admin.dashboard') }}"><i></i>Trang quản trị</a>
+                                                <a href="{{ route('nhanvien.tourhistory') }}">Lịch sử đăng ký tour</a>
+                                                <a href="{{ route('admin.auth.logout') }}"> Đăng xuất</a>
+                                                <a href="{{ route('admin.dashboard') }}">Trang quản trị</a>
                                             </div>
                                         </div>
                                     @endauth
                                 @else
-                                    <a href="{{ route('login') }}"><i></i>Đăng nhập</a>
+                                    <a href="{{ route('login') }}">Đăng nhập</a>
                                 @endif
                             </div>
                         </div>
