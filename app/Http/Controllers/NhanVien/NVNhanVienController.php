@@ -20,7 +20,7 @@ class NVNhanVienController extends Controller
     public function index()
     {
         //
-        $ttcn = User::with(['agency', 'department', 'position'])->where('id', Auth::guard('user')->user()->id)->first();
+        $ttcn = User::with(['agency', 'department', 'position'])->where('id', Auth::user()->id)->first();
         return view('nhanvien.pages.thongtincanhan')->with('ttcn', $ttcn);
     }
 
@@ -43,7 +43,7 @@ class NVNhanVienController extends Controller
     public function store(TtcnRequest $request)
     {
         //
-        
+
     }
 
     /**
@@ -55,7 +55,7 @@ class NVNhanVienController extends Controller
     public function show($id)
     {
         //
-        
+
     }
 
     /**
@@ -69,7 +69,7 @@ class NVNhanVienController extends Controller
         //
         $validated = $request->validated();
 
-        User::where('id', Auth::guard('user')->user()->id)->update($validated);
+        User::where('id', Auth::user()->id)->update($validated);
         $request->session()->flash('message', 'Lưu thông tin thành công');
         return redirect()->route('nhanvien.thongtincanhan.index');
     }

@@ -9,9 +9,10 @@ use App\Models\AgencyTour;
 use App\Models\Support;
 use Illuminate\Database\Seeder;
 use App\Models\TourRegistration;
+use App\Models\UserSupport;
 use Illuminate\Support\Carbon;
 
-class TourRegisterSeeder extends Seeder
+class TourRegistrationSeeder extends Seeder
 {
     public function run()
     {
@@ -19,7 +20,7 @@ class TourRegisterSeeder extends Seeder
 
         TourRegistration::query()->truncate();
 
-        $tours = Tour::with('agencies')->orderBy('registration_start_date', 'DESC')->limit(3)->get();
+        $tours = Tour::with('agencies')->whereYear('registration_start_date', '>=', 2018)->orderBy('registration_start_date', 'DESC')->get();
 
         foreach ($tours as $tourIndex => $tour)
         {
@@ -43,10 +44,10 @@ class TourRegisterSeeder extends Seeder
 
                         $seniority = $startDate->diffInYears($registrationDate);
 
-                        $support = Support::where('start_year', '<=', $registrationDate->year)
-                                        ->where('end_year', '>=', $registrationDate->year)->get();
+                        $support = Support::where('start_year', '<=', $registrationDate->year)->where('end_year', '>=', $registrationDate->year)->get();
 
                         $cost = $tour->price;
+
                         foreach ($support as $key => $supportDetail)
                         {
                             $minCondition = $supportDetail['min_condition'] ?? 0;
@@ -54,7 +55,21 @@ class TourRegisterSeeder extends Seeder
 
                             if ($seniority >= $minCondition && $seniority <= $maxCondition)
                             {
-                                $cost = $tour->price - $supportDetail->price;
+                                $isUserSupported = false;
+                                $userSupportIds = TourRegistration::where(['user_id' => $user->id])->pluck('support_id')->toArray();
+                                foreach ($userSupportIds as $key => $userSupportId)
+                                {
+                                    if (in_array($userSupportId, $support->pluck('id')->toArray()))
+                                    {
+                                        $isUserSupported = true;
+                                        break;
+                                    }
+                                }
+
+                                if ($isUserSupported) break;
+
+                                $cost = $tour->price - intval($supportDetail->price);
+                                $supportId = $supportDetail->id;
                                 break;
                             }
                         }
@@ -62,6 +77,7 @@ class TourRegisterSeeder extends Seeder
                         TourRegistration::create([
                             'user_id' => $user->id,
                             'tour_id' => $tour->id,
+                            'support_id' => empty($supportId) ? null : $supportId,
                             'registration_date' => $registrationDate,
                             'relative_fullname' => $user->fullname,
                             'birthday' => $user->birthday,
@@ -69,7 +85,7 @@ class TourRegisterSeeder extends Seeder
                             'relationship' => 'USER',
                             'phone' => $user->phone,
                             'citizen_card' => $user->citizen_card,
-                            'cost' => $tour->price - intval($supportDetail->price),
+                            'cost' => $cost,
                         ]);
 
                         $numberOfRelatives = rand(0, 2);

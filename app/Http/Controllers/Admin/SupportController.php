@@ -63,18 +63,20 @@ class SupportController extends Controller
 
     public function store(SupportRequest $request)
     {
-        $isExistedSupport = Support::where('start_year', $request->start_year)->where('end_year', $request->end_year);
+        $isExistedSupport = Support::where('start_year', $request->start_year)->where('end_year', $request->end_year)
+                            ->orderBy('start_year', 'ASC')->orderBy('min_condition', 'ASC');
 
         if ($isExistedSupport->exists())
         {
-
             foreach ($isExistedSupport->get() as $key => $supportDetails)
             {
                 $minCondition = $supportDetails->min_condition ?? 0;
                 $maxCondition = $supportDetails->max_condition ?? 100;
+                $inputMinCondition = $request->min_condition ?? 0;
+                $inputMaxCondition = $request->max_condition ?? 100;
 
                 $condition = range($minCondition, $maxCondition - 1);
-                $inputCondition = range($request->min_condition, $request->max_condition - 1);
+                $inputCondition = range($inputMinCondition, $inputMaxCondition - 1);
 
                 if (array_intersect($condition, $inputCondition))
                 {
@@ -87,16 +89,17 @@ class SupportController extends Controller
         else
         {
             $currentYear = date('Y');
-            $currentSupports = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear);
+            $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
+            $supports = Support::where('start_year', '>=', $currentSupport->start_year)->orderBy('start_year', 'ASC');
 
-            foreach ($currentSupports->get() as $key => $supportDetails)
+            foreach ($supports->get() as $key => $supportDetails)
             {
                 $condition = range($supportDetails->start_year, $supportDetails->end_year);
-                $inputCondition = range($request->min_condition, $request->max_condition);
+                $inputCondition = range($request->start_year, $request->end_year);
 
                 if (array_intersect($condition, $inputCondition))
                 {
-                    return redirect()->back()->withInput()->with('message', 'Năm bắt đầu và năm kết thúc không hợp lệ!');
+                    return redirect()->back()->withInput()->with('message', 'Năm bắt đầu hoặc năm kết thúc không hợp lệ!');
                 }
             }
 
@@ -115,7 +118,7 @@ class SupportController extends Controller
     {
         $currentYear = date('Y');
         $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
-        
+
         $parameters = [];
         $parameters['support'] = Support::find($id);
         $parameters['start_years'] = range($currentSupport->start_year, $currentSupport->start_year + 10);
@@ -126,7 +129,55 @@ class SupportController extends Controller
 
     public function update(SupportRequest $request, int $id)
     {
-        Support::where('id', $id)->update($request->validated());
+        $isExistedSupport = Support::where('start_year', $request->start_year)->where('end_year', $request->end_year)
+                            ->orderBy('start_year', 'ASC')->orderBy('min_condition', 'ASC');
+
+        if ($isExistedSupport->exists())
+        {
+            $isExistedSupportCollection = $isExistedSupport->get()->except($id);
+
+            foreach ($isExistedSupportCollection as $key => $supportDetails)
+            {
+                $minCondition = $supportDetails->min_condition ?? 0;
+                $maxCondition = $supportDetails->max_condition ?? 100;
+                $inputMinCondition = $request->min_condition ?? 0;
+                $inputMaxCondition = $request->max_condition ?? 100;
+
+                $condition = range($minCondition, $maxCondition - 1);
+                $inputCondition = range($inputMinCondition, $inputMaxCondition - 1);
+
+                if (array_intersect($condition, $inputCondition))
+                {
+                    return redirect()->back()->withInput()->with('message', 'Điều kiện tối thiểu hoặc điều kiện tối đa không hợp lệ!');
+                }
+            }
+
+            $request->merge(['support_id' => $isExistedSupport->first()->support_id]);
+        }
+        else
+        {
+            $currentYear = date('Y');
+            $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
+            $supports = Support::where('start_year', '>=', $currentSupport->start_year)->orderBy('start_year', 'ASC')->get()->except($id);
+
+            foreach ($supports as $key => $supportDetails)
+            {
+                $condition = range($supportDetails->start_year, $supportDetails->end_year);
+                $inputCondition = range($request->start_year, $request->end_year);
+
+                if (array_intersect($condition, $inputCondition))
+                {
+                    return redirect()->back()->withInput()->with('message', 'Năm bắt đầu hoặc năm kết thúc không hợp lệ!');
+                }
+            }
+
+            $request->merge(['support_id' => Support::max('support_id') + 1]);
+        }
+
+        $support = Support::find($id);
+        $support->fill($request->validated());
+        $support->support_id = $request->support_id;
+        $support->save();
 
         return redirect()->route('admin.supports.index')->with('message', 'Cập nhật hỗ trợ thành công');
     }

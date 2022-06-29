@@ -12,9 +12,9 @@
             </div>
             @auth('user')
             @isset($ttcn)
-            <form action="{{ route('nhanvien.thong-tin-ca-nhan.edit', Auth::guard('user')->user()->id) }}" method="POST">
+            <form action="{{ route('nhanvien.thong-tin-ca-nhan.edit', Auth::user()->id) }}" method="POST">
                 @method('HEAD')
-                @csrf  
+                @csrf
                 <div class="d-flex justify-content-center">
                     <div class="row">
                         <div class="col-3"></div>
@@ -29,7 +29,7 @@
                         <div class="password d-flex justify-content-center">
                             <input type="email" placeholder="" required name="email" value="{{ $ttcn ->email}}">
                         </div>
-                        @error('email') 
+                        @error('email')
                         <div class="col-3"></div>
                         <div class="col-5" style="margin-top: -25px;">
                             <p style="color: red;">*{{ $message }}</p></div>
@@ -47,7 +47,7 @@
                         <div class="tentaikhoan d-flex justify-content-center">
                             <input type="number" placeholder="" required name="phone" value="{{ $ttcn ->phone}}">
                         </div>
-                        @error('phone') 
+                        @error('phone')
                         <div class="col-3"></div>
                         <div class="col-5" style="margin-top: -25px;">
                             <p style="color: red;">*{{ $message }}</p></div>
@@ -59,7 +59,7 @@
                         <div class="tentaikhoan d-flex justify-content-center">
                             <input type="number" placeholder="" required name="citizen_card" value="{{ $ttcn->citizen_card}}">
                         </div>
-                        @error('citizen_card') 
+                        @error('citizen_card')
                         <div class="col-3"></div>
                         <div class="col-5" style="margin-top: -25px;">
                             <p style="color: red;">*{{ $message }}</p></div>
@@ -100,7 +100,7 @@
                         <div class="col-4"></div>
                         @endisset
                     </div>
-                </div>    
+                </div>
             </form>
             @endisset
             @endauth

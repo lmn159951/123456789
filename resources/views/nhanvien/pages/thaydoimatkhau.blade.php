@@ -10,7 +10,7 @@
                     </div>
                 </div>
             </div>
-            <form action="{{ route('nhanvien.thay-doi-mat-khau.edit', Auth::guard('user')->user()->id) }}" method="POST">
+            <form action="{{ route('nhanvien.thay-doi-mat-khau.edit', Auth::user()->id) }}" method="POST">
                 @csrf
                 @method('HEAD')
                 <div class="d-flex justify-content-center">
@@ -28,7 +28,7 @@
                             <p style="color: red;">*{{ $message }}</p></div>
                         <div class="col-4"></div>
                         @enderror
-                        
+
 
                         <div class="col-3"></div>
                         <div class="col-5"><p>Mật khẩu mới: <span class="dau_">(*)</span></p></div>
@@ -43,8 +43,8 @@
                             <p style="color: red;">*{{ $message }}</p></div>
                         <div class="col-4"></div>
                         @enderror
-                        
-                            
+
+
 
                         <div class="col-3"></div>
                         <div class="col-5"><p>Nhập lại mật khẩu:<span class="dau_">(*)</span></p></p></div>
@@ -57,9 +57,9 @@
                         <div class="col-3"></div>
                         <div class="col-5" style="margin-top: -25px;">
                             <p style="color: red;">*{{ $message }}</p></div>
-                        <div class="col-4"></div>   
+                        <div class="col-4"></div>
                         @enderror
-                        
+
 
 
                         <div class="col-lg-12 text-center">
@@ -82,7 +82,7 @@
                         @endisset
                     </div>
                     </div>
-                </div>    
+                </div>
             </form>
         </div>
     </div>

@@ -53,7 +53,7 @@ class Tour extends Model
     public static function IsRegiterTour($tourId=0)
     {
         $today = Carbon::now()->format('Y-m-d');
-        
+
         if(Tour::where('registration_start_date', '<=', $today)
         ->where('registration_end_date', '>=', $today)
         ->where('id', $tourId)
@@ -75,13 +75,13 @@ class Tour extends Model
     private static function BestTour($startNumber, $amount)
     {
         $today = Carbon::now()->format('Y-m-d');
-        if(Auth::guard('user')->check())
+        if(Auth::check())
         {
 
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
             ->join('agency_tours', 'tours.id', '=', 'agency_tours.tour_id')
-            ->where('agency_id', Auth::guard('user')->user()->agency_id)
+            ->where('agency_id', Auth::user()->agency_id)
             ->orderBy('tours.id', 'DESC')
             ->get()
             ->skip($startNumber)

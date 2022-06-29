@@ -95,16 +95,31 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{!! route('admin.users.datatableApi') !!}",
-                dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"left-col"l><"right-col"f>>rtip',
-                buttons: [
-                    'selectAll',
-                    'selectNone'
+                // dom: '<"left-col"B><"right-col"fr><"clearfix">t<"left-col"i><"right-col"p><"clearfix">',
+                dom: 'Bfrtip',
+                // dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"right-col"f>>rtip',
+                lengthMenu: [
+                    [10, 25, 50, 100, 250, 500, -1],
+                    ['10 dòng', '25 dòng', '50 dòng', '100 dòng', '250 dòng', '500 dòng', 'Tất cả']
+                ],
+                buttons: [{
+                        extend: 'excelHtml5',
+                        className: 'btn btn-success',
+                        exportOptions: {
+                            columns: ':visible :not(.not-export)'
+                        }
+                    },
+                    {
+                        extend: 'selectAll',
+                        className: 'btn btn-danger'
+                    },
+                    {
+                        extend: 'pageLength',
+                        className: 'btn btn-info'
+                    }
                 ],
                 language: {
-                    buttons: {
-                        selectAll: "Chọn hết",
-                        selectNone: "Bỏ chọn"
-                    }
+                    url: "{!! asset('admin/vendor/datatable/vi.json') !!}",
                 },
                 select: true,
                 columns: [{
@@ -133,9 +148,10 @@
                     },
                     {
                         data: 'action',
-                        targets: 8,
+                        targets: 6,
                         orderable: false,
                         searchable: false,
+                        className: 'not-export',
                         render: function(userId) {
                             const updateUrl = 'http://127.0.0.1:8000/admin/users/' + userId +
                                 '/edit';

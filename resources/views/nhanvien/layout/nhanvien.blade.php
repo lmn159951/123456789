@@ -36,19 +36,19 @@
 
         <div class="humberger__menu__widget">
 
-             <!-- <div class="header__top__right__auth">
+            <!-- <div class="header__top__right__auth">
                 @guest('user')
-                    <a href="{{ route('login') }}"><i></i>Đăng nhập</a>
-                @endguest
+    <a href="{{ route('login') }}"><i></i>Đăng nhập</a>
+@endguest
                 @auth('user')
-                <div class="dropdown">
-                    <a href="#"><i class="fa fa-user"></i> Xin chào {{ Auth::guard('user')->user()->fullname }}</a>
-                    <div class="dropdown-content">
-                        <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i></i> Thông tin cá nhân</a>
-                        <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"><i></i> Thay đổi mật khẩu</a>
-                        <a href="{{ route('nhanvien.logout') }}"><i></i> Đăng xuất</a>
-                    </div>
-                @endauth
+    <div class="dropdown">
+                        <a href="#"><i class="fa fa-user"></i> Xin chào {{ Auth::user()->fullname }}</a>
+                        <div class="dropdown-content">
+                            <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i></i> Thông tin cá nhân</a>
+                            <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"><i></i> Thay đổi mật khẩu</a>
+                            <a href="{{ route('nhanvien.logout') }}"><i></i> Đăng xuất</a>
+                        </div>
+@endauth
             </div> -->
         </div>
         <nav class="humberger__menu__nav mobile-menu">
@@ -87,43 +87,35 @@
                         <div class="header__top__right">
                             <div class="header__top__right__social">
 
-                                @if (auth()->guard('user')->check() ||
-                                    auth()->guard('admin')->check())
-                                    @auth('user')
-                                        <div class="dropdown">
-                                            <a href="#"><i class="fa fa-user"></i> Xin chào
-                                                {{ Auth::guard('user')->user()->fullname }}</a>
-                                            <div class="dropdown-content">
-                                                <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i></i> Thông
-                                                    tin
-                                                    cá nhân</a>
-                                                <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"><i></i> Thay
-                                                    đổi
-                                                    mật khẩu</a>
-                                                <a href="{{ route('nhanvien.logout') }}"><i></i> Đăng xuất</a>
-                                            </div>
-                                        </div>
-                                    @endauth
 
-                                    @auth('admin')
-                                        <div class="dropdown">
-                                            <a href="#"><i class="fa fa-user"></i> Xin chào
-                                                {{ Auth::guard('admin')->user()->fullname }}</a>
-                                            <div class="dropdown-content">
-                                                <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i></i> Thông
-                                                    tin
-                                                    cá nhân</a>
-                                                <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"><i></i> Thay
-                                                    đổi
-                                                    mật khẩu</a>
-                                                <a href="{{ route('admin.auth.logout') }}"><i></i> Đăng xuất</a>
-                                                <a href="{{ route('admin.dashboard') }}"><i></i>Trang quản trị</a>
-                                            </div>
+
+                                @auth
+                                    <div class="dropdown">
+                                        <a href="#"><i class="fa fa-user"></i>
+                                            Xin chào {{ Auth::user()->fullname }}
+                                        </a>
+                                        <div class="dropdown-content">
+                                            <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"> Thông
+                                                tin
+                                                cá nhân</a>
+                                            <a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}"> Thay đổi mật
+                                                khẩu</a>
+
+                                            @if (Auth::user()->is_admin === 1)
+                                                <a href="{{ route('admin.auth.logout') }}">Đăng xuất</a>
+                                                <a href="{{ route('admin.dashboard') }}">Trang quản trị</a>
+                                            @else
+                                                <a href="{{ route('nhanvien.logout') }}"> Đăng xuất</a>
+                                            @endif
+
                                         </div>
-                                    @endauth
-                                @else
-                                    <a href="{{ route('login') }}"><i></i>Đăng nhập</a>
-                                @endif
+                                    </div>
+                                @endauth
+
+                                @guest
+                                    <a href="{{ route('login') }}">Đăng nhập</a>
+                                @endguest
+
                             </div>
                         </div>
                     </div>

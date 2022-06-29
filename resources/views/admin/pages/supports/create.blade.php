@@ -22,7 +22,8 @@
 
                             <select id="start_year" class="form-control" name="start_year">
                                 @foreach ($start_years as $start_year)
-                                    <option value="{{ $start_year }}" @selected($start_year == old('start_year'))>{{ $start_year }}
+                                    <option value="{{ $start_year }}" @selected($start_year == old('start_year'))>
+                                        {{ $start_year }}
                                     </option>
                                 @endforeach
                             </select>

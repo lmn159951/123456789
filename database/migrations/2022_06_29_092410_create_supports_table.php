@@ -14,14 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('supports', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('support_id')->unsigned();
-            $table->smallInteger('start_year')->nullable();
-            $table->smallInteger('end_year')->nullable();
-            $table->smallInteger('min_condition')->nullable();
-            $table->smallInteger('max_condition')->nullable();
-            $table->bigInteger('price')->nullable();
+            $table->smallInteger('start_year');
+            $table->smallInteger('end_year');
+            $table->smallInteger('min_condition')->default(0);
+            $table->smallInteger('max_condition')->default(99);
+            $table->bigInteger('price');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

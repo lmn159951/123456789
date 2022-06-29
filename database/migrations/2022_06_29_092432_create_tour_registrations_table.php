@@ -15,8 +15,6 @@ return new class extends Migration
     {
         Schema::create('tour_registrations', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned()->nullable();
-            $table->bigInteger('tour_id')->unsigned()->nullable();
             $table->dateTime('registration_date');
             $table->string('relative_fullname')->nullable();
             $table->dateTime('birthday')->nullable();
@@ -25,10 +23,11 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('citizen_card')->nullable();
             $table->bigInteger('cost')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tour_id')->constrained()->onDelete('cascade');
+            $table->foreignId('support_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('tour_id')->references('id')->on('tours')->onDelete('set null');
         });
     }
 

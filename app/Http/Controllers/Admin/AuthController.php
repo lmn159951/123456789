@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function logout(Request $request)
     {
-        auth()->guard('admin')->logout();
+        auth()->logout();
 
         $request->session()->invalidate();
 

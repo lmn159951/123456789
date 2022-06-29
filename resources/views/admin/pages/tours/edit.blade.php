@@ -27,7 +27,8 @@
                         <div class="mb-3">
                             <label for="image" class="form-label">Hình ảnh:</label>
                             <div class="custom-file">
-                                <input type="file" name="image" class="custom-file-input @error('image') is-invalid @enderror" id="validatedCustomFile">
+                                <input type="file" name="image"
+                                    class="custom-file-input @error('image') is-invalid @enderror" id="validatedCustomFile">
                                 <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
                             </div>
 
@@ -42,7 +43,9 @@
                         <div class="mb-3">
                             <label for="description_file" class="form-label">File mô tả:</label>
                             <div class="custom-file">
-                                <input type="file" name="description_file" class="custom-file-input @error('description_file') is-invalid @enderror" id="validatedCustomFile">
+                                <input type="file" name="description_file"
+                                    class="custom-file-input @error('description_file') is-invalid @enderror"
+                                    id="validatedCustomFile">
                                 <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
                             </div>
 
@@ -167,6 +170,24 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label for="agency_ids">Đơn vị:</label>
+                    <label class="text-danger">(*)</label>
+                    <select multiple class="form-control @error('agency_ids') is-invalid @enderror" name="agency_ids[]"
+                        id="agency_ids">
+                        @foreach ($agencies as $agency)
+                            <option value="{{ $agency->id }}" @selected(in_array($agency->id, $agency_ids))>
+                                {{ $agency->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('agency_ids')
+                        <div id="validationServer03Feedback" class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
 
                 <div class="my-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary mr-3">Cập nhật</button>

@@ -49,7 +49,6 @@ class TourController extends Controller
     {
         $tour = new Tour();
         $tour->fill($request->validated());
-        $tour->agencies()->attach($request->agency_ids);
 
         if($request->hasFile('file_image'))
         {
@@ -65,14 +64,19 @@ class TourController extends Controller
 
         $tour->save();
 
+        $tour->agencies()->attach($request->agency_ids);
+        $tour->save();
+
         return redirect()->route('admin.tours.index')->with('message', 'Tạo tour thành công');
     }
 
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['tour'] = Tour::find($id);
+        $parameters['tour'] = Tour::with('agencies')->find($id);
         $parameters['regions'] = Region::all();
+        $parameters['agencies'] = Agency::all();
+        $parameters['agency_ids'] = $parameters['tour']->agencies()->get()->pluck('id')->toArray();
 
         return view('admin.pages.tours.edit', $parameters);
     }
@@ -94,6 +98,9 @@ class TourController extends Controller
             $request->file('file_description')->storeAs('public/files', $tour->description_file);
         }
 
+        $tour->save();
+
+        $tour->agencies()->attach($request->agency_ids);
         $tour->save();
 
         return redirect()->route('admin.tours.index')->with('message', 'Cập nhật tour thành công');

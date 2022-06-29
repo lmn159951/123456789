@@ -16,6 +16,7 @@ class TourRegistration extends Model
     protected $fillable = [
         'user_id',
         'tour_id',
+        'support_id',
         'registration_date',
         'relative_fullname',
         'birthday',
