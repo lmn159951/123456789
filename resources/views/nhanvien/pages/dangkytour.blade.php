@@ -10,6 +10,13 @@
             </div>
         </div>
         @isset($tourInfo)
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="contact__form__title">
+                    <a href="{{ route('home')."/".$tourInfo->description_file }}" class="primary-btn">XEM TOUR</a>
+                </div>
+            </div>
+        </div>
         <form action="#">
             <div class="d-flex justify-content-center">
                 <div class="row">
@@ -77,7 +84,7 @@
                                         <div class="col-6"><p>Ngày Sinh: <span class="dau_">(*)</span></p></div>
                                         <div class="col-4"></div>
                                         <div class="password d-flex justify-content-center">
-                                            <input required name="birthdate[]" style="width:69%; border: 1px solid #ebebeb" type="date" placeholder="">
+                                            <input required name="birthday[]" style="width:69%; border: 1px solid #ebebeb" type="date" placeholder="">
                                         </div> 
 
                                         {{-- <div class="col-2"></div>
@@ -181,8 +188,8 @@
                                             <div class="col-6"><p>Ngày Sinh: <span class="dau_">(*)</span></p></div>
                                             <div class="col-4"></div>
                                             <div class="password d-flex justify-content-center">
-                                                <input required name="birthdate[]" style="width:69%; border: 1px solid #ebebeb" 
-                                                type="date" placeholder="" value="{{ date('Y-m-d', strtotime($relativeInfo->birthdate)) }}">
+                                                <input required name="birthday[]" style="width:69%; border: 1px solid #ebebeb" 
+                                                type="date" placeholder="" value="{{ date('Y-m-d', strtotime($relativeInfo->birthday)) }}">
                                             </div> 
     
                                             {{-- <div class="col-2"></div>

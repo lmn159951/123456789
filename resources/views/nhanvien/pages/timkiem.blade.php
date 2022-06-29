@@ -18,7 +18,7 @@
                         Số ghế còn trống :
                     </div>
                     <div class="form-group">
-                        <input name="emptyslotremain" type="number" class="form-control w-50 h-50" 
+                        <input name="emptyslotremain" type="number" class="form-control w-100 h-50" 
                         aria-label="Default" aria-describedby="inputGroup-sizing-default" value="@isset($request){{ $request->input('emptyslotremain') }}@endisset">
                     </div>
                 </div>
@@ -87,12 +87,12 @@
                     <div class="col-lg-3 col-md-4  mix vegetables fastfood text-center">
                         <div class="featured__item" style="margin-top: 10px;">
                             <div class="img">
-                                <a href="{{ $tour->description_file }}">
+                                <a href="{{ route('home')."/".$tour->description_file }}">
                                     <img alt="{{ $tour->name }}" class="img-fluid" src="{{ $tour->image }}">
                                 </a>
                             </div>
                             <div class="featured__item__text text-left">
-                                <h6 style="font-size: 30px;"><a href="{{ $tour->description_file }}">{{ Str::limit($tour->name, 25, '...') }}</a></h6>
+                                <h6 style="font-size: 30px;"><a href="{{ route('home')."/".$tour->description_file }}">{{ Str::limit($tour->name, 25, '...') }}</a></h6>
                                 <h5>Ngày Bắt Đầu: {{ date_format(date_create($tour->tour_start_date),"d-m-Y") }}</h5>
                                 <h5>Số Lượng: {{ $tour->slot }}/{{ $tour->max_people }}</h5>
                                 <h5>Giá: {{ number_format($tour->price, 0, '.', ',') }}VNĐ</h5>

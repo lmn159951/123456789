@@ -8,7 +8,8 @@
             </div>
         </div>
     </div>
-    <table class="table table-hover">
+    <div class="row" style="overflow-y: hidden; overflow-x: scroll;">
+    <table class="table table-hover w-100" >
         <thead class="thead-dark">
         <tr>
             <th>STT</th>
@@ -55,9 +56,8 @@
             @endphp
             @endforeach
         @endisset
-        
-        
     </table>
+    </div>
 </div>
 
 @endsection
