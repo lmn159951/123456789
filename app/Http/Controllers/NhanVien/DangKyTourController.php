@@ -39,7 +39,7 @@ class DangKyTourController extends Controller
     public function tourhistory()
     {
         
-        $results = TourRegistration::where('user_id', Auth::guard('user')->user()->id)
+        $results = TourRegistration::where('user_id', Auth::user()->id)
         ->join('tours', 'tour_registrations.tour_id', '=', 'tours.id')
         ->select('user_id',DB::raw('COUNT(user_id) as member_count'), 'tour_id', 'name', 
         DB::raw('SUM(cost) as total_cost'), 'tours.tour_start_date', 
@@ -275,9 +275,9 @@ class DangKyTourController extends Controller
     public function deletetour(Request $request)
     {
         $tourId = $request->post('tourid');
-        TourRegistration::where('user_id', Auth::guard('user')->user()->id)
+        TourRegistration::where('user_id', Auth::user()->id)
         ->where('tour_id', $tourId)->delete();
-        UserSupport::where('user_id', Auth::guard('user')->user()->id)->delete();
+        UserSupport::where('user_id', Auth::user()->id)->delete();
         return redirect()->route('nhanvien.tourhistory');
     }
 }
