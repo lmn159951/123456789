@@ -63,9 +63,6 @@
                             Họ tên
                         </th>
                         <th scope="col">
-                            Tài khoản
-                        </th>
-                        <th scope="col">
                             Giới tính
                         </th>
                         <th scope="col">
@@ -73,6 +70,9 @@
                         </th>
                         <th scope="col">
                             Chức vụ
+                        </th>
+                        <th scope="col">
+                            Đơn vị
                         </th>
                         <th scope="col">
                             Thao tác
@@ -131,10 +131,6 @@
                         name: 'fullname'
                     },
                     {
-                        data: 'username',
-                        name: 'username'
-                    },
-                    {
                         data: 'gender',
                         name: 'gender'
                     },
@@ -145,6 +141,10 @@
                     {
                         data: 'position.name',
                         name: 'position.name'
+                    },
+                    {
+                        data: 'agency.name',
+                        name: 'agency.name'
                     },
                     {
                         data: 'action',
@@ -203,7 +203,7 @@
                                     </div>
 
                                     <a class="btn btn-secondary ml-2" href="${resetPasswordUrl}">
-                                        <i class="fas fa-fw fa-rotate"></i>
+                                        <i class="fas fa-fw fa-sync-alt"></i>
                                     </a>
                                 </div>
                             `;

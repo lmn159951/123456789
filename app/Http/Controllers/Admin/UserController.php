@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function datatableApi()
     {
-        $users = User::with(['department', 'position'])->get();
+        $users = User::with(['department', 'position','agency'])->get();
 
         return Datatables::of($users)
             ->addIndexColumn()

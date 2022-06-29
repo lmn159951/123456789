@@ -27,11 +27,10 @@
                         <div class="mb-3">
                             <label for="file_image" class="form-label">Hình ảnh:</label>
                             <label class="text-danger">(*)</label>
-
                             <div class="custom-file">
                                 <input type="file" name="file_image"
                                     class="custom-file-input @error('file_image') is-invalid @enderror"
-                                    id="validatedCustomFile">
+                                    id="validatedCustomFile" onchange="loadFile(event)">
                                 <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
 
                                 @error('file_image')
@@ -39,7 +38,8 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
+                            </div>       
+                            <img id="imageInput">                     
                         </div>
                     </div>
                     <div class="col">
@@ -202,6 +202,20 @@
 
 @push('scripts')
     <script type="text/javascript">
-        
+        var loadFile = function(event) {
+        var imageInput = document.getElementById('imageInput');
+        imageInput.src = URL.createObjectURL(event.target.files[0]);
+        imageInput.onload = function() {
+        URL.revokeObjectURL(imageInput.src)
+    }
+  };
     </script>
+@endpush
+
+@push('styles')
+    <style>
+        img {
+            max-height: 100px;
+        }
+    </style>
 @endpush

@@ -49,17 +49,19 @@ class TourController extends Controller
     {
         $tour = new Tour();
         $tour->fill($request->validated());
-
+        
         if($request->hasFile('file_image'))
         {
-            $tour->image = time().".".$request->file('file_image')->getClientOriginalExtension();
-            $request->file('file_image')->storeAs('public/images', $tour->image);
+            $tour_image = time().".".$request->file('file_image')->getClientOriginalExtension();
+            $request->file('file_image')->storeAs('public/images', $tour_image);
+            $tour->image='/storage/images/'.$tour_image;
         }
 
         if($request->hasFile('file_description'))
         {
-            $tour->description_file = time().".".$request->file('file_description')->getClientOriginalExtension();
-            $request->file('file_description')->storeAs('public/files', $tour->description_file);
+            $tour_description_file = time().".".$request->file('file_description')->getClientOriginalExtension();
+            $request->file('file_description')->storeAs('public/files', $tour_description_file);
+            $tour->description_file='/storage/files/'.$tour_description_file;
         }
 
         $tour->save();
@@ -88,16 +90,20 @@ class TourController extends Controller
 
         if($request->hasFile('file_image'))
         {
-            $tour->image = time().".".$request->file('file_image')->getClientOriginalExtension();
-            $request->file('file_image')->storeAs('public/images', $tour->image);
+            $tour_image = time().".".$request->file('file_image')->getClientOriginalExtension();
+            $request->file('file_image')->storeAs('public/images', $tour_image);
+            $tour->image='/storage/images/'.$tour_image;
         }
 
         if($request->hasFile('file_description'))
         {
-            $tour->description_file = time().".".$request->file('file_description')->getClientOriginalExtension();
-            $request->file('file_description')->storeAs('public/files', $tour->description_file);
+            $tour_description_file = time().".".$request->file('file_description')->getClientOriginalExtension();
+            $request->file('file_description')->storeAs('public/files', $tour_description_file);
+            $tour->description_file='/storage/files/'.$tour_description_file;
         }
 
+        $tour->save();
+        $tour->agencies()->attach($request->agency_ids);
         $tour->save();
 
         $tour->agencies()->attach($request->agency_ids);

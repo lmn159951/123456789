@@ -6,25 +6,38 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreUserRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
         return [
-            //
+            'fullname' => 'required',
+            'username' => 'required|unique:users',
+            'password' => 'required',
+            'email' => 'nullable|email|unique:users',
+            'phone' => 'nullable|regex:/0[0-9]{9}/|numeric',
+            'citizen_card' => 'nullable|regex:/3[0-9]{8}/|numeric|unique:users',
+            'start_date' => 'nullable|before_or_equal:now',
+            'is_admin' => 'required|boolean',
+            'department_id'=>'required|exists:departments,id',
+            'position_id'=>'required|exists:positions,id',
+            'agency_id'=>'required|exists:agencies,id'
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'fullname' => 'họ tên',
+            'username' => 'tên tài khoản',
+            'password' => 'mật khẩu',
+            'email' => 'email',
+            'phone' => 'số điện thoại',
+            'citizen_card' => 'chứng minh nhân dân',
+            'start_date' => 'ngày bắt đầu làm',
         ];
     }
 }

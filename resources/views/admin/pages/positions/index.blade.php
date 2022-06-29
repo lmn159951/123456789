@@ -136,7 +136,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>Bạn có muốn xoá phòng ban này?</p>
+                                                    <p>Bạn có muốn xoá chức vụ này?</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
