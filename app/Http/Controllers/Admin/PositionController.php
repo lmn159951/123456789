@@ -18,7 +18,7 @@ class PositionController extends Controller
 
     public function datatableApi()
     {
-        $positions = Position::all();
+        $positions = Position::orderBy('id', 'DESC')->get();;
         return DataTables::of($positions)
             ->addIndexColumn()
             ->addColumn('action', function (Position $position) {

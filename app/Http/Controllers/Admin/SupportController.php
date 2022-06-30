@@ -18,12 +18,12 @@ class SupportController extends Controller
 
     public function datatableApi()
     {
-        $supports = Support::orderBy('start_year', 'ASC')->orderBy('min_condition', 'ASC')->get();
+        $supports = Support::orderBy('start_year', 'DESC')->orderBy('min_condition', 'ASC')->get();
 
         return Datatables::of($supports)
             ->addIndexColumn()
             ->addColumn('action', function (Support $support) {
-                return $support->id;
+                return $support;
             })
             ->editColumn('price', function (Support $support) {
                 return currency_format($support->price, $separator = ',', $suffix = '₫');

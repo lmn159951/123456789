@@ -94,7 +94,7 @@ class UserController extends Controller
 
         if($bln)
         {
-            $parameters['user'] = User::find($id)->with(['agency', 'department', 'position'])->first();
+            $parameters['user'] = User::with(['agency', 'department', 'position'])->find($id);
 
             return view('admin.pages.users.show', $parameters);
         }

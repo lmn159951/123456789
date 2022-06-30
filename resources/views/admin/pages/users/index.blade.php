@@ -1,8 +1,8 @@
 @extends('admin.layouts.admin')
 
 @push('styles')
-    <link href="{{ asset('admin/fonts/icomoon/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/css/custom-table.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/datatable/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -53,7 +53,7 @@
                 </a>
             </div>
 
-            <table class="table table-hover my-3" id="table-content">
+            <table class="table table-hover dt-responsive nowrap no-footer my-3" id="table-content" style="width:100%">
                 <thead>
                     <tr>
                         <th scope="col">
@@ -66,16 +66,37 @@
                             Giới tính
                         </th>
                         <th scope="col">
+                            Số điện thoại
+                        </th>
+                        <th scope="col">
+                            CMND/CCCD
+                        </th>
+                        <th scope="col">
+                            Ngày vào làm
+                        </th>
+                        <th scope="col">
+                            Ngày sinh
+                        </th>
+                        <th scope="col">
+                            Thao tác
+                        </th>
+                        <th scope="col">
+                            Tài khoản
+                        </th>
+                        <th scope="col">
+                            Email
+                        </th>
+                        <th scope="col">
+                            Đơn vị
+                        </th>
+                        <th scope="col">
                             Phòng ban
                         </th>
                         <th scope="col">
                             Chức vụ
                         </th>
                         <th scope="col">
-                            Đơn vị
-                        </th>
-                        <th scope="col">
-                            Thao tác
+                            Vai trò
                         </th>
                     </tr>
                 </thead>
@@ -87,6 +108,12 @@
 @endsection
 
 @push('scripts')
+    <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/pdfmake.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/vfs_fonts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/bootstrap.min.js') }}"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -94,32 +121,30 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
+                fixedHeader: true,
+                colReorder: true,
                 ajax: "{!! route('admin.users.datatableApi') !!}",
-                // dom: '<"left-col"B><"right-col"fr><"clearfix">t<"left-col"i><"right-col"p><"clearfix">',
-                dom: 'Bfrtip',
-                // dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"right-col"f>>rtip',
+                dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
                 lengthMenu: [
                     [10, 25, 50, 100, 250, 500, -1],
                     ['10 dòng', '25 dòng', '50 dòng', '100 dòng', '250 dòng', '500 dòng', 'Tất cả']
                 ],
                 buttons: [{
-                        extend: 'excelHtml5',
-                        className: 'btn btn-success',
-                        exportOptions: {
-                            columns: ':visible :not(.not-export)'
-                        }
+                        extend: 'selectAll',
                     },
                     {
-                        extend: 'selectAll',
-                        className: 'btn btn-danger'
+                        extend: 'selectNone',
                     },
                     {
                         extend: 'pageLength',
-                        className: 'btn btn-info'
                     }
                 ],
                 language: {
                     url: "{!! asset('admin/vendor/datatable/vi.json') !!}",
+                    buttons: {
+                        selectAll: "Chọn hết",
+                        selectNone: "Bỏ chọn"
+                    },
                 },
                 select: true,
                 columns: [{
@@ -135,20 +160,33 @@
                         name: 'gender'
                     },
                     {
-                        data: 'department.name',
-                        name: 'department.name'
+                        data: 'phone',
+                        name: 'phone'
                     },
                     {
-                        data: 'position.name',
-                        name: 'position.name'
+                        data: 'citizen_card',
+                        name: 'citizen_card'
                     },
                     {
-                        data: 'agency.name',
-                        name: 'agency.name'
+                        data: 'start_date',
+                        name: 'start_date',
+                        width: '75px',
+                        render: function(datetime) {
+                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
+                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
+                        }
+                    },
+                    {
+                        data: 'birthday',
+                        name: 'birthday',
+                        width: '75px',
+                        render: function(datetime) {
+                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
+                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
+                        }
                     },
                     {
                         data: 'action',
-                        targets: 6,
                         orderable: false,
                         searchable: false,
                         className: 'not-export',
@@ -208,7 +246,35 @@
                                 </div>
                             `;
                         }
-                    }
+                    },
+                    {
+                        data: 'username',
+                        name: 'username'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'agency.name',
+                        name: 'agency.name'
+                    },
+                    {
+                        data: 'department.name',
+                        name: 'department.name'
+                    },
+                    {
+                        data: 'position.name',
+                        name: 'position.name'
+                    },
+                    {
+                        data: 'is_admin',
+                        name: 'is_admin',
+                        render: function(isAdmin) {
+                            return isAdmin ? 'ADMIN' : 'USER';
+                        }
+                    },
+
                 ]
             });
 

@@ -1,8 +1,8 @@
 @extends('admin.layouts.admin')
 
 @push('styles')
-    <link href="{{ asset('admin/fonts/icomoon/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/css/custom-table.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/datatable/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -75,6 +75,12 @@
 @endsection
 
 @push('scripts')
+    <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/pdfmake.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/vfs_fonts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/bootstrap.min.js') }}"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -83,16 +89,27 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{!! route('admin.positions.datatableApi') !!}",
-                dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"left-col"l><"right-col"f>>rtip',
-                buttons: [
-                    'selectAll',
-                    'selectNone'
+                dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
+                lengthMenu: [
+                    [10, 25, 50, 100, 250, 500, -1],
+                    ['10 dòng', '25 dòng', '50 dòng', '100 dòng', '250 dòng', '500 dòng', 'Tất cả']
+                ],
+                buttons: [{
+                        extend: 'selectAll',
+                    },
+                    {
+                        extend: 'selectNone',
+                    },
+                    {
+                        extend: 'pageLength',
+                    }
                 ],
                 language: {
+                    url: "{!! asset('admin/vendor/datatable/vi.json') !!}",
                     buttons: {
                         selectAll: "Chọn hết",
                         selectNone: "Bỏ chọn"
-                    }
+                    },
                 },
                 select: true,
                 columns: [{

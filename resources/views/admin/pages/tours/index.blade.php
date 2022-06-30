@@ -1,5 +1,10 @@
 @extends('admin.layouts.admin')
 
+@push('styles')
+    <link href="{{ asset('admin/vendor/datatable/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
+@endpush
+
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
@@ -48,7 +53,7 @@
                 </a>
             </div>
 
-            <table class="table table-hover my-3" id="table-content">
+            <table class="table table-hover dt-responsive nowrap no-footer my-3" id="table-content" style="width:100%">
                 <thead>
                     <tr>
                         <th scope="col">
@@ -61,7 +66,10 @@
                             Thời gian đăng ký
                         </th>
                         <th scope="col">
-                            Thời thời kết thúc
+                            Thời gian kết thúc
+                        </th>
+                        <th scope="col">
+                            Thao tác
                         </th>
                         <th scope="col">
                             Thời gian đi
@@ -75,9 +83,6 @@
                         <th scope="col">
                             Số lượng người
                         </th>
-                        <th scope="col">
-                            Thao tác
-                        </th>
                     </tr>
                 </thead>
 
@@ -88,6 +93,12 @@
 @endsection
 
 @push('scripts')
+    <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/pdfmake.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/vfs_fonts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/bootstrap.min.js') }}"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -95,17 +106,29 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
+                colReorder: true,
                 ajax: "{!! route('admin.tours.datatableApi') !!}",
-                dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"left-col"l><"right-col"f>>rtip',
-                buttons: [
-                    'selectAll',
-                    'selectNone'
+                dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
+                lengthMenu: [
+                    [10, 25, 50, 100, 250, 500, -1],
+                    ['10 dòng', '25 dòng', '50 dòng', '100 dòng', '250 dòng', '500 dòng', 'Tất cả']
+                ],
+                buttons: [{
+                        extend: 'selectAll',
+                    },
+                    {
+                        extend: 'selectNone',
+                    },
+                    {
+                        extend: 'pageLength',
+                    }
                 ],
                 language: {
+                    url: "{!! asset('admin/vendor/datatable/vi.json') !!}",
                     buttons: {
                         selectAll: "Chọn hết",
                         selectNone: "Bỏ chọn"
-                    }
+                    },
                 },
                 select: true,
                 columns: [{
@@ -114,7 +137,7 @@
                     },
                     {
                         data: 'name',
-                        name: 'name'
+                        name: 'name',
                     },
                     {
                         data: 'registration_start_date',
@@ -135,34 +158,7 @@
                         }
                     },
                     {
-                        data: 'tour_start_date',
-                        name: 'tour_start_date',
-                        width: '75px',
-                        render: function(datetime) {
-                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
-                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
-                        }
-                    },
-                    {
-                        data: 'tour_end_date',
-                        name: 'tour_end_date',
-                        width: '75px',
-                        render: function(datetime) {
-                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
-                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
-                        }
-                    },
-                    {
-                        data: 'price',
-                        name: 'price'
-                    },
-                    {
-                        data: 'max_people',
-                        name: 'max_people'
-                    },
-                    {
                         data: 'action',
-                        targets: 8,
                         orderable: false,
                         searchable: false,
                         render: function(tourId) {
@@ -214,7 +210,34 @@
                                 </div>
                             `;
                         }
-                    }
+                    },
+                    {
+                        data: 'tour_start_date',
+                        name: 'tour_start_date',
+                        width: '75px',
+                        render: function(datetime) {
+                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
+                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
+                        }
+                    },
+                    {
+                        data: 'tour_end_date',
+                        name: 'tour_end_date',
+                        width: '75px',
+                        render: function(datetime) {
+                            const timestamps = Math.round(new Date(datetime).getTime() / 1000);
+                            return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
+                        }
+                    },
+                    {
+                        data: 'price',
+                        name: 'price',
+                        width: '250px',
+                    },
+                    {
+                        data: 'max_people',
+                        name: 'max_people'
+                    },
                 ]
             });
 

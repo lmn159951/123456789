@@ -18,7 +18,8 @@ class AgencyController extends Controller
 
     public function datatableApi()
     {
-        $agencies = Agency::all();
+        $agencies = Agency::orderBy('id', 'DESC')->get();
+
         return DataTables::of($agencies)
             ->addIndexColumn()
             ->addColumn('action', function (Agency $agency) {

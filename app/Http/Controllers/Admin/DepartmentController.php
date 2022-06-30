@@ -18,7 +18,7 @@ class DepartmentController extends Controller
 
     public function datatableApi()
     {
-        $departments = Department::all();
+        $departments = Department::orderBy('id', 'DESC')->get();;
         return DataTables::of($departments)
             ->addIndexColumn()
             ->addColumn('action', function (Department $department) {
