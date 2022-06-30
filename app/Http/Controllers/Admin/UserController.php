@@ -52,6 +52,7 @@ class UserController extends Controller
         $user->email = $request->post('email');
         $user->phone = $request->post('phone');
         $user->gender = $request->post('gender');
+        $user->birthday = $request->post('birthday');
         $user->citizen_card = $request->post('citizen_card');
         $user->agency_id = $request->post('agency_id');
         $user->department_id = $request->post('department_id');
@@ -110,10 +111,10 @@ class UserController extends Controller
         $user = User::find($id);
         $user->fullname = $request->fullname;
         $user->username = $request->username;
-        $user->password = Hash::make($request->password);
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->gender = $request->gender;
+        $user->birthday = $request->birthday;
         $user->citizen_card = $request->citizen_card;
         $user->agency_id = $request->agency_id;
         $user->department_id = $request->department_id;

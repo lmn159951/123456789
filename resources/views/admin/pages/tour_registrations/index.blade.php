@@ -46,9 +46,6 @@
                     </div>
                 </div>
 
-                <a class="btn btn-primary" href="{{ route('admin.tour_registrations.create') }}">
-                    Thêm
-                </a>
 
             </div>
 
@@ -169,55 +166,14 @@
                         orderable: false,
                         searchable: false,
                         render: function(tourRegistrationId) {
-                            const updateUrl = 'http://127.0.0.1:8000/admin/tour_registrations/' +
-                                tourRegistrationId +
-                                '/edit';
-                            const deleteUrl = 'http://127.0.0.1:8000/admin/tour_registrations/' +
-                                tourRegistrationId;
                             const showUrl = 'http://127.0.0.1:8000/admin/tour_registrations/' +
                                 tourRegistrationId;
 
                             return `
                                 <div class="d-flex">
-                                    <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
-                                        <i class="fas fa-fw fa-pen"></i>
-                                    </a>
                                     <a class="btn btn-info mr-2" href="${showUrl}">
                                         <i class="fas fa-fw fa-eye"></i>
                                     </a>
-
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                        data-target="#deleteModal-${tourRegistrationId}">
-                                        <i class="fas fa-fw fa-trash"></i>
-                                    </button>
-
-                                    <div class="modal fade" id="deleteModal-${tourRegistrationId}" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Bạn có muốn xoá đăng ký tour này?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <form class="ml-3" method="post"
-                                                        action="${deleteUrl}">
-                                                        @method('DELETE') @csrf
-                                                        <button type="submit" class="btn btn-danger">
-                                                            Xoá
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             `;
                         }

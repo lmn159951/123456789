@@ -21,14 +21,11 @@
                             </div>
                         @enderror
                     </div>
-                </div>
-
-                <div class="row g-3 mt-2">
                     <div class="col">
                         <label for="birthday" class="form-label">Ngày sinh:</label>
                         <label class="text-danger">(*)</label>
                         <input type="date" class="form-control @error('birthday') is-invalid @enderror"
-                            value="{{ old('birthday') ?? $user->birthday }}" name="birthday" id="birthday">
+                        value="{{ old('birthday') ?? date('Y-m-d', strtotime($user->birthday)) }}" name="birthday" id="birthday">
 
                         @error('birthday')
                             <div id="validationServer03Feedback" class="invalid-feedback">
@@ -36,6 +33,9 @@
                             </div>
                         @enderror
                     </div>
+                </div>
+
+                <div class="row g-3 mt-2">
                     <div class="col">
                         <label for="username" class="form-label">Tên tài khoản:</label>
                         <label class="text-danger">(*)</label>
@@ -43,21 +43,6 @@
                             value="{{ old('username') ?? $user->username }}" name="username" id="username">
 
                         @error('username')
-                            <div id="validationServer03Feedback" class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="row g-3 mt-2">
-                    <div class="col">
-                        <label for="password" class="form-label">Mật khẩu:</label>
-                        <label class="text-danger">(*)</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror"
-                            value="{{ old('password') }}" name="password" id="password">
-
-                        @error('password')
                             <div id="validationServer03Feedback" class="invalid-feedback">
                                 {{ $message }}
                             </div>

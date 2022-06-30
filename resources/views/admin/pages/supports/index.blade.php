@@ -167,8 +167,8 @@
                                 `http://127.0.0.1:8000/admin/supports/${response.id}/edit`;
                             const deleteUrl = `http://127.0.0.1:8000/admin/supports/${response.id}`;
 
-                            if (response.start_year <= currentYear && currentYear <= response
-                                .end_year) {
+                            if ((response.start_year <= currentYear && currentYear <= response
+                                .end_year) || response.start_year>currentYear) {
                                 return `
                                     <div class="d-flex">
                                         <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
@@ -211,7 +211,7 @@
                                 `;
                             }
 
-                            return '';
+                            return 'Hết hạn';
                         }
                     }
                 ]
