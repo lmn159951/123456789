@@ -10,6 +10,13 @@
             </div>
         </div>
         @isset($tourInfo)
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="contact__form__title">
+                    <a href="{{ route('home')."/".$tourInfo->description_file }}" class="primary-btn">XEM TOUR</a>
+                </div>
+            </div>
+        </div>
         <form action="#">
             <div class="d-flex justify-content-center">
                 <div class="row">
@@ -77,7 +84,7 @@
                                         <div class="col-6"><p>Ngày Sinh: <span class="dau_">(*)</span></p></div>
                                         <div class="col-4"></div>
                                         <div class="password d-flex justify-content-center">
-                                            <input required name="birthdate[]" style="width:69%; border: 1px solid #ebebeb" type="date" placeholder="">
+                                            <input required name="birthday[]" style="width:69%; border: 1px solid #ebebeb" type="date" placeholder="">
                                         </div> 
 
                                         {{-- <div class="col-2"></div>
@@ -86,11 +93,13 @@
                                         <div class="col-4"></div> --}}
 
                                         <div class="col-2"></div>
-                                        <div class="col-6"><p>Giới tính: <span class="dau_">(*)</span></p></div>
-                                        <div class="col-4"></div>
-                                        <div class="tentaikhoan d-flex justify-content-center">
-                                            <input required name="gender[]" style="width:69%; border: 1px solid #ebebeb;" type="text" placeholder="">
+                                        <div class="col-6 mb-2"><p>Giới tính: <span class="dau_">(*)</span></p>
+                                            <select name="gender[]" class="form-select" aria-label="Default select example">
+                                                <option selected value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            </select>
                                         </div>
+                                        <div class="col-4"></div>
 
                                         {{-- <div class="col-2"></div>
                                         <div class="col-6" style="margin-top: -25px;">
@@ -174,13 +183,13 @@
                                             <div class="col-6" style="margin-top: -25px;">
                                                 <p style="color: red;">*Vui lòng nhập Họ và tên</p></div>
                                             <div class="col-4"></div> --}}
-    
+
                                             <div class="col-2"></div>
                                             <div class="col-6"><p>Ngày Sinh: <span class="dau_">(*)</span></p></div>
                                             <div class="col-4"></div>
                                             <div class="password d-flex justify-content-center">
-                                                <input required name="birthdate[]" style="width:69%; border: 1px solid #ebebeb" 
-                                                type="date" placeholder="" value="{{ date('d-m-Y', strtotime($relativeInfo->birthdate)) }}">
+                                                <input required name="birthday[]" style="width:69%; border: 1px solid #ebebeb" 
+                                                type="date" placeholder="" value="{{ date('Y-m-d', strtotime($relativeInfo->birthday)) }}">
                                             </div> 
     
                                             {{-- <div class="col-2"></div>
@@ -189,12 +198,13 @@
                                             <div class="col-4"></div> --}}
     
                                             <div class="col-2"></div>
-                                            <div class="col-6"><p>Giới tính: <span class="dau_">(*)</span></p></div>
-                                            <div class="col-4"></div>
-                                            <div class="tentaikhoan d-flex justify-content-center">
-                                                <input required name="gender[]" style="width:69%; border: 1px solid #ebebeb;" 
-                                                type="text" placeholder="" value="{{ $relativeInfo->gender }}">
+                                            <div class="col-6 mb-2"><p>Giới tính: <span class="dau_">(*)</span></p>
+                                                <select name="gender[]" class="form-select" aria-label="Default select example">
+                                                    <option @selected($relativeInfo->gender == "Nam") value="Nam">Nam</option>
+                                                    <option @selected($relativeInfo->gender == "Nữ") value="Nữ">Nữ</option>
+                                                </select>
                                             </div>
+                                            <div class="col-4"></div>
     
                                             {{-- <div class="col-2"></div>
                                             <div class="col-6" style="margin-top: -25px;">
@@ -247,24 +257,34 @@
                     @endforeach
                 @endisset
             </div>
-            <div class="row" style="margin-top: 15px">
-              <div class="col-1"></div>
-              <div class="col-1"></div>
-              <div class="col-1"></div>
-              <div class="col-3">
-                <button id="themthanhvien" type="button" class="site-btn" data-toggle="collapse">
-                        Thêm Thành Viên
-                </button>
-              </div>
-              
-              <div class="col-1"></div>
-              <div class="col-1"></div>
-              <div class="col-1"></div>
-              <div class="col-2">
-                  <button type="submit" class="site-btn">Lưu</button>
-              </div>
-            </div>    
-            </form>            
+            @isset($tourInfo) 
+                @php
+                    $today = strtotime("now");
+                    $registration_start_date = strtotime($tourInfo->registration_start_date);
+                    $registration_end_date = strtotime($tourInfo->registration_end_date);
+                    // dd($today." ".$registration_start_date." ".$registration_end_date);
+                @endphp
+                @if($today >= $registration_start_date && $today <= $registration_end_date)
+                    <div class="row" style="margin-top: 15px">
+                    <div class="col-1"></div>
+                    <div class="col-1"></div>
+                    <div class="col-1"></div>
+                    <div class="col-3">
+                        <button id="themthanhvien" type="button" class="site-btn" data-toggle="collapse">
+                                Thêm Thành Viên
+                        </button>
+                    </div>
+                    
+                    <div class="col-1"></div>
+                    <div class="col-1"></div>
+                    <div class="col-1"></div>
+                    <div class="col-2">
+                        <button type="submit" class="site-btn">Lưu</button>
+                    </div>
+                    </div>
+                @endif 
+            @endisset
+            </form>         
         </div>                           
     </div>
 @endsection

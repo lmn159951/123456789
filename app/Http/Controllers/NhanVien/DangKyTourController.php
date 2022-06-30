@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\NhanVien\DangKyTourRequest;
 use App\Models\TourRegistration;
 use Illuminate\Support\Facades\DB;
-use App\Models\UserSupport;
 use App\Models\Support;
 
 class DangKyTourController extends Controller
@@ -35,11 +34,25 @@ class DangKyTourController extends Controller
             return false;
         return true;
     }
+
+    public function tourhistory()
+    {
+        
+        $results = TourRegistration::where('user_id', Auth::user()->id)
+        ->join('tours', 'tour_registrations.tour_id', '=', 'tours.id')
+        ->select('user_id',DB::raw('COUNT(user_id) as member_count'), 'tour_id', 'name', 
+        DB::raw('SUM(cost) as total_cost'), 'tours.tour_start_date', 
+        'tours.tour_end_date','registration_start_date','registration_end_date')
+        ->groupBy('user_id', 'tour_id', 'name', 'tours.tour_start_date', 
+        'tours.tour_end_date','registration_start_date','registration_end_date')
+        ->orderBy('tour_id', 'DESC')
+        ->get();
+        return view('nhanvien.pages.lichsudatour')->with('results', $results);
+    }
+
     //
     public function index($tour_id=0)
     {
-        if(!$this->checkTour($tour_id))
-            return redirect()->route('home');
 
         $emptySlotRemain = Tour::EmptySlotRemain($tour_id);
         $tourInfo = Tour::TourInfo($tour_id);
@@ -50,14 +63,8 @@ class DangKyTourController extends Controller
         {
             return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo)
         ->with('emptySlotRemain', $emptySlotRemain)->with('relativeInfos', $relativeInfos);
-        }
-
-        //Chua dang ky
-
-        if($emptySlotRemain == 0)
-            return redirect()->route('home');
-
-
+        }    
+        
         return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo)
         ->with('emptySlotRemain', $emptySlotRemain);
     }
@@ -69,7 +76,7 @@ class DangKyTourController extends Controller
             {
                 DB::table('tour_registrations')->where('id', $request['id'][$i])->update([
                     'relative_fullname' => $request['relative_fullname'][$i],
-                    'birthdate' => Carbon::createFromFormat('d-m-Y', $request['birthdate'][$i])->format('Y-m-d'),
+                    'birthday' => Carbon::createFromFormat('d-m-Y', $request['birthday'][$i])->format('Y-m-d'),
                     'gender' => $request['gender'][$i],
                     'relationship' => $request['relationship'][$i],
                     'phone' => $request['phone'][$i],
@@ -89,7 +96,7 @@ class DangKyTourController extends Controller
                     'tour_id' => $tour_id,
                     'registration_date' => $registrationDate,
                     'relative_fullname' => $request['relative_fullname'][$i],
-                    'birthdate' => Carbon::createFromFormat('Y-m-d', $request['birthdate'][$i])->format('Y-m-d'),
+                    'birthday' => Carbon::createFromFormat('Y-m-d', $request['birthday'][$i])->format('Y-m-d'),
                     'gender' => $request['gender'][$i],
                     'relationship' => $request['relationship'][$i],
                     'phone' => $request['phone'][$i],
@@ -101,20 +108,29 @@ class DangKyTourController extends Controller
 
     }
 
-    public function InsertUserToTourRegistrations($registrationDate=null, $price=null, $tour_id=null)
+    public function InsertUserToTourRegistrations($registrationDate=null, $supportNow=null, $tour_id=null)
     {
-            $tour = new TourRegistration;
-            $tour->user_id = Auth::user()->id;
-            $tour->tour_id = $tour_id;
-            $tour->registration_date = $registrationDate;
-            $tour->relative_fullname = Auth::user()->fullname;
-            $tour->birthdate = Auth::user()->birthdate;
-            $tour->gender = Auth::user()->gender;
-            $tour->relationship = null;
-            $tour->phone = Auth::user()->phone;
-            $tour->citizen_card = Auth::user()->citizen_card;
-            $tour->cost = $price;
-            $tour->save();
+        $price = Tour::where('id', $tour_id)->first()->price;
+        
+        
+        $tour = new TourRegistration;
+        $tour->user_id = Auth::user()->id;
+        $tour->tour_id = $tour_id;
+        $tour->registration_date = $registrationDate;
+        $tour->relative_fullname = Auth::user()->fullname;
+        $tour->birthday = Auth::user()->birthday;
+        $tour->gender = Auth::user()->gender;
+        $tour->relationship = null;
+        $tour->phone = Auth::user()->phone;
+        $tour->citizen_card = Auth::user()->citizen_card;
+        if($supportNow != false)
+        {
+            $priceSupport = $supportNow->price;
+            $tour->support_id = $supportNow->support_id;
+            $tour->cost = ($price < $priceSupport) ? 0 : ($price-$priceSupport);
+        }
+        else $tour->cost = $price;
+        $tour->save();
     }
 
     public function DeleteMemberTourRegistration($id)
@@ -139,35 +155,24 @@ class DangKyTourController extends Controller
 
     public function CheckUsedSupport($support_id)
     {
-        if(UserSupport::where('user_id', Auth::user()->id)
-        ->where('support_id', $support_id)
-        ->get()->count() == 0)
-            return false;
-        return true;
+        if(TourRegistration::where('support_id', $support_id)->get()->count() == 1)
+            return true;
+        return false;
     }
 
-    public function InsertSupportToUserSupport($support_id)
-    {
-        UserSupport::insert([
-            'user_id' => Auth::user()->id,
-            'support_id' => $support_id
-        ]);
-    }
-
-    public function InsertSupportToTourRegistration()
+    public function GetSupportNow()
     {
         $allSupportNow = $this->AllSupportNow();
         $expYear = $this->ExpYear();
         foreach($allSupportNow as $supportNow)
         {
-            if(!$this->CheckUsedSupport($supportNow->id) && $expYear >= $supportNow->min_condition
+            if(!$this->CheckUsedSupport($supportNow->support_id) && $expYear >= $supportNow->min_condition
             && $expYear <= $supportNow->max_condition)
             {
-                $this->InsertSupportToUserSupport($supportNow->id);
-                return $supportNow->price;
+                return $supportNow;
             }
         }
-        return 0;
+        return false;
     }
 
     public function tourregistration(Request $request, $tour_id=0)
@@ -202,24 +207,23 @@ class DangKyTourController extends Controller
         //Chua dang ky
         if($relativeInfos->get()->count() == 0)
         {
-
             if($numberMembersInput+1 > $emptySlotRemain)
                 return abort(403);
                 // dd("Quá số ghế trống");
             //them vao csdl
             //them ho tro neu co
-            $supportPrice = (int)$this->InsertSupportToTourRegistration();
-
             $this->InsertUserToTourRegistrations($registrationDateNow,
-            ((int)$price < $supportPrice) ? '0' : (int)$price-$supportPrice, $tour_id);
+            $this->GetSupportNow(), $tour_id);
+
+
             if($numberMembersInput == 0)
             {
-                return redirect()->route('home');
+                return redirect()->route('nhanvien.tourhistory');
                 // dd("Đăng ký tour thành công!");
             }
             for($i=0; $i<$numberMembersInput; $i++)
                 $this->InsertMemberToTourRegistrations($request->post(), $registrationDateNow, $price, $tour_id, $i);
-            return redirect()->route('home');
+            return redirect()->route('nhanvien.tourhistory');
             // dd("Đăng ký tour thành công!");
         }
 
@@ -261,6 +265,13 @@ class DangKyTourController extends Controller
 
         }
 
-        return redirect()->route('home');
+        return redirect()->route('nhanvien.tourhistory');
+    }
+
+    public function deletetour(Request $request)
+    {
+        $tourId = $request->post('tourid');
+        TourRegistration::where('user_id', Auth::user()->id)
+        ->where('tour_id', $tourId)->delete();
     }
 }

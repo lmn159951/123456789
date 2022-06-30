@@ -21,20 +21,31 @@
                 </div>
         
             @else
+                @php
+                    $i=0;
+                @endphp
                 @foreach ($allTours as $tour)
-                    <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                        <div class="featured__item">
-                            <div class="featured__item__pic set-bg" data-setbg="{{ $tour->image }}">
-                                <ul class="featured__item__pic__hover">
-                                    <li><a href="{{ route('nhanvien.tourregis', $tour->id) }}">Đặt tour</a></li>
-                                </ul>
+                    <div class="col-lg-3 col-md-4  mix vegetables fastfood text-center">
+                        <div class="featured__item" style="margin-top: 10px;">
+                            <div class="img">
+                                <a href="{{ route('home')."/".$tour->description_file }}">
+                                    <img alt="{{ $tour->name }}" class="img-fluid" src="{{ $tour->image }}">
+                                </a>
                             </div>
-                            <div class="featured__item__text">
-                                <h6><a href="#">{{ $tour->name }}</a></h6>
-                                <h5>{{ number_format($tour->price, 0, '', '.') }} VNĐ</h5>
+                            <div class="featured__item__text text-left">
+                                <h6 style="font-size: 30px;"><a href="{{ route('home')."/".$tour->description_file }}">{{ Str::limit($tour->name, 25, '...') }}</a></h6>
+                                <h5>Ngày Bắt Đầu: {{ date_format(date_create($tour->tour_start_date),"d-m-Y") }}</h5>
+                                <h5>Số Lượng: {{ $slot[$i] }}/{{ $tour->max_people }}</h5>
+                                <h5>Giá: {{ number_format($tour->price, 0, '.', ',') }}VNĐ</h5>
+                            </div> 
+                            <div class="col-lg-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
+                                <a href="{{ route('nhanvien.tourregis', $tour->tour_id) }}"><button type="submit" class="site-btn">ĐẶT TOUR</button></a>
                             </div>
-                        </div>
+                        </div>   
                     </div>
+                    @php
+                        ++$i;
+                    @endphp
                 @endforeach
                 
             @endif

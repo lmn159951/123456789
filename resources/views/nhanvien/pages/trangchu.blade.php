@@ -13,7 +13,7 @@
                     <ul>
                         @isset($recordsRegions)
                             @foreach ($recordsRegions as $recordRegion)
-                                <li><a href="#">{{ $recordRegion['name'] }}</a></li>
+                                <li><a href="{{ route('search')."?regionid=".$recordRegion['id'] }}">{{ $recordRegion['name'] }}</a></li>
                             @endforeach
                         @endisset
                     </ul>
@@ -22,8 +22,9 @@
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="#">
-                            <input type="text" placeholder="Bạn muốn tìm kiếm gì?">
+                        <form action="{{ route('search') }}" method="GET">
+                            <input type="hidden" required name="regionid" value="null">
+                            <input type="text" required name="tourname" placeholder="Bạn hãy nhập tên tour" value="">
                             <button type="submit" class="site-btn">Tìm kiếm</button>
                         </form>
                     </div>
@@ -47,9 +48,9 @@
                             @else
                             <div class="hero__item set-bg" data-setbg="{{ $firstTour[0]['image'] }}">
                                 <div class="hero__text">
-                                            <span>TOUR DU LỊCH</span>
+                                            <span>TOUR</span>
                                             <h2>{{ $firstTour[0]['name'] }}</h2>
-                                            <a href="#" class="primary-btn">XEM TOUR</a>
+                                            <a href="{{ route('home')."/".$firstTour[0]['description_file'] }}" class="primary-btn">XEM TOUR</a>
                                             <a href="{{ route('nhanvien.tourregis', $firstTour[0]['tour_id']) }}" class="primary-btn">ĐẶT TOUR</a>
                                 </div>
                             </div>
@@ -79,23 +80,25 @@
                         <div class="col-lg-3 col-md-4  mix vegetables fastfood text-center">
                             <div class="featured__item" style="margin-top: 10px;">
                                 <div class="img">
-                                    <a href=""><img src="{{ $highlightTours[$i]['image'] }}"></a>
+                                    <a href="{{ route('home')."/".$highlightTours[$i]['description_file'] }}">
+                                        <img alt="{{ $highlightTours[$i]['name'] }}" class="img-fluid" src="{{ $highlightTours[$i]['image'] }}">
+                                    </a>
                                 </div>
                                 <div class="featured__item__text text-left">
-                                    <h6 style="font-size: 30px;"><a href="#">{{ Str::limit($highlightTours[$i]['name'], 25, '...') }}</a></h6>
+                                    <h6 style="font-size: 30px;"><a href="{{ route('home')."/".$highlightTours[$i]['description_file'] }}">{{ Str::limit($highlightTours[$i]['name'], 25, '...') }}</a></h6>
                                     <h5>Ngày Bắt Đầu: {{ date_format(date_create($highlightTours[$i]['tour_start_date']),"d-m-Y") }}</h5>
                                     <h5>Số Lượng: {{ $slot[$i] }}/{{ $highlightTours[$i]['max_people'] }}</h5>
                                     <h5>Giá: {{ number_format($highlightTours[$i]['price'], 0, '.', ',') }}VNĐ</h5>
                                 </div> 
                                 <div class="col-lg-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
                                     <a href="{{ route('nhanvien.tourregis', $highlightTours[$i]['tour_id']) }}"><button type="submit" class="site-btn">ĐẶT TOUR</button></a>
-                                </div>   
+                                </div>
                             </div>   
                         </div> 
                         @endfor
                 @endif
                 @endisset
-            </div>
+        </div>
         </div>
     </section>
     <!-- Featured Section End -->
