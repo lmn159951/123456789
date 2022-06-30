@@ -25,6 +25,7 @@
 </head>
 
 <body>
+
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
@@ -62,7 +63,12 @@
                 <li><a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}">Thông tin cá nhân</a></li>
                 <li><a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}">Thay đổi mật khẩu</a></li>
                 <li><a href="{{ route('nhanvien.tourhistory') }}">Lịch sử đặt tour</a></li>
-                <li><a href="{{ route('nhanvien.logout') }}">Đăng xuất</a></li>
+                @if (Auth::user()->is_admin === 1)
+                    <li><a href="{{ route('admin.dashboard') }}">Trang quản trị</a></li>
+                    <li><a href="{{ route('admin.auth.logout') }}">Đăng xuất</a></li>
+                @else
+                    <li><a href="{{ route('nhanvien.logout') }}"> Đăng xuất</a></li>
+                @endif                
                 @endauth
             </ul>
         </nav>
@@ -95,7 +101,7 @@
                             <div class="header__top__right__social">
                                 @auth
                                     <div class="dropdown">
-                                        <a href="#"><i class="fa fa-user"></i>
+                                        <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i class="fa fa-user"></i>
                                             Xin chào {{ Auth::user()->fullname }}
                                         </a>
                                         <div class="dropdown-content">
@@ -106,8 +112,8 @@
                                                 khẩu</a>
                                             <a href="{{ route('nhanvien.tourhistory') }}"> Lịch sử đặt tour</a>
                                             @if (Auth::user()->is_admin === 1)
-                                                <a href="{{ route('admin.auth.logout') }}">Đăng xuất</a>
                                                 <a href="{{ route('admin.dashboard') }}">Trang quản trị</a>
+                                                <a href="{{ route('admin.auth.logout') }}">Đăng xuất</a>
                                             @else
                                                 <a href="{{ route('nhanvien.logout') }}"> Đăng xuất</a>
                                             @endif

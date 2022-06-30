@@ -45,6 +45,7 @@ Route::middleware('not_loged_in')->group(function(){
 
 //User
 Route::middleware('user')->prefix('nhan-vien')->name('nhanvien.')->group(function(){
+    Route::get('/', function(){ return redirect()->route('nhanvien.thong-tin-ca-nhan.index'); });
     Route::resource('thay-doi-mat-khau', ChangePassword::class);
     Route::resource('thong-tin-ca-nhan', NVNhanVienController::class);
     Route::get('dang-ky-tour/{tour_id}', [DangKyTourController::class, 'index'])->name('tourregis')
