@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Tour\StoreTourRequest;
 use App\Http\Requests\Admin\TourRequest;
 use App\Models\Agency;
 use App\Models\Region;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
+use App\Http\Requests\Admin\Tour\UpdateTourRequest;
 
 class TourController extends Controller
 {
@@ -19,12 +21,14 @@ class TourController extends Controller
 
     public function datatableApi()
     {
-        $tours = Tour::with(['region'])->get();
+        $registeredTours = Tour::with('region')->select('*')->selectSub('0', 'active')->registered();
+        $availableTours = Tour::with('region')->select('*')->selectSub('1', 'active')->registering()->orWhere->unregister();
+        $tours = $availableTours->union($registeredTours)->orderBy('id', 'DESC')->orderBy('registration_start_date', 'DESC')->get();
 
         return Datatables::of($tours)
             ->addIndexColumn()
             ->addColumn('action', function (Tour $tour) {
-                return $tour->id;
+                return $tour;
             })
             ->editColumn('price', function (Tour $tour) {
                 return currency_format($tour->price, $separator = ',', $suffix = '₫');
@@ -45,11 +49,11 @@ class TourController extends Controller
         return view('admin.pages.tours.create', $parameters);
     }
 
-    public function store(TourRequest $request)
+    public function store(StoreTourRequest $request)
     {
         $tour = new Tour();
         $tour->fill($request->validated());
-        
+
         if($request->hasFile('file_image'))
         {
             $tour_image = time().".".$request->file('file_image')->getClientOriginalExtension();
@@ -75,7 +79,7 @@ class TourController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['tour'] = Tour::with('agencies')->find($id);
+        $parameters['tour'] = Tour::with('agencies')->findOrFail($id);
         $parameters['regions'] = Region::all();
         $parameters['agencies'] = Agency::all();
         $parameters['agency_ids'] = $parameters['tour']->agencies()->get()->pluck('id')->toArray();
@@ -83,7 +87,7 @@ class TourController extends Controller
         return view('admin.pages.tours.edit', $parameters);
     }
 
-    public function update(TourRequest $request, int $id)
+    public function update(UpdateTourRequest $request, int $id)
     {
         $tour = Tour::find($id);
         $tour->fill($request->validated());
@@ -103,8 +107,6 @@ class TourController extends Controller
         }
 
         $tour->save();
-        $tour->agencies()->attach($request->agency_ids);
-        $tour->save();
 
         $tour->agencies()->attach($request->agency_ids);
         $tour->save();
@@ -114,7 +116,7 @@ class TourController extends Controller
 
     public function show(int $id)
     {
-        $parameters['tour'] = Tour::with(['region'])->find($id);
+        $parameters['tour'] = Tour::with(['region'])->findOrFail($id);
 
         return view('admin.pages.tours.show', $parameters);
     }
@@ -122,7 +124,7 @@ class TourController extends Controller
     public function showFileDescription(int $id)
     {
         $parameters = [];
-        $parameters['tour'] = Tour::find($id);
+        $parameters['tour'] = Tour::findOrFail($id);
 
         return view('admin.pages.tours.showFileDescription', $parameters);
     }
@@ -138,8 +140,6 @@ class TourController extends Controller
     {
         Tour::destroy($request->ids);
 
-        return response()->json([
-            'message' => 'Xoá nhân viên thành công'
-        ]);
+        return response()->json(['message' => 'Xoá nhân viên thành công']);
     }
 }

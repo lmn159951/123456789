@@ -17,6 +17,13 @@
     <link href="{{ asset('app.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs4-4.6.0/jq-3.6.0/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/cr-1.5.6/date-1.1.2/fc-4.1.0/fh-3.2.4/r-2.3.0/rr-1.2.8/sc-2.0.7/sl-1.4.0/datatables.min.css" />
+
+
+
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
@@ -50,7 +57,13 @@
     @include('admin.includes.logout')
 
     <script type="text/javascript" src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
+
+    <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/pdfmake.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/vfs_fonts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/bootstrap.min.js') }}"></script>
 
     <script src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>

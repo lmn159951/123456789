@@ -87,12 +87,6 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/pdfmake.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/vfs_fonts.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/bootstrap.min.js') }}"></script>
-
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -167,51 +161,51 @@
                                 `http://127.0.0.1:8000/admin/supports/${response.id}/edit`;
                             const deleteUrl = `http://127.0.0.1:8000/admin/supports/${response.id}`;
 
-                            if (response.start_year <= currentYear && currentYear <= response
-                                .end_year) {
-                                return `
-                                    <div class="d-flex">
-                                        <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
-                                            <i class="fas fa-fw fa-pen"></i>
-                                        </a>
+                            if (!(response.start_year <= currentYear && currentYear <= response
+                                    .end_year)) {
+                                return 'Hết hạn';
+                            }
 
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#deleteModal-${response.id}">
-                                            <i class="fas fa-fw fa-trash"></i>
-                                        </button>
+                            return `
+                                <div class="d-flex">
+                                    <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
+                                        <i class="fas fa-fw fa-pen"></i>
+                                    </a>
 
-                                        <div class="modal fade" id="deleteModal-${response.id}" tabindex="-1" role="dialog"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                                        <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                        data-target="#deleteModal-${response.id}">
+                                        <i class="fas fa-fw fa-trash"></i>
+                                    </button>
+
+                                    <div class="modal fade" id="deleteModal-${response.id}" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
+                                                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Bạn có muốn xoá hỗ trợ này?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <form class="ml-3" method="post"
+                                                        action="${deleteUrl}">
+                                                        @method('DELETE') @csrf
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Xoá
                                                         </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Bạn có muốn xoá hỗ trợ này?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Close</button>
-                                                        <form class="ml-3" method="post"
-                                                            action="${deleteUrl}">
-                                                            @method('DELETE') @csrf
-                                                            <button type="submit" class="btn btn-danger">
-                                                                Xoá
-                                                            </button>
-                                                        </form>
-                                                    </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                `;
-                            }
-
-                            return '';
+                                </div>
+                            `;
                         }
                     }
                 ]

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Support\StoreSupportRequest;
+use App\Http\Requests\Admin\Support\UpdateSupportRequest;
 use App\Http\Requests\Admin\SupportRequest;
 use App\Models\Support;
 use Yajra\Datatables\Datatables;
@@ -61,7 +63,7 @@ class SupportController extends Controller
         return view('admin.pages.supports.create', $parameters);
     }
 
-    public function store(SupportRequest $request)
+    public function store(StoreSupportRequest $request)
     {
         $isExistedSupport = Support::where('start_year', $request->start_year)->where('end_year', $request->end_year)
                             ->orderBy('start_year', 'ASC')->orderBy('min_condition', 'ASC');
@@ -127,7 +129,7 @@ class SupportController extends Controller
         return view('admin.pages.supports.edit', $parameters);
     }
 
-    public function update(SupportRequest $request, int $id)
+    public function update(UpdateSupportRequest $request, int $id)
     {
         $isExistedSupport = Support::where('start_year', $request->start_year)->where('end_year', $request->end_year)
                             ->orderBy('start_year', 'ASC')->orderBy('min_condition', 'ASC');

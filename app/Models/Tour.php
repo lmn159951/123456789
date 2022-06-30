@@ -28,6 +28,21 @@ class Tour extends Model
         'region_id',
     ];
 
+    public function scopeRegistering($query)
+    {
+        return $query->where('registration_start_date', '<', now())->where('registration_end_date', '>', now());
+    }
+
+    public function scopeRegistered($query)
+    {
+        return $query->where('registration_end_date', '<', now());
+    }
+
+    public function scopeUnregister($query)
+    {
+        return $query->where('registration_start_date', '>', now());
+    }
+
     public function region()
     {
         return $this->belongsTo(Region::class);
