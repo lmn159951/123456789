@@ -18,9 +18,10 @@ class StoreUserRequest extends FormRequest
             'username' => 'required|unique:users',
             'password' => 'required',
             'email' => 'nullable|email|unique:users',
+            'birthday'=>'required|before:now',
             'phone' => 'nullable|regex:/0[0-9]{9}/|numeric',
-            'citizen_card' => 'nullable|regex:/3[0-9]{8}/|numeric|unique:users',
-            'start_date' => 'nullable|before_or_equal:now',
+            'citizen_card' => 'required|regex:/3[0-9]{8}/|numeric|unique:users',
+            'start_date' => 'required|before_or_equal:now',
             'is_admin' => 'required|boolean',
             'department_id'=>'required|exists:departments,id',
             'position_id'=>'required|exists:positions,id',
@@ -38,6 +39,7 @@ class StoreUserRequest extends FormRequest
             'phone' => 'số điện thoại',
             'citizen_card' => 'chứng minh nhân dân',
             'start_date' => 'ngày bắt đầu làm',
+            'birthday'=>'ngày sinh',
         ];
     }
 }

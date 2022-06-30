@@ -13,12 +13,7 @@ class TourRegistrationController extends Controller
 {
     public function index()
     {
-        $parameters = [];
-        $parameters['tour_registrations'] = TourRegistration::Paginate(5);
-        $parameters['users'] = User::all();
-        $parameters['tours'] = Tour::all();
-
-        return view('admin.pages.tour_registrations.index', $parameters);
+        return view('admin.pages.tour_registrations.index');
     }
 
     public function datatableApi()

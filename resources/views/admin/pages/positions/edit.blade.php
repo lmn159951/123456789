@@ -5,8 +5,8 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Cập nhật chức vụ</h1>
 
-            <form class="container" style="max-width: 800px;"
-                action="{{ route('admin.positions.update', $positions->id) }}" method="POST">
+            <form class="container" style="max-width: 800px;" action="{{ route('admin.positions.update', $position->id) }}"
+                method="POST">
 
                 @method('PATCH')
                 @csrf
@@ -15,7 +15,7 @@
                     <label for="name" class="form-label">Tên chức vụ:</label>
                     <label class="text-danger">(*)</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                        value="{{ old('name') ?? $positions->name }}" name="name" id="name">
+                        value="{{ old('name') ?? $position->name }}" name="name" id="name">
 
                     @error('name')
                         <div id="validationServer03Feedback" class="invalid-feedback">

@@ -1,8 +1,8 @@
 @extends('admin.layouts.admin')
 
 @push('styles')
-    <link href="{{ asset('admin/fonts/icomoon/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/css/custom-table.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/datatable/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -95,16 +95,27 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{!! route('admin.supports.datatableApi') !!}",
-                dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"left-col"l><"right-col"f>>rtip',
-                buttons: [
-                    'selectAll',
-                    'selectNone'
+                dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
+                lengthMenu: [
+                    [10, 25, 50, 100, 250, 500, -1],
+                    ['10 dòng', '25 dòng', '50 dòng', '100 dòng', '250 dòng', '500 dòng', 'Tất cả']
+                ],
+                buttons: [{
+                        extend: 'selectAll',
+                    },
+                    {
+                        extend: 'selectNone',
+                    },
+                    {
+                        extend: 'pageLength',
+                    }
                 ],
                 language: {
+                    url: "{!! asset('admin/vendor/datatable/vi.json') !!}",
                     buttons: {
                         selectAll: "Chọn hết",
                         selectNone: "Bỏ chọn"
-                    }
+                    },
                 },
                 select: true,
                 columns: [{
@@ -121,11 +132,17 @@
                     },
                     {
                         data: 'min_condition',
-                        name: 'min_condition'
+                        name: 'min_condition',
+                        render: function(minCondition) {
+                            return minCondition == 0 ? null : minCondition;
+                        }
                     },
                     {
                         data: 'max_condition',
-                        name: 'max_condition'
+                        name: 'max_condition',
+                        render: function(maxCondition) {
+                            return maxCondition == 99 ? null : maxCondition;
+                        }
                     },
                     {
                         data: 'price',
@@ -136,10 +153,18 @@
                         targets: 8,
                         orderable: false,
                         searchable: false,
-                        render: function(supportId) {
-                            const updateUrl = 'http://127.0.0.1:8000/admin/supports/' + supportId +
-                                '/edit';
-                            const deleteUrl = 'http://127.0.0.1:8000/admin/supports/' + supportId;
+                        render: function(support) {
+                            const response = JSON.parse(support);
+                            const currentYear = new Date().getFullYear();
+
+                            const updateUrl =
+                                `http://127.0.0.1:8000/admin/supports/${response.id}/edit`;
+                            const deleteUrl = `http://127.0.0.1:8000/admin/supports/${response.id}`;
+
+                            if (!(response.start_year <= currentYear && currentYear <= response
+                                    .end_year)) {
+                                return 'Hết hạn';
+                            }
 
                             return `
                                 <div class="d-flex">
@@ -148,11 +173,11 @@
                                     </a>
 
                                     <button type="button" class="btn btn-danger" data-toggle="modal"
-                                        data-target="#deleteModal-${supportId}">
+                                        data-target="#deleteModal-${response.id}">
                                         <i class="fas fa-fw fa-trash"></i>
                                     </button>
 
-                                    <div class="modal fade" id="deleteModal-${supportId}" tabindex="-1" role="dialog"
+                                    <div class="modal fade" id="deleteModal-${response.id}" tabindex="-1" role="dialog"
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">

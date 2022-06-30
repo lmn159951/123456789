@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\DepartmentRequest;
+use App\Http\Requests\Admin\Department\StoreDepartmentRequest;
+use App\Http\Requests\Admin\Department\UpdateDepartmentRequest;
 use App\Models\Department;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
 class DepartmentController extends Controller
@@ -18,7 +18,7 @@ class DepartmentController extends Controller
 
     public function datatableApi()
     {
-        $departments = Department::all();
+        $departments = Department::orderBy('id', 'DESC')->get();;
         return DataTables::of($departments)
             ->addIndexColumn()
             ->addColumn('action', function (Department $department) {
@@ -39,59 +39,37 @@ class DepartmentController extends Controller
         return view('admin.pages.departments.create');
     }
 
-    public function store(DepartmentRequest $request)
+    public function store(StoreDepartmentRequest $request)
     {
-        $department = new Department();
-        $department->name = $request->name;
-        $department->save();
+        Department::create($request->validated());
 
-        return redirect()->route('admin.departments.index')->with('success', 'Tạo đơn vị thành công');
+        return redirect()->route('admin.departments.index')->with('message', 'Tạo phòng ban thành công');
     }
 
     public function edit(int $id)
     {
         $parameters = [];
+        $parameters['department'] = Department::findOrFail($id);
 
-        $bln = DB::table('departments')->where('id', $id)->count() > 0;
-
-        if($bln)
-        {
-            $parameters['department'] = Department::find($id);
-
-            return view('admin.pages.departments.edit', $parameters);
-        }
-        else
-        {
-            return redirect()->route('admin.departments.index');
-        }
+        return view('admin.pages.departments.edit', $parameters);
     }
 
-    public function update(DepartmentRequest $request, int $id)
+    public function update(UpdateDepartmentRequest $request, int $id)
     {
-        $validated = $request->validated();
-
-        Department::where('id', $id)->update($validated);
-
-        return redirect()
-                ->route('admin.departments.index')
-                ->with('success', 'Cập nhật đơn vị thành công');
+        Department::where('id', $id)->update($request->validated());
+        return redirect()->route('admin.departments.index')->with('message', 'Cập nhật phòng ban thành công');
     }
 
     public function destroy(int $id)
     {
         Department::destroy($id);
-
-        return redirect()
-                ->route('admin.departments.index')
-                ->with('success', 'Xoá đơn vị thành công');
+        return redirect()->route('admin.departments.index')->with('message', 'Xoá phòng ban thành công');
     }
 
     public function deleteMany(Request $request)
     {
         Department::destroy($request->ids);
 
-        return response()->json([
-            'message' => 'Xoá phòng ban thành công'
-        ]);
+        return response()->json([ 'message' => 'Xoá phòng ban thành công' ]);
     }
 }

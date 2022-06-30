@@ -1,5 +1,10 @@
 @extends('admin.layouts.admin')
 
+@push('styles')
+    <link href="{{ asset('admin/vendor/datatable/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
+@endpush
+
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
@@ -41,13 +46,10 @@
                     </div>
                 </div>
 
-                <a class="btn btn-primary" href="{{ route('admin.tour_registrations.create') }}">
-                    Thêm
-                </a>
 
             </div>
 
-            <table class="table table-hover my-3" id="table-content">
+            <table class="table table-hover nowrap my-3" id="table-content">
                 <thead>
                     <tr>
                         <th scope="col">
@@ -60,7 +62,7 @@
                             Tên tour
                         </th>
                         <th scope="col">
-                            Ngày đăng ký tour
+                            Ngày đăng ký
                         </th>
                         <th scope="col">
                             Tên người thân
@@ -83,35 +85,57 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-
             const table = $('#table-content').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
+                fixedHeader: true,
+                colReorder: true,
                 ajax: "{!! route('admin.tour_registrations.datatableApi') !!}",
-                dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"left-col"l><"right-col"f>>rtip',
-                buttons: [
-                    'selectAll',
-                    'selectNone'
+                dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
+                lengthMenu: [
+                    [10, 25, 50, 100, 250, 500, -1],
+                    ['10 dòng', '25 dòng', '50 dòng', '100 dòng', '250 dòng', '500 dòng', 'Tất cả']
+                ],
+                buttons: [{
+                        extend: 'selectAll',
+                    },
+                    {
+                        extend: 'selectNone',
+                    },
+                    {
+                        extend: 'pageLength',
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: ':visible :not(.not-export)'
+                        }
+                    },
                 ],
                 language: {
+                    url: "{!! asset('admin/vendor/datatable/vi.json') !!}",
                     buttons: {
                         selectAll: "Chọn hết",
                         selectNone: "Bỏ chọn"
-                    }
+                    },
                 },
                 select: true,
+                columnDefs: [{}],
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                     },
                     {
                         data: 'user.fullname',
-                        name: 'user.fullname'
+                        name: 'user.fullname',
+                        defaultContent: ""
                     },
                     {
                         data: 'tour.name',
-                        name: 'tour.name'
+                        name: 'tour.name',
+                        defaultContent: "",
+                        className: 'truncate',
                     },
                     {
                         data: 'registration_date',
@@ -132,56 +156,18 @@
                     },
                     {
                         data: 'action',
-                        targets: 8,
+                        className: 'not-export',
                         orderable: false,
                         searchable: false,
                         render: function(tourRegistrationId) {
-                            const updateUrl = 'http://127.0.0.1:8000/admin/tour_registrations/' + tourRegistrationId +
-                                '/edit';
-                            const deleteUrl = 'http://127.0.0.1:8000/admin/tour_registrations/' + tourRegistrationId;
-                            const showUrl = 'http://127.0.0.1:8000/admin/tour_registrations/' + tourRegistrationId;
+                            const showUrl = 'http://127.0.0.1:8000/admin/tour_registrations/' +
+                                tourRegistrationId;
 
                             return `
                                 <div class="d-flex">
-                                    <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
-                                        <i class="fas fa-fw fa-pen"></i>
-                                    </a>
                                     <a class="btn btn-info mr-2" href="${showUrl}">
                                         <i class="fas fa-fw fa-eye"></i>
                                     </a>
-
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                        data-target="#deleteModal-${tourRegistrationId}">
-                                        <i class="fas fa-fw fa-trash"></i>
-                                    </button>
-
-                                    <div class="modal fade" id="deleteModal-${tourRegistrationId}" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Bạn có muốn xoá đăng ký tour này?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <form class="ml-3" method="post"
-                                                        action="${deleteUrl}">
-                                                        @method('DELETE') @csrf
-                                                        <button type="submit" class="btn btn-danger">
-                                                            Xoá
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             `;
                         }

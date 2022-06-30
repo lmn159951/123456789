@@ -1,9 +1,40 @@
 @extends('admin.layouts.admin')
 
+@push('styles')
+    <link href="{{ asset('admin/vendor/datatable/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
+@endpush
+
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h3 class="text-center">Quản lý tour</h3>
+
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
+                            <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Bạn có muốn xoá tour này?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <form class="ml-3" method="post" action="${deleteUrl}">
+                                @method('DELETE') @csrf
+                                <button type="submit" class="btn btn-danger">
+                                    Xoá
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             @if (session('message'))
                 <div class="alert alert-success text-center">
@@ -41,14 +72,12 @@
                     </div>
                 </div>
 
-
-
                 <a class="btn btn-primary" href="{{ route('admin.tours.create') }}">
                     Thêm
                 </a>
             </div>
 
-            <table class="table table-hover my-3" id="table-content">
+            <table class="table table-hover dt-responsive nowrap no-footer my-3" id="table-content" style="width:100%">
                 <thead>
                     <tr>
                         <th scope="col">
@@ -61,7 +90,7 @@
                             Thời gian đăng ký
                         </th>
                         <th scope="col">
-                            Thời thời kết thúc
+                            Thời gian kết thúc
                         </th>
                         <th scope="col">
                             Thời gian đi
@@ -73,10 +102,10 @@
                             Giá tiền
                         </th>
                         <th scope="col">
-                            Số lượng người
+                            Thao tác
                         </th>
                         <th scope="col">
-                            Thao tác
+                            Số lượng người
                         </th>
                     </tr>
                 </thead>
@@ -90,22 +119,33 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-
             const table = $('#table-content').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
+                colReorder: true,
                 ajax: "{!! route('admin.tours.datatableApi') !!}",
-                dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"left-col"l><"right-col"f>>rtip',
-                buttons: [
-                    'selectAll',
-                    'selectNone'
+                dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
+                lengthMenu: [
+                    [10, 25, 50, 100, 250, 500, -1],
+                    ['10 dòng', '25 dòng', '50 dòng', '100 dòng', '250 dòng', '500 dòng', 'Tất cả']
+                ],
+                buttons: [{
+                        extend: 'selectAll',
+                    },
+                    {
+                        extend: 'selectNone',
+                    },
+                    {
+                        extend: 'pageLength',
+                    }
                 ],
                 language: {
+                    url: "{!! asset('admin/vendor/datatable/vi.json') !!}",
                     buttons: {
                         selectAll: "Chọn hết",
                         selectNone: "Bỏ chọn"
-                    }
+                    },
                 },
                 select: true,
                 columns: [{
@@ -114,12 +154,13 @@
                     },
                     {
                         data: 'name',
-                        name: 'name'
+                        name: 'name',
+                        className: 'truncate',
                     },
                     {
                         data: 'registration_start_date',
                         name: 'registration_start_date',
-                        width: '75px',
+                        "className": "text-left",
                         render: function(datetime) {
                             const timestamps = Math.round(new Date(datetime).getTime() / 1000);
                             return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
@@ -128,7 +169,7 @@
                     {
                         data: 'registration_end_date',
                         name: 'registration_end_date',
-                        width: '75px',
+                        "className": "text-left",
                         render: function(datetime) {
                             const timestamps = Math.round(new Date(datetime).getTime() / 1000);
                             return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
@@ -137,7 +178,7 @@
                     {
                         data: 'tour_start_date',
                         name: 'tour_start_date',
-                        width: '75px',
+                        "className": "text-left",
                         render: function(datetime) {
                             const timestamps = Math.round(new Date(datetime).getTime() / 1000);
                             return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
@@ -146,7 +187,7 @@
                     {
                         data: 'tour_end_date',
                         name: 'tour_end_date',
-                        width: '75px',
+                        "className": "text-left",
                         render: function(datetime) {
                             const timestamps = Math.round(new Date(datetime).getTime() / 1000);
                             return `<td data-sort="${timestamps}">${moment(new Date(datetime)).format("DD/MM/YYYY")}</td>`;
@@ -154,67 +195,47 @@
                     },
                     {
                         data: 'price',
-                        name: 'price'
+                        name: 'price',
+                    },
+                    {
+                        data: 'action',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+                            const response = JSON.parse(data);
+
+                            console.log(response.id);
+
+                            if (response.active == '0') {
+                                return `
+                                    <div class="d-flex">
+                                        <a class="btn btn-info mr-2" href="http://127.0.0.1:8000/admin/tours/${response.id}">
+                                            <i class="fas fa-fw fa-eye"></i>
+                                        </a>
+                                    </div>
+                                `;
+                            }
+
+                            return `
+                                <div class="d-flex">
+                                    <a class="btn btn-warning text-white mr-2" href="http://127.0.0.1:8000/admin/tours/${response.id}/edit">
+                                        <i class="fas fa-fw fa-pen"></i>
+                                    </a>
+                                    <a class="btn btn-info mr-2" href="http://127.0.0.1:8000/admin/tours/${response.id}">
+                                        <i class="fas fa-fw fa-eye"></i>
+                                    </a>
+
+                                    <button type="button" id="button-delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-${response.id}">
+                                        <i class="fas fa-fw fa-trash"></i>
+                                    </button>
+                                </div>
+                            `;
+                        }
                     },
                     {
                         data: 'max_people',
                         name: 'max_people'
                     },
-                    {
-                        data: 'action',
-                        targets: 8,
-                        orderable: false,
-                        searchable: false,
-                        render: function(tourId) {
-                            const updateUrl = 'http://127.0.0.1:8000/admin/tours/' + tourId +
-                                '/edit';
-                            const deleteUrl = 'http://127.0.0.1:8000/admin/tours/' + tourId;
-                            const showUrl = 'http://127.0.0.1:8000/admin/tours/' + tourId;
-
-                            return `
-                                <div class="d-flex">
-                                    <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
-                                        <i class="fas fa-fw fa-pen"></i>
-                                    </a>
-                                    <a class="btn btn-info mr-2" href="${showUrl}">
-                                        <i class="fas fa-fw fa-eye"></i>
-                                    </a>
-
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                        data-target="#deleteModal-${tourId}">
-                                        <i class="fas fa-fw fa-trash"></i>
-                                    </button>
-
-                                    <div class="modal fade" id="deleteModal-${tourId}" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Bạn có muốn xoá tour này?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <form class="ml-3" method="post" action="${deleteUrl}">
-                                                        @method('DELETE') @csrf
-                                                        <button type="submit" class="btn btn-danger">
-                                                            Xoá
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        }
-                    }
                 ]
             });
 
@@ -247,6 +268,12 @@
                         `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
                     );
                 }
+            });
+
+            $(document).on('click', '#button-delete', function(event) {
+                const id = $(this).attr('data-target').split('-')[1];
+                $('#deleteModal form').attr('action', `http://127.0.0.1:8000/admin/tours/${id}`);
+                $('#deleteModal').modal('show');
             });
 
             $("#buttonDeleteMany").click(function() {

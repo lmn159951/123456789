@@ -1,11 +1,36 @@
 @extends('admin.layouts.admin')
 
 @push('styles')
-    <link href="{{ asset('admin/fonts/icomoon/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/css/custom-table.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/vendor/datatable/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
+                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có muốn xoá chức vụ này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form class="ml-3" method="post">
+                        @method('DELETE') @csrf
+                        <button type="submit" class="btn btn-danger">
+                            Xoá
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h3 class="text-center">Quản lý chức vụ</h3>
@@ -83,16 +108,27 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{!! route('admin.positions.datatableApi') !!}",
-                dom: '<"left-col my-2"B><"clearfix"><"top my-2"<"left-col"l><"right-col"f>>rtip',
-                buttons: [
-                    'selectAll',
-                    'selectNone'
+                dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
+                lengthMenu: [
+                    [10, 25, 50, 100, 250, 500, -1],
+                    ['10 dòng', '25 dòng', '50 dòng', '100 dòng', '250 dòng', '500 dòng', 'Tất cả']
+                ],
+                buttons: [{
+                        extend: 'selectAll',
+                    },
+                    {
+                        extend: 'selectNone',
+                    },
+                    {
+                        extend: 'pageLength',
+                    }
                 ],
                 language: {
+                    url: "{!! asset('admin/vendor/datatable/vi.json') !!}",
                     buttons: {
                         selectAll: "Chọn hết",
                         selectNone: "Bỏ chọn"
-                    }
+                    },
                 },
                 select: true,
                 columns: [{
@@ -108,50 +144,17 @@
                         targets: 8,
                         orderable: false,
                         searchable: false,
-                        render: function(positionId) {
-                            const updateUrl = 'http://127.0.0.1:8000/admin/positions/' +
-                                positionId +
-                                '/edit';
-                            const deleteUrl = 'http://127.0.0.1:8000/admin/positions/' + positionId;
-
+                        render: function(id) {
                             return `
                                 <div class="d-flex">
-                                    <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
+                                    <a class="btn btn-warning text-white mr-2" href="http://127.0.0.1:8000/admin/positions/${id}/edit">
                                         <i class="fas fa-fw fa-pen"></i>
                                     </a>
 
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                        data-target="#deleteModal-${positionId}">
+                                    <button type="button" id="button-delete" class="btn btn-danger" data-toggle="modal"
+                                        data-target="#deleteModal-${id}">
                                         <i class="fas fa-fw fa-trash"></i>
                                     </button>
-
-                                    <div class="modal fade" id="deleteModal-${positionId}" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Bạn có muốn xoá chức vụ này?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <form class="ml-3" method="post"
-                                                        action="${deleteUrl}">
-                                                        @method('DELETE') @csrf
-                                                        <button type="submit" class="btn btn-danger">
-                                                            Xoá
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             `;
                         }
@@ -188,6 +191,12 @@
                         `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
                     );
                 }
+            });
+
+            $(document).on('click', '#button-delete', function(event) {
+                const id = $(this).attr('data-target').split('-')[1];
+                $('#deleteModal form').attr('action', `http://127.0.0.1:8000/admin/positions/${id}`);
+                $('#deleteModal').modal('show');
             });
 
             $("#buttonDeleteMany").click(function() {
