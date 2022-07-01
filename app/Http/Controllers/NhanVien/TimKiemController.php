@@ -24,7 +24,7 @@ class TimKiemController extends Controller
             ->join('tour_registrations', 'tours.id', '=', 'tour_registrations.tour_id','left outer')
             ->join('agency_tours','agency_tours.tour_id','=','tours.id')
             ->groupBy('tours.id','tour_id', 'name','image', 'description_file', 'tour_start_date', 'max_people',
-            'price', 'user_id', 'agency_id')
+            'price', 'agency_id')
             // ->where('tour_registrations.user_id', '<>', Auth::user()->id)
             ->where('agency_id', Auth::user()->agency_id)
             ->where('registration_start_date', '<=', $today)
@@ -33,7 +33,12 @@ class TimKiemController extends Controller
             ->orderBy('tours.id', 'DESC');
         }
         else{
-            $tours = Tour::where('registration_start_date', '<=', $today)
+            $tours = Tour::select(DB::raw('tours.id, tour_registrations.tour_id, name, image, description_file, tour_start_date,
+            max_people, price, count(user_id) as slot,max_people - count(user_id) as empty_slot_remain'))
+            ->join('tour_registrations', 'tour_registrations.tour_id', '=', 'tours.id')
+            ->groupBy('tours.id','tour_registrations.tour_id', 'name','image', 'description_file', 'tour_start_date', 'max_people',
+            'price')
+            ->where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
             ->orderBy('tours.id', 'DESC');
         }
@@ -47,7 +52,7 @@ class TimKiemController extends Controller
             if((int) $priceTo >= (int) $priceFrom)
                 $tours->having('price', '>=', $priceFrom)
                 ->having('price', '<=', $priceTo);
-        $perPage = 4; //dd($tours);
+        $perPage = 4; 
         $tours = $tours->paginate($perPage); 
         return $tours;
     }
@@ -64,7 +69,7 @@ class TimKiemController extends Controller
         $priceTo = $request->input('priceto');
         $tours =  $this->search($emptySlotRemain, $tourName, $regionId, $priceFrom, $priceTo);
         return view('nhanvien.pages.timkiem')->with('tours',$tours)
-        ->with('recordsRegions', $recordsRegions)->with('request', $request)->with('');
+        ->with('recordsRegions', $recordsRegions)->with('request', $request);
     }
 
     
