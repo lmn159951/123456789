@@ -11,6 +11,7 @@ use App\Models\Tour;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Http\Requests\Admin\Tour\UpdateTourRequest;
+use Illuminate\Http\Client\Response;
 
 class TourController extends Controller
 {
@@ -78,13 +79,22 @@ class TourController extends Controller
 
     public function edit(int $id)
     {
-        $parameters = [];
-        $parameters['tour'] = Tour::with('agencies')->findOrFail($id);
-        $parameters['regions'] = Region::all();
-        $parameters['agencies'] = Agency::all();
-        $parameters['agency_ids'] = $parameters['tour']->agencies()->get()->pluck('id')->toArray();
+        $tour = Tour::find($id);
+        $currentDate = now();
+        if($tour->registration_end_date > $currentDate)
+        {
+            $parameters = [];
+            $parameters['tour'] = Tour::with('agencies')->findOrFail($id);
+            $parameters['regions'] = Region::all();
+            $parameters['agencies'] = Agency::all();
+            $parameters['agency_ids'] = $parameters['tour']->agencies()->get()->pluck('id')->toArray();
 
-        return view('admin.pages.tours.edit', $parameters);
+            return view('admin.pages.tours.edit', $parameters);
+        }
+        else
+        {
+            return view('admin.pages.tours.index');
+        }
     }
 
     public function update(UpdateTourRequest $request, int $id)
@@ -141,5 +151,12 @@ class TourController extends Controller
         Tour::destroy($request->ids);
 
         return response()->json(['message' => 'Xoá nhân viên thành công']);
+    }
+
+    public function download(int $id)
+    {
+        $tour = Tour::find($id);
+ 
+		return response()->download(public_path($tour->description_file));
     }
 }

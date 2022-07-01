@@ -31,7 +31,7 @@
                                 <input type="file" name="file_image"
                                     class="custom-file-input @error('file_image') is-invalid @enderror"
                                     id="validatedCustomFile" onchange="loadFile(event)" value="{{ old('image') ?? $tour->image }}">
-                                <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
+                                <label class="custom-file-label" for="validatedCustomFile">{{ asset($tour->image) }}</label>
 
                                 @error('file_image')
                                     <div id="validationServer03Feedback" class="invalid-feedback">
@@ -39,7 +39,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <img id="imageInput">
+                            <img id="imageInput" src="{{ asset($tour->image) }}">
                         </div>
                     </div>
                     <div class="col">
@@ -50,7 +50,7 @@
                                 <input type="file" name="file_description"
                                     class="custom-file-input @error('file_description') is-invalid @enderror"
                                     id="validatedCustomFile" value="{{ old('description_file') ?? $tour->description_file }}">
-                                <label class="custom-file-label" for="validatedCustomFile">Chọn file...</label>
+                                <label class="custom-file-label" for="validatedCustomFile">{{ asset($tour->description_file) }}</label>
 
                                 @error('file_description')
                                     <div id="validationServer03Feedback" class="invalid-feedback">
@@ -58,6 +58,7 @@
                                     </div>
                                 @enderror
                             </div>
+                            <a href="{{ route('admin.tours.download',$tour->id) }}">Nhấn để tải</a>
                         </div>
                     </div>
                 </div>
@@ -221,6 +222,7 @@
     <style>
         img {
             max-height: 150px;
+            max-width: 90%;
         }
     </style>
 @endpush

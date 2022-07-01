@@ -25,21 +25,35 @@ class StoreUserRequest extends FormRequest
             'is_admin' => 'required|boolean',
             'department_id'=>'required|exists:departments,id',
             'position_id'=>'required|exists:positions,id',
-            'agency_id'=>'required|exists:agencies,id'
+            'agency_id'=>'required|exists:agencies,id',
+            'gender' => 'required',
         ];
     }
 
     public function attributes()
     {
         return [
-            'fullname' => 'họ tên',
-            'username' => 'tên tài khoản',
-            'password' => 'mật khẩu',
-            'email' => 'email',
-            'phone' => 'số điện thoại',
-            'citizen_card' => 'chứng minh nhân dân',
-            'start_date' => 'ngày bắt đầu làm',
-            'birthday'=>'ngày sinh',
+            'fullname' => 'Họ tên',
+            'username' => 'Tên tài khoản',
+            'password' => 'Mật khẩu',
+            'email' => 'Email',
+            'phone' => 'Số điện thoại',
+            'citizen_card' => 'Chứng minh nhân dân',
+            'start_date' => 'Ngày bắt đầu làm',
+            'birthday'=>'Ngày sinh',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attribute không được để trống.',
+            'unique' => ':attribute đã tồn tại.',
+            'email' => ':attribute phải có định dạng hợp lệ.',
+            'before' => ':attribute phải trước ngày hiện tại.',
+            'regex' => ':attribute không hợp lệ.',
+            'numeric' => ':attribute phải là số.',
+            'before_or_equal' => ':attribute phải bằng hoặc trước ngày hiện tại.',
         ];
     }
 }

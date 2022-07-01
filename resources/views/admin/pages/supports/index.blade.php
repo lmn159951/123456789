@@ -29,7 +29,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -37,7 +37,7 @@
                                 <p>Bạn có chắc muốn xoá hỗ trợ được đánh dấu không?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                 <button type="button" class="btn btn-danger" id="buttonDeleteMany">
                                     Xoá đánh dấu
                                 </button>
@@ -183,7 +183,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                                                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Đóng">
                                                     <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
@@ -192,7 +192,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
+                                                        data-dismiss="modal">Đóng</button>
                                                     <form class="ml-3" method="post"
                                                         action="${deleteUrl}">
                                                         @method('DELETE') @csrf

@@ -25,11 +25,22 @@ class StoreSupportRequest extends FormRequest
     public function attributes()
     {
         return [
-            'start_year' =>  'năm bắt đầu',
-            'end_year' =>  'năm kết thúc',
-            'min_condition'=> 'điều kiện tối thiểu',
-            'max_condition'=> 'điều kiện tối đa',
-            'price'=> 'số tiền',
+            'start_year' =>  'Năm bắt đầu',
+            'end_year' =>  'Năm kết thúc',
+            'min_condition'=> 'Điều kiện tối thiểu',
+            'max_condition'=> 'Điều kiện tối đa',
+            'price'=> 'Số tiền',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attribute không được để trống.',
+            'gt' => ':attribute phải lớn hơn :start_year.',
+            'numeric' => ':attribute phải là một số nguyên.',
+            'min' => ':attribute phải có giá trị ít nhất là :min.',
+            'max' => ':attribute có giá trị lớn nhất là :max.',
         ];
     }
 }

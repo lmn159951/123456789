@@ -24,8 +24,16 @@ class UpdateAgencyRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'tên đơn vị',
-            'address' => 'địa chỉ',
+            'name' => 'Tên đơn vị',
+            'address' => 'Địa chỉ',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attribute không được để trống.',
+            'unique' => ':attribute đã tồn tại.',
         ];
     }
 }

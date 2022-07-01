@@ -32,15 +32,28 @@ class UpdateTourRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'tên tour',
-            'image' => 'hình ảnh',
-            'description_file' => 'file mô tả',
-            'tour_start_date' => 'ngày bắt đầu tour',
-            'tour_end_date' => 'ngày kết thúc tour',
-            'registration_start_date' => 'ngày bắt đầu đăng ký',
-            'registration_end_date' => 'ngày kết thúc đăng ký',
-            'price' => 'giá tiền',
-            'max_people' => 'số người tối đa',
+            'name' => 'Tên tour',
+            'file_image' => 'Hình ảnh',
+            'file_description' => 'File mô tả',
+            'tour_start_date' => 'Ngày bắt đầu tour',
+            'tour_end_date' => 'Ngày kết thúc tour',
+            'registration_start_date' => 'Ngày bắt đầu đăng ký',
+            'registration_end_date' => 'Ngày kết thúc đăng ký',
+            'price' => 'Giá tiền',
+            'max_people' => 'Số người tối đa',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attribute không được để trống.',
+            'unique' => ':attribute đã tồn tại.',
+            'numeric' => ':attribute phải là một số nguyên.',
+            'min' => ':attribute phải có giá trị ít nhất là :min.',
+            'max' => ':attribute có giá trị lớn nhất là :max.',
+            'mimes' => ':attribute có định dạng không hợp lệ.',
+            'after' => ':attribute không hợp lệ.',
         ];
     }
 }
