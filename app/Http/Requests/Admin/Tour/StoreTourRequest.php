@@ -18,11 +18,7 @@ class StoreTourRequest extends FormRequest
             'file_image' => [
                 'required',
                 function($attributes, $value, $fail) {
-                    $extension = pathinfo($value, PATHINFO_EXTENSION);
-                    $allowedExtensions = explode(',', 'jpeg,jpg,png,gif');
-
-                    if (!in_array($extension, $allowedExtensions))
-                    {
+                    if (!in_array($value->getClientOriginalExtension(), ['png', 'jpg', 'jpeg', 'gif'])) {
                         return $fail("File Hình ảnh không hợp lệ");
                     }
                 }
@@ -30,11 +26,7 @@ class StoreTourRequest extends FormRequest
             'file_description' => [
                 'required',
                 function($attributes, $value, $fail) {
-                    $extension = pathinfo($value, PATHINFO_EXTENSION);
-                    $allowedExtensions = explode(',', 'doc,pdf,docx');
-
-                    if (!in_array($extension, $allowedExtensions))
-                    {
+                    if (!in_array($value->getClientOriginalExtension(), ['doc', 'docx', 'pdf'])) {
                         return $fail("File mô tả không hợp lệ");
                     }
                 }

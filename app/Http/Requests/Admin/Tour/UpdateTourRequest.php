@@ -21,24 +21,16 @@ class UpdateTourRequest extends FormRequest
             'file_image' => [
                 'nullable',
                 function($attributes, $value, $fail) {
-                    $extension = pathinfo($value, PATHINFO_EXTENSION);
-                    $allowedExtensions = explode(',', 'jpeg,jpg,png,gif');
-
-                    if (!in_array($extension, $allowedExtensions))
-                    {
-                        return $fail("$attributes không hợp lệ");
+                    if (!in_array($value->getClientOriginalExtension(), ['png', 'jpg', 'jpeg', 'gif'])) {
+                        return $fail("File Hình ảnh không hợp lệ");
                     }
                 }
             ],
             'file_description' => [
                 'nullable',
                 function($attributes, $value, $fail) {
-                    $extension = pathinfo($value, PATHINFO_EXTENSION);
-                    $allowedExtensions = explode(',', 'doc,pdf,docx');
-
-                    if (!in_array($extension, $allowedExtensions))
-                    {
-                        return $fail("$attributes không hợp lệ");
+                    if (!in_array($value->getClientOriginalExtension(), ['doc', 'docx', 'pdf'])) {
+                        return $fail("File mô tả không hợp lệ");
                     }
                 }
             ],

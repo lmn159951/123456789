@@ -26,7 +26,8 @@ class TrangChuController extends Controller
 
     public function HightLightTours($tourCanRegis)
     {
-        $highlightTours; $exeptFirst = true;
+        $highlightTours = [];
+        $exeptFirst = true;
         $i = 0;
         if(count($tourCanRegis) < $this->numberOfHightLightTours+1)
         {
@@ -57,7 +58,7 @@ class TrangChuController extends Controller
         $firstTour[0] = $this->FirstTour($tourCanRegis);
         $highlightTours = $this->HightLightTours($tourCanRegis);
         $slot = array();
-        for($i=0; $i<$this->numberOfHightLightTours; $i++)
+        for($i=0; $i< count($highlightTours); $i++)
         {
             $slot[$i] = Tour::Slot($highlightTours[$i]['tour_id']);
         }
@@ -87,7 +88,7 @@ class TrangChuController extends Controller
             ->where('agency_id', Auth::user()->agency_id)
             ->paginate($perPage);
         }
-        $slot; $i=0;
+        $slot = []; $i=0;
         foreach($allTours as $tour)
         {
             $slot[$i] = Tour::Slot($tour->tour_id);
