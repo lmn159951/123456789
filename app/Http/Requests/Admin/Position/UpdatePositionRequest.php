@@ -25,4 +25,12 @@ class UpdatePositionRequest extends FormRequest
             'name' => 'Tên chức vụ',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'required' => ':attribute không được để trống.',
+            'unique' => ':attribute đã tồn tại.',
+        ];
+    }
 }

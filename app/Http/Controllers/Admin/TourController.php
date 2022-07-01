@@ -11,6 +11,7 @@ use App\Models\Tour;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Http\Requests\Admin\Tour\UpdateTourRequest;
+use Illuminate\Http\Client\Response;
 
 class TourController extends Controller
 {
@@ -88,7 +89,12 @@ class TourController extends Controller
         $parameters['agencies'] = Agency::all();
         $parameters['agency_ids'] = $parameters['tour']->agencies()->get()->pluck('id')->toArray();
 
-        return view('admin.pages.tours.edit', $parameters);
+            return view('admin.pages.tours.edit', $parameters);
+        }
+        else
+        {
+            return view('admin.pages.tours.index');
+        }
     }
 
     public function update(UpdateTourRequest $request, Tour $tour)
@@ -144,5 +150,12 @@ class TourController extends Controller
         Tour::destroy($request->ids);
 
         return response()->json(['message' => 'Xoá nhân viên thành công']);
+    }
+
+    public function download(int $id)
+    {
+        $tour = Tour::find($id);
+
+		return response()->download(public_path($tour->description_file));
     }
 }

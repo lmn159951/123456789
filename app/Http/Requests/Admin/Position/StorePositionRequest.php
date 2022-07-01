@@ -25,4 +25,12 @@ class StorePositionRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'required' => ':attribute không được để trống.',
+            'unique' => ':attribute đã tồn tại.',
+        ];
+    }
+
 }

@@ -76,7 +76,8 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
     Route::resource('positions', PositionController::class);
 
     // Route::post('/users/search', [UserController::class, 'search'])->name('users.search');
-    Route::get('/users/resetPassword/{user}', [UserController::class, 'resetPassword'])->name('users.resetPassword');
+    Route::get('/users/resetPassword/{user}', [UserController::class, 'resetPassword'])->name('users.resetPassword')
+    ->where('user', '[0-9]+');
     Route::delete('/users/deleteMany', [UserController::class, 'deleteMany'])->name('users.deleteMany');
     Route::get('/users/datatableApi', [UserController::class, 'datatableApi'])->name('users.datatableApi');
     Route::resource('users', UserController::class);
@@ -87,7 +88,9 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
     Route::post('/tours/search', [TourController::class, 'search'])->name('tours.search');
     Route::delete('/tours/deleteMany', [TourController::class, 'deleteMany'])->name('tours.deleteMany');
     Route::get('/tours/datatableApi', [TourController::class, 'datatableApi'])->name('tours.datatableApi');
-    Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription');
+    Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription')
+    ->where('tour', '[0-9]+');
+    Route::get('/tours/download/{tour}',[TourController::class,'download'])->name('tours.download')->where('tour', '[0-9]+');
     Route::resource('tours', TourController::class);
 
 

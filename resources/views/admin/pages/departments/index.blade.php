@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
-                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Đóng">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -60,7 +60,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
