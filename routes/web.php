@@ -34,7 +34,7 @@ Route::get('lien-he', [LienHeController::class, 'index'])->name('contact');
 Route::post('gui-mail', [SendMailController::class, 'index'])->name('sendmail');
 
 //Un loged in user
-Route::middleware('not_loged_in')->group(function(){
+Route::middleware('guest')->group(function(){
     Route::get('dang-nhap', [DangNhapController::class, 'index'])->name('login');
     Route::post('dang-nhap', [DangNhapController::class, 'login'])->name('loginPost');
     Route::get('quen-mat-khau', [QuenMatKhauController::class, 'index'])->name('forgotpassword');
