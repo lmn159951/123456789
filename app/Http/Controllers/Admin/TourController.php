@@ -89,8 +89,8 @@ class TourController extends Controller
         $parameters['agencies'] = Agency::all();
         $parameters['agency_ids'] = $parameters['tour']->agencies()->get()->pluck('id')->toArray();
 
-            return view('admin.pages.tours.edit', $parameters);
-        
+        return view('admin.pages.tours.edit', $parameters);
+
     }
 
     public function update(UpdateTourRequest $request, Tour $tour)

@@ -73,7 +73,6 @@ class SupportController extends Controller
         $this->authorize('update', $support);
 
         $currentYear = date('Y');
-        $support = Support::find($id);
         if($support->end_year < $currentYear || $support->start_year > $currentYear)
         {
             return view('admin.pages.supports.index');
