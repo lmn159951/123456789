@@ -6,6 +6,31 @@
 @endpush
 
 @section('content')
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
+                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có muốn xoá hỗ trợ này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <form class="ml-3" method="post" action="${deleteUrl}">
+                        @method('DELETE') @csrf
+                        <button type="submit" class="btn btn-danger">
+                            Xoá
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h3 class="text-center">Quản lý hỗ trợ</h3>
@@ -37,7 +62,7 @@
                                 <p>Bạn có chắc muốn xoá hỗ trợ được đánh dấu không?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                 <button type="button" class="btn btn-danger" id="buttonDeleteMany">
                                     Xoá đánh dấu
                                 </button>
@@ -150,60 +175,28 @@
                     },
                     {
                         data: 'action',
-                        targets: 8,
                         orderable: false,
                         searchable: false,
                         render: function(support) {
                             const response = JSON.parse(support);
                             const currentYear = new Date().getFullYear();
 
-                            const updateUrl =
-                                `http://127.0.0.1:8000/admin/supports/${response.id}/edit`;
-                            const deleteUrl = `http://127.0.0.1:8000/admin/supports/${response.id}`;
-
-                            if (!(response.start_year <= currentYear && currentYear <= response
-                                    .end_year)) {
-                                return 'Hết hạn';
+                            if (currentYear > response.end_year) {
+                                return `<span class="badge badge-danger d-flex justify-content-center">
+                                    Hết hạn
+                                </span>`;
                             }
 
                             return `
                                 <div class="d-flex">
-                                    <a class="btn btn-warning text-white mr-2" href="${updateUrl}">
+                                    <a class="btn btn-warning text-white mr-2" href="http://127.0.0.1:8000/admin/supports/${response.id}/edit">
                                         <i class="fas fa-fw fa-pen"></i>
                                     </a>
 
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                    <button type="button" id="button-delete" class="btn btn-danger" data-toggle="modal"
                                         data-target="#deleteModal-${response.id}">
                                         <i class="fas fa-fw fa-trash"></i>
                                     </button>
-
-                                    <div class="modal fade" id="deleteModal-${response.id}" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
-                                                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Bạn có muốn xoá hỗ trợ này?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Close</button>
-                                                    <form class="ml-3" method="post"
-                                                        action="${deleteUrl}">
-                                                        @method('DELETE') @csrf
-                                                        <button type="submit" class="btn btn-danger">
-                                                            Xoá
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             `;
                         }
@@ -240,6 +233,12 @@
                         `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
                     );
                 }
+            });
+
+            $(document).on('click', '#button-delete', function(event) {
+                const id = $(this).attr('data-target').split('-')[1];
+                $('#deleteModal form').attr('action', `http://127.0.0.1:8000/admin/supports/${id}`);
+                $('#deleteModal').modal('show');
             });
 
             $("#buttonDeleteMany").click(function() {

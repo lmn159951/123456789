@@ -24,7 +24,7 @@
                             <p>Bạn có muốn xoá tour này?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                             <form class="ml-3" method="post" action="${deleteUrl}">
                                 @method('DELETE') @csrf
                                 <button type="submit" class="btn btn-danger">
@@ -63,7 +63,7 @@
                                 <p>Bạn có chắc muốn xoá tour được đánh dấu không?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                 <button type="button" class="btn btn-danger" id="buttonDeleteMany">
                                     Xoá đánh dấu
                                 </button>
@@ -105,7 +105,7 @@
                             Thao tác
                         </th>
                         <th scope="col">
-                            Số lượng người
+                            Số lượng người tham gia
                         </th>
                     </tr>
                 </thead>

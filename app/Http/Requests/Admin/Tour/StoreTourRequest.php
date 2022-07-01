@@ -15,8 +15,30 @@ class StoreTourRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:tours',
-            'file_image' => 'required|mimes:jpeg,jpg,png,gif',
-            'file_description' => 'required|mimes:doc,pdf,docx',
+            'file_image' => [
+                'required',
+                function($attributes, $value, $fail) {
+                    $extension = pathinfo($value, PATHINFO_EXTENSION);
+                    $allowedExtensions = explode(',', 'jpeg,jpg,png,gif');
+
+                    if (!in_array($extension, $allowedExtensions))
+                    {
+                        return $fail("File Hình ảnh không hợp lệ");
+                    }
+                }
+            ],
+            'file_description' => [
+                'required',
+                function($attributes, $value, $fail) {
+                    $extension = pathinfo($value, PATHINFO_EXTENSION);
+                    $allowedExtensions = explode(',', 'doc,pdf,docx');
+
+                    if (!in_array($extension, $allowedExtensions))
+                    {
+                        return $fail("File mô tả không hợp lệ");
+                    }
+                }
+            ],
             'registration_start_date' => 'required|after:now',
             'registration_end_date' => 'required|after:registration_start_date',
             'tour_start_date' => 'required|after:registration_end_date',

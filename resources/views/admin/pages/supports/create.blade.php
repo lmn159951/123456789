@@ -5,9 +5,9 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Tạo hỗ trợ</h1>
 
-            @if (session()->has('message'))
+            @if ($errors->has('baseError'))
                 <div class="alert alert-danger my-3 text-center">
-                    {{ session()->get('message') }}
+                    {{ $errors->first('baseError') }}
                 </div>
             @endif
 

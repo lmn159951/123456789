@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Position\StorePositionRequest;
 use App\Http\Requests\Admin\Position\UpdatePositionRequest;
 use App\Models\Position;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 
@@ -61,15 +62,29 @@ class PositionController extends Controller
 
     public function destroy(int $id)
     {
-        Position::destroy($id);
-
-        return redirect()->route('admin.positions.index')->with('success', 'Xoá chức vụ thành công');
+        if (User::where('position_id', $id)->exists())
+        {
+            return back()->withError('Không thể xoá chức vụ có tồn tại nhân viên');
+        }
+        else
+        {
+            Position::destroy($id);
+            return redirect()->route('admin.positions.index')->with('message', 'Xoá chức vụ thành công');
+        }
     }
 
     public function deleteMany(Request $request)
     {
-        Position::destroy($request->ids);
-
-        return response()->json([ 'message' => 'Xoá chức vụ thành công' ]);
+        if (User::whereIn('position_id', $request->ids)->exists())
+        {
+            return response()->json([
+                'message' => 'Không thể xoá các chức vụ có tồn tại nhân viên'
+            ], 400);
+        }
+        else
+        {
+            Position::destroy($request->ids);
+            return response()->json([ 'message' => 'Xoá chức vụ thành công' ]);
+        }
     }
 }

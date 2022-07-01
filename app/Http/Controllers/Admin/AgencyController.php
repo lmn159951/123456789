@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Agency\StoreAgencyRequest;
 use App\Http\Requests\Admin\Agency\UpdateAgencyRequest;
 use App\Http\Requests\Admin\AgencyRequest;
+use App\Http\Requests\DeleteAgencyRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
@@ -65,15 +67,29 @@ class AgencyController extends Controller
 
     public function destroy(int $id)
     {
-        Agency::destroy($id);
-
-        return redirect()->route('admin.agencies.index')->with('message', 'Xoá đơn vị thành công');
+        if (User::where('agency_id', $id)->exists())
+        {
+            return back()->withError('Không thể xoá đơn vị có tồn tại nhân viên');
+        }
+        else
+        {
+            Agency::destroy($id);
+            return redirect()->route('admin.agencies.index')->with('message', 'Xoá đơn vị thành công');
+        }
     }
 
     public function deleteMany(Request $request)
     {
-        Agency::destroy($request->ids);
-
-        return response()->json([ 'message' => 'Xoá đơn vị thành công' ]);
+        if (User::whereIn('agency_id', $request->ids)->exists())
+        {
+            return response()->json([
+                'message' => 'Không thể xoá các đơn vị có tồn tại nhân viên'
+            ], 400);
+        }
+        else
+        {
+            Agency::destroy($request->ids);
+            return response()->json([ 'message' => 'Xoá đơn vị thành công' ]);
+        }
     }
 }

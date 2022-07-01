@@ -43,6 +43,11 @@ class Tour extends Model
         return $query->where('registration_start_date', '>', now());
     }
 
+    public function scopeAvailable($query)
+    {
+        return $query->registering()->orWhere->unregister();
+    }
+
     public function region()
     {
         return $this->belongsTo(Region::class);

@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
-                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Đóng">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -19,7 +19,7 @@
                     <p>Bạn có muốn xoá đơn vị này?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                     <form class="ml-3" method="post" action="${deleteUrl}">
                         @method('DELETE') @csrf
                         <button type="submit" class="btn btn-danger">
@@ -33,7 +33,13 @@
 
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h3 class="text-center">Quản lý đơn vị</h3>
+            <h3 class="text-center" id="title">Quản lý đơn vị</h3>
+
+            @if (session('error'))
+                <div class="alert alert-danger text-center" id="errorMessage">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             @if (session('message'))
                 <div class="alert alert-success text-center">
@@ -62,7 +68,7 @@
                                 <p>Bạn có chắc muốn xoá đơn vị được đánh dấu không?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                 <button type="button" class="btn btn-danger" id="buttonDeleteMany">
                                     Xoá đánh dấu
                                 </button>
@@ -158,7 +164,7 @@
                                         <i class="fas fa-fw fa-pen"></i>
                                     </a>
 
-                                    <button type="button" id="button-delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                                    <button type="button" id="button-delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-${id}">
                                         <i class="fas fa-fw fa-trash"></i>
                                     </button>
                                 </div>
@@ -228,7 +234,18 @@
                         '_method': 'delete'
                     },
                     success: function(response, textStatus, xhr) {
-                        window.location.reload();
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        $('#deleteAllModal').modal('hide');
+
+                        $('#errorMessage').remove();
+
+                        $('#title').after(`
+                            <div class="alert alert-danger text-center" id="errorMessage">
+                                ${error.responseJSON.message}
+                            </div>
+                        `);
                     }
                 });
             });

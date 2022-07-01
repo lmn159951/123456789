@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Department\StoreDepartmentRequest;
 use App\Http\Requests\Admin\Department\UpdateDepartmentRequest;
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 
@@ -62,14 +63,29 @@ class DepartmentController extends Controller
 
     public function destroy(int $id)
     {
-        Department::destroy($id);
-        return redirect()->route('admin.departments.index')->with('message', 'Xoá phòng ban thành công');
+        if (User::where('department_id', $id)->exists())
+        {
+            return back()->withError('Không thể xoá phòng ban có tồn tại nhân viên');
+        }
+        else
+        {
+            Department::destroy($id);
+            return redirect()->route('admin.departments.index')->with('message', 'Xoá phòng ban thành công');
+        }
     }
 
     public function deleteMany(Request $request)
     {
-        Department::destroy($request->ids);
-
-        return response()->json([ 'message' => 'Xoá phòng ban thành công' ]);
+        if (User::whereIn('department_id', $request->ids)->exists())
+        {
+            return response()->json([
+                'message' => 'Không thể xoá các phòng ban có tồn tại nhân viên'
+            ], 400);
+        }
+        else
+        {
+            Department::destroy($request->ids);
+            return response()->json([ 'message' => 'Xoá phòng ban thành công' ]);
+        }
     }
 }

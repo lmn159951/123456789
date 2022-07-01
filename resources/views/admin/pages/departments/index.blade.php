@@ -19,7 +19,7 @@
                     <p>Bạn có muốn xoá phòng ban này?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                     <form class="ml-3" method="post" action="${deleteUrl}">
                         @method('DELETE') @csrf
                         <button type="submit" class="btn btn-danger">
@@ -33,7 +33,13 @@
 
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h3 class="text-center">Quản lý phòng ban</h3>
+            <h3 class="text-center" id="title">Quản lý phòng ban</h3>
+
+            @if (session('error'))
+                <div class="alert alert-danger text-center" id="errorMessage">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             @if (session('message'))
                 <div class="alert alert-success text-center">
@@ -62,7 +68,7 @@
                                 <p>Bạn có chắc muốn xoá phòng ban được đánh dấu không?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                 <button type="button" class="btn btn-danger" id="buttonDeleteMany">
                                     Xoá đánh dấu
                                 </button>
@@ -222,6 +228,17 @@
                     },
                     success: function(response, textStatus, xhr) {
                         window.location.reload();
+                    },
+                    error: function(error) {
+                        $('#deleteAllModal').modal('hide');
+
+                        $('#errorMessage').remove();
+
+                        $('#title').after(`
+                            <div class="alert alert-danger text-center" id="errorMessage">
+                                ${error.responseJSON.message}
+                            </div>
+                        `);
                     }
                 });
             });

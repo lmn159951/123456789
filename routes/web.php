@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\TourRegistrationController;
 use App\Http\Controllers\Admin\AuthController;
-
+use App\Http\Controllers\ImageController;
 //NhanVien
 use App\Http\Controllers\NhanVien\NVNhanVienController;
 use App\Http\Controllers\NhanVien\TimKiemController;
@@ -24,9 +24,9 @@ use App\Http\Controllers\NhanVien\SendMailController;
 use App\Http\Controllers\NhanVien\ChangePassword;
 use App\Http\Controllers\NhanVien\QuenMatKhauController;
 
-
-
 //Public
+Route::get('/storage/{filename}', [ImageController::class, 'display'])->name('image.display');
+
 Route::get('/', [TrangChuController::class, 'index'])->name('home');
 Route::get('tat-ca-cac-tour', [TrangChuController::class, 'allTour'])->name('alltour');
 Route::get('tim-kiem', [TimKiemController::class, 'index'])->name('search');
@@ -81,11 +81,15 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
     Route::resource('users', UserController::class);
 
     Route::resource('regions', RegionController::class);
+
+    
     Route::post('/tours/search', [TourController::class, 'search'])->name('tours.search');
     Route::delete('/tours/deleteMany', [TourController::class, 'deleteMany'])->name('tours.deleteMany');
     Route::get('/tours/datatableApi', [TourController::class, 'datatableApi'])->name('tours.datatableApi');
     Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription');
     Route::resource('tours', TourController::class);
+
+
     Route::post('/supports/search', [SupportController::class, 'search'])->name('supports.search');
     Route::delete('/supports/deleteMany', [SupportController::class, 'deleteMany'])->name('supports.deleteMany');
     Route::get('/supports/datatableApi', [SupportController::class, 'datatableApi'])->name('supports.datatableApi');

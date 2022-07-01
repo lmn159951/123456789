@@ -37,7 +37,7 @@
                                 <p>Bạn có chắc muốn xoá đăng ký tour được đánh dấu không?</p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                 <button type="button" class="btn btn-danger" id="buttonDeleteMany">
                                     Xoá đánh dấu
                                 </button>
@@ -69,9 +69,6 @@
                         </th>
                         <th scope="col">
                             Giá tiền
-                        </th>
-                        <th scope="col">
-                            Thao tác
                         </th>
                     </tr>
                 </thead>
@@ -153,84 +150,8 @@
                     {
                         data: 'cost',
                         name: 'cost'
-                    },
-                    {
-                        data: 'action',
-                        className: 'not-export',
-                        orderable: false,
-                        searchable: false,
-                        render: function(tourRegistrationId) {
-                            const showUrl = 'http://127.0.0.1:8000/admin/tour_registrations/' +
-                                tourRegistrationId;
-
-                            return `
-                                <div class="d-flex">
-                                    <a class="btn btn-info mr-2" href="${showUrl}">
-                                        <i class="fas fa-fw fa-eye"></i>
-                                    </a>
-                                </div>
-                            `;
-                        }
                     }
                 ]
-            });
-
-            table.on('select', function(event, datatable, type, indexes) {
-                if (type === 'row') {
-                    $("#buttonDeleteManyModel").removeClass('d-none');
-                    $("#buttonDeleteManyModel").text(
-                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
-                    );
-
-                    $("#buttonDeleteMany").text(
-                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
-                    );
-                }
-            });
-
-            table.on('deselect', function(event, datatable, type, indexes) {
-                if (type === 'row') {
-                    if (table.rows({
-                            selected: true
-                        }).count() === 0) {
-                        $("#buttonDeleteManyModel").addClass('d-none');
-                    }
-
-                    $("#buttonDeleteManyModel").text(
-                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
-                    );
-
-                    $("#buttonDeleteMany").text(
-                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
-                    );
-                }
-            });
-
-            $("#buttonDeleteMany").click(function() {
-                const selectedIds = table.rows({
-                    selected: true
-                }).data().pluck('id');
-                const deleteRecordsIds = [];
-                for (let i = 0; i < table.rows({
-                        selected: true
-                    }).count(); i++) {
-                    deleteRecordsIds.push(selectedIds[i]);
-                }
-
-                $.ajax({
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "{{ route('admin.tour_registrations.deleteMany') }}",
-                    data: {
-                        'ids': deleteRecordsIds,
-                        '_method': 'delete'
-                    },
-                    success: function(response, textStatus, xhr) {
-                        window.location.reload();
-                    }
-                });
             });
         });
     </script>

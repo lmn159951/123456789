@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Support;
+use App\Policies\Admin\SupportPolicy;
+use App\Models\Tour;
+use App\Policies\Admin\TourPolicy;
+
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,6 +19,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Support::class => SupportPolicy::class,
+        Tour::class => TourPolicy::class,
     ];
 
     /**
