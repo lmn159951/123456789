@@ -39,7 +39,16 @@
                                 <h5>Giá: {{ number_format($tour->price, 0, '.', ',') }}VNĐ</h5>
                             </div> 
                             <div class="col-lg-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
+                                @auth
+                                @if(App\Models\TourRegistration::isRegisted($tour->tour_id))
+                                <a href="{{ route('nhanvien.tourhistory') }}"><button type="submit" class="site-btn">ĐÃ ĐẶT TOUR</button></a>
+                                @else
                                 <a href="{{ route('nhanvien.tourregis', $tour->tour_id) }}"><button type="submit" class="site-btn">ĐẶT TOUR</button></a>
+                                @endif
+                                @endauth
+                                @guest
+                                <a href="{{ route('nhanvien.tourregis', $tour->tour_id) }}"><button type="submit" class="site-btn">ĐẶT TOUR</button></a>
+                                @endguest
                             </div>
                         </div>   
                     </div>

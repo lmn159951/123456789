@@ -9,6 +9,7 @@ use App\Models\Tour;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\TourRegistration;
 
 class TimKiemController extends Controller
 {
@@ -24,9 +25,11 @@ class TimKiemController extends Controller
             ->join('agency_tours','agency_tours.tour_id','=','tours.id')
             ->groupBy('tours.id','tour_id', 'name','image', 'description_file', 'tour_start_date', 'max_people',
             'price', 'user_id', 'agency_id')
+            // ->where('tour_registrations.user_id', '<>', Auth::user()->id)
             ->where('agency_id', Auth::user()->agency_id)
             ->where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
+            ->where('tour_registrations.deleted_at', null)
             ->orderBy('tours.id', 'DESC');
         }
         else{
@@ -55,6 +58,7 @@ class TimKiemController extends Controller
     }
 
     
+
     public function index(Request $request)
     { 
         $recordsRegions = Region::select('id','name')->get();
@@ -65,7 +69,7 @@ class TimKiemController extends Controller
         $priceTo = $request->input('priceto');
         $tours =  $this->search($emptySlotRemain, $tourName, $regionId, $priceFrom, $priceTo);
         return view('nhanvien.pages.timkiem')->with('tours',$tours)
-        ->with('recordsRegions', $recordsRegions)->with('request', $request);
+        ->with('recordsRegions', $recordsRegions)->with('request', $request)->with('');
     }
 
     

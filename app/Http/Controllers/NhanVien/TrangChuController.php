@@ -12,13 +12,52 @@ use Carbon\Carbon;
 
 class TrangChuController extends Controller
 {
+    private $numberOfHightLightTours = 8;
+
+    public function FirstTour($tourCanRegis)
+    {
+        if(count($tourCanRegis) == 0)
+            return null;
+        foreach($tourCanRegis as $tour)
+        {
+            return $tour;
+        }
+    }
+
+    public function HightLightTours($tourCanRegis)
+    {
+        $highlightTours; $exeptFirst = true;
+        $i = 0;
+        if(count($tourCanRegis) < $this->numberOfHightLightTours+1)
+        {
+            foreach($tourCanRegis as $tour)
+            {
+                if($exeptFirst){ $exeptFirst = false; continue;}
+                $highlightTours[$i] = $tour;
+                ++$i;
+            }
+        }
+        else
+        {
+            foreach($tourCanRegis as $tour)
+            {
+                if($exeptFirst){ $exeptFirst = false; continue;}
+                $highlightTours[$i] = $tour;
+                ++$i;
+                if($i==8) break;
+            }
+        }
+        return $highlightTours;
+    }
+
     public function index()
     {
         $recordsRegions = Region::select('id','name')->get()->toArray();
-        $firstTour = Tour::FirstTour();
-        $highlightTours = Tour::HightLightTours();
+        $tourCanRegis = Tour::ToursCanRegis();
+        $firstTour[0] = $this->FirstTour($tourCanRegis);
+        $highlightTours = $this->HightLightTours($tourCanRegis);
         $slot = array();
-        for($i=1; $i<=count($highlightTours); $i++)
+        for($i=0; $i<$this->numberOfHightLightTours; $i++)
         {
             $slot[$i] = Tour::Slot($highlightTours[$i]['tour_id']);
         }
