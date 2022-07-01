@@ -59,14 +59,14 @@ class TourController extends Controller
 
         if($request->hasFile('file_image'))
         {
-            $tourImageName = time().$request->file('file_image')->getClientOriginalExtension();
+            $tourImageName = time().'.'.$request->file('file_image')->getClientOriginalExtension();
             $tourImagePath = $request->file('file_image')->storeAs('images', $tourImageName, 'public');
             $tour->image='/storage/'.$tourImagePath;
         }
 
         if($request->hasFile('file_description'))
         {
-            $tourFileDescriptionName = time().$request->file('file_description')->getClientOriginalExtension();
+            $tourFileDescriptionName = time().'.'.$request->file('file_description')->getClientOriginalExtension();
             $tourFileDescriptionPath = $request->file('file_description')->storeAs('files', $tourFileDescriptionName, 'public');
             $tour->description_file = '/storage/'.$tourFileDescriptionPath;
         }

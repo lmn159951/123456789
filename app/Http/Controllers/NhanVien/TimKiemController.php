@@ -16,7 +16,7 @@ class TimKiemController extends Controller
     public function search($emptySlotRemain=null, $tourName=null, $regionId=null, $priceFrom = 0, $priceTo = 99999999999)
     {
         $today = Carbon::now()->format('Y-m-d');
-        $tours;
+        $tours = [];
         if(Auth::check())
         {
             $tours = Tour::select(DB::raw('tours.id, tour_registrations.tour_id, name, image, description_file, tour_start_date,
@@ -33,12 +33,7 @@ class TimKiemController extends Controller
             ->orderBy('tours.id', 'DESC');
         }
         else{
-            $tours = Tour::select(DB::raw('tours.id, tour_registrations.tour_id, name, image, description_file, tour_start_date,
-            max_people, price, count(user_id) as slot,max_people - count(user_id) as empty_slot_remain'))
-            ->join('tour_registrations', 'tours.id', '=', 'tour_registrations.tour_id','left outer')
-            ->groupBy('tours.id','tour_id', 'name','image', 'description_file', 'tour_start_date', 'max_people',
-            'price', 'user_id')
-            ->where('registration_start_date', '<=', $today)
+            $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
             ->orderBy('tours.id', 'DESC');
         }
@@ -52,7 +47,7 @@ class TimKiemController extends Controller
             if((int) $priceTo >= (int) $priceFrom)
                 $tours->having('price', '>=', $priceFrom)
                 ->having('price', '<=', $priceTo);
-        $perPage = 4;
+        $perPage = 4; //dd($tours);
         $tours = $tours->paginate($perPage); 
         return $tours;
     }
