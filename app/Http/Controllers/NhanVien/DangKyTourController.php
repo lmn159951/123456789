@@ -45,7 +45,7 @@ class DangKyTourController extends Controller
         'tours.tour_end_date','registration_start_date','registration_end_date')
         ->groupBy('user_id', 'tour_id', 'name', 'tours.tour_start_date', 
         'tours.tour_end_date','registration_start_date','registration_end_date')
-        ->orderBy('tour_id', 'DESC')
+        ->orderBy('registration_date', 'DESC')
         ->get();
         return view('nhanvien.pages.lichsudatour')->with('results', $results);
     }
@@ -58,7 +58,8 @@ class DangKyTourController extends Controller
         $tourInfo = Tour::TourInfo($tour_id);
         //Da dang ky
         $relativeInfos = TourRegistration::where('user_id', Auth::user()->id)
-        ->where('tour_id', $tour_id)->get();
+        ->where('tour_id', $tour_id)
+        ->orderBy('registration_date', 'DESC')->get();
         if($relativeInfos->count() > 0)
         {
             return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo)
@@ -76,7 +77,7 @@ class DangKyTourController extends Controller
             {
                 DB::table('tour_registrations')->where('id', $request['id'][$i])->update([
                     'relative_fullname' => $request['relative_fullname'][$i],
-                    'birthday' => Carbon::createFromFormat('d-m-Y', $request['birthday'][$i])->format('Y-m-d'),
+                    'birthday' => $request['birthday'][$i],
                     'gender' => $request['gender'][$i],
                     'relationship' => $request['relationship'][$i],
                     'phone' => $request['phone'][$i],
@@ -96,7 +97,7 @@ class DangKyTourController extends Controller
                     'tour_id' => $tour_id,
                     'registration_date' => $registrationDate,
                     'relative_fullname' => $request['relative_fullname'][$i],
-                    'birthday' => Carbon::createFromFormat('Y-m-d', $request['birthday'][$i])->format('Y-m-d'),
+                    'birthday' => $request['birthday'][$i],
                     'gender' => $request['gender'][$i],
                     'relationship' => $request['relationship'][$i],
                     'phone' => $request['phone'][$i],
@@ -240,12 +241,19 @@ class DangKyTourController extends Controller
             }
         }
         else
+        
         foreach($request->post('id') as $id)
         {
+            $condition = true;
             foreach($relativeInfos as $relativeInfo)
             {
-                if($id == $relativeInfo->id) break;
+                if($id == $relativeInfo->id) 
+                {
+                    $condition = false;
+                    break;
+                }
             }
+            if($condition == false) continue;
             $this->DeleteMemberTourRegistration($id);
         }
 
@@ -268,10 +276,84 @@ class DangKyTourController extends Controller
         return redirect()->route('nhanvien.tourhistory');
     }
 
+    public function SupportIdOfTourRegistration($tourId)
+    {
+        $tourRegistrationInfo = (TourRegistration::where('user_id', Auth::user()->id)
+        ->where('tour_id', $tourId)->first());
+        if($tourRegistrationInfo == null || $tourRegistrationInfo->support_id == null) 
+            return false;
+        return $tourRegistrationInfo->support_id; 
+    }
+
+    public function CheckSupportIdCanUseNow($supportId)
+    {
+        $today = Carbon::now()->format('Y');
+        $supportInfo = Support::where('support_id', $supportId)
+        ->where('start_year', '<=', $today)
+        ->where('end_year', '>=', $today)
+        ->get();
+        if($supportInfo->count() == 0) 
+            return false;
+        return true;
+    }
+
+    public function FindFirstTourRegistrationNotStart()
+    {
+        $today = Carbon::now()->format('Y-m-d');
+        $tourRegistrationInfo = TourRegistration::where('user_id', Auth::user()->id)
+        ->select('tours.*', 'tour_registrations.*')
+        ->where('support_id', null)->where('relationship', null)
+        ->join('tours', 'tours.id', '=', 'tour_registrations.tour_id')
+        ->where('tour_start_date', '>=', $today)
+        ->orderBy('registration_date', 'ASC')
+        ->first();
+        if($tourRegistrationInfo == null)
+            return false;
+        return $tourRegistrationInfo;
+    }
+
+    public function FindSupportInfoCanSupportForUserNow($supportId=null)
+    {
+        $expYear = $this->ExpYear();
+        $supportInfo = Support::where('support_id', $supportId)
+                ->where('min_condition', '<=', $expYear)->where('max_condition', '>=', $expYear)->first();
+        if($supportInfo==null)
+            return false;
+        return $supportInfo;
+    }
+
     public function deletetour(Request $request)
     {
         $tourId = $request->post('tourid');
+        $supportId = $this->SupportIdOfTourRegistration($tourId);
+        if($supportId && $this->CheckSupportIdCanUseNow($supportId))
+        {
+            $tourRegistrationInfo = $this->FindFirstTourRegistrationNotStart();
+            //Tim duoc tour phu hop de giam gia
+            if($tourRegistrationInfo)
+            {
+                $priceTour = Tour::where('id', $tourRegistrationInfo->tour_id)->first()->price;
+                $expYear = $this->ExpYear();
+                $supportInfo = $this->FindSupportInfoCanSupportForUserNow($supportId);
+                if($supportInfo)
+                {
+                    //Change cost, support_id of that tour registration
+                    $cost = ($supportInfo->price > $priceTour) ? 0 : ($priceTour - $supportInfo->price);
+
+                    DB::table('tour_registrations')
+                    ->where('id', (int)$tourRegistrationInfo->id)
+                    ->update([
+                        'cost' => $cost,
+                        'support_id' => $supportInfo->support_id
+                    ]);
+                }
+            }
+        }
+        //Khong co tour phu hop de giam gia
         TourRegistration::where('user_id', Auth::user()->id)
         ->where('tour_id', $tourId)->delete();
+        return redirect()->route('nhanvien.tourhistory');
     }
 }
+
+//khi huy tour thi xet dieu kien tour do xem co duoc ho tro khong, neu co thi chuyen sang tour khac de dc ho tro tiep

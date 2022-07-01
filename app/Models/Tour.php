@@ -82,31 +82,33 @@ class Tour extends Model
         return false;
     }
 
-    public static function FirstTour()
+    public static function CheckTourRegisted($tourId)
     {
-        return Tour::BestTour(0, 1);
+        if(TourRegistration::where('user_id', Auth::user()->id)->where('tour_id', $tourId)->get()->count() > 0)
+            return true;
+        return false;
     }
 
-    public static function HightLightTours()
-    {
-        return Tour::BestTour(1, 8);
-    }
-
-    private static function BestTour($startNumber, $amount)
+    public static function ToursCanRegis()
     {
         $today = Carbon::now()->format('Y-m-d');
         if(Auth::check())
         {
-
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
             ->join('agency_tours', 'tours.id', '=', 'agency_tours.tour_id')
             ->where('agency_id', Auth::user()->agency_id)
             ->orderBy('tours.id', 'DESC')
             ->get()
-            ->skip($startNumber)
-            ->take($amount)
             ->toArray();
+
+            for($i=0; $i<count($tours); $i++)
+            {
+                if(Tour::CheckTourRegisted($tours[$i]['tour_id']))
+                {
+                    unset($tours[$i]);
+                }
+            }            
             return $tours;
         }
         else
@@ -116,8 +118,6 @@ class Tour extends Model
             ->select([DB::raw('id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
             'registration_start_date', 'registration_end_date', 'price', 'max_people'])
             ->get()
-            ->skip($startNumber)
-            ->take($amount)
             ->toArray();
             return $tours;
         }

@@ -34,7 +34,7 @@ Route::get('lien-he', [LienHeController::class, 'index'])->name('contact');
 Route::post('gui-mail', [SendMailController::class, 'index'])->name('sendmail');
 
 //Un loged in user
-Route::middleware('not_loged_in')->group(function(){
+Route::middleware('guest')->group(function(){
     Route::get('dang-nhap', [DangNhapController::class, 'index'])->name('login');
     Route::post('dang-nhap', [DangNhapController::class, 'login'])->name('loginPost');
     Route::get('quen-mat-khau', [QuenMatKhauController::class, 'index'])->name('forgotpassword');
@@ -45,6 +45,7 @@ Route::middleware('not_loged_in')->group(function(){
 
 //User
 Route::middleware('user')->prefix('nhan-vien')->name('nhanvien.')->group(function(){
+    Route::get('/', function(){ return redirect()->route('nhanvien.thong-tin-ca-nhan.index'); });
     Route::resource('thay-doi-mat-khau', ChangePassword::class);
     Route::resource('thong-tin-ca-nhan', NVNhanVienController::class);
     Route::get('dang-ky-tour/{tour_id}', [DangKyTourController::class, 'index'])->name('tourregis')

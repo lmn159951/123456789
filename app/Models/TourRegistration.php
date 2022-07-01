@@ -37,4 +37,11 @@ class TourRegistration extends Model
         return $this->belongsTo(Tour::class);
     }
 
+    public static function isRegisted($tourId)
+    {
+        if(TourRegistration::where('tour_id', $tourId)->where('user_id', Auth::user()->id)->get()->count() > 0)
+            return true;
+        return false;
+    }
+
 }

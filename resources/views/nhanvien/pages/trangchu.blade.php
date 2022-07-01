@@ -74,9 +74,10 @@
                 </div>
             </div>
             <div class="row featured__filter">
-                @isset($highlightTours)
+                @isset($highlightTours) 
+                @isset($slot)
                 @if(count($highlightTours) > 0)
-                        @for($i=1; $i<=count($highlightTours); $i++)
+                        @for($i=0; $i<count($highlightTours); $i++)
                         <div class="col-lg-3 col-md-4  mix vegetables fastfood text-center">
                             <div class="featured__item" style="margin-top: 10px;">
                                 <div class="img">
@@ -97,6 +98,7 @@
                         </div> 
                         @endfor
                 @endif
+                @endisset
                 @endisset
         </div>
         </div>

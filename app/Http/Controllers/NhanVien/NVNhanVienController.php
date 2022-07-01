@@ -71,7 +71,7 @@ class NVNhanVienController extends Controller
 
         User::where('id', Auth::user()->id)->update($validated);
         $request->session()->flash('message', 'Lưu thông tin thành công');
-        return redirect()->route('nhanvien.thongtincanhan.index');
+        return redirect()->route('nhanvien.thong-tin-ca-nhan.index');
     }
 
     /**

@@ -10,7 +10,7 @@
                     </div>
                 </div>
             </div>
-            @auth('user')
+            @auth
             @isset($ttcn)
             <form action="{{ route('nhanvien.thong-tin-ca-nhan.edit', Auth::user()->id) }}" method="POST">
                 @method('HEAD')
