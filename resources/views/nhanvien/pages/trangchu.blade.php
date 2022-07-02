@@ -50,7 +50,7 @@
                                 <div class="hero__text">
                                             <span>TOUR</span>
                                             <h2>{{ $firstTour[0]['name'] }}</h2>
-                                            <a href="{{ route('home')."/".$firstTour[0]['description_file'] }}" class="primary-btn">XEM TOUR</a>
+                                            <a href="{{ route('home').$firstTour[0]['description_file'] }}" class="primary-btn">XEM TOUR</a>
                                             <a href="{{ route('nhanvien.tourregis', $firstTour[0]['tour_id']) }}" class="primary-btn">ĐẶT TOUR</a>
                                 </div>
                             </div>
@@ -81,12 +81,12 @@
                         <div class="col-lg-3 col-md-4  mix vegetables fastfood text-center">
                             <div class="featured__item" style="margin-top: 10px;">
                                 <div class="img">
-                                    <a href="{{ route('home')."/".$highlightTours[$i]['description_file'] }}">
+                                    <a href="{{ route('home').$highlightTours[$i]['description_file'] }}">
                                         <img alt="{{ $highlightTours[$i]['name'] }}" class="img-fluid" src="{{ $highlightTours[$i]['image'] }}">
                                     </a>
                                 </div>
                                 <div class="featured__item__text text-left">
-                                    <h6 style="font-size: 30px;"><a href="{{ route('home')."/".$highlightTours[$i]['description_file'] }}">{{ Str::limit($highlightTours[$i]['name'], 25, '...') }}</a></h6>
+                                    <h6 style="font-size: 30px;"><a href="{{ route('home').$highlightTours[$i]['description_file'] }}">{{ Str::limit($highlightTours[$i]['name'], 25, '...') }}</a></h6>
                                     <h5>Ngày Bắt Đầu: {{ date_format(date_create($highlightTours[$i]['tour_start_date']),"d-m-Y") }}</h5>
                                     <h5>Số Lượng: {{ $slot[$i] }}/{{ $highlightTours[$i]['max_people'] }}</h5>
                                     <h5>Giá: {{ number_format($highlightTours[$i]['price'], 0, '.', ',') }}VNĐ</h5>

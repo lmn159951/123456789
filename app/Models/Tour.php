@@ -96,6 +96,10 @@ class Tour extends Model
         {
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
+            ->select('name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
+            'registration_start_date', 'registration_end_date', 'price', 'max_people', 'tour_id')
+            ->groupBy('name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
+            'registration_start_date', 'registration_end_date', 'price', 'max_people', 'tour_id')
             ->join('agency_tours', 'tours.id', '=', 'agency_tours.tour_id')
             ->where('agency_id', Auth::user()->agency_id)
             ->orderBy('tours.id', 'DESC')
@@ -118,7 +122,7 @@ class Tour extends Model
             ->select([DB::raw('id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
             'registration_start_date', 'registration_end_date', 'price', 'max_people'])
             ->get()
-            ->toArray();
+            ->toArray(); 
             return $tours;
         }
     }
