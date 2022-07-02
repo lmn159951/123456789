@@ -234,7 +234,9 @@
                         '_method': 'delete'
                     },
                     success: function(response, textStatus, xhr) {
-                        console.log(response);
+                        table.draw();
+                        $('#deleteAllModal').modal('hide');
+                        $("#buttonDeleteManyModel").addClass('d-none');
                     },
                     error: function(error) {
                         $('#deleteAllModal').modal('hide');

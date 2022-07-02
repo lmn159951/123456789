@@ -78,8 +78,14 @@
                         <label for="gender" class="form-label">Giới tính:</label>
 
                         <select id="gender" class="form-control" name="gender">
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
+                            @if ($user->gender==="Nam")
+                                <option value="Nam" selected>Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            @else
+                                <option value="Nữ" selected>Nữ</option>
+                                <option value="Nam">Nam</option>
+                            @endif
+                           
                         </select>
                     </div>
                 </div>
@@ -120,7 +126,11 @@
                         <select id="department_id" class="form-control" name="department_id"
                             value="{{ old('department_id') }}">
                             @foreach ($departments as $department)
-                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                @if ($user->department_id === $department->id)
+                                    <option value="{{ $department->id }}" selected>{{ $department->name }}</option>
+                                @else
+                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -146,7 +156,11 @@
                         <select id="position_id" class="form-control" name="position_id"
                             value="{{ old('position_id') }}">
                             @foreach ($positions as $position)
-                                <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                @if ($user->position_id === $position->id)
+                                    <option value="{{ $position->id }}" selected>{{ $position->name }}</option>
+                                @else
+                                    <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -154,8 +168,14 @@
                         <label for="is_admin" class="form-label">Phân quyền:</label>
 
                         <select id="is_admin" class="form-control" name="is_admin">
-                            <option value="0">Người dùng</option>
-                            <option value="1">Người quản trị</option>
+                            @if ($user->is_admin===0)
+                                <option value="0" selected>Người dùng</option>
+                                <option value="1">Người quản trị</option>
+                            @else
+                                <option value="1" selected>Người quản trị</option>
+                                <option value="0">Người dùng</option>
+                            @endif
+                           
                         </select>
                     </div>
                 </div>

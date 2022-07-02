@@ -35,7 +35,7 @@ class TimKiemController extends Controller
         else{
             $tours = Tour::select(DB::raw('tours.id, tour_registrations.tour_id, name, image, description_file, tour_start_date,
             max_people, price, count(user_id) as slot,max_people - count(user_id) as empty_slot_remain'))
-            ->join('tour_registrations', 'tour_registrations.tour_id', '=', 'tours.id')
+            ->join('tour_registrations', 'tour_registrations.tour_id', '=', 'tours.id',' left outer')
             ->groupBy('tours.id','tour_registrations.tour_id', 'name','image', 'description_file', 'tour_start_date', 'max_people',
             'price')
             ->where('registration_start_date', '<=', $today)
