@@ -20,7 +20,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <form class="ml-3" method="post" action="${deleteUrl}">
+                    <form class="ml-3" method="post" action="">
                         @method('DELETE') @csrf
                         <button type="submit" class="btn btn-danger">
                             Xoá
@@ -70,8 +70,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
                 <a class="btn btn-primary" href="{{ route('admin.users.create') }}">
                     Thêm
@@ -299,6 +297,21 @@
                 $('#deleteModal').modal('show');
             });
 
+            $('#searchForm').submit(function(event) {
+                event.preventDefault();
+                const formData = $(this).serializeArray();
+                formData.shift();
+
+                let searchKeywords = formData.map((searchKeyword) => searchKeyword.value);
+                searchKeywords = searchKeywords.filter(function(item) {
+                    return item;
+                });
+
+                console.log(searchKeywords);
+
+                table.search(searchKeywords.join('|')).draw();
+            })
+
             $("#buttonDeleteMany").click(function() {
                 const selectedIds = table.rows({
                     selected: true
@@ -321,7 +334,8 @@
                         '_method': 'delete'
                     },
                     success: function(response, textStatus, xhr) {
-                        window.location.reload();
+                        table.draw();
+                        $('#deleteAllModal').modal('hide');
                     }
                 });
             });

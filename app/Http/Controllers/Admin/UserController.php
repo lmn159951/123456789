@@ -17,12 +17,18 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.pages.users.index');
+        $parameters = [];
+        $parameters['agencies'] = Agency::all();
+        $parameters['departments'] = Department::all();
+        $parameters['positions'] = Position::all();
+        return view('admin.pages.users.index', $parameters);
     }
 
-    public function datatableApi()
+    public function datatableApi(Request $request)
     {
-        $users = User::with(['department', 'position','agency'])->orderBy('id', 'DESC')->get();
+        $query = User::with(['department', 'position','agency']);
+
+        $users = $query->orderBy('id', 'DESC')->get();
 
         return Datatables::of($users)
             ->addIndexColumn()

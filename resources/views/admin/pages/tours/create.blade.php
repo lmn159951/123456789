@@ -38,8 +38,8 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>       
-                            <img id="imageInput">                     
+                            </div>
+                            <img id="imageInput">
                         </div>
                     </div>
                     <div class="col">
@@ -203,12 +203,12 @@
 @push('scripts')
     <script type="text/javascript">
         var loadFile = function(event) {
-        var imageInput = document.getElementById('imageInput');
-        imageInput.src = URL.createObjectURL(event.target.files[0]);
-        imageInput.onload = function() {
-        URL.revokeObjectURL(imageInput.src)
-    }
-  };
+            var imageInput = document.getElementById('imageInput');
+            imageInput.src = URL.createObjectURL(event.target.files[0]);
+            imageInput.onload = function() {
+                URL.revokeObjectURL(imageInput.src)
+            }
+        };
     </script>
 @endpush
 

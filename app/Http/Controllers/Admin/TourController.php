@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Tour\StoreTourRequest;
-use App\Http\Requests\Admin\TourRequest;
+use App\Models\Tour;
 use App\Models\Agency;
 use App\Models\Region;
-use App\Models\Tour;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
-use App\Http\Requests\Admin\Tour\UpdateTourRequest;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Client\Response;
+
+use App\Http\Requests\Admin\Tour\StoreTourRequest;
+use App\Http\Requests\Admin\Tour\UpdateTourRequest;
 
 class TourController extends Controller
 {
@@ -59,14 +59,14 @@ class TourController extends Controller
 
         if($request->hasFile('file_image'))
         {
-            $tourImageName = time().$request->file('file_image')->getClientOriginalExtension();
+            $tourImageName = time().'.'.$request->file('file_image')->getClientOriginalExtension();
             $tourImagePath = $request->file('file_image')->storeAs('images', $tourImageName, 'public');
             $tour->image='/storage/'.$tourImagePath;
         }
 
         if($request->hasFile('file_description'))
         {
-            $tourFileDescriptionName = time().$request->file('file_description')->getClientOriginalExtension();
+            $tourFileDescriptionName = time().'.'.$request->file('file_description')->getClientOriginalExtension();
             $tourFileDescriptionPath = $request->file('file_description')->storeAs('files', $tourFileDescriptionName, 'public');
             $tour->description_file = '/storage/'.$tourFileDescriptionPath;
         }
@@ -99,21 +99,21 @@ class TourController extends Controller
 
         if($request->hasFile('file_image'))
         {
-            $tourImageName = time().$request->file('file_image')->getClientOriginalExtension();
+            $tourImageName = time().'.'.$request->file('file_image')->getClientOriginalExtension();
             $tourImagePath = $request->file('file_image')->storeAs('images', $tourImageName, 'public');
             $tour->image= $tourImagePath;
         }
 
         if($request->hasFile('file_description'))
         {
-            $tourFileDescriptionName = time().$request->file('file_description')->getClientOriginalExtension();
+            $tourFileDescriptionName = time().'.'.$request->file('file_description')->getClientOriginalExtension();
             $tourFileDescriptionPath = $request->file('file_description')->storeAs('files', $tourFileDescriptionName, 'public');
             $tour->description_file = $tourFileDescriptionPath;
         }
 
         $tour->save();
 
-        $tour->agencies()->attach($request->agency_ids);
+        $tour->agencies()->sync($request->agency_ids);
         $tour->save();
 
         return redirect()->route('admin.tours.index')->with('message', 'Cập nhật tour thành công');

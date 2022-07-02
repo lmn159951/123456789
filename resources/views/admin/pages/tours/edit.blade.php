@@ -6,7 +6,7 @@
             <h1 class="text-center">Cập nhật tour</h1>
 
             <form class="container" action="{{ route('admin.tours.update', $tour->id) }}" method="POST"
-                enctype="multipart/form-data">
+                enctype="multipart/form-data" autocomplete="off">
                 @csrf @method('PUT')
 
                 <div class="mb-3">
@@ -30,8 +30,10 @@
                             <div class="custom-file">
                                 <input type="file" name="file_image"
                                     class="custom-file-input @error('file_image') is-invalid @enderror"
-                                    id="validatedCustomFile" onchange="loadFile(event)" value="{{ old('image') ?? $tour->image }}">
-                                <label class="custom-file-label" for="validatedCustomFile">{{ asset($tour->image) }}</label>
+                                    id="validatedCustomFile" onchange="loadFile(event)"
+                                    value="{{ old('image') ?? $tour->image }}">
+                                <label class="custom-file-label"
+                                    for="validatedCustomFile">{{ asset($tour->image) }}</label>
 
                                 @error('file_image')
                                     <div id="validationServer03Feedback" class="invalid-feedback">
@@ -49,8 +51,10 @@
                             <div class="custom-file">
                                 <input type="file" name="file_description"
                                     class="custom-file-input @error('file_description') is-invalid @enderror"
-                                    id="validatedCustomFile" value="{{ old('description_file') ?? $tour->description_file }}">
-                                <label class="custom-file-label" for="validatedCustomFile">{{ asset($tour->description_file) }}</label>
+                                    id="validatedCustomFile"
+                                    value="{{ old('description_file') ?? $tour->description_file }}">
+                                <label class="custom-file-label"
+                                    for="validatedCustomFile">{{ asset($tour->description_file) }}</label>
 
                                 @error('file_description')
                                     <div id="validationServer03Feedback" class="invalid-feedback">
@@ -58,7 +62,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <a href="{{ route('admin.tours.download',$tour->id) }}">Nhấn để tải</a>
+                            <a href="{{ route('admin.tours.download', $tour->id) }}">Nhấn để tải</a>
                         </div>
                     </div>
                 </div>
@@ -165,13 +169,17 @@
                 <div class="mb-3">
                     <label for="region" class="form-label">Vùng miền:</label>
                     <select name="region_id" id="region_id" class="form-control">
-                        @foreach ($regions as $region)
-                            @if ($tour->region_id === $region->id)
-                                <option value="{{ $region->id }}" selected>{{ $region->name }}</option>
-                            @else
-                                <option value="{{ $region->id }}">{{ $region->name }}</option>
-                            @endif
-                        @endforeach
+                        @if (old('region_id'))
+                            @foreach ($regions as $region)
+                                <option value="{{ $region->id }}" @selected(old('region_id') === $region->id)>{{ $region->name }}</option>
+                            @endforeach
+                        @else
+                            @foreach ($regions as $region)
+                                <option value="{{ $region->id }}" @selected($tour->region_id === $region->id)>
+                                    {{ $region->name }}
+                                </option>
+                            @endforeach
+                        @endif
                     </select>
                 </div>
 
@@ -209,12 +217,12 @@
 @push('scripts')
     <script type="text/javascript">
         var loadFile = function(event) {
-        var imageInput = document.getElementById('imageInput');
-        imageInput.src = URL.createObjectURL(event.target.files[0]);
-        imageInput.onload = function() {
-        URL.revokeObjectURL(imageInput.src)
-    }
-  };
+            var imageInput = document.getElementById('imageInput');
+            imageInput.src = URL.createObjectURL(event.target.files[0]);
+            imageInput.onload = function() {
+                URL.revokeObjectURL(imageInput.src)
+            }
+        };
     </script>
 @endpush
 

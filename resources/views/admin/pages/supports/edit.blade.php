@@ -11,7 +11,7 @@
                 </div>
             @endif
 
-            <form class="container" action="{{ route('admin.supports.update', $support->id) }}" method="POST">
+            <form class="container" action="{{ route('admin.supports.update', $support->id) }}" method="POST" autocomplete="off">
                 @csrf @method('PATCH')
 
                 <div class="row align-items-start">

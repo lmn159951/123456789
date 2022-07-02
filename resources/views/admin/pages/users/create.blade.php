@@ -5,21 +5,21 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Tạo nhân viên</h1>
 
-            <form class="container" action="{{ route('admin.users.store') }}" method="POST"   autocomplete="off">
+            <form class="container" action="{{ route('admin.users.store') }}" method="POST" autocomplete="off">
                 @csrf
 
                 <div class="row g-3 mt-2">
                     <div class="col">
-                    <label for="fullname" class="form-label">Tên nhân viên:</label>
-                    <label class="text-danger">(*)</label>
-                            <input type="text" class="form-control @error('fullname') is-invalid @enderror"
-                                value="{{ old('fullname') }}" name="fullname" id="fullname">
+                        <label for="fullname" class="form-label">Tên nhân viên:</label>
+                        <label class="text-danger">(*)</label>
+                        <input type="text" class="form-control @error('fullname') is-invalid @enderror"
+                            value="{{ old('fullname') }}" name="fullname" id="fullname">
 
-                            @error('fullname')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        @error('fullname')
+                            <div id="validationServer03Feedback" class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
                 </div>
 
@@ -153,6 +153,7 @@
 
                         <select id="position_id" class="form-control" name="position_id"
                             value="{{ old('position_id') }}">
+                            <option value="">{{ $position->name }}</option>
                             @foreach ($positions as $position)
                                 <option value="{{ $position->id }}">{{ $position->name }}</option>
                             @endforeach

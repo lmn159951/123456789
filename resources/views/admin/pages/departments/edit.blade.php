@@ -6,7 +6,7 @@
             <h1 class="text-center">Cập nhật phòng ban</h1>
 
             <form class="container" style="max-width: 800px;"
-                action="{{ route('admin.departments.update', $department->id) }}" method="POST">
+                action="{{ route('admin.departments.update', $department->id) }}" method="POST" autocomplete="off">
 
                 @method('PATCH')
                 @csrf
@@ -15,8 +15,7 @@
                     <label for="name" class="form-label">Tên phòng ban:</label>
                     <label class="text-danger">(*)</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                        value="{{ old('name') ?? $department->name }}" name="name"
-                        id="name">
+                        value="{{ old('name') ?? $department->name }}" name="name" id="name">
 
                     @error('name')
                         <div id="validationServer03Feedback" class="invalid-feedback">

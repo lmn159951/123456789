@@ -9,9 +9,7 @@ class UpdateSupportRequest extends FormRequest
 {
     public function authorize()
     {
-        dd($this->route('support'));
-        $support = Support::findOrFail($this->route('support'));
-        return $this->user()->can('update', $support);
+        return $this->user()->can('update', $this->route('support'));
     }
 
     public function rules()
@@ -19,9 +17,9 @@ class UpdateSupportRequest extends FormRequest
         return [
             'start_year' => 'required',
             'end_year' => 'required|gt:start_year',
-            'min_condition'=>'nullable|numeric|min:1|max:100',
-            'max_condition'=>'nullable|numeric|min:1|max:100',
-            'price'=>'required|numeric|min:1|max:100000000',
+            'min_condition'=>'nullable|numeric|interger|gt:0|max:100',
+            'max_condition'=>'nullable|numeric|interger|different:min_condition|gt:min_condition|max:100',
+            'price'=>'required|numeric|gt:0|max:100000000',
         ];
     }
 
@@ -40,8 +38,9 @@ class UpdateSupportRequest extends FormRequest
     {
         return [
             'required' => ':attribute không được để trống.',
-            'gt' => ':attribute phải lớn hơn :start_year.',
-            'numeric' => ':attribute phải là một số nguyên.',
+            'gt' => ':attribute phải lớn hơn :field.',
+            'numeric' => ':attribute phải là một số .',
+            'integer' => ':attribute phải là một số nguyên.',
             'min' => ':attribute phải có giá trị ít nhất là :min.',
             'max' => ':attribute có giá trị lớn nhất là :max.',
         ];

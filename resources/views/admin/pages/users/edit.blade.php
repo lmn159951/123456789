@@ -5,7 +5,7 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Cập nhật nhân viên</h1>
 
-            <form class="container" action="{{ route('admin.users.update', $user->id) }}" method="POST">
+            <form class="container" action="{{ route('admin.users.update', $user->id) }}" method="POST" autocomplete="off">
                 @csrf @method('PATCH')
 
                 <div class="row g-3 mt-2">

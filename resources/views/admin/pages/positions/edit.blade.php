@@ -6,7 +6,7 @@
             <h1 class="text-center">Cập nhật chức vụ</h1>
 
             <form class="container" style="max-width: 800px;" action="{{ route('admin.positions.update', $position->id) }}"
-                method="POST">
+                method="POST" autocomplete="off">
 
                 @method('PATCH')
                 @csrf

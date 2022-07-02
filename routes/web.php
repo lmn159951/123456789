@@ -24,8 +24,6 @@ use App\Http\Controllers\NhanVien\SendMailController;
 use App\Http\Controllers\NhanVien\ChangePassword;
 use App\Http\Controllers\NhanVien\QuenMatKhauController;
 
-//Public
-Route::get('/storage/{filename}', [ImageController::class, 'display'])->name('image.display');
 
 Route::get('/', [TrangChuController::class, 'index'])->name('home');
 Route::get('tat-ca-cac-tour', [TrangChuController::class, 'allTour'])->name('alltour');
@@ -75,29 +73,25 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
     Route::get('/positions/datatableApi', [PositionController::class, 'datatableApi'])->name('positions.datatableApi');
     Route::resource('positions', PositionController::class);
 
-    // Route::post('/users/search', [UserController::class, 'search'])->name('users.search');
-    Route::get('/users/resetPassword/{user}', [UserController::class, 'resetPassword'])->name('users.resetPassword')
-    ->where('user', '[0-9]+');
+    Route::get('/users/resetPassword/{user}', [UserController::class, 'resetPassword'])->name('users.resetPassword')->where('user', '[0-9]+');
     Route::delete('/users/deleteMany', [UserController::class, 'deleteMany'])->name('users.deleteMany');
     Route::get('/users/datatableApi', [UserController::class, 'datatableApi'])->name('users.datatableApi');
     Route::resource('users', UserController::class);
 
     Route::resource('regions', RegionController::class);
 
-    
     Route::post('/tours/search', [TourController::class, 'search'])->name('tours.search');
     Route::delete('/tours/deleteMany', [TourController::class, 'deleteMany'])->name('tours.deleteMany');
     Route::get('/tours/datatableApi', [TourController::class, 'datatableApi'])->name('tours.datatableApi');
-    Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription')
-    ->where('tour', '[0-9]+');
+    Route::get('/tours/showFileDescription/{tour}', [TourController::class,'showFileDescription'])->name('tours.showFileDescription')->where('tour', '[0-9]+');
     Route::get('/tours/download/{tour}',[TourController::class,'download'])->name('tours.download')->where('tour', '[0-9]+');
     Route::resource('tours', TourController::class);
-
 
     Route::post('/supports/search', [SupportController::class, 'search'])->name('supports.search');
     Route::delete('/supports/deleteMany', [SupportController::class, 'deleteMany'])->name('supports.deleteMany');
     Route::get('/supports/datatableApi', [SupportController::class, 'datatableApi'])->name('supports.datatableApi');
     Route::resource('supports', SupportController::class);
+
     Route::delete('/tour_registrations/deleteMany', [TourRegistrationController::class, 'deleteMany'])->name('tour_registrations.deleteMany');
     Route::get('/tour_registrations/datatableApi', [TourRegistrationController::class, 'datatableApi'])->name('tour_registrations.datatableApi');
     Route::resource('tour_registrations',TourRegistrationController::class);

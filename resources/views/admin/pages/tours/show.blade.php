@@ -25,8 +25,7 @@
                     @if (str_starts_with($tour->image, 'http'))
                         <img src="{{ $tour->image }}" alt="{{ $tour->image }}" height="100">
                     @else
-                        <img src="{{ route('image.display', $tour->image) }}"
-                            alt="{{ route('image.display', $tour->image) }}" height="100">
+                        <img src="{{ asset($tour->image) }}" alt="{{ asset($tour->image) }}" height="100">
                     @endif
                 </div>
 

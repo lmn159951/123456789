@@ -73,27 +73,18 @@ class SupportController extends Controller
         $this->authorize('update', $support);
 
         $currentYear = date('Y');
-        if($support->end_year < $currentYear || $support->start_year > $currentYear)
-        {
-            return view('admin.pages.supports.index');
-        }
-        else
-        {
-            $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
+        $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
 
         $parameters = [];
         $parameters['support'] = $support;
         $parameters['start_years'] = range($currentSupport->start_year, $currentSupport->start_year + 10);
         $parameters['end_years'] = range($currentSupport->end_year, $currentSupport->end_year + 10);
 
-            return view('admin.pages.supports.edit', $parameters);
-        }
+        return view('admin.pages.supports.edit', $parameters);
     }
 
     public function update(UpdateSupportRequest $request, Support $support)
     {
-        $this->authorize('update', $support);
-
         $support->fill($request->validated());
         $support->min_condition = $request->min_condition ?? 0;
         $support->max_condition = $request->max_condition ?? 99;

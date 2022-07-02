@@ -17,8 +17,14 @@ class StoreSupportRequest extends FormRequest
         return [
             'start_year' => 'required',
             'end_year' => 'required|gt:start_year',
-            'min_condition'=>'nullable|numeric|min:1|max:50',
-            'max_condition'=>'nullable|numeric|min:1|max:100',
+            'min_condition'=>'nullable|numeric|integer|gt:0|max:50',
+            'max_condition'=> [
+                'nullable',
+                'numeric',
+                'integer',
+                'gt:min_condition',
+                'max:100',
+            ],
             'price'=>'required|numeric|min:1|max:100000000',
         ];
     }
@@ -38,8 +44,9 @@ class StoreSupportRequest extends FormRequest
     {
         return [
             'required' => ':attribute không được để trống.',
-            'gt' => ':attribute phải lớn hơn :start_year.',
-            'numeric' => ':attribute phải là một số nguyên.',
+            'gt' => ':attribute phải lớn hơn :field.',
+            'numeric' => ':attribute phải là một số .',
+            'integer' => ':attribute phải là một số nguyên.',
             'min' => ':attribute phải có giá trị ít nhất là :min.',
             'max' => ':attribute có giá trị lớn nhất là :max.',
         ];
@@ -49,6 +56,11 @@ class StoreSupportRequest extends FormRequest
     {
         return parent::getValidatorInstance()->after(function ($validator) {
             if ($this->validated()) {
+                if (is_null($this->min_condition) && is_null($this->max_condition))
+                {
+                    return $validator->errors()->add('baseError', 'Điều kiện tối thiểu hoặc điều kiện tối đa không được đồng thời để trống!');
+                }
+
                 $this->after($validator);
             }
         });

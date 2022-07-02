@@ -20,7 +20,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <form class="ml-3" method="post" action="${deleteUrl}">
+                    <form class="ml-3" method="post" action="">
                         @method('DELETE') @csrf
                         <button type="submit" class="btn btn-danger">
                             Xoá
@@ -263,7 +263,9 @@
                         '_method': 'delete'
                     },
                     success: function(response, textStatus, xhr) {
-                        window.location.reload();
+                        table.draw();
+                        $('#deleteAllModal').modal('hide');
+                        $("#buttonDeleteManyModel").addClass('d-none');
                     }
                 });
             });
