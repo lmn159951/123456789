@@ -19,7 +19,7 @@ return new class extends Migration
             $table->smallInteger('start_year');
             $table->smallInteger('end_year');
             $table->smallInteger('min_condition')->default(0);
-            $table->smallInteger('max_condition')->default(99);
+            $table->smallInteger('max_condition')->default(100);
             $table->bigInteger('price');
             $table->timestamps();
             $table->softDeletes();

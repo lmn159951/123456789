@@ -85,7 +85,6 @@
                                 <option value="Nữ" selected>Nữ</option>
                                 <option value="Nam">Nam</option>
                             @endif
-                           
                         </select>
                     </div>
                 </div>
@@ -175,7 +174,7 @@
                                 <option value="1" selected>Người quản trị</option>
                                 <option value="0">Người dùng</option>
                             @endif
-                           
+
                         </select>
                     </div>
                 </div>

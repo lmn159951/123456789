@@ -16,17 +16,17 @@ return new class extends Migration
         Schema::create('tours', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('max_people');
+            $table->integer('price');
             $table->string('image')->nullable();
             $table->string('description_file')->nullable();
-            $table->dateTime('tour_start_date');
-            $table->dateTime('tour_end_date');
+            $table->foreignId('region_id')->constrained()->onDelete('cascade');
             $table->dateTime('registration_start_date');
             $table->dateTime('registration_end_date');
-            $table->integer('price');
-            $table->integer('max_people');
+            $table->dateTime('tour_start_date');
+            $table->dateTime('tour_end_date');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreignId('region_id')->constrained()->onDelete('cascade');
         });
     }
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Agency extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $primaryKey = 'id';
     protected $table = 'agencies';
     protected $fillable = ['name', 'address'];

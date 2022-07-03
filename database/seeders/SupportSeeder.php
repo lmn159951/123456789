@@ -17,37 +17,37 @@ class SupportSeeder extends Seeder
     public function run()
     {
         $faker = Factory::create();
-        $startYear = 2015;
+        $startYear = 2018;
         $supportCount = 0;
 
         while($startYear <= 2023)
         {
             $conditions = [];
-            $numberConditions = $faker->numberBetween(1, 3);
+            $numberConditions = rand(1, 3);
             for ($k = 0; $k < $numberConditions; $k++)
             {
                 if ($numberConditions === 1)
                 {
-                    $conditions[] = [$faker->numberBetween(1, 3), 0];
+                    $conditions[] = [rand(1, 3), 0];
                     break;
                 }
                 if ($k === 0)
                 {
-                    $conditions[] = [0, $faker->numberBetween(1, 2)];
+                    $conditions[] = [0, rand(1, 2)];
                 }
                 elseif ($k === $numberConditions - 1)
                 {
-                    $previousMaxCondition = $conditions[$k - 1][1] ?? 0;
+                    $previousMaxCondition = $conditions[$k - 1][1] + 1 ?? 0;
                     $conditions[] = [$previousMaxCondition, 0];
                 }
                 else
                 {
-                    $previousCondition = $conditions[$k - 1][1] ?? 0;
-                    $conditions[] = [$previousCondition, $previousCondition + $faker->numberBetween(1, 2)];
+                    $previousCondition = $conditions[$k - 1][1] + 1 ?? 0;
+                    $conditions[] = [$previousCondition, $previousCondition + rand(1, 2)];
                 }
             }
 
-            $numberYear = $faker->numberBetween(1, 3);
+            $numberYear = rand(1, 3);
             $initialPrice = 0;
             foreach ($conditions as $key => $condition)
             {
@@ -62,7 +62,7 @@ class SupportSeeder extends Seeder
                 {
                     $support['max_condition'] = $condition[1];
                 }
-                $initialPrice += $faker->numberBetween(1000, 2000) * 1000;
+                $initialPrice += rand(1000, 2000) * 1000;
                 $support['price'] = $initialPrice;
                 $support['support_id'] = $supportCount + 1;
                 Support::create($support);

@@ -48,9 +48,23 @@ class Tour extends Model
         return $query->registering()->orWhere->unregister();
     }
 
+    public function isRegisteredTour()
+    {
+        return TourRegistration::where('tour_id', $this->id)->exists();
+    }
+
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+    public function agencies()
+    {
+        return $this->belongsToMany(Agency::class, 'agency_tours');
+    }
+
+    public function tour_registrations()
+    {
+        return $this->belongsToMany(TourRegistration::class,'tour_registrations');
     }
 
     public static function Slot($tourId=0)
@@ -112,7 +126,7 @@ class Tour extends Model
                 {
                     unset($tours[$i]);
                 }
-            }            
+            }
             return $tours;
         }
         else
@@ -122,17 +136,8 @@ class Tour extends Model
             ->select([DB::raw('id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
             'registration_start_date', 'registration_end_date', 'price', 'max_people'])
             ->get()
-            ->toArray(); 
+            ->toArray();
             return $tours;
         }
-    }
-    public function agencies()
-    {
-        return $this->belongsToMany(Agency::class, 'agency_tours');
-    }
-
-    public function tour_registrations()
-    {
-        return $this->belongsToMany(TourRegistration::class,'tour_registrations');
     }
 }

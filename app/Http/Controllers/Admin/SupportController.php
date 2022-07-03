@@ -38,7 +38,7 @@ class SupportController extends Controller
                 return (string)$support->min_condition;
             })
             ->editColumn('max_condition', function (Support $support) {
-                return (string)$support->max_condition;
+                return (string)($support->max_condition == 100 ? '' : $support->max_condition);
             })
             ->rawColumns(['action'])
             ->make();

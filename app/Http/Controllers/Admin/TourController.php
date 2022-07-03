@@ -12,6 +12,7 @@ use Illuminate\Http\Client\Response;
 
 use App\Http\Requests\Admin\Tour\StoreTourRequest;
 use App\Http\Requests\Admin\Tour\UpdateTourRequest;
+use App\Models\TourRegistration;
 
 class TourController extends Controller
 {
@@ -35,9 +36,9 @@ class TourController extends Controller
                 return currency_format($tour->price, $separator = ',', $suffix = '₫');
             })
             ->editColumn('max_people', function (Tour $tour) {
-                $emptySlotRemain = Tour::EmptySlotRemain($tour->id);
+                $slot = Tour::Slot($tour->id);
 
-                return (string)$emptySlotRemain.'/'.(string)$tour->max_people;
+                return (string)$slot.'/'.(string)$tour->max_people;
             })
             ->rawColumns(['action'])
             ->make();
@@ -134,18 +135,35 @@ class TourController extends Controller
         return view('admin.pages.tours.showFileDescription', $parameters);
     }
 
-    public function destroy(int $id)
+    public function destroy(Tour $tour)
     {
-        Tour::destroy($id);
-
-        return redirect()->route('admin.tours.index')->with('message', 'Xoá tour thành công');
+        if ($tour->isRegisteredTour())
+        {
+            return back()->withError('Không thể xoá tour có tồn tại nhân viên đăng ký');
+        }
+        else
+        {
+            $tour->delete();
+            return redirect()->route('admin.tours.index')->with('message', 'Xoá phòng ban thành công');
+        }
     }
 
     public function deleteMany(Request $request)
     {
-        Tour::destroy($request->ids);
+        if (TourRegistration::whereIn('tour_id', $request->ids)->exists())
+        {
+            return response()->json([
+                'message' => 'Không thể xoá các tour có tồn tại nhân viên đăng ký'
+            ], 400);
+        }
+        else
+        {
+            Tour::destroy($request->ids);
 
-        return response()->json(['message' => 'Xoá nhân viên thành công']);
+            return response()->json(['message' => 'Xoá nhân viên thành công']);
+        }
+
+
     }
 
     public function download(int $id)

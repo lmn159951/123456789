@@ -7,34 +7,40 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="shadow p-4 mb-5 bg-body rounded">
-            <h3 class="text-center">Quản lý tour</h3>
 
-            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
-                            <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Đóng">
-                                <span aria-hidden="true">&times;</span>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-dark" id="exampleModalLabel">Hộp thoại xoá</h5>
+                        <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Đóng">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn có muốn xoá tour này?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <form class="ml-3" method="post" action="">
+                            @method('DELETE') @csrf
+                            <button type="submit" class="btn btn-danger">
+                                Xoá
                             </button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Bạn có muốn xoá tour này?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                            <form class="ml-3" method="post" action="">
-                                @method('DELETE') @csrf
-                                <button type="submit" class="btn btn-danger">
-                                    Xoá
-                                </button>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="shadow p-4 mb-5 bg-body rounded">
+            <h3 class="text-center" id="title">Quản lý tour</h3>
+
+            @if (session('error'))
+                <div class="alert alert-danger text-center" id="errorMessage">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             @if (session('message'))
                 <div class="alert alert-success text-center">
@@ -301,6 +307,17 @@
                         table.draw();
                         $('#deleteAllModal').modal('hide');
                         $("#buttonDeleteManyModel").addClass('d-none');
+                    },
+                    error: function(error) {
+                        $('#deleteAllModal').modal('hide');
+
+                        $('#errorMessage').remove();
+
+                        $('#title').after(`
+                            <div class="alert alert-danger text-center" id="errorMessage">
+                                ${error.responseJSON.message}
+                            </div>
+                        `);
                     }
                 });
             });

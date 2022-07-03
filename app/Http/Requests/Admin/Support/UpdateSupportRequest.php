@@ -50,6 +50,10 @@ class UpdateSupportRequest extends FormRequest
     {
         return parent::getValidatorInstance()->after(function ($validator) {
             if ($this->validated()) {
+                if (is_null($this->min_condition) && is_null($this->max_condition))
+                {
+                    return $validator->errors()->add('baseError', 'Điều kiện tối thiểu hoặc điều kiện tối đa không được đồng thời để trống!');
+                }
                 $this->after($validator, $this->route('support'));
             }
         });

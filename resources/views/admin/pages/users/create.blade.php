@@ -114,7 +114,7 @@
                     <div class="col">
                         <label for="agency_id" class="form-label">Đơn vị:</label>
 
-                        <select id="agency_id" class="form-control" name="agency_id" value="{{ old('agency_id') }}">
+                        <select id="agency_id" class="form-control" name="agency_id">
                             @foreach ($agencies as $agency)
                                 <option value="{{ $agency->id }}">{{ $agency->name }}</option>
                             @endforeach
@@ -126,8 +126,7 @@
                     <div class="col">
                         <label for="department_id" class="form-label">Phòng ban:</label>
 
-                        <select id="department_id" class="form-control" name="department_id"
-                            value="{{ old('department_id') }}">
+                        <select id="department_id" class="form-control" name="department_id">
                             @foreach ($departments as $department)
                                 <option value="{{ $department->id }}">{{ $department->name }}</option>
                             @endforeach
@@ -151,9 +150,7 @@
                     <div class="col">
                         <label for="position_id" class="form-label">Chức vụ:</label>
 
-                        <select id="position_id" class="form-control" name="position_id"
-                            value="{{ old('position_id') }}">
-                            <option value="">{{ $position->name }}</option>
+                        <select id="position_id" class="form-control" name="position_id">
                             @foreach ($positions as $position)
                                 <option value="{{ $position->id }}">{{ $position->name }}</option>
                             @endforeach
