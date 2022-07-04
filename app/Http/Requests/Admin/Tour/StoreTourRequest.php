@@ -31,7 +31,7 @@ class StoreTourRequest extends FormRequest
                     }
                 }
             ],
-            'registration_start_date' => 'required|after:now',
+            'registration_start_date' => 'required|after_or_equal:today',
             'registration_end_date' => 'required|after:registration_start_date',
             'tour_start_date' => 'required|after:registration_end_date',
             'tour_end_date' => 'required|after:tour_start_date',

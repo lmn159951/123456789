@@ -33,7 +33,13 @@
 
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h3 class="text-center">Quản lý hỗ trợ</h3>
+            <h3 class="text-center" id="title">Quản lý hỗ trợ</h3>
+
+            @if (session('error'))
+                <div class="alert alert-danger text-center" id="errorMessage">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             @if (session('message'))
                 <div class="alert alert-success text-center">
@@ -266,6 +272,26 @@
                         table.draw();
                         $('#deleteAllModal').modal('hide');
                         $("#buttonDeleteManyModel").addClass('d-none');
+                    },
+                    error: function(error) {
+
+                        console.log(error);
+
+                        $('#deleteAllModal').modal('hide');
+
+                        $('#errorMessage').remove();
+
+                        console.log(`
+                            <div class="alert alert-danger text-center" id="errorMessage">
+                                ${error.responseJSON.message}
+                            </div>
+                        `);
+
+                        $('#title').after(`
+                            <div class="alert alert-danger text-center" id="errorMessage">
+                                ${error.responseJSON.message}
+                            </div>
+                        `);
                     }
                 });
             });

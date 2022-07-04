@@ -38,8 +38,8 @@
                         </div>
                     </div>
                 </div>
-                @isset($firstTour)
-                            @if(count($firstTour)==0)
+                @isset($firstTour) 
+                            @if(($firstTour[0])==null)
                             <div class="hero__item set-bg" data-setbg="">
                                 <div class="hero__text">
                                     <h2>HIỆN KHÔNG CÓ TOUR NÀO PHÙ HỢP VỚI BẠN</h2>
@@ -56,13 +56,13 @@
                             </div>
                             @endif
                 @endisset
-                
+
             </div>
         </div>
     </div>
 </section>
     <!-- Hero Section End -->
-    
+
     <!-- Featured Section Begin -->
     <section class="featured spad">
         <div class="container">
@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="row featured__filter">
-                @isset($highlightTours) 
+                @isset($highlightTours)
                 @isset($slot)
                 @if(count($highlightTours) > 0)
                         @for($i=0; $i<count($highlightTours); $i++)
@@ -90,12 +90,12 @@
                                     <h5>Ngày Bắt Đầu: {{ date_format(date_create($highlightTours[$i]['tour_start_date']),"d-m-Y") }}</h5>
                                     <h5>Số Lượng: {{ $slot[$i] }}/{{ $highlightTours[$i]['max_people'] }}</h5>
                                     <h5>Giá: {{ number_format($highlightTours[$i]['price'], 0, '.', ',') }}VNĐ</h5>
-                                </div> 
+                                </div>
                                 <div class="col-lg-12 text-center" style="margin-top: 10px; margin-bottom: 10px;">
                                     <a href="{{ route('nhanvien.tourregis', $highlightTours[$i]['tour_id']) }}"><button type="submit" class="site-btn">ĐẶT TOUR</button></a>
                                 </div>
-                            </div>   
-                        </div> 
+                            </div>
+                        </div>
                         @endfor
                 @endif
                 @endisset
@@ -105,5 +105,4 @@
     </section>
     <!-- Featured Section End -->
 @endsection
-   
-    
+

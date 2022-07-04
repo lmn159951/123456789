@@ -17,8 +17,18 @@ class UpdateSupportRequest extends FormRequest
         return [
             'start_year' => 'required',
             'end_year' => 'required|gt:start_year',
-            'min_condition'=>'nullable|numeric|interger|gt:0|max:100',
-            'max_condition'=>'nullable|numeric|interger|different:min_condition|gt:min_condition|max:100',
+            'min_condition'=>'nullable|numeric|gte:0|max:100',
+            'max_condition'=> [
+                'nullable',
+                'numeric',
+                function ($attributes, $value, $fail) {
+                    if ($this->max_condition < $this->min_condition)
+                    {
+                        return $fail->errors()->add('max_condition', 'Điều kiện tối đa phải lớn hơn điều kiện tối thiểu !');
+                    }
+                },
+                'max:100',
+            ],
             'price'=>'required|numeric|gt:0|max:100000000',
         ];
     }
@@ -46,6 +56,13 @@ class UpdateSupportRequest extends FormRequest
         ];
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'price' => currencyToNumber($this->price),
+        ]);
+    }
+
     protected function getValidatorInstance()
     {
         return parent::getValidatorInstance()->after(function ($validator) {
@@ -59,14 +76,14 @@ class UpdateSupportRequest extends FormRequest
         });
     }
 
-    protected function after($validator, $id)
+    protected function after($validator, Support $support)
     {
         $isExistedSupport = Support::where('start_year', $this->start_year)->where('end_year', $this->end_year)
                             ->orderBy('start_year', 'ASC')->orderBy('min_condition', 'ASC');
 
         if ($isExistedSupport->exists())
         {
-            $isExistedSupportCollection = $isExistedSupport->get()->except($id);
+            $isExistedSupportCollection = $isExistedSupport->get()->except($support->id);
 
             foreach ($isExistedSupportCollection as $key => $supportDetails)
             {
@@ -90,7 +107,7 @@ class UpdateSupportRequest extends FormRequest
         {
             $currentYear = date('Y');
             $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
-            $supports = Support::where('start_year', '>=', $currentSupport->start_year)->orderBy('start_year', 'ASC')->get()->except($id);
+            $supports = Support::where('start_year', '>=', $currentSupport->start_year ?? date('Y'))->orderBy('start_year', 'ASC')->get()->except($support->id);
 
             foreach ($supports as $key => $supportDetails)
             {

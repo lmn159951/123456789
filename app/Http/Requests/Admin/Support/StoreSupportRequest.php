@@ -17,15 +17,20 @@ class StoreSupportRequest extends FormRequest
         return [
             'start_year' => 'required',
             'end_year' => 'required|gt:start_year',
-            'min_condition'=>'nullable|numeric|integer|gt:0|max:50',
+            'min_condition'=>'nullable|numeric|integer|gte:0|max:100',
             'max_condition'=> [
                 'nullable',
                 'numeric',
+                function ($attributes, $value, $fail) {
+                    if ($this->max_condition < $this->min_condition)
+                    {
+                        return $fail->errors()->add('max_condition', 'Điều kiện tối đa phải lớn hơn điều kiện tối thiểu !');
+                    }
+                },
                 'integer',
-                'gt:min_condition',
                 'max:100',
             ],
-            'price'=>'required|numeric|min:1|max:100000000',
+            'price'=>'required|min:1|max:100000000',
         ];
     }
 
@@ -44,12 +49,19 @@ class StoreSupportRequest extends FormRequest
     {
         return [
             'required' => ':attribute không được để trống.',
-            'gt' => ':attribute phải lớn hơn :field.',
+            'gt' => ':attribute phải lớn hơn :value.',
             'numeric' => ':attribute phải là một số .',
             'integer' => ':attribute phải là một số nguyên.',
             'min' => ':attribute phải có giá trị ít nhất là :min.',
             'max' => ':attribute có giá trị lớn nhất là :max.',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'price' => currencyToNumber($this->price),
+        ]);
     }
 
     protected function getValidatorInstance()
@@ -95,7 +107,7 @@ class StoreSupportRequest extends FormRequest
         {
             $currentYear = date('Y');
             $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
-            $supports = Support::where('start_year', '>=', $currentSupport->start_year)->orderBy('start_year', 'ASC');
+            $supports = Support::where('start_year', '>=', $currentSupport->start_year ?? date('Y'))->orderBy('start_year', 'ASC');
 
             foreach ($supports->get() as $key => $supportDetails)
             {

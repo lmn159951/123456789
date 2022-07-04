@@ -107,5 +107,13 @@ if (!function_exists('randomCarbonDatetime'))
     }
 }
 
+if (!function_exists('currencyToNumber'))
+{
+    function currencyToNumber($currency, string $separator = ',')
+    {
+        return explode($separator, $currency) ? implode(explode($separator, $currency)) : $currency;
+    }
+}
+
 ?>
 

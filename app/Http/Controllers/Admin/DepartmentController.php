@@ -67,11 +67,9 @@ class DepartmentController extends Controller
         {
             return back()->withError('Không thể xoá phòng ban có tồn tại nhân viên');
         }
-        else
-        {
-            Department::destroy($id);
-            return redirect()->route('admin.departments.index')->with('message', 'Xoá phòng ban thành công');
-        }
+
+        Department::destroy($id);
+        return redirect()->route('admin.departments.index')->with('message', 'Xoá phòng ban thành công');
     }
 
     public function deleteMany(Request $request)
@@ -82,10 +80,8 @@ class DepartmentController extends Controller
                 'message' => 'Không thể xoá các phòng ban có tồn tại nhân viên'
             ], 400);
         }
-        else
-        {
-            Department::destroy($request->ids);
-            return response()->json([ 'message' => 'Xoá phòng ban thành công' ]);
-        }
+        
+        Department::destroy($request->ids);
+        return response()->json([ 'message' => 'Xoá phòng ban thành công' ]);
     }
 }

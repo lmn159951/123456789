@@ -8,7 +8,6 @@ use App\Models\Region;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Client\Response;
 
 use App\Http\Requests\Admin\Tour\StoreTourRequest;
 use App\Http\Requests\Admin\Tour\UpdateTourRequest;
@@ -62,14 +61,14 @@ class TourController extends Controller
         {
             $tourImageName = time().'.'.$request->file('file_image')->getClientOriginalExtension();
             $tourImagePath = $request->file('file_image')->storeAs('images', $tourImageName, 'public');
-            $tour->image='/storage/'.$tourImagePath;
+            $tour->image = 'storage/'.$tourImagePath;
         }
 
         if($request->hasFile('file_description'))
         {
             $tourFileDescriptionName = time().'.'.$request->file('file_description')->getClientOriginalExtension();
             $tourFileDescriptionPath = $request->file('file_description')->storeAs('files', $tourFileDescriptionName, 'public');
-            $tour->description_file = '/storage/'.$tourFileDescriptionPath;
+            $tour->description_file = 'storage/'.$tourFileDescriptionPath;
         }
 
         $tour->save();
@@ -102,14 +101,14 @@ class TourController extends Controller
         {
             $tourImageName = time().'.'.$request->file('file_image')->getClientOriginalExtension();
             $tourImagePath = $request->file('file_image')->storeAs('images', $tourImageName, 'public');
-            $tour->image= $tourImagePath;
+            $tour->image= 'storage/'.$tourImagePath;
         }
 
         if($request->hasFile('file_description'))
         {
             $tourFileDescriptionName = time().'.'.$request->file('file_description')->getClientOriginalExtension();
             $tourFileDescriptionPath = $request->file('file_description')->storeAs('files', $tourFileDescriptionName, 'public');
-            $tour->description_file = $tourFileDescriptionPath;
+            $tour->description_file = 'storage/'.$tourFileDescriptionPath;
         }
 
         $tour->save();

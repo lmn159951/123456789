@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Support\StoreSupportRequest;
 use App\Http\Requests\Admin\Support\UpdateSupportRequest;
 use App\Models\Support;
+use App\Models\TourRegistration;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,8 @@ class SupportController extends Controller
 {
     public function index()
     {
+        // TourRegistration::where('support_id', 2)->delete();
+
         return view('admin.pages.supports.index');
     }
 
@@ -49,9 +52,12 @@ class SupportController extends Controller
         $currentYear = date('Y');
         $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
 
+        $startYear = $currentSupport->start_year ?? date('Y');
+        $endYear = $currentSupport->end_year ?? date('Y');
+
         $parameters = [];
-        $parameters['start_years'] = range($currentSupport->start_year, $currentSupport->start_year + 10);
-        $parameters['end_years'] = range($currentSupport->end_year, $currentSupport->end_year + 10);
+        $parameters['start_years'] = range($startYear, $startYear + 10);
+        $parameters['end_years'] = range($endYear, $endYear + 10);
 
         return view('admin.pages.supports.create', $parameters);
     }
@@ -74,11 +80,13 @@ class SupportController extends Controller
 
         $currentYear = date('Y');
         $currentSupport = Support::where('start_year', '<=', $currentYear)->where('end_year', '>=', $currentYear)->first();
+        $startYear = $currentSupport->start_year ?? date('Y');
+        $endYear = $currentSupport->end_year ?? date('Y');
 
         $parameters = [];
         $parameters['support'] = $support;
-        $parameters['start_years'] = range($currentSupport->start_year, $currentSupport->start_year + 10);
-        $parameters['end_years'] = range($currentSupport->end_year, $currentSupport->end_year + 10);
+        $parameters['start_years'] = range($startYear, $startYear + 10);
+        $parameters['end_years'] = range($endYear, $endYear + 10);
 
         return view('admin.pages.supports.edit', $parameters);
     }
@@ -99,6 +107,11 @@ class SupportController extends Controller
     {
         $this->authorize('delete', $support);
 
+        if (TourRegistration::where('support_id', $support->support_id)->exists())
+        {
+            return back()->withError('Không thể xoá hỗ trợ có tồn tại người nhận');
+        }
+
         $support->delete();
 
         return redirect()->route('admin.supports.index')->with('message', 'Xoá hỗ trợ thành công');
@@ -106,6 +119,18 @@ class SupportController extends Controller
 
     public function deleteMany(Request $request)
     {
+        if (Support::available()->whereIn('id', $request->ids)->doesntExist())
+        {
+            return response()->json([ 'message' => 'Không thể xoá hỗ trợ quá hạn' ], 400);
+        }
+
+        $supportIds = Support::whereIn('id', $request->ids)->distinct()->get(['support_id']);
+
+        if (TourRegistration::whereIn('support_id', $supportIds)->exists())
+        {
+            return response()->json([ 'message' => 'Không thể xoá hỗ trợ có tồn tại người nhận' ], 400);
+        }
+
         Support::destroy($request->ids);
 
         return response()->json([

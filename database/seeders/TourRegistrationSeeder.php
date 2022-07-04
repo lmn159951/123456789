@@ -51,7 +51,7 @@ class TourRegistrationSeeder extends Seeder
                         foreach ($support as $key => $supportDetail)
                         {
                             $minCondition = $supportDetail['min_condition'] ?? 0;
-                            $maxCondition = $supportDetail['max_condition'] ?? 100000;
+                            $maxCondition = $supportDetail['max_condition'] ?? 100;
 
                             if ($seniority >= $minCondition && $seniority <= $maxCondition)
                             {
@@ -69,7 +69,7 @@ class TourRegistrationSeeder extends Seeder
                                 if ($isUserSupported) break;
 
                                 $cost = $tour->price - intval($supportDetail->price);
-                                $supportId = $supportDetail->id;
+                                $supportId = $supportDetail->support_id;
                                 break;
                             }
                         }

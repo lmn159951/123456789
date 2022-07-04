@@ -24,12 +24,12 @@ class AdminMiddleware
             }
             else
             {
-                return redirect()->route('login')->with('message', 'Vui lòng đăng nhập bằng tài khoản người quản trị để chi cập trang web này!');
+                return redirect()->route('login');
             }
         }
         else
         {
-            return redirect()->route('login')->with('message', 'Vui lòng phải phải đăng nhập trước!');
+            return redirect()->route('login');
         }
     }
 }

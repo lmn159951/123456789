@@ -57,7 +57,7 @@
     @include('admin.includes.logout')
 
     <script type="text/javascript" src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
-    {{-- <script type="text/javascript" src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('admin/vendor/jquery/easy-number-separator.js') }}"></script>
 
     <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/vendor/datatable/pdfmake.min.js') }}"></script>

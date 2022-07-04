@@ -11,7 +11,8 @@
                 </div>
             @endif
 
-            <form class="container" action="{{ route('admin.supports.update', $support->id) }}" method="POST" autocomplete="off">
+            <form class="container" action="{{ route('admin.supports.update', $support->id) }}" method="POST"
+                autocomplete="off">
                 @csrf @method('PATCH')
 
                 <div class="row align-items-start">
@@ -56,7 +57,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="min_condition" class="form-label">Điều kiện tối thiểu:</label>
-                            <input type="number" class="form-control @error('min_condition') is-invalid @enderror"
+                            <input type="text" class="form-control @error('min_condition') is-invalid @enderror"
                                 value="{{ old('min_condition') ?? $support->min_condition }}" name="min_condition"
                                 id="min_condition">
 
@@ -70,7 +71,7 @@
                     <div class="col">
                         <div class="mb-3">
                             <label for="max_condition" class="form-label">Điều kiện tối đa:</label>
-                            <input type="number" class="form-control @error('max_condition') is-invalid @enderror"
+                            <input type="text" class="form-control @error('max_condition') is-invalid @enderror"
                                 value="{{ old('max_condition') ?? $support->max_condition }}" name="max_condition"
                                 id="max_condition">
 
@@ -86,7 +87,7 @@
                 <div class="mb-3">
                     <label for="price" class="form-label">Số tiền:</label>
                     <label class="text-danger">(*)</label>
-                    <input type="number" class="form-control @error('price') is-invalid @enderror"
+                    <input type="text" class="form-control number-separator @error('price') is-invalid @enderror"
                         value="{{ old('price') ?? $support->price }}" name="price" id="price">
 
                     @error('price')
