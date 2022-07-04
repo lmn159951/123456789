@@ -5,6 +5,12 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Cập nhật hỗ trợ</h1>
 
+            @if ($errors->has('baseError'))
+                <div class="alert alert-danger my-3 text-center">
+                    {{ $errors->first('baseError') }}
+                </div>
+            @endif
+
             @if (session()->has('message'))
                 <div class="alert alert-danger my-3 text-center">
                     {{ session()->get('message') }}
@@ -72,8 +78,8 @@
                         <div class="mb-3">
                             <label for="max_condition" class="form-label">Điều kiện tối đa:</label>
                             <input type="text" class="form-control @error('max_condition') is-invalid @enderror"
-                                value="{{ old('max_condition') ?? $support->max_condition }}" name="max_condition"
-                                id="max_condition">
+                                value="{{ (old('max_condition') ?? $support->max_condition) === 100 ? '' : old('max_condition') ?? $support->max_condition }}"
+                                name="max_condition" id="max_condition">
 
                             @error('max_condition')
                                 <div id="validationServer03Feedback" class="invalid-feedback">

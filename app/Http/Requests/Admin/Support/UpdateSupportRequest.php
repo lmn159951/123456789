@@ -24,7 +24,7 @@ class UpdateSupportRequest extends FormRequest
                 function ($attributes, $value, $fail) {
                     if ($this->max_condition < $this->min_condition)
                     {
-                        return $fail->errors()->add('max_condition', 'Điều kiện tối đa phải lớn hơn điều kiện tối thiểu !');
+                        return $fail('Điều kiện tối đa phải lớn hơn điều kiện tối thiểu !');
                     }
                 },
                 'max:100',
@@ -48,7 +48,7 @@ class UpdateSupportRequest extends FormRequest
     {
         return [
             'required' => ':attribute không được để trống.',
-            'gt' => ':attribute phải lớn hơn :field.',
+            'gt' => ':attribute phải lớn hơn :value.',
             'numeric' => ':attribute phải là một số .',
             'integer' => ':attribute phải là một số nguyên.',
             'min' => ':attribute phải có giá trị ít nhất là :min.',
@@ -92,7 +92,7 @@ class UpdateSupportRequest extends FormRequest
                 $inputMinCondition = $this->min_condition ?? 0;
                 $inputMaxCondition = $this->max_condition ?? 100;
 
-                $condition = range($minCondition, $maxCondition);
+                $condition = range($minCondition, $maxCondition - 1);
                 $inputCondition = range($inputMinCondition, $inputMaxCondition);
 
                 if (array_intersect($condition, $inputCondition))

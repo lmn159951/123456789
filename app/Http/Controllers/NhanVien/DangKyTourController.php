@@ -37,13 +37,13 @@ class DangKyTourController extends Controller
 
     public function tourhistory()
     {
-        
+
         $results = TourRegistration::where('user_id', Auth::user()->id)
         ->join('tours', 'tour_registrations.tour_id', '=', 'tours.id')
-        ->select('user_id',DB::raw('COUNT(user_id) as member_count'), 'tour_id', 'name', 
-        DB::raw('SUM(cost) as total_cost'), 'tours.tour_start_date', 
+        ->select('user_id',DB::raw('COUNT(user_id) as member_count'), 'tour_id', 'name',
+        DB::raw('SUM(cost) as total_cost'), 'tours.tour_start_date',
         'tours.tour_end_date','registration_start_date','registration_end_date')
-        ->groupBy('user_id', 'tour_id', 'name', 'tours.tour_start_date', 
+        ->groupBy('user_id', 'tour_id', 'name', 'tours.tour_start_date',
         'tours.tour_end_date','registration_start_date','registration_end_date')
         ->orderBy('registration_date', 'DESC')
         ->get();
@@ -64,8 +64,8 @@ class DangKyTourController extends Controller
         {
             return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo)
         ->with('emptySlotRemain', $emptySlotRemain)->with('relativeInfos', $relativeInfos);
-        }    
-        
+        }
+
         return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo)
         ->with('emptySlotRemain', $emptySlotRemain);
     }
@@ -112,8 +112,7 @@ class DangKyTourController extends Controller
     public function InsertUserToTourRegistrations($registrationDate=null, $supportNow=null, $tour_id=null)
     {
         $price = Tour::where('id', $tour_id)->first()->price;
-        
-        
+
         $tour = new TourRegistration;
         $tour->user_id = Auth::user()->id;
         $tour->tour_id = $tour_id;
@@ -156,9 +155,7 @@ class DangKyTourController extends Controller
 
     public function CheckUsedSupport($support_id)
     {
-        if(TourRegistration::where('support_id', $support_id)->get()->count() == 1)
-            return true;
-        return false;
+        return (TourRegistration::where('support_id', $support_id)->where('user_id', Auth::user()->id)->exists());
     }
 
     public function GetSupportNow()
@@ -168,7 +165,7 @@ class DangKyTourController extends Controller
         foreach($allSupportNow as $supportNow)
         {
             if(!$this->CheckUsedSupport($supportNow->support_id) && $expYear >= $supportNow->min_condition
-            && $expYear <= $supportNow->max_condition)
+            && $expYear < $supportNow->max_condition)
             {
                 return $supportNow;
             }
@@ -230,6 +227,7 @@ class DangKyTourController extends Controller
                 // dd("Quá số ghế trống");
             //them vao csdl
             //them ho tro neu co
+            // dd($this->GetSupportNow());
             $this->InsertUserToTourRegistrations($registrationDateNow,
             $this->GetSupportNow(), $tour_id);
 
@@ -258,13 +256,13 @@ class DangKyTourController extends Controller
             }
         }
         else
-        
+
         foreach($request->post('id') as $id)
         {
             $condition = true;
             foreach($relativeInfos as $relativeInfo)
             {
-                if($id == $relativeInfo->id) 
+                if($id == $relativeInfo->id)
                 {
                     $condition = false;
                     break;
@@ -297,9 +295,9 @@ class DangKyTourController extends Controller
     {
         $tourRegistrationInfo = (TourRegistration::where('user_id', Auth::user()->id)
         ->where('tour_id', $tourId)->first());
-        if($tourRegistrationInfo == null || $tourRegistrationInfo->support_id == null) 
+        if($tourRegistrationInfo == null || $tourRegistrationInfo->support_id == null)
             return false;
-        return $tourRegistrationInfo->support_id; 
+        return $tourRegistrationInfo->support_id;
     }
 
     public function CheckSupportIdCanUseNow($supportId)
@@ -309,7 +307,7 @@ class DangKyTourController extends Controller
         ->where('start_year', '<=', $today)
         ->where('end_year', '>=', $today)
         ->get();
-        if($supportInfo->count() == 0) 
+        if($supportInfo->count() == 0)
             return false;
         return true;
     }

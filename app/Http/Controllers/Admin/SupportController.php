@@ -95,7 +95,7 @@ class SupportController extends Controller
     {
         $support->fill($request->validated());
         $support->min_condition = $request->min_condition ?? 0;
-        $support->max_condition = $request->max_condition ?? 99;
+        $support->max_condition = $request->max_condition ?? 100;
         $support->support_id = $request->support_id;
         $support->save();
 

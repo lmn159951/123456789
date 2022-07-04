@@ -25,7 +25,7 @@ class TourSeeder extends Seeder
 
         $travel = ['lake', 'beach', 'nature', 'mountains', 'Landscape', 'outdoors', 'outdoor'];
 
-        for ($startDate = $initialDate; $startDate->lte(createCarbonDatetime('31-12-2022')); $startDate->addDays(1))
+        for ($startDate = $initialDate; $startDate->lte(createCarbonDatetime('31-12-2022')); $startDate->addDays(30, 60))
         {
             $numberOfTours = rand(1, 3);
             $registrationBetweenDate = rand(1, 2) * 30;

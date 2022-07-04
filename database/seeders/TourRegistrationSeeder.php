@@ -53,7 +53,7 @@ class TourRegistrationSeeder extends Seeder
                             $minCondition = $supportDetail['min_condition'] ?? 0;
                             $maxCondition = $supportDetail['max_condition'] ?? 100;
 
-                            if ($seniority >= $minCondition && $seniority <= $maxCondition)
+                            if ($seniority >= $minCondition && $seniority < $maxCondition)
                             {
                                 $isUserSupported = false;
                                 $userSupportIds = TourRegistration::where(['user_id' => $user->id])->pluck('support_id')->toArray();

@@ -37,12 +37,12 @@ class SupportSeeder extends Seeder
                 }
                 elseif ($k === $numberConditions - 1)
                 {
-                    $previousMaxCondition = $conditions[$k - 1][1] + 1 ?? 0;
+                    $previousMaxCondition = $conditions[$k - 1][1] ?? 0;
                     $conditions[] = [$previousMaxCondition, 0];
                 }
                 else
                 {
-                    $previousCondition = $conditions[$k - 1][1] + 1 ?? 0;
+                    $previousCondition = $conditions[$k - 1][1] ?? 0;
                     $conditions[] = [$previousCondition, $previousCondition + rand(1, 2)];
                 }
             }

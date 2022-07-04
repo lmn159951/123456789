@@ -88,11 +88,11 @@ class StoreSupportRequest extends FormRequest
             foreach ($isExistedSupport->get() as $key => $supportDetails)
             {
                 $minCondition = $supportDetails->min_condition ?? 0;
-                $maxCondition = $supportDetails->max_condition ?? 99;
+                $maxCondition = $supportDetails->max_condition ?? 100;
                 $inputMinCondition = $this->min_condition ?? 0;
-                $inputMaxCondition = $this->max_condition ?? 99;
+                $inputMaxCondition = $this->max_condition ?? 100;
 
-                $condition = range($minCondition, $maxCondition);
+                $condition = range($minCondition, $maxCondition - 1);
                 $inputCondition = range($inputMinCondition, $inputMaxCondition);
 
                 if (array_intersect($condition, $inputCondition))
