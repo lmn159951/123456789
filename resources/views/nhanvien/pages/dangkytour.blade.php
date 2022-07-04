@@ -1,5 +1,6 @@
 @extends('nhanvien.layout.nhanvien')
 @section('content')
+<!-- Main -->
 <div class="contact-form spad">
     <div class="container">
         <div class="row">
@@ -13,7 +14,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="contact__form__title">
-                    <a href="{{ route('home')."/".$tourInfo->description_file }}" class="primary-btn">XEM TOUR</a>
+                    <a href="{{ url($tourInfo->description_file) }}" class="primary-btn">XEM TOUR</a>
                 </div>
             </div>
         </div>
@@ -72,7 +73,7 @@
                                         <div class="col-6"><p>Họ và tên thành viên: <span class="dau_">(*)</span></p></div>
                                         <div class="col-4"></div>
                                         <div class="tentaikhoan d-flex justify-content-center">
-                                            <input required name="relative_fullname[]" style="width:69%; border: 1px solid #ebebeb"  type="text" placeholder="">
+                                            <input  required name="relative_fullname[]" style="width:69%; border: 1px solid #ebebeb"  type="text" placeholder="">
                                         </div>
 
                                         {{-- <div class="col-2"></div>
@@ -110,7 +111,7 @@
                                         <div class="col-6"><p>Mối Quan Hệ Với Nhân Viên: <span class="dau_">(*)</span></p></div>
                                         <div class="col-4"></div>
                                         <div class="tentaikhoan d-flex justify-content-center">
-                                            <input required name="relationship[]" style="width:69%; border: 1px solid #ebebeb;" type="text" placeholder="">
+                                            <input required  minlength="1" max="255"  name="relationship[]" style="width:69%; border: 1px solid #ebebeb;" type="text" placeholder="">
                                         </div>
 
                                         {{-- <div class="col-2"></div>
@@ -176,7 +177,7 @@
                                             <div class="col-4"></div>
                                             <div class="tentaikhoan d-flex justify-content-center">
                                                 <input required name="relative_fullname[]" style="width:69%; border: 1px solid #ebebeb"  
-                                                type="text" placeholder="" value="{{ $relativeInfo->relative_fullname }}">
+                                                type="text" placeholder=""  minlength="1" max="255" value="{{ $relativeInfo->relative_fullname }}">
                                             </div>
     
                                             {{-- <div class="col-2"></div>
@@ -216,7 +217,7 @@
                                             <div class="col-4"></div>
                                             <div class="tentaikhoan d-flex justify-content-center">
                                                 <input required name="relationship[]" style="width:69%; border: 1px solid #ebebeb;" 
-                                                type="text" placeholder="" value="{{ $relativeInfo->relationship }}">
+                                                type="text"  minlength="1" max="255"  placeholder="" value="{{ $relativeInfo->relationship }}">
                                             </div>
     
                                             {{-- <div class="col-2"></div>
@@ -257,7 +258,7 @@
                     @endforeach
                 @endisset
             </div>
-            @isset($tourInfo) 
+            @isset($tourInfo)
                 @php
                     $today = strtotime("now");
                     $registration_start_date = strtotime($tourInfo->registration_start_date);
@@ -287,4 +288,7 @@
             </form>         
         </div>                           
     </div>
+
+
+
 @endsection

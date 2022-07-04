@@ -17,7 +17,7 @@ class NotLogedInMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()) {
+        if (!Auth::check()) {
             return redirect()->route('home');
         }
         return $next($request);

@@ -178,7 +178,24 @@ class DangKyTourController extends Controller
 
     public function tourregistration(Request $request, $tour_id=0)
     {
-        // $validated = $request->validated();
+        if(isset($request->post()['id']))
+        {
+        $validated = $request->validate([
+            'id.*' => 'required|string',
+            // 'relative_fullname' => 'required',
+            'relative_fullname.*' => 'required|string|min:1|max:255',
+            // 'birthday' => 'required|date_format:Y-m-d',
+            'birthday.*' => 'required|date_format:Y-m-d',
+            // 'gender' => 'required',
+            'gender.*' => 'required|in:Nam,Nữ',
+            // 'relationship' => 'required',
+            'relationship.*' => 'required|string|min:1|max:255',
+            // 'phone' => 'required|numeric',
+            'phone.*' => 'required|numeric|min:10',
+            // 'citizen_card' => 'required|numeric',
+            'citizen_card.*' => 'required|numeric|min:11',
+        ]);
+        }
         if(!$this->checkTour($tour_id))
             return abort(403);
 

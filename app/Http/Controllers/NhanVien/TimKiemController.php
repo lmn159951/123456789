@@ -40,7 +40,7 @@ class TimKiemController extends Controller
             'price')
             ->where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
-            ->orderBy('tours.id', 'DESC');
+            ->orderBy('tours.id', 'DESC'); 
         }
         if($emptySlotRemain!=null)
             $tours = $tours->having('empty_slot_remain', '>=', $emptySlotRemain);
@@ -48,8 +48,10 @@ class TimKiemController extends Controller
             $tours = $tours->having('name', 'LIKE', '%'.$tourName.'%');
         if($regionId!='null')
             $tours = $tours->where('region_id', (int) $regionId);
-        if($priceFrom != null && $priceTo != null)
-            if((int) $priceTo >= (int) $priceFrom)
+        
+        if($priceFrom==null){ $priceFrom=0;}
+        if($priceTo==null){ $priceTo=99999999999; }
+        if((int) $priceTo >= (int) $priceFrom)
                 $tours->having('price', '>=', $priceFrom)
                 ->having('price', '<=', $priceTo);
         $perPage = 4; 
@@ -61,12 +63,12 @@ class TimKiemController extends Controller
 
     public function index(Request $request)
     { 
-        $recordsRegions = Region::select('id','name')->get();
+        $recordsRegions = Region::select('id','name')->get(); 
         $emptySlotRemain = $request->get('emptyslotremain');
-        $tourName = $request->input('tourname');
-        $regionId = $request->input('regionid');
-        $priceFrom = $request->input('pricefrom');
-        $priceTo = $request->input('priceto');
+        $tourName = $request->get('tourname');
+        $regionId = $request->get('regionid');
+        $priceFrom = $request->get('pricefrom');
+        $priceTo = $request->get('priceto');
         $tours =  $this->search($emptySlotRemain, $tourName, $regionId, $priceFrom, $priceTo);
         return view('nhanvien.pages.timkiem')->with('tours',$tours)
         ->with('recordsRegions', $recordsRegions)->with('request', $request);
