@@ -29,8 +29,7 @@ class SendMailController extends Controller
             'comment' => $user->comment
         ];
 
-        Mail::to('lmn147852369@gmail.com')->send(new MailNotify($mailData));
-        //johnsmith2001it@gmail.com
+        Mail::to('lmn741236985@gmail.com')->send(new MailNotify($mailData));
            
         return redirect()->route('contact')->with('message', 'Đóng góp ý kiến thành công');
     }

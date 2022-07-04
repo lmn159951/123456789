@@ -24,7 +24,7 @@ class QuenMatKhauController extends Controller
 
     public function forgotpassword(Request $request)
     {
-        // $request->validate(['email' => 'required|email']);
+        $request->validate(['email' => 'required|email']);
  
         //     $status = Password::sendResetLink(
         //         $request->only('email')
@@ -56,6 +56,8 @@ class QuenMatKhauController extends Controller
 
     public function recoveryaccount($token)
     {
+        if($token==null)
+            return redirect()->route('forgotpassword');
         $user = User::where('user_token', $token);
 
         if($user->count() == 0)
@@ -70,7 +72,7 @@ class QuenMatKhauController extends Controller
         $user = User::where('user_token', $request->post('user_token'));
         if($user->count() == 0)
             return redirect()->route('login');
-        $user->update(['password' => Hash::make($request->post('newPassword')), 'user_token' => '']);
+        $user->update(['password' => Hash::make($request->post('newPassword')), 'user_token' => null]);
 
         return redirect()->route('login');
     }
