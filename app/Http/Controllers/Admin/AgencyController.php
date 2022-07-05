@@ -71,11 +71,9 @@ class AgencyController extends Controller
         {
             return back()->withError('Không thể xoá đơn vị có tồn tại nhân viên');
         }
-        else
-        {
-            Agency::destroy($id);
-            return redirect()->route('admin.agencies.index')->with('message', 'Xoá đơn vị thành công');
-        }
+
+        Agency::destroy($id);
+        return redirect()->route('admin.agencies.index')->with('message', 'Xoá đơn vị thành công');
     }
 
     public function deleteMany(Request $request)

@@ -13,6 +13,8 @@ class TourRegistrationController extends Controller
 {
     public function index()
     {
+        $tour_registration = TourRegistration::with(['user','tour'])->get();
+
         return view('admin.pages.tour_registrations.index');
     }
 

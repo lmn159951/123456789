@@ -274,12 +274,10 @@
                         $("#buttonDeleteManyModel").addClass('d-none');
                     },
                     error: function(error) {
-
-                        console.log(error);
-
                         $('#deleteAllModal').modal('hide');
 
                         $('#errorMessage').remove();
+                        $('.alert.alert-success').remove();
 
                         console.log(`
                             <div class="alert alert-danger text-center" id="errorMessage">

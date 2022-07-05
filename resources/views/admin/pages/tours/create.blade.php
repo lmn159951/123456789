@@ -132,7 +132,8 @@
                         <div class="mb-3">
                             <label for="price" class="form-label">Số tiền:</label>
                             <label class="text-danger">(*)</label>
-                            <input type="number" class="form-control @error('price') is-invalid @enderror"
+                            <input type="text"
+                                class="form-control number-separator @error('price') is-invalid @enderror"
                                 value="{{ old('price') }}" name="price" id="price">
 
                             @error('price')

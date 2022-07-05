@@ -18,8 +18,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreignId('agency_id')->constrained()->onDelete('cascade');
-            $table->foreignId('tour_id')->constrained()->onDelete('cascade');
+            $table->foreignId('agency_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('tour_id')->nullable()->constrained()->onDelete('set null');
         });
     }
 

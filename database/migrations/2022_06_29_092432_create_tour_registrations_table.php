@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('tour_registrations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('tour_id')->constrained()->onDelete('cascade');
-            $table->foreignId('support_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('tour_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('support_id')->nullable()->nullable()->constrained()->onDelete('set null');
             $table->dateTime('registration_date');
             $table->string('relative_fullname')->nullable();
             $table->dateTime('birthday')->nullable();

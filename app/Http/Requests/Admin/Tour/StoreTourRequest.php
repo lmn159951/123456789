@@ -71,4 +71,11 @@ class StoreTourRequest extends FormRequest
         ];
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'price' => currencyToNumber($this->price),
+        ]);
+    }
+
 }

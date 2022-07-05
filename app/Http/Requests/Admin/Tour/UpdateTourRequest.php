@@ -71,4 +71,11 @@ class UpdateTourRequest extends FormRequest
             'after' => ':attribute không hợp lệ.',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'price' => currencyToNumber($this->price),
+        ]);
+    }
 }

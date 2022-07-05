@@ -89,6 +89,11 @@ class UserController extends Controller
 
     public function destroy(int $id)
     {
+        if ($id === auth()->id())
+        {
+            return redirect()->route('admin.users.index')->with('error', 'Không thể xoá chính tài khoản của mình!');
+        }
+
         User::destroy($id);
 
         return redirect()->route('admin.users.index')->with('message', 'Xoá nhân viên thành công');
@@ -96,6 +101,11 @@ class UserController extends Controller
 
     public function deleteMany(Request $request)
     {
+        if (in_array(auth()->id(), $request->ids))
+        {
+            return response()->json([ 'message' => 'Không thể xoá chính tài khoản của mình' ], 400);
+        }
+
         User::destroy($request->ids);
 
         return response()->json([ 'message' => 'Xoá nhân viên thành công' ]);

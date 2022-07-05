@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('price');
             $table->string('image')->nullable();
             $table->string('description_file')->nullable();
-            $table->foreignId('region_id')->constrained()->onDelete('cascade');
+            $table->foreignId('region_id')->nullable()->constrained()->onDelete('set null');
             $table->dateTime('registration_start_date');
             $table->dateTime('registration_end_date');
             $table->dateTime('tour_start_date');

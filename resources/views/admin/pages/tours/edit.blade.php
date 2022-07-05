@@ -139,7 +139,8 @@
                         <div class="mb-3">
                             <label for="price" class="form-label">Số tiền:</label>
                             <label class="text-danger">(*)</label>
-                            <input type="number" class="form-control @error('price') is-invalid @enderror"
+                            <input type="text"
+                                class="form-control number-separator @error('price') is-invalid @enderror"
                                 value="{{ old('price') ?? $tour->price }}" name="price" id="price">
 
                             @error('price')
@@ -171,7 +172,8 @@
                     <select name="region_id" id="region_id" class="form-control">
                         @if (old('region_id'))
                             @foreach ($regions as $region)
-                                <option value="{{ $region->id }}" @selected(old('region_id') === $region->id)>{{ $region->name }}</option>
+                                <option value="{{ $region->id }}" @selected(old('region_id') === $region->id)>{{ $region->name }}
+                                </option>
                             @endforeach
                         @else
                             @foreach ($regions as $region)

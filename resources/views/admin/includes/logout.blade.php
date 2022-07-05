@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">Bạn có chắc muốn đăng xuất</div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Đóng</button>
                 <a class="btn btn-primary" href="{{ route('admin.auth.logout') }}">Đăng xuất</a>
             </div>
         </div>

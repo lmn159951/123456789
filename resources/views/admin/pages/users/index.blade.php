@@ -33,7 +33,13 @@
 
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
-            <h3 class="text-center">Quản lý nhân viên</h3>
+            <h3 class="text-center" id="title">Quản lý nhân viên</h3>
+
+            @if (session('error'))
+                <div class="alert alert-danger text-center" id="errorMessage">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             @if (session('message'))
                 <div class="alert alert-success text-center">
@@ -336,6 +342,38 @@
                     success: function(response, textStatus, xhr) {
                         table.draw();
                         $('#deleteAllModal').modal('hide');
+
+                        console.log('deleteMany success');
+                        console.log({
+                            message: response.message
+                        });
+
+                        $('#errorMessage').remove();
+                        $('.alert.alert-success').remove();
+
+                        $('#title').after(`
+                            <div class="alert alert-success text-center">
+                                ${response.message}
+                            </div>
+                        `);
+                    },
+                    error: function(error) {
+                        $('#deleteAllModal').modal('hide');
+
+                        $('#errorMessage').remove();
+                        $('.alert.alert-success').remove();
+
+                        console.log(`
+                            <div class="alert alert-danger text-center" id="errorMessage">
+                                ${error.responseJSON.message}
+                            </div>
+                        `);
+
+                        $('#title').after(`
+                            <div class="alert alert-danger text-center" id="errorMessage">
+                                ${error.responseJSON.message}
+                            </div>
+                        `);
                     }
                 });
             });

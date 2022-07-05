@@ -24,7 +24,7 @@ class StoreSupportRequest extends FormRequest
                 function ($attributes, $value, $fail) {
                     if ($this->max_condition < $this->min_condition)
                     {
-                        return $fail->errors()->add('max_condition', 'Điều kiện tối đa phải lớn hơn điều kiện tối thiểu !');
+                        return $fail('Điều kiện tối đa phải lớn hơn điều kiện tối thiểu !');
                     }
                 },
                 'integer',
