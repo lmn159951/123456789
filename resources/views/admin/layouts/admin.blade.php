@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
 
@@ -65,8 +65,8 @@
     <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/vendor/datatable/bootstrap.min.js') }}"></script>
 
-    <script src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
 
     <script>
         $('input[type="file"]').change(function(event) {

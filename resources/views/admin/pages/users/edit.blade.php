@@ -25,7 +25,8 @@
                         <label for="birthday" class="form-label">Ngày sinh:</label>
                         <label class="text-danger">(*)</label>
                         <input type="date" class="form-control @error('birthday') is-invalid @enderror"
-                        value="{{ old('birthday') ?? date('Y-m-d', strtotime($user->birthday)) }}" name="birthday" id="birthday">
+                            value="{{ old('birthday') ?? date('Y-m-d', strtotime($user->birthday)) }}" name="birthday"
+                            id="birthday">
 
                         @error('birthday')
                             <div id="validationServer03Feedback" class="invalid-feedback">
@@ -50,7 +51,6 @@
                     </div>
                     <div class="col">
                         <label for="email" class="form-label">Email:</label>
-                        <label class="text-danger">(*)</label>
                         <input type="text" class="form-control @error('email') is-invalid @enderror"
                             value="{{ old('email') ?? $user->email }}" name="email" id="email">
 
@@ -78,7 +78,7 @@
                         <label for="gender" class="form-label">Giới tính:</label>
 
                         <select id="gender" class="form-control" name="gender">
-                            @if ($user->gender==="Nam")
+                            @if ($user->gender === 'Nam')
                                 <option value="Nam" selected>Nam</option>
                                 <option value="Nữ">Nữ</option>
                             @else
@@ -167,7 +167,7 @@
                         <label for="is_admin" class="form-label">Phân quyền:</label>
 
                         <select id="is_admin" class="form-control" name="is_admin">
-                            @if ($user->is_admin===0)
+                            @if ($user->is_admin === 0)
                                 <option value="0" selected>Người dùng</option>
                                 <option value="1">Người quản trị</option>
                             @else

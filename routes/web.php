@@ -73,9 +73,9 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
     Route::get('/positions/datatableApi', [PositionController::class, 'datatableApi'])->name('positions.datatableApi');
     Route::resource('positions', PositionController::class);
 
+    Route::post('/users/search', [UserController::class, 'search'])->name('users.search');
     Route::get('/users/resetPassword/{user}', [UserController::class, 'resetPassword'])->name('users.resetPassword')->where('user', '[0-9]+');
     Route::delete('/users/deleteMany', [UserController::class, 'deleteMany'])->name('users.deleteMany');
-    Route::get('/users/datatableApi', [UserController::class, 'datatableApi'])->name('users.datatableApi');
     Route::resource('users', UserController::class);
 
     Route::resource('regions', RegionController::class);

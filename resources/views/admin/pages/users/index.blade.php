@@ -77,6 +77,79 @@
                     </div>
                 </div>
 
+                <button type="button" id="buttonSearchModel" class="btn btn-secondary mr-2" data-toggle="modal"
+                    data-target="#searchModal">
+                    Tìm kiếm
+                </button>
+
+                <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="SearchModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="SearchModalLabel">Hộp thoại tìm kiếm</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form method="POST" action="http://127.0.0.1:8000/admin/users/search">
+                                @csrf
+
+                                <div class="modal-body">
+                                    <div class="row mx-2 mb-3">
+                                        <label for="agency_id" class="form-label">Đơn vị:</label>
+
+                                        <select id="agency_id" class="form-control" name="agency_id">
+                                            <option value="">------------------------------------Không
+                                                chọn------------------------------------</option>
+                                            @foreach ($agencies as $agency)
+                                                <option value="{{ $agency->id }}" @selected(request()->query('agency_id') == $agency->id)>
+                                                    {{ $agency->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="row mx-2 mb-3">
+                                        <label for="department_id" class="form-label">Phòng ban:</label>
+
+                                        <select id="department_id" class="form-control" name="department_id">
+                                            <option value="">------------------------------------Không
+                                                chọn------------------------------------</option>
+                                            @foreach ($departments as $department)
+                                                <option value="{{ $department->id }}" @selected(request()->query('department_id') == $department->id)>
+                                                    {{ $department->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="row mx-2 mb-3">
+                                        <label for="position_id" class="form-label">Chức vụ:</label>
+
+                                        <select id="position_id" class="form-control" name="position_id">
+                                            <option value="">------------------------------------Không
+                                                chọn------------------------------------</option>
+                                            @foreach ($positions as $position)
+                                                <option value="{{ $position->id }}" @selected(request()->query('position_id') == $position->id)>
+                                                    {{ $position->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-info">
+                                        Tìm kiếm
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <a class="btn btn-primary" href="{{ route('admin.users.create') }}">
                     Thêm
                 </a>
@@ -146,7 +219,14 @@
                 serverSide: true,
                 fixedHeader: true,
                 colReorder: true,
-                ajax: "{!! route('admin.users.datatableApi') !!}",
+                ajax: {
+                    url: "{!! route('admin.users.index') !!}",
+                    data: function(data) {
+                        data.agency_id = $('#agency_id').val();
+                        data.department_id = $('#department_id').val();
+                        data.position_id = $('#position_id').val();
+                    }
+                },
                 dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
                 lengthMenu: [
                     [10, 25, 50, 100, 250, 500, -1],
@@ -176,7 +256,8 @@
                     },
                     {
                         data: 'fullname',
-                        name: 'fullname'
+                        name: 'fullname',
+                        width: '50%'
                     },
                     {
                         data: 'gender',

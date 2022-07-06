@@ -9,19 +9,21 @@ use App\Models\Support;
 use App\Models\TourRegistration;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupportController extends Controller
 {
     public function index()
     {
-        // TourRegistration::where('support_id', 2)->delete();
-
         return view('admin.pages.supports.index');
     }
 
     public function datatableApi()
     {
-        $supports = Support::orderBy('start_year', 'DESC')->orderBy('min_condition', 'ASC')->get();
+        $supported = Support::supported()->selectRaw("*, 'Đã hỗ trợ' as status")->orderBy('start_year', 'DESC')->orderBy('min_condition', 'ASC');
+        $supporting = Support::supporting()->selectRaw("*, 'Đang hỗ trợ' as status")->orderBy('start_year', 'DESC')->orderBy('min_condition', 'ASC');
+        $unsupport = Support::unsupport()->selectRaw("*, 'unsupport' as status")->orderBy('start_year', 'DESC')->orderBy('min_condition', 'ASC');
+        $supports = $unsupport->union($supporting)->union($supported)->get();
 
         return Datatables::of($supports)
             ->addIndexColumn()
@@ -119,9 +121,9 @@ class SupportController extends Controller
 
     public function deleteMany(Request $request)
     {
-        if (Support::available()->whereIn('id', $request->ids)->doesntExist())
+        if (Support::unsupport()->whereIn('id', $request->ids)->doesntExist())
         {
-            return response()->json([ 'message' => 'Không thể xoá hỗ trợ quá hạn' ], 400);
+            return response()->json([ 'message' => 'Không thể xoá hỗ trợ' ], 400);
         }
 
         $supportIds = Support::whereIn('id', $request->ids)->distinct()->get(['support_id']);

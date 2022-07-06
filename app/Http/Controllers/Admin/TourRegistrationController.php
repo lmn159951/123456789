@@ -28,7 +28,7 @@ class TourRegistrationController extends Controller
                 return $tourRegistration->id;
             })
             ->editColumn('cost', function (TourRegistration $tourRegistration) {
-                return currency_format($tourRegistration->cost, $separator = ',', $suffix = '₫');
+                return $tourRegistration->cost !== 0 ? currency_format($tourRegistration->cost, $separator = ',', $suffix = '₫') : 0;
             })
             ->rawColumns(['action'])
             ->make();

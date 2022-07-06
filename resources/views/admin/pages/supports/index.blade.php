@@ -172,7 +172,7 @@
                         data: 'max_condition',
                         name: 'max_condition',
                         render: function(maxCondition) {
-                            return maxCondition == 99 ? null : maxCondition;
+                            return maxCondition == 100 ? null : maxCondition;
                         }
                     },
                     {
@@ -185,11 +185,16 @@
                         searchable: false,
                         render: function(support) {
                             const response = JSON.parse(support);
-                            const currentYear = new Date().getFullYear();
 
-                            if (currentYear > response.end_year) {
+                            if (response.status !== 'unsupport') {
+                                if (response.status === 'Đang hỗ trợ') {
+                                    return `<span class="badge badge-warning d-flex justify-content-center">
+                                        ${response.status}
+                                    </span>`;
+                                }
+
                                 return `<span class="badge badge-danger d-flex justify-content-center">
-                                    Hết hạn
+                                    ${response.status}
                                 </span>`;
                             }
 

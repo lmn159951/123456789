@@ -53,7 +53,7 @@ class SupportPolicy
      */
     public function update(User $user, Support $support)
     {
-        return Support::available()->where('id', $support->id)->exists();
+        return Support::unsupport()->where('id', $support->id)->exists();
     }
 
     /**
@@ -65,7 +65,7 @@ class SupportPolicy
      */
     public function delete(User $user, Support $support)
     {
-        return Support::available()->where('id', $support->id)->exists();
+        return Support::unsupport()->where('id', $support->id)->exists();
     }
 
     /**

@@ -17,6 +17,33 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
+        if ($request->ajax())
+        {
+            $query = User::with(['department', 'position','agency'])->orderBy('id', 'DESC');
+
+            if (!empty($request->get('agency_id'))) {
+                $query->where('users.agency_id', $request->get('agency_id'));
+            }
+
+            if (!empty($request->get('department_id'))) {
+                $query->where('users.department_id', $request->get('department_id'));
+            }
+
+            if (!empty($request->get('position_id'))) {
+                $query->where('users.position_id', $request->get('position_id'));
+            }
+
+            $query = $query->get();
+
+            return Datatables::of($query)
+                ->addIndexColumn()
+                ->addColumn('action', function (User $user) {
+                    return $user->id;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
         $parameters = [];
         $parameters['agencies'] = Agency::all();
         $parameters['departments'] = Department::all();
@@ -24,19 +51,11 @@ class UserController extends Controller
         return view('admin.pages.users.index', $parameters);
     }
 
-    public function datatableApi(Request $request)
+    public function search(Request $request)
     {
-        $query = User::with(['department', 'position','agency']);
+        $filters = array_filter($request->only('agency_id', 'department_id', 'position_id'), function ($filter) { return isset($filter); });
 
-        $users = $query->orderBy('id', 'DESC')->get();
-
-        return Datatables::of($users)
-            ->addIndexColumn()
-            ->addColumn('action', function (User $user) {
-                return $user->id;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+        return redirect()->route('admin.users.index', $filters);
     }
 
     public function create()
