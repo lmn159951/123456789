@@ -98,5 +98,5 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
 });
 
 Route::fallback(function () {
-    return "404";
+    return view('404');
 });

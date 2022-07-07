@@ -77,14 +77,12 @@
                     </div>
                 </div>
 
-
-
                 <a class="btn btn-primary" href="{{ route('admin.agencies.create') }}">
                     Thêm
                 </a>
             </div>
 
-            <table class="table table-hover my-3" id="table-content">
+            <table class="table table-hover" width="100%" id="table-content">
                 <thead>
                     <tr>
                         <th scope="col">
@@ -117,7 +115,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{!! route('admin.agencies.datatableApi') !!}",
-                dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
+                dom: '<"row justify-content-between"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
                 lengthMenu: [
                     [10, 25, 50, 100, 250, 500, -1],
                     ['10 dòng', '25 dòng', '50 dòng', '100 dòng', '250 dòng', '500 dòng', 'Tất cả']

@@ -69,6 +69,7 @@ class TourRegistrationSeeder extends Seeder
                                 if ($isUserSupported) break;
 
                                 $cost = $tour->price - intval($supportDetail->price);
+                                $cost = $cost > 0 ? $cost : 0;
                                 $supportId = $supportDetail->support_id;
                                 break;
                             }
