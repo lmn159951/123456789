@@ -79,6 +79,6 @@ class User extends Authenticatable
         ->join('agencies', 'users.agency_id', '=', 'agencies.id')
         ->join('positions', 'users.position_id', '=', 'positions.id')
         ->join('departments', 'users.department_id', '=', 'departments.id')
-        ->first();
+        ->firstOrFail();
     }
 }

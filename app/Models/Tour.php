@@ -74,13 +74,13 @@ class Tour extends Model
 
     public static function EmptySlotRemain($tourId=0)
     {
-        $tour = Tour::where('id', $tourId)->first();
+        $tour = Tour::where('id', $tourId)->firstOrFail();
         return  $tour->max_people - (Tour::Slot($tourId));
     }
 
     public static function TourInfo($tourId=0)
     {
-        $tourInfo = Tour::where('id',$tourId)->first();
+        $tourInfo = Tour::where('id',$tourId)->firstOrFail();
         return $tourInfo;
     }
 

@@ -111,7 +111,7 @@ class DangKyTourController extends Controller
 
     public function InsertUserToTourRegistrations($registrationDate=null, $supportNow=null, $tour_id=null)
     {
-        $price = Tour::where('id', $tour_id)->first()->price;
+        $price = Tour::where('id', $tour_id)->firstOrFail()->price;
 
         $tour = new TourRegistration;
         $tour->user_id = Auth::user()->id;
@@ -217,7 +217,7 @@ class DangKyTourController extends Controller
         $relativeInfos = TourRegistration::where('user_id', Auth::user()->id)
         ->where('tour_id', $tour_id);
         $registrationDateNow = Carbon::now()->format('Y-m-d');
-        $price = Tour::where('id', $tour_id)->first()->price;
+        $price = Tour::where('id', $tour_id)->firstOrFail()->price;
         $emptySlotRemain = Tour::EmptySlotRemain($tour_id);
         //Chua dang ky
         if($relativeInfos->get()->count() == 0)
@@ -294,7 +294,7 @@ class DangKyTourController extends Controller
     public function SupportIdOfTourRegistration($tourId)
     {
         $tourRegistrationInfo = (TourRegistration::where('user_id', Auth::user()->id)
-        ->where('tour_id', $tourId)->first());
+        ->where('tour_id', $tourId)->firstOrFail());
         if($tourRegistrationInfo == null || $tourRegistrationInfo->support_id == null)
             return false;
         return $tourRegistrationInfo->support_id;
@@ -321,7 +321,7 @@ class DangKyTourController extends Controller
         ->join('tours', 'tours.id', '=', 'tour_registrations.tour_id')
         ->where('tour_start_date', '>=', $today)
         ->orderBy('registration_date', 'ASC')
-        ->first();
+        ->firstOrFail();
         if($tourRegistrationInfo == null)
             return false;
         return $tourRegistrationInfo;
@@ -331,7 +331,7 @@ class DangKyTourController extends Controller
     {
         $expYear = $this->ExpYear();
         $supportInfo = Support::where('support_id', $supportId)
-                ->where('min_condition', '<=', $expYear)->where('max_condition', '>=', $expYear)->first();
+                ->where('min_condition', '<=', $expYear)->where('max_condition', '>=', $expYear)->firstOrFail();
         if($supportInfo==null)
             return false;
         return $supportInfo;
@@ -347,7 +347,7 @@ class DangKyTourController extends Controller
             //Tim duoc tour phu hop de giam gia
             if($tourRegistrationInfo)
             {
-                $priceTour = Tour::where('id', $tourRegistrationInfo->tour_id)->first()->price;
+                $priceTour = Tour::where('id', $tourRegistrationInfo->tour_id)->firstOrFail()->price;
                 $expYear = $this->ExpYear();
                 $supportInfo = $this->FindSupportInfoCanSupportForUserNow($supportId);
                 if($supportInfo)
