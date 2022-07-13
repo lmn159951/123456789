@@ -143,7 +143,7 @@ class TourController extends Controller
         else
         {
             $tour->delete();
-            return redirect()->route('admin.tours.index')->with('message', 'Xoá phòng ban thành công');
+            return redirect()->route('admin.tours.index')->with('message', 'Xoá tour thành công');
         }
     }
 
@@ -159,12 +159,9 @@ class TourController extends Controller
         {
             Tour::destroy($request->ids);
 
-            return response()->json(['message' => 'Xoá nhân viên thành công']);
+            return response()->json(['message' => 'Xoá tour thành công']);
         }
-
-
     }
-
     public function download(int $id)
     {
         $tour = Tour::find($id);
