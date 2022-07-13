@@ -19,7 +19,7 @@ class Support extends Model
 
     public function scopeUnsupport($query)
     {
-        return $query->where('end_year', '>', date('Y'));
+        return $query->where('start_year', '>', date('Y'));
     }
 
     public function scopeSupported($query)
