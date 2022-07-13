@@ -47,6 +47,7 @@ class TourRegistrationSeeder extends Seeder
                         $support = Support::where('start_year', '<=', $registrationDate->year)->where('end_year', '>=', $registrationDate->year)->get();
 
                         $cost = $tour->price;
+                        $supportId = null;
 
                         foreach ($support as $key => $supportDetail)
                         {
@@ -57,9 +58,11 @@ class TourRegistrationSeeder extends Seeder
                             {
                                 $isUserSupported = false;
                                 $userSupportIds = TourRegistration::where(['user_id' => $user->id])->pluck('support_id')->toArray();
+                                $userSupportIds = array_filter($userSupportIds, function ($userSupportId) { return isset($userSupportId); });
+
                                 foreach ($userSupportIds as $key => $userSupportId)
                                 {
-                                    if (in_array($userSupportId, $support->pluck('id')->toArray()))
+                                    if ($userSupportId === $supportDetail->support_id)
                                     {
                                         $isUserSupported = true;
                                         break;
@@ -78,7 +81,7 @@ class TourRegistrationSeeder extends Seeder
                         TourRegistration::create([
                             'user_id' => $user->id,
                             'tour_id' => $tour->id,
-                            'support_id' => empty($supportId) ? null : $supportId,
+                            'support_id' => $supportId,
                             'registration_date' => $registrationDate,
                             'relative_fullname' => $user->fullname,
                             'birthday' => $user->birthday,

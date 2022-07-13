@@ -10,8 +10,6 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        $parameters = [];
-        $parameters['tour'] = Tour::inRandomOrder()->first();
-        return view('admin.pages.dashboard', $parameters);
+        return redirect()->route('admin.agencies.index');
     }
 }
