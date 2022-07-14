@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Department\UpdateDepartmentRequest;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
+use ReflectionFunction;
 use Yajra\Datatables\Datatables;
 
 class DepartmentController extends Controller
@@ -27,11 +28,6 @@ class DepartmentController extends Controller
             })
             ->rawColumns(['action'])
             ->make();
-    }
-
-    public function show()
-    {
-        return redirect()->route('admin.departments.index');
     }
 
 
@@ -80,7 +76,7 @@ class DepartmentController extends Controller
                 'message' => 'Không thể xoá các phòng ban có tồn tại nhân viên'
             ], 400);
         }
-        
+
         Department::destroy($request->ids);
         return response()->json([ 'message' => 'Xoá phòng ban thành công' ]);
     }

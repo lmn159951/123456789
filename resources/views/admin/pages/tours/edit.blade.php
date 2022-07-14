@@ -28,7 +28,7 @@
                             <label for="file_image" class="form-label">Hình ảnh:</label>
                             <label class="text-danger">(*)</label>
                             <div class="custom-file">
-                                <input type="file" name="file_image"
+                                <input type="file" name="file_image"  accept="image/png, image/jpeg, image/jpg, image/gif"
                                     class="custom-file-input @error('file_image') is-invalid @enderror"
                                     id="validatedCustomFile" onchange="loadFile(event)"
                                     value="{{ old('image') ?? $tour->image }}">
@@ -50,6 +50,7 @@
                             <label class="text-danger">(*)</label>
                             <div class="custom-file">
                                 <input type="file" name="file_description"
+                                    accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                     class="custom-file-input @error('file_description') is-invalid @enderror"
                                     id="validatedCustomFile"
                                     value="{{ old('description_file') ?? $tour->description_file }}">

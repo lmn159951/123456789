@@ -30,7 +30,7 @@ class Tour extends Model
 
     public function scopeRegistering($query)
     {
-        return $query->where('registration_start_date', '<', now())->where('registration_end_date', '>', now());
+        return $query->where('registration_start_date', '<=', now())->where('registration_end_date', '>=', now());
     }
 
     public function scopeRegistered($query)

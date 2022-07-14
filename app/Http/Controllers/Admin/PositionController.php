@@ -42,7 +42,7 @@ class PositionController extends Controller
     public function store(StorePositionRequest $request)
     {
         Position::create($request->validated());
-        return redirect()->route('admin.positions.index')->with('success', 'Tạo chức vụ thành công');
+        return redirect()->route('admin.positions.index')->with('message', 'Tạo chức vụ thành công');
     }
 
     public function edit(int $id)
@@ -57,7 +57,7 @@ class PositionController extends Controller
     {
         Position::where('id', $id)->update($request->validated());
 
-        return redirect()->route('admin.positions.index')->with('success', 'Cập nhật chức vụ thành công');
+        return redirect()->route('admin.positions.index')->with('message', 'Cập nhật chức vụ thành công');
     }
 
     public function destroy(int $id)

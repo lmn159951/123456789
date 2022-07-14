@@ -9,7 +9,7 @@
                 <div class="col">
                     <label for="fullname" class="form-label">Tên tour:</label>
                     <input type="text" class="form-control" value="{{ $tour->name }}" disabled>
-                </div>
+                </div>th
 
                 <div class="col">
                     <label for="department_id" class="form-label">Vùng miền:</label>
@@ -32,7 +32,7 @@
                 <div class="col">
                     <label for="username" class="form-label">File mô tả:</label>
                     <input type="text" class="form-control" value="{{ asset($tour->description_file) }}" disabled>
-                    <a href="{{ route('admin.tours.showFileDescription', $tour->id) }}" target="_BLANK">Click here to open
+                    <a href="{{ asset($tour->description_file) }}" target="_BLANK">Click here to open
                         the file</a>
                 </div>
             </div>
