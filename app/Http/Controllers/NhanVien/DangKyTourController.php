@@ -294,7 +294,7 @@ class DangKyTourController extends Controller
     public function SupportIdOfTourRegistration($tourId)
     {
         $tourRegistrationInfo = (TourRegistration::where('user_id', Auth::user()->id)
-        ->where('tour_id', $tourId)->firstOrFail());
+        ->where('tour_id', $tourId)->first());
         if($tourRegistrationInfo == null || $tourRegistrationInfo->support_id == null)
             return false;
         return $tourRegistrationInfo->support_id;
@@ -321,7 +321,7 @@ class DangKyTourController extends Controller
         ->join('tours', 'tours.id', '=', 'tour_registrations.tour_id')
         ->where('tour_start_date', '>=', $today)
         ->orderBy('registration_date', 'ASC')
-        ->firstOrFail();
+        ->first();
         if($tourRegistrationInfo == null)
             return false;
         return $tourRegistrationInfo;
@@ -364,6 +364,7 @@ class DangKyTourController extends Controller
                 }
             }
         }
+        
         //Khong co tour phu hop de giam gia
         TourRegistration::where('user_id', Auth::user()->id)
         ->where('tour_id', $tourId)->delete();

@@ -15,14 +15,14 @@
                     <div class="contact__widget">
                         <span class="icon_pin_alt"></span>
                         <h4>Địa chỉ</h4>
-                        <p>phường 5,Mỹ Tho-Tiền Giang</p>
+                        <p>phường 5, Mỹ Tho-Tiền Giang</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                     <div class="contact__widget">
                         <span class="icon_clock_alt"></span>
                         <h4>Thời gian hoạt động</h4>
-                        <p>Thứ hai - Thứ sáu: 07.30am to 17.00pm</p>
+                        <p>Thứ hai - Thứ sáu: 07.30 to 17.00</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 text-center">
