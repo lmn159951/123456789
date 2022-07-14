@@ -190,7 +190,6 @@ class DangKyTourController extends Controller
             // 'phone' => 'required|numeric',
             'phone.*' => 'required|numeric|min:10',
             // 'citizen_card' => 'required|numeric',
-            'citizen_card.*' => 'required|numeric|min:11',
         ]);
         }
         if(!$this->checkTour($tour_id))
