@@ -81,7 +81,7 @@ class DangKyTourController extends Controller
                     'gender' => $request['gender'][$i],
                     'relationship' => $request['relationship'][$i],
                     'phone' => $request['phone'][$i],
-                    'citizen_card' => '1856'
+                    'citizen_card' => $request['citizen_card'][$i]
                 ]);
                 break;
             }
@@ -189,7 +189,7 @@ class DangKyTourController extends Controller
             'relationship.*' => 'required|string|min:1|max:255',
             // 'phone' => 'required|numeric',
             'phone.*' => 'required|numeric|min:10',
-            // 'citizen_card' => 'required|numeric',
+            // 'citizen_card.*' => 'nullable|numeric',
         ]);
         }
         if(!$this->checkTour($tour_id))
@@ -363,7 +363,7 @@ class DangKyTourController extends Controller
                 }
             }
         }
-        
+
         //Khong co tour phu hop de giam gia
         TourRegistration::where('user_id', Auth::user()->id)
         ->where('tour_id', $tourId)->delete();
