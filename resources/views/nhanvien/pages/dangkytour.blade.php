@@ -242,7 +242,7 @@
                                             <div class="col-6"><p>CMND/CCCD: <span class="dau_">(*)</span></p></div>
                                             <div class="col-4"></div>
                                             <div class="tentaikhoan d-flex justify-content-center">
-                                                <input required name="citizen_card[]" style="width:69%; border: 1px solid #ebebeb;" 
+                                                <input name="citizen_card[]" style="width:69%; border: 1px solid #ebebeb;" 
                                                 type="number" placeholder="" value="{{ $relativeInfo->citizen_card }}">
                                             </div>
     
