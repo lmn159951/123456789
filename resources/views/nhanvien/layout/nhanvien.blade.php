@@ -43,7 +43,7 @@
                     <a href="{{ route('login') }}"><i></i>Đăng nhập</a>
                 @endguest
                 {{-- @auth --}}
-                    {{-- <div class="dropdown">
+                {{-- <div class="dropdown">
                     <a href="#"><i class="fa fa-user"></i> Xin chào {{ Auth::user()->fullname }}</a>
                     <div class="dropdown-content">
                         <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i></i> Thông tin cá nhân</a>
@@ -55,21 +55,21 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                <li><a href="{{ route('alltour') }}">Tất cả tour du lịch</a></li>
-                <li><a href="{{ route('search') }}">Tìm kiếm</a></li>
-                <li><a href="{{ route('contact') }}">Liên hệ</a></li>
                 <br><br>
                 @auth
-                <li><a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}">Thông tin cá nhân</a></li>
-                <li><a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}">Thay đổi mật khẩu</a></li>
-                <li><a href="{{ route('nhanvien.tourhistory') }}">Lịch sử đặt tour</a></li>
-                @if (Auth::user()->is_admin === 1)
-                    <li><a href="{{ route('admin.dashboard') }}">Trang quản trị</a></li>
-                    <li><a href="{{ route('admin.auth.logout') }}">Đăng xuất</a></li>
-                @else
-                    <li><a href="{{ route('nhanvien.logout') }}"> Đăng xuất</a></li>
-                @endif
+                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
+                    <li><a href="{{ route('alltour') }}">Tất cả tour du lịch</a></li>
+                    <li><a href="{{ route('search') }}">Tìm kiếm</a></li>
+                    <li><a href="{{ route('contact') }}">Liên hệ</a></li>
+                    <li><a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}">Thông tin cá nhân</a></li>
+                    <li><a href="{{ route('nhanvien.thay-doi-mat-khau.index') }}">Thay đổi mật khẩu</a></li>
+                    <li><a href="{{ route('nhanvien.tourhistory') }}">Lịch sử đặt tour</a></li>
+                    @if (Auth::user()->is_admin === 1)
+                        <li><a href="{{ route('admin.dashboard') }}">Trang quản trị</a></li>
+                        <li><a href="{{ route('admin.auth.logout') }}">Đăng xuất</a></li>
+                    @else
+                        <li><a href="{{ route('nhanvien.logout') }}"> Đăng xuất</a></li>
+                    @endif
                 @endauth
             </ul>
         </nav>
@@ -102,7 +102,8 @@
                             <div class="header__top__right__social">
                                 @auth
                                     <div class="dropdown">
-                                        <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i class="fa fa-user"></i>
+                                        <a href="{{ route('nhanvien.thong-tin-ca-nhan.index') }}"><i
+                                                class="fa fa-user"></i>
                                             Xin chào {{ Auth::user()->fullname }}
                                         </a>
                                         <div class="dropdown-content">
@@ -145,7 +146,7 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="{{ Request::routeIs('home') ? 'active' : '' }}"><a
+                            <li class="{{ Request::routeIs('nhanvien.') ? 'active' : '' }}"><a
                                     href="{{ route('home') }}">Trang chủ</a></li>
                             <li class="{{ Request::routeIs('alltour') ? 'active' : '' }}"><a
                                     href="{{ route('alltour') }}">Tất cả các tour</a></li>

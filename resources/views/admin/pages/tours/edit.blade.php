@@ -1,5 +1,20 @@
 @extends('admin.layouts.admin')
 
+@push('styles')
+    <link href="{{ asset('admin/css/virtual-select.min.css') }}" rel="stylesheet">
+    <style>
+        #agency_ids {
+            display: block;
+            max-width: 100%;
+        }
+
+        img {
+            max-height: 150px;
+            max-width: 90%;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
@@ -28,7 +43,7 @@
                             <label for="file_image" class="form-label">Hình ảnh:</label>
                             <label class="text-danger">(*)</label>
                             <div class="custom-file">
-                                <input type="file" name="file_image"  accept="image/png, image/jpeg, image/jpg, image/gif"
+                                <input type="file" name="file_image" accept="image/png, image/jpeg, image/jpg, image/gif"
                                     class="custom-file-input @error('file_image') is-invalid @enderror"
                                     id="validatedCustomFile" onchange="loadFile(event)"
                                     value="{{ old('image') ?? $tour->image }}">
@@ -189,8 +204,9 @@
                 <div class="form-group">
                     <label for="agency_ids">Đơn vị:</label>
                     <label class="text-danger">(*)</label>
-                    <select multiple class="form-control @error('agency_ids') is-invalid @enderror" name="agency_ids[]"
-                        id="agency_ids">
+
+                    <select multiple id="agency_ids" name="agency_ids[]" placeholder="Đơn vị" data-search="true"
+                        data-silent-initial-value-set="true">
                         @foreach ($agencies as $agency)
                             <option value="{{ $agency->id }}" @selected(in_array($agency->id, $agency_ids))>
                                 {{ $agency->name }}
@@ -218,7 +234,17 @@
 @endsection
 
 @push('scripts')
+    <script type="text/javascript" src="{{ asset('admin/vendor/jquery/easy-number-separator.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/virtual-select.min.js') }}"></script>
     <script type="text/javascript">
+        VirtualSelect.init({
+            ele: '#agency_ids'
+        });
+
+        $('input[type="file"]').change(function(event) {
+            const filename = event.target.files[0].name;
+            $(event.target).siblings('.custom-file-label').html(filename);
+        });
         var loadFile = function(event) {
             var imageInput = document.getElementById('imageInput');
             imageInput.src = URL.createObjectURL(event.target.files[0]);
@@ -227,13 +253,4 @@
             }
         };
     </script>
-@endpush
-
-@push('styles')
-    <style>
-        img {
-            max-height: 150px;
-            max-width: 90%;
-        }
-    </style>
 @endpush

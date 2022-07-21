@@ -33,6 +33,5 @@ $(document).ready(function () {
         }
     });
 
-    
-
+    $(".number-separator").val(numberSeparator($(".number-separator").val()));
 });

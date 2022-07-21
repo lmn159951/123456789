@@ -123,6 +123,9 @@
 @endsection
 
 @push('scripts')
+    <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             const table = $('#table-content').DataTable({

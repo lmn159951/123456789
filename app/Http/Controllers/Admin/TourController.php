@@ -54,6 +54,8 @@ class TourController extends Controller
 
     public function store(StoreTourRequest $request)
     {
+
+
         $tour = new Tour();
         $tour->fill($request->validated());
 
@@ -73,7 +75,8 @@ class TourController extends Controller
 
         $tour->save();
 
-        $tour->agencies()->attach($request->agency_ids);
+        $agency_ids = array_map('intval', explode(',', $request->agency_ids[0]));
+        $tour->agencies()->attach($agency_ids);
         $tour->save();
 
         return redirect()->route('admin.tours.index')->with('message', 'Tạo tour thành công');
@@ -113,7 +116,8 @@ class TourController extends Controller
 
         $tour->save();
 
-        $tour->agencies()->sync($request->agency_ids);
+        $agency_ids = array_map('intval', explode(',', $request->agency_ids[0]));
+        $tour->agencies()->sync($agency_ids);
         $tour->save();
 
         return redirect()->route('admin.tours.index')->with('message', 'Cập nhật tour thành công');

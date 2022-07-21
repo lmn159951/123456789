@@ -1,5 +1,15 @@
 @extends('admin.layouts.admin')
 
+@push('styles')
+    <link href="{{ asset('admin/css/virtual-select.min.css') }}" rel="stylesheet">
+    <style>
+        #agency_ids {
+            display: block;
+            max-width: 100%;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
@@ -39,7 +49,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <img id="imageInput">
+                            <img id="imageInput" style="max-height: 100px;">
                         </div>
                     </div>
                     <div class="col">
@@ -174,20 +184,15 @@
                 <div class="form-group">
                     <label for="agency_ids">Đơn vị:</label>
                     <label class="text-danger">(*)</label>
-                    <select multiple class="form-control @error('agency_ids') is-invalid @enderror" name="agency_ids[]"
-                        id="agency_ids">
+
+                    <select multiple id="agency_ids" name="agency_ids[]" placeholder="Đơn vị" data-search="true"
+                        data-silent-initial-value-set="true">
                         @foreach ($agencies as $agency)
                             <option value="{{ $agency->id }}" @selected(in_array($agency->id, old('agency_ids') ?? []))>
                                 {{ $agency->name }}
                             </option>
                         @endforeach
                     </select>
-
-                    @error('agency_ids')
-                        <div id="validationServer03Feedback" class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
                 </div>
 
                 <div class="my-3 d-flex justify-content-end">
@@ -203,7 +208,19 @@
 @endsection
 
 @push('scripts')
+    <script type="text/javascript" src="{{ asset('admin/vendor/jquery/easy-number-separator.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/js/virtual-select.min.js') }}"></script>
+    
     <script type="text/javascript">
+        $('input[type="file"]').change(function(event) {
+            const filename = event.target.files[0].name;
+            $(event.target).siblings('.custom-file-label').html(filename);
+        });
+
+        VirtualSelect.init({
+            ele: '#agency_ids'
+        });
+
         var loadFile = function(event) {
             var imageInput = document.getElementById('imageInput');
             imageInput.src = URL.createObjectURL(event.target.files[0]);
@@ -212,12 +229,4 @@
             }
         };
     </script>
-@endpush
-
-@push('styles')
-    <style>
-        img {
-            max-height: 100px;
-        }
-    </style>
 @endpush

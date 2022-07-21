@@ -58,23 +58,8 @@
     @include('admin.includes.logout')
 
     <script type="text/javascript" src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/vendor/jquery/easy-number-separator.js') }}"></script>
-
-    <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/pdfmake.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/vfs_fonts.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/bootstrap.min.js') }}"></script>
-
     <script type="text/javascript" src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
-
-    <script>
-        $('input[type="file"]').change(function(event) {
-            const filename = event.target.files[0].name;
-            $(event.target).siblings('.custom-file-label').html(filename);
-        });
-    </script>
 
     @stack('scripts')
 </body>

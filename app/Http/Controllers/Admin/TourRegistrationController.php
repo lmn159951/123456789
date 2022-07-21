@@ -7,22 +7,21 @@ use App\Models\Tour;
 use App\Models\TourRegistration;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class TourRegistrationController extends Controller
 {
     public function index()
     {
-        $tour_registration = TourRegistration::with(['user','tour'])->get();
-
         return view('admin.pages.tour_registrations.index');
     }
 
     public function datatableApi()
     {
-        $tour_registration = TourRegistration::with(['user','tour'])->get();
+        $tourRegistrations = TourRegistration::with(['user','tour'])->get();
 
-        return DataTables::of($tour_registration)
+        return DataTables::of($tourRegistrations)
             ->addIndexColumn()
             ->addColumn('action', function (TourRegistration $tourRegistration) {
                 return $tourRegistration->id;

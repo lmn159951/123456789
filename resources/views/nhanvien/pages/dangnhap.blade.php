@@ -1,6 +1,26 @@
-@extends('nhanvien.layout.nhanvien')
-@section('content')
-    <!-- Contact Form Begin -->
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="{{ URL::asset('favicon.ico') }}" type="image/x-icon" />
+    <title>Go Travel</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{{ asset('nhanvien/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('nhanvien/css/style.css') }}" type="text/css">
+</head>
+
+<body class="background-login">
+
     <div class="contact-form spad">
         <div class="container">
             <div class="row">
@@ -38,4 +58,8 @@
             </form>
         </div>
     </div>
-@endsection
+
+
+</body>
+
+</html>

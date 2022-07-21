@@ -1,10 +1,5 @@
 @extends('admin.layouts.admin')
 
-@push('styles')
-    <link href="{{ asset('admin/vendor/datatable/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
-@endpush
-
 @section('content')
     <div class="container-fluid">
         <div class="shadow p-4 mb-5 bg-body rounded">
@@ -68,6 +63,12 @@
                             Tên người thân
                         </th>
                         <th scope="col">
+                            Số điện thoại
+                        </th>
+                        <th scope="col">
+                            Giới tính
+                        </th>
+                        <th scope="col">
                             Giá tiền
                         </th>
                     </tr>
@@ -79,7 +80,14 @@
     </div>
 @endsection
 
+@push('styles')
+    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
+@endpush
+
 @push('scripts')
+    <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             const table = $('#table-content').DataTable({
@@ -88,6 +96,35 @@
                 serverSide: true,
                 fixedHeader: true,
                 colReorder: true,
+                columnDefs: [{
+                    targets: [1, 2],
+                    visible: false
+                }],
+                rowGroup: {
+                    dataSrc: ['tour.name', 'user.fullname'],
+                    endRender: function(rows, group, level) {
+                        if (level === 1) {
+                            let total = rows.data().pluck('cost')
+                                .map(function(cost) {
+                                    return parseInt(cost.slice(0, -1).replace(/[,]/g, ""));
+                                })
+                                .reduce(function(total, currentValue) {
+                                    return total + currentValue;
+                                }, 0);
+                            total = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
+
+
+                            return 'Tổng tiền là: ' + total;
+                        }
+                    },
+                    startRender: function(rows, group, level) {
+                        if (level === 0) {
+                            return 'Tour: ' + group + ' (' + rows.count() + ' kết quả)';
+                        } else {
+                            return 'Nhân viên: ' + group + ' (' + rows.count() + ' kết quả)';
+                        }
+                    },
+                },
                 ajax: "{!! route('admin.tour_registrations.datatableApi') !!}",
                 dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
                 lengthMenu: [
@@ -118,7 +155,6 @@
                     },
                 },
                 select: true,
-                columnDefs: [{}],
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -146,6 +182,14 @@
                     {
                         data: 'relative_fullname',
                         name: 'relative_fullname'
+                    },
+                    {
+                        data: 'gender',
+                        name: 'gender'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
                     },
                     {
                         data: 'cost',

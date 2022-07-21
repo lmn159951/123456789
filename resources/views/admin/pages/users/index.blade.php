@@ -139,8 +139,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                     <button type="submit" class="btn btn-info">
                                         Tìm kiếm
                                     </button>
@@ -210,9 +209,11 @@
 @endsection
 
 @push('scripts')
+    <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
-
             const table = $('#table-content').DataTable({
                 responsive: true,
                 processing: true,

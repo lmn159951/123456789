@@ -25,11 +25,11 @@ class QuenMatKhauController extends Controller
     public function forgotpassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);
- 
+
         //     $status = Password::sendResetLink(
         //         $request->only('email')
         //     );
-        
+
         //     return $status === Password::RESET_LINK_SENT
         //         ? back()->with(['status' => __($status)])
         //         : back()->withErrors(['email' => __($status)]);
@@ -42,7 +42,7 @@ class QuenMatKhauController extends Controller
         $user = User::where('email', $email);
         $randomToken = Str::random(40);
         $user->update(['user_token' => $randomToken]);
-        
+
         //Send token to mail
         $mailData = [
             'link' => route('recoveryaccount', $randomToken),
@@ -63,7 +63,7 @@ class QuenMatKhauController extends Controller
         if($user->count() == 0)
             return redirect()->route('login');
 
-        
+
         return view('nhanvien.pages.khoiphuctaikhoan')->with('token', $token);
     }
 

@@ -37,6 +37,6 @@ class DangNhapController extends Controller
     {
         Auth::logout();
 
-        return redirect()->route('home');
+        return redirect()->route('login');
     }
 }

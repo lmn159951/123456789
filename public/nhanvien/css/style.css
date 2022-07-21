@@ -302,10 +302,7 @@ ol {
 .header__top__right__social {
     position: relative;
     display: inline-block;
-
 }
-
-
 
 .header__top__right__social a {
     font-size: 14px;
@@ -421,8 +418,6 @@ ol {
     position: relative;
 }
 
-
-
 .header__menu ul li.active a {
     color: #7fad39;
 }
@@ -433,7 +428,7 @@ ol {
     visibility: visible;
 }
 
-.header__menu ul li:hover>a {
+.header__menu ul li:hover > a {
     color: #7fad39;
 }
 
@@ -932,7 +927,7 @@ ol {
 .latest-product__slider.owl-carousel .owl-nav button {
     height: 30px;
     width: 30px;
-    background: #F3F6FA;
+    background: #f3f6fa;
     border: 1px solid #e6e6e6;
     font-size: 14px;
     color: #636363;
@@ -1135,7 +1130,9 @@ ol {
     border-radius: 0;
 }
 
-.price-range-wrap .price-range .ui-slider-range.ui-corner-all.ui-widget-header:last-child {
+.price-range-wrap
+    .price-range
+    .ui-slider-range.ui-corner-all.ui-widget-header:last-child {
     background: #dd2222;
 }
 
@@ -1150,11 +1147,11 @@ ol {
 }
 
 .sidebar__item__color.sidebar__item__color--gray label:after {
-    background: #E9A625;
+    background: #e9a625;
 }
 
 .sidebar__item__color.sidebar__item__color--red label:after {
-    background: #D62D2D;
+    background: #d62d2d;
 }
 
 .sidebar__item__color.sidebar__item__color--black label:after {
@@ -1162,11 +1159,11 @@ ol {
 }
 
 .sidebar__item__color.sidebar__item__color--blue label:after {
-    background: #249BC8;
+    background: #249bc8;
 }
 
 .sidebar__item__color.sidebar__item__color--green label:after {
-    background: #3CC032;
+    background: #3cc032;
 }
 
 .sidebar__item__color label {
@@ -1241,7 +1238,9 @@ ol {
     width: 100%;
 }
 
-.product__discount__item:hover .product__discount__item__pic .product__item__pic__hover {
+.product__discount__item:hover
+    .product__discount__item__pic
+    .product__item__pic__hover {
     bottom: 20px;
 }
 
@@ -1657,7 +1656,7 @@ ol {
 
 .product__details__text .product__details__rating i {
     margin-right: -2px;
-    color: #EDBB0E;
+    color: #edbb0e;
 }
 
 .product__details__text .product__details__rating span {
@@ -1837,7 +1836,6 @@ ol {
     margin-bottom: 70px;
 }
 
-
 .shoping__discount {
     margin-top: 45px;
 }
@@ -1930,14 +1928,14 @@ ol {
     color: #999999;
     text-align: center;
     background: #f5f5f5;
-    border-top: 1px solid #6AB963;
+    border-top: 1px solid #6ab963;
     padding: 12px 0 12px;
     margin-bottom: 75px;
 }
 
 .checkout h6 span {
     font-size: 16px;
-    color: #6AB963;
+    color: #6ab963;
     margin-right: 5px;
 }
 
@@ -2006,12 +2004,12 @@ ol {
     visibility: hidden;
 }
 
-.checkout__input__checkbox label input:checked~.checkmark {
+.checkout__input__checkbox label input:checked ~ .checkmark {
     background: #7fad39;
     border-color: #7fad39;
 }
 
-.checkout__input__checkbox label input:checked~.checkmark:after {
+.checkout__input__checkbox label input:checked ~ .checkmark:after {
     opacity: 1;
 }
 
@@ -2122,13 +2120,12 @@ ol {
     margin-top: 10px;
 }
 
-
 /*---------------------
   Footer
 -----------------------*/
 
 .footer {
-    background: #F3F6FA;
+    background: #f3f6fa;
     padding-top: 70px;
     padding-bottom: 0;
 }
@@ -2287,8 +2284,6 @@ ol {
     margin-bottom: 0;
 }
 
-
-
 /*---------------------
   Contact Form
 -----------------------*/
@@ -2301,6 +2296,12 @@ ol {
 .contact__form__title h2 {
     color: #1c1c1c;
     font-weight: 700;
+}
+
+.background-login {
+    background-image: url("https://png.pngtree.com/thumb_back/fw800/background/20190222/ourmid/pngtree-summer-travel-exclusive-seaside-background-material-skywhite-cloudsbeautifuldreampostersummercoolcoolsummer-backgroundtravel-image_49420.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .contact-form {
@@ -2575,7 +2576,6 @@ ol {
         display: block;
         margin-right: 0;
         margin-bottom: 20px;
-
     }
 
     .humberger__menu__wrapper .slicknav_btn {
@@ -3041,7 +3041,6 @@ ol {
     padding-left: 20px;
     margin-bottom: 30px;
     border-radius: 4px;
-
 }
 
 .password {
@@ -3127,4 +3126,36 @@ input:read-only {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #303039cf;
+}
+
+h5.card-text {
+    line-height: 2;
+}
+
+.card-content {
+    font-size: 14px;
+    font-family: "Cairo", sans-serif;
+    color: #6f6f6f;
+    font-weight: 400;
+    line-height: 26px;
+    /* margin-bottom: 5px; */
+}
+
+.text-truncate {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.card-button {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
