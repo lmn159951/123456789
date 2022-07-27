@@ -39,7 +39,6 @@ class UpdateTourRequest extends FormRequest
             'tour_start_date' => 'required|after:registration_end_date',
             'tour_end_date' => 'required|after:tour_start_date',
             'price' => 'required|numeric|min:1000|max:1000000000',
-            'max_people' => 'required|numeric|min:2|max:1000',
             'region_id'=>'required|numeric|exists:regions,id'
         ];
     }
@@ -55,7 +54,6 @@ class UpdateTourRequest extends FormRequest
             'registration_start_date' => 'Ngày bắt đầu đăng ký',
             'registration_end_date' => 'Ngày kết thúc đăng ký',
             'price' => 'Giá tiền',
-            'max_people' => 'Số người tối đa',
         ];
     }
 

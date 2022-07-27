@@ -165,7 +165,7 @@
                                 </div>
                             @enderror
                         </div>
-                    </div>
+                    {{-- </div>
                     <div class="col">
                         <div class="mb-3">
                             <label for="max_people" class="form-label">Số người tối đa:</label>
@@ -179,7 +179,7 @@
                                     {{ $message }}
                                 </div>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 

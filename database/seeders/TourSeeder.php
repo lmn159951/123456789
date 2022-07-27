@@ -47,7 +47,7 @@ class TourSeeder extends Seeder
                     'tour_start_date' => $tourStartDate,
                     'tour_end_date' => $tourEndDate,
                     'price' => rand(500, 9999) * 1000,
-                    'max_people' => rand(2, 8) * 10,
+                    // 'max_people' => rand(2, 8) * 10,
                     'region_id' => $regionId,
                 ]);
 

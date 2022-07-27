@@ -64,7 +64,7 @@
             </div>
 
 
-            <div class="row g-3 mt-2">
+            {{-- <div class="row g-3 mt-2">
                 <div class="col">
                     <label for="phone" class="form-label">Giá tiền:</label>
                     <input type="text" class="form-control" value="{{ $tour->price }}" disabled>
@@ -73,7 +73,7 @@
                     <label for="gender" class="form-label">Số người tối đa:</label>
                     <input type="text" id="gender" class="form-control" value="{{ $tour->max_people }}" disabled>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="my-3 d-flex justify-content-end">
                 <a class="btn btn-secondary" href="{{ route('admin.tours.index') }}">

@@ -24,7 +24,7 @@ class Tour extends Model
         'registration_start_date',
         'registration_end_date',
         'price',
-        'max_people',
+        // 'max_people',
         'region_id',
     ];
 
@@ -72,11 +72,11 @@ class Tour extends Model
         return TourRegistration::where('tour_id', $tourId)->get()->count();
     }
 
-    public static function EmptySlotRemain($tourId=0)
-    {
-        $tour = Tour::where('id', $tourId)->firstOrFail();
-        return  $tour->max_people - (Tour::Slot($tourId));
-    }
+    //public static function EmptySlotRemain($tourId=0)
+    //{
+    //    $tour = Tour::where('id', $tourId)->firstOrFail();
+    //    return  $tour->max_people - (Tour::Slot($tourId));
+    //}
 
     public static function TourInfo($tourId=0)
     {
@@ -111,9 +111,9 @@ class Tour extends Model
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
             ->select('name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
-            'registration_start_date', 'registration_end_date', 'price', 'max_people', 'tour_id')
+            'registration_start_date', 'registration_end_date', 'price', 'tour_id')
             ->groupBy('name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
-            'registration_start_date', 'registration_end_date', 'price', 'max_people', 'tour_id')
+            'registration_start_date', 'registration_end_date', 'price', 'tour_id')
             ->join('agency_tours', 'tours.id', '=', 'agency_tours.tour_id')
             ->where('agency_id', Auth::user()->agency_id)
             ->orderBy('tours.id', 'DESC')
@@ -134,7 +134,7 @@ class Tour extends Model
             $tours = Tour::where('registration_start_date', '<=', $today)
             ->where('registration_end_date', '>=', $today)
             ->select([DB::raw('id as tour_id'),'name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
-            'registration_start_date', 'registration_end_date', 'price', 'max_people'])
+            'registration_start_date', 'registration_end_date', 'price'])
             ->get()
             ->toArray();
             return $tours;

@@ -35,12 +35,12 @@
                         <input readonly type="text" placeholder="" value="{{ $tourInfo->name }}">
                     </div>
 
-                    <div class="col-3"></div>
+                    {{-- <div class="col-3"></div>
                     <div class="col-5"><p>Số Ghế Còn Lại:</p></div>
                     <div class="col-4"></div>
                     <div class="password d-flex justify-content-center">
                         <input readonly type="text" placeholder="" value="{{ $emptySlotRemain }}">
-                    </div> 
+                    </div>  --}}
 
                     <div class="col-3"></div>
                     <div class="col-5"><p>Đơn Giá:</p></div>

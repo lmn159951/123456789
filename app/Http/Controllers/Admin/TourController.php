@@ -34,11 +34,11 @@ class TourController extends Controller
             ->editColumn('price', function (Tour $tour) {
                 return currency_format($tour->price, $separator = ',', $suffix = '₫');
             })
-            ->editColumn('max_people', function (Tour $tour) {
-                $slot = Tour::Slot($tour->id);
+            // ->editColumn('max_people', function (Tour $tour) {
+            //     $slot = Tour::Slot($tour->id);
 
-                return (string)$slot.'/'.(string)$tour->max_people;
-            })
+            //     return (string)$slot.'/'.(string)$tour->max_people;
+            // })
             ->rawColumns(['action'])
             ->make();
     }

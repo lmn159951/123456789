@@ -54,7 +54,7 @@ class DangKyTourController extends Controller
     public function index($tour_id=0)
     {
 
-        $emptySlotRemain = Tour::EmptySlotRemain($tour_id);
+        //$emptySlotRemain = Tour::EmptySlotRemain($tour_id);
         $tourInfo = Tour::TourInfo($tour_id);
         //Da dang ky
         $relativeInfos = TourRegistration::where('user_id', Auth::user()->id)
@@ -63,11 +63,10 @@ class DangKyTourController extends Controller
         if($relativeInfos->count() > 0)
         {
             return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo)
-        ->with('emptySlotRemain', $emptySlotRemain)->with('relativeInfos', $relativeInfos);
+        ->with('relativeInfos', $relativeInfos);
         }
 
-        return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo)
-        ->with('emptySlotRemain', $emptySlotRemain);
+        return view('nhanvien.pages.dangkytour')->with('tourInfo', $tourInfo);
     }
 
     public function UpdateMemberToTourRegistrations($request=null, $tour_id=null, $id=null, $index=null)
@@ -217,12 +216,12 @@ class DangKyTourController extends Controller
         ->where('tour_id', $tour_id);
         $registrationDateNow = Carbon::now()->format('Y-m-d');
         $price = Tour::where('id', $tour_id)->firstOrFail()->price;
-        $emptySlotRemain = Tour::EmptySlotRemain($tour_id);
+        //$emptySlotRemain = Tour::EmptySlotRemain($tour_id);
         //Chua dang ky
         if($relativeInfos->get()->count() == 0)
         {
-            if($numberMembersInput+1 > $emptySlotRemain)
-                return abort(403);
+            //if($numberMembersInput+1 > $emptySlotRemain)
+                //return abort(403);
                 // dd("Quá số ghế trống");
             //them vao csdl
             //them ho tro neu co

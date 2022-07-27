@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-lg-1">
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="form-group">
                             Số ghế còn trống :
                         </div>
@@ -22,7 +22,7 @@
                                 aria-label="Default" aria-describedby="inputGroup-sizing-default"
                                 value="@isset($request) {{ $request->input('emptyslotremain') }} @endisset">
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-3">
                         <div class="form-group">
                             Tên tour :
@@ -111,16 +111,16 @@
                                     </p>
                                     <div class="card-button">
                                         @auth
-                                            @if (App\Models\TourRegistration::isRegisted($tour->tour_id))
+                                            @if (App\Models\TourRegistration::isRegisted($tour->id))
                                                 <a href="{{ route('nhanvien.tourhistory') }}"><button type="submit"
                                                         class="site-btn">ĐÃ ĐẶT TOUR</button></a>
                                             @else
-                                                <a href="{{ route('nhanvien.tourregis', $tour->tour_id) }}"><button
+                                                <a href="{{ route('nhanvien.tourregis', $tour->id) }}"><button
                                                         type="submit" class="site-btn">ĐẶT TOUR</button></a>
                                             @endif
                                         @endauth
                                         @guest
-                                            <a href="{{ route('nhanvien.tourregis', $tour->tour_id) }}"><button type="submit"
+                                            <a href="{{ route('nhanvien.tourregis', $tour->id) }}"><button type="submit"
                                                     class="site-btn">ĐẶT TOUR</button></a>
                                         @endguest
                                     </div>

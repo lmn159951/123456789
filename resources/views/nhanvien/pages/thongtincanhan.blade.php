@@ -21,8 +21,14 @@
                         <div class="col-5"><p>Họ và tên nhân viên:</p></div>
                         <div class="col-4"></div>
                         <div class="tentaikhoan d-flex justify-content-center">
-                            <input readonly type="text" placeholder="" required name="fullname" value="{{ $ttcn->fullname }}">
+                            <input type="text" placeholder="" required name="fullname" value="{{ $ttcn->fullname }}">
                         </div>
+                        @error('fullname')
+                        <div class="col-3"></div>
+                        <div class="col-5" style="margin-top: -25px;">
+                            <p style="color: red;">*{{ $message }}</p></div>
+                        <div class="col-4"></div>
+                        @enderror
                         <div class="col-3"></div>
                         <div class="col-5"><p>Email: <span class="dau_">(*)</span></p></div>
                         <div class="col-4"></div>

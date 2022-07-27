@@ -110,9 +110,6 @@
                         <th scope="col">
                             Thao tác
                         </th>
-                        <th scope="col">
-                            Số lượng người tham gia
-                        </th>
                     </tr>
                 </thead>
 
@@ -240,10 +237,6 @@
                                 </div>
                             `;
                         }
-                    },
-                    {
-                        data: 'max_people',
-                        name: 'max_people'
                     },
                 ]
             });
