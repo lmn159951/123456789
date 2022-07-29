@@ -23,6 +23,10 @@ class UserSeeder extends Seeder
         $faker = Factory::create();
         $fullnames = collect(config('constants.fullnames'))->shuffle();
 
+        $agencyId = Agency::inRandomOrder()->first()->id;
+        $departmentId = Department::where('agency_id', $agencyId)->inRandomOrder()->first()->id;
+        $positionId = Position::where('department_id', $departmentId)->inRandomOrder()->first()->id;
+
         User::insert([
             [
                 'fullname' => 'Lê Ngọc Hở',
@@ -33,9 +37,9 @@ class UserSeeder extends Seeder
                 'gender' => 'Nam',
                 'phone' => '0589124204',
                 'citizen_card' => '312345678',
-                'agency_id' => 9,
-                'department_id' =>7,
-                'position_id' => 3,
+                'agency_id' => $agencyId,
+                'department_id' => $departmentId,
+                'position_id' => $positionId,
                 'birthday' => randomCarbonDatetime('01-01-1980', '01-01-2001'),
                 'start_date' => date('Y-m-d', strtotime('13-06-2022')),
                 'is_admin' => '1',
@@ -49,9 +53,9 @@ class UserSeeder extends Seeder
                 'gender' => 'Nữ',
                 'phone' => '0589124205',
                 'citizen_card' => '312345675',
-                'agency_id' => 9,
-                'department_id' =>7,
-                'position_id' => 3,
+                'agency_id' => $agencyId,
+                'department_id' => $departmentId,
+                'position_id' => $positionId,
                 'birthday' => randomCarbonDatetime('01-01-1980', '01-01-2001'),
                 'start_date' => date('Y-m-d', strtotime('13-06-2022')),
                 'is_admin' => '1',
@@ -65,9 +69,9 @@ class UserSeeder extends Seeder
                 'gender' => 'Nữ',
                 'phone' => '0589124206',
                 'citizen_card' => '312345676',
-                'agency_id' => 9,
-                'department_id' =>7,
-                'position_id' => 3,
+                'agency_id' => $agencyId,
+                'department_id' => $departmentId,
+                'position_id' => $positionId,
                 'birthday' => randomCarbonDatetime('01-01-1980', '01-01-2001'),
                 'start_date' => date('Y-m-d', strtotime('13-06-2022')),
                 'is_admin' => '1',
@@ -81,9 +85,9 @@ class UserSeeder extends Seeder
                 'gender' => 'Nam',
                 'phone' => '0589124207',
                 'citizen_card' => '312345677',
-                'agency_id' => 9,
-                'department_id' =>7,
-                'position_id' => 3,
+                'agency_id' => $agencyId,
+                'department_id' => $departmentId,
+                'position_id' => $positionId,
                 'birthday' => randomCarbonDatetime('01-01-1980', '01-01-2001'),
                 'start_date' => date('Y-m-d', strtotime('13-06-2022')),
                 'is_admin' => '1',
@@ -94,15 +98,19 @@ class UserSeeder extends Seeder
         foreach ($fullnames as $index => $fullname)
         {
             $agencyId = Agency::inRandomOrder()->first()->id;
-            $departmentId = Department::inRandomOrder()->first()->id;
+            $departmentId = Department::where('agency_id', $agencyId)->inRandomOrder()->first()->id;
+            $positionId = Position::where('department_id', $departmentId)->inRandomOrder()->first()->id;
+
+            $index = User::query()
+            ->where('agency_id', $agencyId)
+            ->where('department_id', $departmentId)
+            ->count() + 1;
 
             $username = '';
             $username .= getName(convertName($fullname));
             $username .= paddingNumberLeadingZeros($agencyId);
             $username .= paddingNumberLeadingZeros($departmentId);
-            $username .= paddingNumberLeadingZeros(
-                User::where('agency_id', $agencyId)->where('department_id', $departmentId)->count() + 1
-            , 3);
+            $username .= paddingNumberLeadingZeros($index, 3);
 
             User::create([
                 'fullname' => $fullname,
@@ -117,12 +125,10 @@ class UserSeeder extends Seeder
                 'citizen_card' => $faker->numerify('3########'),
                 'agency_id' => $agencyId,
                 'department_id' => $departmentId,
-                'position_id' => Position::inRandomOrder()->first()->id,
+                'position_id' => $positionId,
                 'start_date' => randomCarbonDatetime('01-01-2015'),
                 'is_admin' => '0',
             ]);
         }
-
-        User::insert($users);
     }
 }

@@ -34,11 +34,6 @@ class TourController extends Controller
             ->editColumn('price', function (Tour $tour) {
                 return currency_format($tour->price, $separator = ',', $suffix = '₫');
             })
-            // ->editColumn('max_people', function (Tour $tour) {
-            //     $slot = Tour::Slot($tour->id);
-
-            //     return (string)$slot.'/'.(string)$tour->max_people;
-            // })
             ->rawColumns(['action'])
             ->make();
     }
@@ -54,8 +49,6 @@ class TourController extends Controller
 
     public function store(StoreTourRequest $request)
     {
-
-
         $tour = new Tour();
         $tour->fill($request->validated());
 
@@ -93,7 +86,6 @@ class TourController extends Controller
         $parameters['agency_ids'] = $parameters['tour']->agencies()->get()->pluck('id')->toArray();
 
         return view('admin.pages.tours.edit', $parameters);
-
     }
 
     public function update(UpdateTourRequest $request, Tour $tour)

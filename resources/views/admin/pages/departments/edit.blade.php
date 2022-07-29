@@ -6,7 +6,11 @@
             <h1 class="text-center">Cập nhật phòng ban</h1>
 
             <form class="container" style="max-width: 800px;"
-                action="{{ route('admin.departments.update', $department->id) }}" method="POST" autocomplete="off">
+                action="{{ route('admin.agencies.departments.update', [
+                    'agencySlug' => request()->route('agencySlug'),
+                    'department' => $department->id,
+                ]) }}"
+                method="POST" autocomplete="off">
 
                 @method('PATCH')
                 @csrf
@@ -26,7 +30,10 @@
 
                 <div class="my-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary mr-3">Cập nhật</button>
-                    <a class="btn btn-secondary" href="{{ route('admin.departments.index') }}">
+                    <a class="btn btn-secondary"
+                        href="{{ route('admin.agencies.departments.index', [
+                            'agencySlug' => request()->route('agencySlug'),
+                        ]) }}">
                         Trở về
                     </a>
                 </div>

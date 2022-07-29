@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Department;
 use App\Models\Position;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -45,14 +46,24 @@ class PositionSeeder extends Seeder
             'Phó phòng kinh doanh'
         ];
 
-        $array = $positionNames;
-        $array = array_map('ucfirst', $array);
-        $array = array_unique($array);
-        $array = array_values($array);
+        $positions = $positionNames;
+        $positions = array_map('ucfirst', $positions);
+        $positions = array_unique($positions);
+        $positions = collect(array_values($positions));
 
-        $positionNames = $array;
-        $array = array_map(function($item) { return [ 'name' => $item, 'created_at' => Carbon::now() ]; }, $array);
+        $departments = Department::all();
+        foreach ($departments as $key => $department)
+        {
+            $randomElements = $positions->random(rand(1, floor(count($positions) / 2)))->all();
 
-        Position::insert($array);
+            for ($index = 0; $index < count($randomElements); $index++)
+            {
+                $position = new Position();
+                $position->name = $randomElements[$index];
+                $position->slug = str()->slug("{$position->name} {$department->id}");
+                $position->department_id = $department->id;
+                $position->save();
+            }
+        }
     }
 }

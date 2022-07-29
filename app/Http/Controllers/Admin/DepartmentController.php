@@ -2,48 +2,79 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
+use App\Models\Agency;
+use ReflectionFunction;
+use App\Models\Department;
+use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Department\StoreDepartmentRequest;
 use App\Http\Requests\Admin\Department\UpdateDepartmentRequest;
-use App\Models\Department;
-use App\Models\User;
-use Illuminate\Http\Request;
-use ReflectionFunction;
-use Yajra\Datatables\Datatables;
+use App\Models\Position;
 
 class DepartmentController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, string $agencySlug)
     {
-        return view('admin.pages.departments.index');
+        return view('admin.pages.departments.index', [
+            'agency' => Agency::where('slug', $agencySlug)->firstOrFail()
+        ]);
     }
 
-    public function datatableApi()
+    public function datatableApi(string $agencySlug)
     {
-        $departments = Department::orderBy('id', 'DESC')->get();;
+        $agency = Agency::where('slug', $agencySlug)->firstOrFail();
+
+        $departments = Department::where('agency_id', $agency->id)->orderBy('id', 'DESC')->get();;
+
         return DataTables::of($departments)
             ->addIndexColumn()
-            ->addColumn('action', function (Department $department) {
-                return $department->id;
+            ->addColumn('name', function (Department $department) use ($agencySlug) {
+                $response = [];
+                $response['name'] = $department->name;
+                $response['detailsUrl'] = route('admin.agencies.departments.positions.index', [
+                    'agencySlug' => $agencySlug,
+                    'departmentSlug' => $department->slug
+                ]);
+                return $response;
+            })
+            ->addColumn('action', function (Department $department) use ($agencySlug) {
+                $response = [];
+                $response['id'] = $department->id;
+                $response['destroyUrl'] = route('admin.agencies.departments.destroy', [
+                    'agencySlug' => $agencySlug,
+                    'department' => $department->id
+                ]);
+                $response['editUrl'] = route('admin.agencies.departments.edit', [
+                    'agencySlug' => $agencySlug,
+                    'department' => $department->id
+                ]);
+                return $response;
             })
             ->rawColumns(['action'])
             ->make();
     }
-
 
     public function create()
     {
         return view('admin.pages.departments.create');
     }
 
-    public function store(StoreDepartmentRequest $request)
+    public function store(StoreDepartmentRequest $request, string $agencySlug)
     {
-        Department::create($request->validated());
+        $department = new Department();
+        $department->fill($request->validated());
+        $department->agency_id = Agency::where('slug', $agencySlug)->value('id');
+        $department->slug = str()->slug("{$request->name} {$department->agency_id}");
+        $department->save();
 
-        return redirect()->route('admin.departments.index')->with('message', 'Tạo phòng ban thành công');
+        return redirect()->route('admin.agencies.departments.index', [
+            'agencySlug' => $agencySlug
+        ])->with('message', 'Tạo phòng ban thành công');
     }
 
-    public function edit(int $id)
+    public function edit(string $agencySlug, int $id)
     {
         $parameters = [];
         $parameters['department'] = Department::findOrFail($id);
@@ -51,33 +82,40 @@ class DepartmentController extends Controller
         return view('admin.pages.departments.edit', $parameters);
     }
 
-    public function update(UpdateDepartmentRequest $request, int $id)
+    public function update(UpdateDepartmentRequest $request, string $agencySlug, int $id)
     {
-        Department::where('id', $id)->update($request->validated());
-        return redirect()->route('admin.departments.index')->with('message', 'Cập nhật phòng ban thành công');
+        $department = Department::findOrFail($id);
+        $department->fill($request->validated());
+        $department->slug = str()->slug($request->name.' '.$department->agency_id);
+        $department->agency_id = Agency::where('slug', $agencySlug)->value('id');
+        $department->save();
+
+        return redirect()->route('admin.agencies.departments.index', [
+            'agencySlug' => $agencySlug
+        ])->with('message', 'Cập nhật phòng ban thành công');
     }
 
-    public function destroy(int $id)
+    public function destroy(string $agencySlug, int $id)
     {
-        if (User::where('department_id', $id)->exists())
+        if (Position::where('department_id', $id)->exists())
         {
-            return back()->withError('Không thể xoá phòng ban có tồn tại nhân viên');
+            return back()->withError('Vui lòng xoá hết các chức vụ có trong phòng ban này');
         }
+        else
+        {
+            Department::destroy($id);
 
-        Department::destroy($id);
-        return redirect()->route('admin.departments.index')->with('message', 'Xoá phòng ban thành công');
+            return redirect()->route('admin.agencies.departments.index', [
+                'agencySlug' => $agencySlug
+            ])->with('message', 'Xoá phòng ban thành công');
+        }
     }
 
-    public function deleteMany(Request $request)
+    public function findByAgencyId(Request $request)
     {
-        if (User::whereIn('department_id', $request->ids)->exists())
-        {
-            return response()->json([
-                'message' => 'Không thể xoá các phòng ban có tồn tại nhân viên'
-            ], 400);
-        }
-
-        Department::destroy($request->ids);
-        return response()->json([ 'message' => 'Xoá phòng ban thành công' ]);
+        $departments = Department::where('agency_id', $request->agencyId)->get();
+        return response()->json([
+            'departments' => $departments,
+        ]);
     }
 }

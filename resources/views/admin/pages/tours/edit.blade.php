@@ -165,21 +165,7 @@
                                 </div>
                             @enderror
                         </div>
-                    {{-- </div>
-                    <div class="col">
-                        <div class="mb-3">
-                            <label for="max_people" class="form-label">Số người tối đa:</label>
-                            <label class="text-danger">(*)</label>
-                            <input type="number" class="form-control @error('max_people') is-invalid @enderror"
-                                value="{{ old('max_people') ?? $tour->max_people }}" name="max_people"
-                                id="max_people">
-
-                            @error('max_people')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div> --}}
+                    
                     </div>
                 </div>
 

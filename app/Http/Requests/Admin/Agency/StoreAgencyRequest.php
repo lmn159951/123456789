@@ -34,4 +34,14 @@ class StoreAgencyRequest extends FormRequest
             'unique' => ':attribute đã tồn tại.',
         ];
     }
+
+    /**
+     * Attach callbacks to be run after validation is completed.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator $validator
+     * @return callback
+     */
+    public function after($validator)
+    {
+    }
 }

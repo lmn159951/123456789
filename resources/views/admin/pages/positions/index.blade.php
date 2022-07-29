@@ -32,6 +32,8 @@
     </div>
 
     <div class="container-fluid">
+        {{ Breadcrumbs::render('positions', $department) }}
+
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h3 class="text-center" id="title">Quản lý chức vụ</h3>
 
@@ -79,7 +81,11 @@
 
 
 
-                <a class="btn btn-primary" href="{{ route('admin.positions.create') }}">
+                <a class="btn btn-primary"
+                    href="{{ route('admin.agencies.departments.positions.create', [
+                        'agencySlug' => request()->route('agencySlug'),
+                        'departmentSlug' => request()->route('departmentSlug'),
+                    ]) }}">
                     Thêm
                 </a>
             </div>
@@ -109,12 +115,14 @@
     <script type="text/javascript" src="{{ asset('admin/vendor/datatable/datatables.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-
             const table = $('#table-content').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{!! route('admin.positions.datatableApi') !!}",
+                ajax: "{!! route('admin.agencies.departments.positions.datatableApi', [
+                    'agencySlug' => request()->route('agencySlug'),
+                    'departmentSlug' => request()->route('departmentSlug'),
+                ]) !!}",
                 dom: '<"top pb-5"<"left-col"B><"right-col"f>><"clearfix">rt<"clearfix"><"bottom pb-5"<"left-col"i><"right-col"p>><"clearfix">',
                 lengthMenu: [
                     [10, 25, 50, 100, 250, 500, -1],
@@ -151,15 +159,15 @@
                         targets: 8,
                         orderable: false,
                         searchable: false,
-                        render: function(id) {
+                        render: function(response) {
                             return `
                                 <div class="d-flex">
-                                    <a class="btn btn-warning text-white mr-2" href="http://127.0.0.1:8000/admin/positions/${id}/edit">
+                                    <a class="btn btn-warning text-white mr-2" href="${response.editUrl}">
                                         <i class="fas fa-fw fa-pen"></i>
                                     </a>
 
                                     <button type="button" id="button-delete" class="btn btn-danger" data-toggle="modal"
-                                        data-target="#deleteModal-${id}">
+                                        data-target="#deleteModal-${response.id}"  data-destroyUrl="${response.destroyUrl}">
                                         <i class="fas fa-fw fa-trash"></i>
                                     </button>
                                 </div>
@@ -169,81 +177,10 @@
                 ]
             });
 
-            table.on('select', function(event, datatable, type, indexes) {
-                if (type === 'row') {
-                    $("#buttonDeleteManyModel").removeClass('d-none');
-                    $("#buttonDeleteManyModel").text(
-                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
-                    );
-
-                    $("#buttonDeleteMany").text(
-                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
-                    );
-                }
-            });
-
-            table.on('deselect', function(event, datatable, type, indexes) {
-                if (type === 'row') {
-                    if (table.rows({
-                            selected: true
-                        }).count() === 0) {
-                        $("#buttonDeleteManyModel").addClass('d-none');
-                    }
-
-                    $("#buttonDeleteManyModel").text(
-                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
-                    );
-
-                    $("#buttonDeleteMany").text(
-                        `Xoá đánh dấu (${table.rows({ selected: true }).count()})`
-                    );
-                }
-            });
-
             $(document).on('click', '#button-delete', function(event) {
-                const id = $(this).attr('data-target').split('-')[1];
-                $('#deleteModal form').attr('action', `http://127.0.0.1:8000/admin/positions/${id}`);
+                const destroyUrl = $(this).attr('data-destroyUrl');
+                $('#deleteModal form').attr('action', destroyUrl);
                 $('#deleteModal').modal('show');
-            });
-
-            $("#buttonDeleteMany").click(function() {
-                const selectedIds = table.rows({
-                    selected: true
-                }).data().pluck('id');
-                const deleteRecordsIds = [];
-                for (let i = 0; i < table.rows({
-                        selected: true
-                    }).count(); i++) {
-                    deleteRecordsIds.push(selectedIds[i]);
-                }
-
-                $.ajax({
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    url: "{{ route('admin.positions.deleteMany') }}",
-                    data: {
-                        'ids': deleteRecordsIds,
-                        '_method': 'delete'
-                    },
-                    success: function(response, textStatus, xhr) {
-                        table.draw();
-                        $('#deleteAllModal').modal('hide');
-                        $("#buttonDeleteManyModel").addClass('d-none');
-                    },
-                    error: function(error) {
-                        $('#deleteAllModal').modal('hide');
-
-                        $('#errorMessage').remove();
-
-                        $('#title').after(`
-                            <div class="alert alert-danger text-center" id="errorMessage">
-                                ${error.responseJSON.message}
-                            </div>
-                        `);
-                    }
-                });
             });
         });
     </script>

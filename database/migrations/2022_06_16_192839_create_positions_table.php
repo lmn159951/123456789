@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug');
+            $table->foreignId('department_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

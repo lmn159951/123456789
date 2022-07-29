@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Agency;
 use App\Models\Department;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
@@ -15,17 +16,30 @@ class DepartmentSeeder extends Seeder
      */
     public function run()
     {
-        $departments = [
-            ['name' => 'Phòng kế toán', 'created_at' => now()],
-            ['name' => 'Phòng tài chính', 'created_at' => now()],
-            ['name' => 'Phòng hành chính', 'created_at' => now()],
-            ['name' => 'Phòng nhân sự', 'created_at' => now()],
-            ['name' => 'Phòng kinh doanh', 'created_at' => now()],
-            ['name' => 'Phòng mua sắm vật tư', 'created_at' => now()],
-            ['name' => 'Phòng nghiên cứu và phát triển', 'created_at' => now()],
-            ['name' => 'Phòng vận chuyển', 'created_at' => now()],
-        ];
+        $departments = collect([
+            'Phòng kế toán',
+            'Phòng tài chính',
+            'Phòng hành chính',
+            'Phòng nhân sự',
+            'Phòng kinh doanh',
+            'Phòng mua sắm vật tư',
+            'Phòng nghiên cứu và phát triển',
+            'Phòng vận chuyển',
+        ]);
 
-        Department::insert($departments);
+        $agencies = Agency::all();
+        foreach ($agencies as $key => $agency)
+        {
+            $randomElements = $departments->random(rand(1, count($departments)))->all();
+
+            for ($index = 0; $index < count($randomElements); $index++)
+            {
+                $department = new Department();
+                $department->name = $randomElements[$index];
+                $department->slug = str()->slug("{$department->name} {$agency->id}");
+                $department->agency_id = $agency->id;
+                $department->save();
+            }
+        }
     }
 }

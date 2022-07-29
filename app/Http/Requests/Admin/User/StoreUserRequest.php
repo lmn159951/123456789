@@ -23,9 +23,7 @@ class StoreUserRequest extends FormRequest
             'citizen_card' => 'required|regex:/3[0-9]{8}/|numeric|unique:users',
             'start_date' => 'required|before_or_equal:now',
             'is_admin' => 'required|boolean',
-            'department_id'=>'required|exists:departments,id',
-            'position_id'=>'required|exists:positions,id',
-            'agency_id'=>'required|exists:agencies,id',
+            'position_id'=>'required',
             'gender' => 'required',
         ];
     }

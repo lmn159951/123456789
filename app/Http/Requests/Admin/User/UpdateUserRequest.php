@@ -15,7 +15,7 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'fullname' => 'required',   
+            'fullname' => 'required',
             'username' => ['required', Rule::unique('users')->ignore($this->route('user'), 'id')],
             'password' => 'nullable',
             'email' => ['nullable', 'email', Rule::unique('users')->ignore($this->route('user'), 'id')],
@@ -24,9 +24,7 @@ class UpdateUserRequest extends FormRequest
             'citizen_card' => ['nullable', 'regex:/3[0-9]{8}/', 'numeric', Rule::unique('users')->ignore($this->route('user'), 'id')],
             'start_date' => 'nullable|before_or_equal:now',
             'is_admin' => 'required|boolean',
-            'department_id'=>'required|exists:departments,id',
-            'position_id'=>'required|exists:positions,id',
-            'agency_id'=>'required|exists:agencies,id',
+            'position_id'=>'required',
             'gender' => 'required',
         ];
     }

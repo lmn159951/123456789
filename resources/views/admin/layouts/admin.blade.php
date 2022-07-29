@@ -60,6 +60,23 @@
     <script type="text/javascript" src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
+    <script type="text/javascript">
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+            return false;
+        };
+    </script>
 
     @stack('scripts')
 </body>

@@ -7,10 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Agency\StoreAgencyRequest;
 use App\Http\Requests\Admin\Agency\UpdateAgencyRequest;
-use App\Http\Requests\Admin\AgencyRequest;
-use App\Http\Requests\DeleteAgencyRequest;
+use App\Models\Department;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
 class AgencyController extends Controller
@@ -26,8 +24,22 @@ class AgencyController extends Controller
 
         return DataTables::of($agencies)
             ->addIndexColumn()
+            ->addColumn('name', function (Agency $agency) {
+                $response = [];
+                $response['name'] = $agency->name;
+                $response['detailsUrl'] = route('admin.agencies.departments.index', $agency->slug);
+                return $response;
+            })
             ->addColumn('action', function (Agency $agency) {
-                return $agency->id;
+                $response = [];
+                $response['id'] = $agency->id;
+                $response['updateUrl'] = route('admin.agencies.edit', [
+                    'department' => $agency->id
+                ]);
+                $response['destroyUrl'] = route('admin.agencies.destroy', [
+                    'department' => $agency->id
+                ]);
+                return $response;
             })
             ->rawColumns(['action'])
             ->make();
@@ -40,7 +52,10 @@ class AgencyController extends Controller
 
     public function store(StoreAgencyRequest $request)
     {
-        Agency::create($request->validated());
+        $agency = new Agency();
+        $agency->fill($request->validated());
+        $agency->slug = str()->slug($request->name);
+        $agency->save();
 
         return redirect()->route('admin.agencies.index')->with('message', 'Tạo đơn vị thành công');
     }
@@ -53,41 +68,26 @@ class AgencyController extends Controller
         return view('admin.pages.agencies.edit', $parameters);
     }
 
-    public function show()
-    {
-        return redirect()->route('admin.agencies.index');
-    }
-
     public function update(UpdateAgencyRequest $request, int $id)
     {
-        Agency::where('id', $id)->update($request->validated());
+        $agency = Agency::findOrFail($id);
+        $agency->fill($request->validated());
+        $agency->slug = str()->slug($request->name);
+        $agency->save();
 
         return redirect()->route('admin.agencies.index')->with('message', 'Cập nhật đơn vị thành công');
     }
 
     public function destroy(int $id)
     {
-        if (User::where('agency_id', $id)->exists())
+        if (Department::where('agency_id', $id)->exists())
         {
-            return back()->withError('Không thể xoá đơn vị có tồn tại nhân viên');
-        }
-
-        Agency::destroy($id);
-        return redirect()->route('admin.agencies.index')->with('message', 'Xoá đơn vị thành công');
-    }
-
-    public function deleteMany(Request $request)
-    {
-        if (User::whereIn('agency_id', $request->ids)->exists())
-        {
-            return response()->json([
-                'message' => 'Không thể xoá các đơn vị có tồn tại nhân viên'
-            ], 400);
+            return back()->withError('Vui lòng xoá hết các phòng ban có trong đơn vị này');
         }
         else
         {
-            Agency::destroy($request->ids);
-            return response()->json([ 'message' => 'Xoá đơn vị thành công' ]);
+            Agency::destroy($id);
+            return redirect()->route('admin.agencies.index')->with('message', 'Xoá đơn vị thành công');
         }
     }
 }

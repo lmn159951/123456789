@@ -115,6 +115,8 @@
                         <label for="agency_id" class="form-label">Đơn vị:</label>
 
                         <select id="agency_id" class="form-control" name="agency_id">
+                            <option>------------------------------------Không chọn------------------------------------
+                            </option>
                             @foreach ($agencies as $agency)
                                 <option value="{{ $agency->id }}">{{ $agency->name }}</option>
                             @endforeach
@@ -127,6 +129,8 @@
                         <label for="department_id" class="form-label">Phòng ban:</label>
 
                         <select id="department_id" class="form-control" name="department_id">
+                            <option>------------------------------------Không chọn------------------------------------
+                            </option>
                             @foreach ($departments as $department)
                                 <option value="{{ $department->id }}">{{ $department->name }}</option>
                             @endforeach
@@ -151,6 +155,8 @@
                         <label for="position_id" class="form-label">Chức vụ:</label>
 
                         <select id="position_id" class="form-control" name="position_id">
+                            <option>------------------------------------Không chọn------------------------------------
+                            </option>
                             @foreach ($positions as $position)
                                 <option value="{{ $position->id }}">
                                     {{ $position->name }}
@@ -179,3 +185,47 @@
 
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $('select#agency_id').on('change', function() {
+            $.ajax({
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{!! route('admin.departments.findByAgencyId') !!}",
+                data: {
+                    'agencyId': this.value,
+                },
+                success: function(response, textStatus, xhr) {
+                    const innertHtml = response.departments.reduce(function(total, department) {
+                        return total +
+                            `<option value="${department.id}">${department.name}</option>`;
+                    }, '<option>------------------------------------Không chọn------------------------------------</option>');
+                    $('select#department_id').html(innertHtml);
+                }
+            });
+        });
+
+        $('select#department_id').on('change', function() {
+            $.ajax({
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{!! route('admin.positions.findByDepartmentId') !!}",
+                data: {
+                    'department_id': this.value,
+                },
+                success: function(response, textStatus, xhr) {
+                    const innertHtml = response.positions.reduce(function(total, position) {
+                        return total +
+                            `<option value="${position.id}">${position.name}</option>`;
+                    }, '<option>------------------------------------Không chọn------------------------------------</option>');
+                    $('select#position_id').html(innertHtml);
+                }
+            });
+        });
+    </script>
+@endpush

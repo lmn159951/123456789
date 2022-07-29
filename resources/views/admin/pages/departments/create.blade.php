@@ -5,7 +5,9 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Tạo phòng ban</h1>
 
-            <form class="container" style="max-width: 800px;" action="{{ route('admin.departments.store') }}" method="POST" autocomplete="off">
+            <form class="container" style="max-width: 800px;"
+                action="{{ route('admin.agencies.departments.store', ['agencySlug' => request()->route('agencySlug')]) }}"
+                method="POST" autocomplete="off">
                 @csrf
 
                 <div class="mb-3">
@@ -23,7 +25,8 @@
 
                 <div class="my-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary mr-3">Tạo</button>
-                    <a class="btn btn-secondary" href="{{ route('admin.departments.index') }}">
+                    <a class="btn btn-secondary"
+                        href="{{ route('admin.agencies.departments.index', ['agencySlug' => request()->route('agencySlug')]) }}">
                         Trở về
                     </a>
                 </div>

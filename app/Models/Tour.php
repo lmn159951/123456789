@@ -24,7 +24,6 @@ class Tour extends Model
         'registration_start_date',
         'registration_end_date',
         'price',
-        // 'max_people',
         'region_id',
     ];
 
@@ -71,12 +70,6 @@ class Tour extends Model
     {
         return TourRegistration::where('tour_id', $tourId)->get()->count();
     }
-
-    //public static function EmptySlotRemain($tourId=0)
-    //{
-    //    $tour = Tour::where('id', $tourId)->firstOrFail();
-    //    return  $tour->max_people - (Tour::Slot($tourId));
-    //}
 
     public static function TourInfo($tourId=0)
     {

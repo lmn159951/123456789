@@ -153,21 +153,8 @@
                                 </div>
                             @enderror
                         </div>
-                    {{-- </div>
-                    <div class="col">
-                        <div class="mb-3">
-                            <label for="max_people" class="form-label">Số người tối đa:</label>
-                            <label class="text-danger">(*)</label>
-                            <input type="number" class="form-control @error('max_people') is-invalid @enderror"
-                                value="{{ old('max_people') }}" name="max_people" id="max_people">
-
-                            @error('max_people')
-                                <div id="validationServer03Feedback" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>--}}
-                    </div> 
+                    
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -210,7 +197,7 @@
 @push('scripts')
     <script type="text/javascript" src="{{ asset('admin/vendor/jquery/easy-number-separator.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin/js/virtual-select.min.js') }}"></script>
-    
+
     <script type="text/javascript">
         $('input[type="file"]').change(function(event) {
             const filename = event.target.files[0].name;

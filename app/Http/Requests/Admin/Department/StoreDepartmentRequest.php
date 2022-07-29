@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Admin\Department;
 
+use App\Models\Agency;
+use App\Models\Department;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreDepartmentRequest extends FormRequest
@@ -14,7 +16,19 @@ class StoreDepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:departments',
+            'name' => [
+                'required',
+                function ($attributes, $value, $fail) {
+                    $agencyId = Agency::where('slug', $this->route('agencySlug'))->value('id');
+                    $departmentSlug = str()->slug("$value $agencyId");
+
+                    if (Department::where('slug', $departmentSlug)->exists()) {
+                        return $fail("Tên phòng ban đã tồn tại.");
+                    }
+
+                    return false;
+                }
+            ],
         ];
     }
 
@@ -29,7 +43,6 @@ class StoreDepartmentRequest extends FormRequest
     {
         return [
             'required' => ':attribute không được để trống.',
-            'unique' => ':attribute đã tồn tại.',
         ];
     }
 }

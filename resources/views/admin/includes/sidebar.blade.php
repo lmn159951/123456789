@@ -26,26 +26,6 @@
         </a>
     </li>
 
-    <li @class([
-        'nav-item',
-        'active' => request()->routeIs('admin.departments.*'),
-    ])>
-        <a class="nav-link" href="{{ route('admin.departments.index') }}">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Quản lý phòng ban</span>
-        </a>
-    </li>
-
-    <li @class([
-        'nav-item',
-        'active' => request()->routeIs('admin.positions.*'),
-    ])>
-        <a class="nav-link" href="{{ route('admin.positions.index') }}">
-            <i class="fas fa-fw fa-couch"></i>
-            <span>Quản lý chức vụ</span>
-        </a>
-    </li>
-
     <li @class(['nav-item', 'active' => request()->routeIs('admin.users.*')])>
         <a class="nav-link" href="{{ route('admin.users.index') }}">
             <i class="fas fa-fw fa-user"></i>

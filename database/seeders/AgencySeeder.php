@@ -64,6 +64,8 @@ class AgencySeeder extends Seeder
             ],
         ];
 
+        $agencies = array_map(function ($item) { return [...$item, 'slug' => str()->slug($item['name'])]; }, $agencies);
+
         Agency::insert($agencies);
     }
 }

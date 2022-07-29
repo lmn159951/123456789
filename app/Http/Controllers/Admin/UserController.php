@@ -19,17 +19,26 @@ class UserController extends Controller
     {
         if ($request->ajax())
         {
-            $query = User::with(['department', 'position','agency'])->orderBy('id', 'DESC');
+            $query = User::query()
+                ->selectRaw('users.*, positions.name as position, departments.name as department, agencies.name as agency,
+                    positions.id as positionId, departments.id as departmentId, agencies.id as agencyId')
+                ->join('positions', 'positions.id', '=', 'users.position_id')
+                ->join('departments', 'departments.id', '=', 'positions.department_id')
+                ->join('agencies', 'agencies.id', '=', 'departments.agency_id')
+                ->orderBy('users.id', 'DESC');
 
-            if (!empty($request->get('agency_id'))) {
+            if (!empty($request->get('agency_id')))
+            {
                 $query->where('users.agency_id', $request->get('agency_id'));
             }
 
-            if (!empty($request->get('department_id'))) {
+            if (!empty($request->get('department_id')))
+            {
                 $query->where('users.department_id', $request->get('department_id'));
             }
 
-            if (!empty($request->get('position_id'))) {
+            if (!empty($request->get('position_id')))
+            {
                 $query->where('users.position_id', $request->get('position_id'));
             }
 
@@ -46,8 +55,8 @@ class UserController extends Controller
 
         $parameters = [];
         $parameters['agencies'] = Agency::all();
-        $parameters['departments'] = Department::all();
-        $parameters['positions'] = Position::all();
+        $parameters['departments'] = [];
+        $parameters['positions'] = [];
         return view('admin.pages.users.index', $parameters);
     }
 
@@ -62,8 +71,8 @@ class UserController extends Controller
     {
         $parameters = [];
         $parameters['agencies'] = Agency::all();
-        $parameters['departments'] = Department::all();
-        $parameters['positions'] = Position::all();
+        $parameters['departments'] = [];
+        $parameters['positions'] = [];
 
         return view('admin.pages.users.create', $parameters);
     }
@@ -81,10 +90,17 @@ class UserController extends Controller
     public function edit(int $id)
     {
         $parameters = [];
-        $parameters['user'] = User::findOrFail($id);
+        $parameters['user'] = User::query()
+            ->selectRaw('users.*, positions.id as position_id, departments.id as department_id, agencies.id as agency_id')
+            ->join('positions', 'positions.id', '=', 'users.position_id')
+            ->join('departments', 'departments.id', '=', 'positions.department_id')
+            ->join('agencies', 'agencies.id', '=', 'departments.agency_id')
+            ->where('users.id', $id)->orderBy('users.id', 'DESC')
+            ->firstOrFail();
+
+        $parameters['positions'] = Position::where('id', $parameters['user']->position_id)->get();
+        $parameters['departments'] = Department::where('id', $parameters['user']->department_id)->get();
         $parameters['agencies'] = Agency::all();
-        $parameters['departments'] = Department::all();
-        $parameters['positions'] = Position::all();
 
         return view('admin.pages.users.edit', $parameters);
     }
@@ -92,7 +108,14 @@ class UserController extends Controller
     public function show(int $id)
     {
         $parameters = [];
-        $parameters['user'] = User::with(['agency', 'department', 'position'])->findOrFail($id);
+        $parameters['user'] = User::query()
+        ->selectRaw('fullname, username, email, gender, birthday, phone, citizen_card, start_date, is_admin,
+        positions.name as position, departments.name as department, agencies.name as agency')
+        ->join('positions', 'positions.id', '=', 'users.position_id')
+        ->join('departments', 'departments.id', '=', 'positions.department_id')
+        ->join('agencies', 'agencies.id', '=', 'departments.agency_id')
+        ->where('users.id', $id)
+        ->firstOrFail();
 
         return view('admin.pages.users.show', $parameters);
     }

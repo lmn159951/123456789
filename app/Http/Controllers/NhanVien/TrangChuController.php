@@ -87,11 +87,11 @@ class TrangChuController extends Controller
             $allTours = $allTours
             ->join('agency_tours', 'tours.id', '=', 'agency_tours.tour_id')
             ->groupBy('tours.id','name', 'image', 'description_file', 'tour_start_date', 'tour_end_date',
-             'registration_start_date', 'registration_end_date', 'price')
+            'registration_start_date', 'registration_end_date', 'price')
             ->where('agency_id', Auth::user()->agency_id)
             ->paginate($perPage);
         }
-        $slot = []; $i=0;
+        // $slot = []; $i=0;
         // foreach($allTours as $tour)
         // {
         //     $slot[$i] = Tour::Slot($tour->tour_id);

@@ -17,6 +17,7 @@ class DangKyTourController extends Controller
     public function checkTour($tour_id)
     {
         $today = Carbon::now()->format('Y-m-d');
+
         //Kiem tra ngay dang ky
         if(Tour::where('id', $tour_id)
         ->where('registration_start_date', '<=', $today)
@@ -37,7 +38,6 @@ class DangKyTourController extends Controller
 
     public function tourhistory()
     {
-
         $results = TourRegistration::where('user_id', Auth::user()->id)
         ->join('tours', 'tour_registrations.tour_id', '=', 'tours.id')
         ->select('user_id',DB::raw('COUNT(user_id) as member_count'), 'tour_id', 'name',

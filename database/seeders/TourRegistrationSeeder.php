@@ -28,7 +28,12 @@ class TourRegistrationSeeder extends Seeder
 
             foreach ($agencies as $agencyIndex => $agency)
             {
-                $users = User::where('agency_id', $agency->id)->get();
+                $users = User::selectRaw('users.*, positions.name as position, departments.name as department, agencies.name as agency')
+                ->join('positions', 'positions.id', '=', 'users.position_id')
+                ->join('departments', 'departments.id', '=', 'positions.department_id')
+                ->join('agencies', 'agencies.id', '=', 'departments.agency_id')
+                ->where('agencies.id', $agency->id)
+                ->get();
 
                 foreach ($users as $userIndex => $user)
                 {

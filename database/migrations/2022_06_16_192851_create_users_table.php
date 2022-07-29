@@ -26,9 +26,11 @@ return new class extends Migration
             $table->string('citizen_card')->nullable();
             $table->string('user_token')->nullable();
             $table->dateTime('start_date');
-            $table->foreignId('agency_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('department_id')->nullable()->constrained()->onDelete('set null');
+            
             $table->foreignId('position_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('department_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('agency_id')->nullable()->constrained()->onDelete('set null');
+
             $table->boolean('is_admin');
             $table->timestamps();
             $table->softDeletes();

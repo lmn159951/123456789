@@ -55,23 +55,41 @@ Route::middleware('user')->prefix('nhan-vien')->name('nhanvien.')->group(functio
 });
 
 //Admin
-Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function() {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-    Route::post('/agencies/search', [AgencyController::class, 'search'])->name('agencies.search');
-    Route::delete('/agencies/deleteMany', [AgencyController::class, 'deleteMany'])->name('agencies.deleteMany');
+    Route::get('/agencies', [AgencyController::class, 'index'])->name('agencies.index');
     Route::get('/agencies/datatableApi', [AgencyController::class, 'datatableApi'])->name('agencies.datatableApi');
-    Route::resource('agencies', AgencyController::class);
-    Route::post('/departments/search', [DepartmentController::class, 'search'])->name('departments.search');
-    Route::delete('/departments/deleteMany', [DepartmentController::class, 'deleteMany'])->name('departments.deleteMany');
-    Route::get('/departments/datatableApi', [DepartmentController::class, 'datatableApi'])->name('departments.datatableApi');
-    Route::resource('departments', DepartmentController::class);
-    Route::post('/positions/search', [PositionController::class, 'search'])->name('positions.search');
-    Route::delete('/positions/deleteMany', [PositionController::class, 'deleteMany'])->name('positions.deleteMany');
-    Route::get('/positions/datatableApi', [PositionController::class, 'datatableApi'])->name('positions.datatableApi');
-    Route::resource('positions', PositionController::class);
+    Route::get('/agencies/create', [AgencyController::class, 'create'])->name('agencies.create');
+    Route::post('/agencies/create', [AgencyController::class, 'store'])->name('agencies.store');
+    Route::get('/agencies/{department}/edit', [AgencyController::class, 'edit'])->name('agencies.edit');
+    Route::patch('/agencies/{department}', [AgencyController::class, 'update'])->name('agencies.update');
+    Route::delete('/agencies/{department}', [AgencyController::class, 'destroy'])->name('agencies.destroy');
 
+    Route::group([ 'prefix'=>'/agencies/{agencySlug}', 'as'=>'agencies.' ], function() {
+        Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+        Route::get('/departments/datatableApi', [DepartmentController::class, 'datatableApi'])->name('departments.datatableApi');
+        Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
+        Route::post('/departments/create', [DepartmentController::class, 'store'])->name('departments.store');
+        Route::get('/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
+        Route::patch('/departments/{department}', [DepartmentController::class, 'update'])->name('departments.update');
+        Route::delete('/departments/{department}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
+
+        Route::group([ 'prefix'=>'/departments/{departmentSlug}', 'as'=>'departments.' ], function () {
+            Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
+            Route::get('/positions/datatableApi', [PositionController::class, 'datatableApi'])->name('positions.datatableApi');
+            Route::get('/positions/create', [PositionController::class, 'create'])->name('positions.create');
+            Route::post('/positions/create', [PositionController::class, 'store'])->name('positions.store');
+
+            Route::get('/positions/{position}/edit', [PositionController::class, 'edit'])->name('positions.edit');
+            Route::patch('/positions/{position}', [PositionController::class, 'update'])->name('positions.update');
+            Route::delete('/positions/{position}', [PositionController::class, 'destroy'])->name('positions.destroy');
+        });
+    });
+
+    Route::post('/departments/findByAgencyId', [DepartmentController::class, 'findByAgencyId'])->name('departments.findByAgencyId');
+    Route::post('/positions/findByDepartmentId', [PositionController::class, 'findByDepartmentId'])->name('positions.findByDepartmentId');
     Route::post('/users/search', [UserController::class, 'search'])->name('users.search');
     Route::get('/users/resetPassword/{user}', [UserController::class, 'resetPassword'])->name('users.resetPassword')->where('user', '[0-9]+');
     Route::delete('/users/deleteMany', [UserController::class, 'deleteMany'])->name('users.deleteMany');

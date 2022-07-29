@@ -94,8 +94,7 @@
                         <label for="citizen_card" class="form-label">Chứng minh nhân dân:</label>
                         <label class="text-danger">(*)</label>
                         <input type="text" class="form-control @error('citizen_card') is-invalid @enderror"
-                            value="{{ old('citizen_card') ?? $user->citizen_card }}" name="citizen_card"
-                            id="citizen_card">
+                            value="{{ old('citizen_card') ?? $user->citizen_card }}" name="citizen_card" id="citizen_card">
 
                         @error('citizen_card')
                             <div id="validationServer03Feedback" class="invalid-feedback">
@@ -105,8 +104,10 @@
                     </div>
                     <div class="col">
                         <label for="agency_id" class="form-label">Đơn vị:</label>
+                        <label class="text-danger">(*)</label>
 
                         <select id="agency_id" class="form-control" name="agency_id">
+                            <option>------------------------------------Không chọn------------------------------------</option>
                             @foreach ($agencies as $agency)
                                 @if ($user->agency_id === $agency->id)
                                     <option value="{{ $agency->id }}" selected>{{ $agency->name }}</option>
@@ -121,9 +122,11 @@
                 <div class="row g-3 mt-2">
                     <div class="col">
                         <label for="department_id" class="form-label">Phòng ban:</label>
+                        <label class="text-danger">(*)</label>
 
                         <select id="department_id" class="form-control" name="department_id"
                             value="{{ old('department_id') }}">
+                            <option>------------------------------------Không chọn------------------------------------</option>
                             @foreach ($departments as $department)
                                 @if ($user->department_id === $department->id)
                                     <option value="{{ $department->id }}" selected>{{ $department->name }}</option>
@@ -151,9 +154,11 @@
                 <div class="row g-3 mt-2">
                     <div class="col">
                         <label for="position_id" class="form-label">Chức vụ:</label>
+                        <label class="text-danger">(*)</label>
 
                         <select id="position_id" class="form-control" name="position_id"
                             value="{{ old('position_id') }}">
+                            <option>------------------------------------Không chọn------------------------------------</option>
                             @foreach ($positions as $position)
                                 @if ($user->position_id === $position->id)
                                     <option value="{{ $position->id }}" selected>{{ $position->name }}</option>
@@ -190,3 +195,47 @@
 
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $('select#agency_id').on('change', function() {
+            $.ajax({
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{!! route('admin.departments.findByAgencyId') !!}",
+                data: {
+                    'agencyId': this.value,
+                },
+                success: function(response, textStatus, xhr) {
+                    const innertHtml = response.departments.reduce(function(total, department) {
+                        return total +
+                            `<option value="${department.id}">${department.name}</option>`;
+                    }, '<option value="">------------------------------------Không chọn------------------------------------</option>');
+                    $('select#department_id').html(innertHtml);
+                }
+            });
+        });
+
+        $('select#department_id').on('change', function() {
+            $.ajax({
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{!! route('admin.positions.findByDepartmentId') !!}",
+                data: {
+                    'department_id': this.value,
+                },
+                success: function(response, textStatus, xhr) {
+                    const innertHtml = response.positions.reduce(function(total, position) {
+                        return total +
+                            `<option value="${position.id}">${position.name}</option>`;
+                    }, '<option value="">------------------------------------Không chọn------------------------------------</option>');
+                    $('select#position_id').html(innertHtml);
+                }
+            });
+        });
+    </script>
+@endpush

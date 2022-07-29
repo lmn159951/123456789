@@ -21,11 +21,11 @@ class TourSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        $initialDate = createCarbonDatetime('01-01-2022');
+        $initialDate = createCarbonDatetime('01-06-2022');
 
         $travel = ['lake', 'beach', 'nature', 'mountains', 'Landscape', 'outdoors', 'outdoor'];
 
-        for ($startDate = $initialDate; $startDate->lte(createCarbonDatetime('31-12-2022')); $startDate->addDays(rand(2, 5)))
+        for ($startDate = $initialDate; $startDate->lte(createCarbonDatetime('31-12-2023')); $startDate->addDays(rand(1, 3)))
         {
             $numberOfTours = rand(1, 3);
             $registrationBetweenDate = rand(1, 2) * 30;
@@ -47,7 +47,6 @@ class TourSeeder extends Seeder
                     'tour_start_date' => $tourStartDate,
                     'tour_end_date' => $tourEndDate,
                     'price' => rand(500, 9999) * 1000,
-                    // 'max_people' => rand(2, 8) * 10,
                     'region_id' => $regionId,
                 ]);
 

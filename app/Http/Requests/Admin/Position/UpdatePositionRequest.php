@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Admin\Position;
 
+use App\Models\Department;
+use App\Models\Position;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -15,7 +17,25 @@ class UpdatePositionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('positions')->ignore($this->route('position'), 'id')],
+            'name' => [
+                'required',
+                function ($attributes, $value, $fail) {
+                    $departmentId = Department::where('slug', $this->route('departmentSlug'))->value('id');
+                    $positionId = $this->route('position');
+                    $positionSlug = str()->slug("$value $departmentId");
+
+                    $positionSlugs = Position::where('department_id', $departmentId)->get()->filter(function ($item) use ($positionId) {
+                        return $item->id != $positionId;
+                    })->pluck('slug');
+
+                    if ($positionSlugs->contains($positionSlug))
+                    {
+                        return $fail("Tên chức vụ đã tồn tại.");
+                    }
+
+                    return false;
+                }
+            ],
         ];
     }
 

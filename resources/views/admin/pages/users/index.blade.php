@@ -1,10 +1,5 @@
 @extends('admin.layouts.admin')
 
-@push('styles')
-    <link href="{{ asset('admin/vendor/datatable/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
-@endpush
-
 @section('content')
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -77,7 +72,7 @@
                     </div>
                 </div>
 
-                <button type="button" id="buttonSearchModel" class="btn btn-secondary mr-2" data-toggle="modal"
+                {{-- <button type="button" id="buttonSearchModel" class="btn btn-secondary mr-2" data-toggle="modal"
                     data-target="#searchModal">
                     Tìm kiếm
                 </button>
@@ -92,7 +87,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form method="POST" action="http://127.0.0.1:8000/admin/users/search">
+                            <form method="POST" action="{{ route('admin.users.search') }}">
                                 @csrf
 
                                 <div class="modal-body">
@@ -103,9 +98,7 @@
                                             <option value="">------------------------------------Không
                                                 chọn------------------------------------</option>
                                             @foreach ($agencies as $agency)
-                                                <option value="{{ $agency->id }}" @selected(request()->query('agency_id') == $agency->id)>
-                                                    {{ $agency->name }}
-                                                </option>
+                                                <option value="{{ $agency->id }}">{{ $agency->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -117,9 +110,7 @@
                                             <option value="">------------------------------------Không
                                                 chọn------------------------------------</option>
                                             @foreach ($departments as $department)
-                                                <option value="{{ $department->id }}" @selected(request()->query('department_id') == $department->id)>
-                                                    {{ $department->name }}
-                                                </option>
+                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -128,12 +119,9 @@
                                         <label for="position_id" class="form-label">Chức vụ:</label>
 
                                         <select id="position_id" class="form-control" name="position_id">
-                                            <option value="">------------------------------------Không
-                                                chọn------------------------------------</option>
+                                            <option value="">------------------------------------Không chọn------------------------------------</option>
                                             @foreach ($positions as $position)
-                                                <option value="{{ $position->id }}" @selected(request()->query('position_id') == $position->id)>
-                                                    {{ $position->name }}
-                                                </option>
+                                                <option value="{{ $position->id }}">{{ $position->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -147,7 +135,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <a class="btn btn-primary" href="{{ route('admin.users.create') }}">
                     Thêm
@@ -207,6 +195,10 @@
 
     </div>
 @endsection
+
+@push('styles')
+    <link href="{{ asset('admin/vendor/datatable/datatables.min.css') }}" rel="stylesheet" />
+@endpush
 
 @push('scripts')
     <script type="text/javascript" src="{{ asset('admin/vendor/moment/moment.min.js') }}"></script>
@@ -326,16 +318,16 @@
                         name: 'email'
                     },
                     {
-                        data: 'agency.name',
-                        name: 'agency.name'
+                        data: 'agency',
+                        name: 'agency'
                     },
                     {
-                        data: 'department.name',
-                        name: 'department.name'
+                        data: 'department',
+                        name: 'department'
                     },
                     {
-                        data: 'position.name',
-                        name: 'position.name'
+                        data: 'position',
+                        name: 'position'
                     },
                     {
                         data: 'is_admin',
@@ -385,20 +377,82 @@
                 $('#deleteModal').modal('show');
             });
 
-            $('#searchForm').submit(function(event) {
-                event.preventDefault();
-                const formData = $(this).serializeArray();
-                formData.shift();
-
-                let searchKeywords = formData.map((searchKeyword) => searchKeyword.value);
-                searchKeywords = searchKeywords.filter(function(item) {
-                    return item;
+            function loadDepartmentsByAgencyId(agencyId) {
+                return $.ajax({
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{!! route('admin.departments.findByAgencyId') !!}",
+                    data: {
+                        'agencyId': agencyId,
+                    },
+                    success: function(response, textStatus, xhr) {
+                        const innertHtml = response.departments.reduce(function(total,
+                                department) {
+                                return total +
+                                    `<option value="${department.id}">${department.name}</option>`;
+                            },
+                            '<option value="">------------------------------------Không chọn------------------------------------</option>'
+                        );
+                        $('select#department_id').html(innertHtml);
+                    }
                 });
+            }
 
-                console.log(searchKeywords);
+            function loadPositionsByDepartmentId(departmentId) {
+                return $.ajax({
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{!! route('admin.positions.findByDepartmentId') !!}",
+                    data: {
+                        'department_id': departmentId,
+                    },
+                    success: function(response, textStatus, xhr) {
+                        const innertHtml = response.positions.reduce(function(total, position) {
+                                return total +
+                                    `<option value="${position.id}">${position.name}</option>`;
+                            },
+                            '<option value="">------------------------------------Không chọn------------------------------------</option>'
+                        );
+                        $('select#position_id').html(innertHtml);
+                    }
+                });
+            }
 
-                table.search(searchKeywords.join('|')).draw();
-            })
+            (function loadDefaultData() {
+                if (getUrlParameter('agency_id')) {
+                    const agencySelectElement = $('select#agency_id option[value="' + getUrlParameter(
+                        'agency_id') + '"]');
+                    agencySelectElement.attr("selected", "selected");
+                    loadDepartmentsByAgencyId(agencySelectElement.val()).then(function(response) {
+                        if (getUrlParameter('department_id')) {
+                            const departmentSelectElement = $('select#department_id option[value="' +
+                                getUrlParameter('department_id') + '"]');
+                            departmentSelectElement.attr("selected", "selected");
+                            loadPositionsByDepartmentId(departmentSelectElement.val()).then(function(
+                                response) {
+                                if (getUrlParameter('position_id')) {
+                                    const positionSelectElement = $(
+                                        'select#position_id option[value="' +
+                                        getUrlParameter('position_id') + '"]');
+                                    positionSelectElement.attr("selected", "selected");
+                                }
+                            });
+                        }
+                    });
+                }
+            })();
+
+            $('select#agency_id').on('change', function() {
+                loadDepartmentsByAgencyId(this.value);
+            });
+
+            $('select#department_id').on('change', function() {
+                loadPositionsByDepartmentId(this.value);
+            });
 
             $("#buttonDeleteMany").click(function() {
                 const selectedIds = table.rows({
@@ -461,6 +515,4 @@
             });
         });
     </script>
-
-    {{-- <script src="{{ asset('admin/js/custom-table.js') }}"></script> --}}
 @endpush

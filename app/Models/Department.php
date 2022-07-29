@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Department extends Model
 {
@@ -18,12 +17,8 @@ class Department extends Model
         return $this->hasMany(User::class);
     }
 
-    protected static function boot()
+    public function agency()
     {
-        parent::boot();
-
-        static::deleting(function($department) {
-            $department->users()->delete();
-        });
+        return $this->belongsTo(Agency::class);
     }
 }

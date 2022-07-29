@@ -5,7 +5,11 @@
         <div class="shadow p-4 mb-5 bg-body rounded">
             <h1 class="text-center">Cập nhật chức vụ</h1>
 
-            <form class="container" style="max-width: 800px;" action="{{ route('admin.positions.update', $position->id) }}"
+            <form class="container" style="max-width: 800px;" action="{{ route('admin.agencies.departments.positions.update', [
+                'agencySlug' => request()->route('agencySlug'),
+                'departmentSlug' => request()->route('departmentSlug'),
+                'position' => $position->id,
+            ]) }}"
                 method="POST" autocomplete="off">
 
                 @method('PATCH')
@@ -26,7 +30,10 @@
 
                 <div class="my-3 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary mr-3">Cập nhật</button>
-                    <a class="btn btn-secondary" href="{{ route('admin.positions.index') }}">
+                    <a class="btn btn-secondary" href="{{ route('admin.agencies.departments.positions.index', [
+                        'agencySlug' => request()->route('agencySlug'),
+                        'departmentSlug' => request()->route('departmentSlug'),
+                    ]) }}">
                         Trở về
                     </a>
                 </div>
